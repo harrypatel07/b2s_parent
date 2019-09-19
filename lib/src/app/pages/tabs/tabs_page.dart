@@ -1,6 +1,8 @@
+import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page.dart';
+import 'package:b2s_parent/src/app/pages/sidemenu/sidemenu_page.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/user/user_page.dart';
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
@@ -52,6 +54,7 @@ class _TabsPageState extends State<TabsPage> {
   Widget build(BuildContext context) {
     var viewModel = new TabsPageViewModel();
     return Scaffold(
+      key: scaffoldTabbar,
       body: ViewModelProvider(
         viewmodel: viewModel,
         child: IndexedStack(
@@ -59,6 +62,7 @@ class _TabsPageState extends State<TabsPage> {
           children: tabs,
         ),
       ),
+      drawer: SideMenuPage(),
       // bottomNavigationBar: BottomNavigationBar(
       //   onTap: onTapped,
       //   currentIndex: currentTabIndex,
@@ -84,7 +88,6 @@ class _TabsPageState extends State<TabsPage> {
           TabData(iconData: Icons.person, title: "User")
         ],
         onTabChangedListener: (index) {
-          //Navigator.of(context).pop();
           onTapped(index);
         },
       ),

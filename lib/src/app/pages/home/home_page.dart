@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/pages/sidemenu/sidemenu_page.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:b2s_parent/src/models/category.dart';
@@ -13,13 +14,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return TS24Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
-        body: HomeBodyWidget(),
-        drawer: SideMenuPage());
+        elevation: 0,
+        leading: appBarIconSideMenu(),
+      ),
+      body: HomeBodyWidget(),
+      // drawer: SideMenuPage(),
+    );
   }
 }
 

@@ -2,7 +2,6 @@ import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/pages/login/login_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/service/index.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
-import 'package:b2s_parent/src/app/widgets/boxShadow-widget.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:flutter/material.dart';
 
