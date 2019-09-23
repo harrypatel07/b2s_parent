@@ -235,7 +235,7 @@ class _HistoryPageState extends State<HistoryPage> {
           child: _listItem([
             HistoryInfo(
                 type: 0,
-                name: "Luân,",
+                name: "Luân",
                 timePickup: "07:00 AM",
                 timeDrop: "07:00 AM",
                 day: "25",
@@ -244,7 +244,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 month: "Tháng 09"),
             HistoryInfo(
                 type: 1,
-                name: "Luân,",
+                name: "Luân",
                 timePickup: "16:00 PM",
                 timeDrop: "16:30 PM",
                 day: "25",
@@ -255,7 +255,7 @@ class _HistoryPageState extends State<HistoryPage> {
         _listItem([
           HistoryInfo(
               type: 0,
-              name: "Luân,",
+              name: "Luân",
               timePickup: "07:00 AM",
               timeDrop: "07:00 AM",
               day: "26",
@@ -263,7 +263,7 @@ class _HistoryPageState extends State<HistoryPage> {
               month: "Tháng 09"),
           HistoryInfo(
               type: 1,
-              name: "Luân,",
+              name: "Luân",
               timePickup: "16:00 PM",
               timeDrop: "17:00 PM",
               day: "26",
@@ -273,7 +273,7 @@ class _HistoryPageState extends State<HistoryPage> {
         _listItem([
           HistoryInfo(
               type: 0,
-              name: "Luân,",
+              name: "Luân",
               timePickup: "07:00 AM",
               timeDrop: "07:00 AM",
               day: "26",

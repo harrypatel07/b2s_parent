@@ -64,9 +64,7 @@ class _LocateBusPageState extends State<LocateBusPage> {
             : Container(),
         viewModel.showSpinner
             ? LoadingIndicator.progress(
-                context: context,
-                loading: true,
-                position: Alignment.bottomCenter)
+                context: context, loading: true, position: Alignment.topCenter)
             : Container()
       ],
     );
