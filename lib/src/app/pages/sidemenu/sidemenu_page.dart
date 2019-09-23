@@ -1,5 +1,8 @@
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
+import 'package:b2s_parent/src/app/models/menu.dart';
 import 'package:b2s_parent/src/app/pages/sidemenu/sidemenu_page_viewmodel.dart';
+import 'package:b2s_parent/src/app/pages/sidemenu/widgets/listContent_clipper.dart';
+import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 class SideMenuPage extends StatefulWidget {
@@ -71,21 +74,39 @@ class _SideMenuPageState extends State<SideMenuPage> {
 
   Widget _buildListContent(BuildContext context) {
     return ListView(
+      padding: EdgeInsets.only(top: 0),
       children: <Widget>[
-        new ListTile(
-            title: new Text("First Page"),
-            trailing: new Icon(Icons.arrow_upward),
-            onTap: () {
-              Navigator.of(context).pop();
-            }),
-        new ListTile(
-            title: new Text("Second Page"),
-            trailing: new Icon(Icons.arrow_right),
-            onTap: () {
-              Navigator.of(context).pop();
-            }),
-        new Divider(),
-        new ListTile(
+        ...Menu.tabMenu
+            .map((menu) => ClipPath(
+                  clipper: ListContentClipper(),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.topRight,
+                      stops: [.3, 1],
+                      colors: viewModel.currentIndex == menu.index
+                          ? [Color(0xFFFFD752), Color(0xFFD4AF0B)]
+                          : [Colors.white, Colors.white],
+                    )),
+                    child: ListTile(
+                        leading: new Icon(
+                          menu.iconData,
+                        ),
+                        title: new Text(
+                          menu.title,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onTap: () {
+                          viewModel.listContentOnTap(menu);
+                        }),
+                  ),
+                ))
+            .toList(),
+        Divider(),
+        ListTile(
           title: new Text("Close"),
           trailing: new Icon(Icons.cancel),
           onTap: () => Navigator.of(context).pop(),
@@ -95,9 +116,13 @@ class _SideMenuPageState extends State<SideMenuPage> {
   }
 
   SideMenuPageViewModel viewModel = SideMenuPageViewModel();
+  TabsPageViewModel tabsPageViewModel;
   @override
   Widget build(BuildContext context) {
     viewModel.context = context;
+    tabsPageViewModel = ViewModelProvider.of(context);
+    if (tabsPageViewModel != null)
+      viewModel.currentIndex = tabsPageViewModel.currentTabIndex;
     return ViewModelProvider(
       viewmodel: viewModel,
       child: StreamBuilder<Object>(
@@ -105,17 +130,20 @@ class _SideMenuPageState extends State<SideMenuPage> {
           builder: (context, snapshot) {
             return Drawer(
               elevation: 4,
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                    flex: 4,
-                    child: _buildHeader(context),
-                  ),
-                  Expanded(
-                    flex: 6,
-                    child: _buildListContent(context),
-                  )
-                ],
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 4,
+                      child: _buildHeader(context),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: _buildListContent(context),
+                    )
+                  ],
+                ),
               ),
             );
           }),

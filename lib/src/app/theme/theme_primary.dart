@@ -11,10 +11,13 @@ class ThemePrimary {
         backgroundColor: Colors.blue,
         actionTextColor: Colors.white,
       ),
+      //canvasColor: Colors.white,
     );
   }
 
   static TextStyle loginPageButton(BuildContext context) {
     return TextStyle(color: Theme.of(context).primaryColor, fontSize: 15);
   }
+
+  static const history_page_backgroundcolor = Color(0XFFF3F7F6);
 }

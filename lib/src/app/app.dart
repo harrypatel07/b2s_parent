@@ -28,6 +28,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemePrimary.theme(),
       initialRoute: '/',
+       navigatorObservers: [MyRouteObserver()],
       routes: Routes.route,
       //  home: LoginPage()
       //Init locale lang

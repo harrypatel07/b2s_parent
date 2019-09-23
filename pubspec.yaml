@@ -43,6 +43,7 @@ dependencies:
   validators: ^2.0.0+1
   flutter_slidable: ^0.5.3
   fancy_bottom_navigation: ^0.3.2
+  google_maps_flutter: ^0.5.21+3
 dev_dependencies:
   flutter_test:
     sdk: flutter

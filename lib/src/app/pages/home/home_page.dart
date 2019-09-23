@@ -1,5 +1,3 @@
-import 'package:b2s_parent/src/app/core/app_setting.dart';
-import 'package:b2s_parent/src/app/pages/sidemenu/sidemenu_page.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:b2s_parent/src/models/category.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +16,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: appBarIconSideMenu(),
+        leading: appBarIconSideMenu(context),
       ),
       body: HomeBodyWidget(),
       // drawer: SideMenuPage(),
@@ -53,13 +51,28 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(Icons.search),
+          Icon(Icons.school),
           SizedBox(width: 13),
           Expanded(
             child: TextFormField(
-              readOnly: true,
+              // readOnly: true,
               decoration: InputDecoration(
                 hintText: "Nhập tên trường tìm kiếm nhà xe...",
+                hintStyle: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+          Icon(Icons.home),
+          SizedBox(width: 13),
+          Expanded(
+            child: TextFormField(
+              // readOnly: true,
+              decoration: InputDecoration(
+                hintText: "Nhập địa chỉ nhà bạn...",
                 hintStyle: TextStyle(
                   fontSize: 14,
                   color: Colors.grey,
@@ -87,7 +100,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
       itemCount: categories.length,
       itemBuilder: (context, index) => BusCategoryCard(
         categories[index],
-        onPress: () => Navigator.of(context).pushNamed("/pokedex"),
+        onPress: () {},
       ),
     );
   }
