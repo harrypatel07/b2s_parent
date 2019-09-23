@@ -175,7 +175,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       flex: 6,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: _buildSeparator(),
+                        child: _buildSeparator(color: historyInfo.colorCircle),
                       )),
                   Text(historyInfo.type == 0 ? "Trường" : "Nhà",
                       style: TextStyle(
@@ -232,7 +232,25 @@ class _HistoryPageState extends State<HistoryPage> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 5),
-          child: _listItem([]),
+          child: _listItem([
+            HistoryInfo(
+                type: 0,
+                name: "Luân,",
+                timePickup: "07:00 AM",
+                timeDrop: "07:00 AM",
+                day: "25",
+                dayName: "Thứ 2",
+                //colorCircle: Color(0xffFFD752),
+                month: "Tháng 09"),
+            HistoryInfo(
+                type: 1,
+                name: "Luân,",
+                timePickup: "16:00 PM",
+                timeDrop: "16:30 PM",
+                day: "25",
+                dayName: "Thứ 2",
+                month: "Tháng 09"),
+          ]),
         ),
         _listItem([
           HistoryInfo(
@@ -240,16 +258,16 @@ class _HistoryPageState extends State<HistoryPage> {
               name: "Luân,",
               timePickup: "07:00 AM",
               timeDrop: "07:00 AM",
-              day: "25",
-              dayName: "Thứ 2",
+              day: "26",
+              dayName: "Thứ 3",
               month: "Tháng 09"),
           HistoryInfo(
               type: 1,
               name: "Luân,",
               timePickup: "16:00 PM",
-              timeDrop: "16:30 PM",
-              day: "25",
-              dayName: "Thứ 2",
+              timeDrop: "17:00 PM",
+              day: "26",
+              dayName: "Thứ 3",
               month: "Tháng 09"),
         ]),
         _listItem([
@@ -276,6 +294,7 @@ class HistoryInfo {
   String day;
   String month;
   String dayName;
+  Color colorCircle;
   HistoryInfo(
       {this.type,
       this.name,
@@ -283,5 +302,6 @@ class HistoryInfo {
       this.timeDrop,
       this.day,
       this.month,
-      this.dayName});
+      this.dayName,
+      this.colorCircle});
 }
