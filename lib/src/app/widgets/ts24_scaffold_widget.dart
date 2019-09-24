@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TS24Scaffold extends Scaffold {
   const TS24Scaffold({
     Key key,
-    AppBar appBar,
+    PreferredSizeWidget appBar,
     Widget body,
     Widget floatingActionButton,
     FloatingActionButtonLocation floatingActionButtonLocation,

@@ -1,3 +1,7 @@
+import 'package:b2s_parent/src/app/core/baseViewModel.dart';
+import 'package:b2s_parent/src/app/pages/home/home_page_viewmodel.dart';
+import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page.dart';
+import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:b2s_parent/src/models/category.dart';
 import 'package:flutter/material.dart';
@@ -9,17 +13,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  HomePageViewModel viewModel;
   @override
   Widget build(BuildContext context) {
-    return TS24Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: appBarIconSideMenu(context),
-      ),
-      body: HomeBodyWidget(),
-      // drawer: SideMenuPage(),
+    TabsPageViewModel tabsPageViewModel = ViewModelProvider.of(context);
+    viewModel = tabsPageViewModel.homePageViewModel;
+    viewModel.context = context;
+    return ViewModelProvider(
+      viewmodel: viewModel,
+      child: StreamBuilder<Object>(
+          stream: viewModel.stream,
+          builder: (context, snapshot) {
+            return TS24Scaffold(
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                leading: appBarIconSideMenu(context),
+              ),
+              body: HomeBodyWidget(),
+              // drawer: SideMenuPage(),
+            );
+          }),
     );
   }
 }
@@ -30,14 +45,7 @@ class HomeBodyWidget extends StatefulWidget {
 }
 
 class _HomeBodyWidgetState extends State<HomeBodyWidget> {
-  final List<Category> categories = [
-    Category(name: "Bus attendance", color: Colors.teal),
-    Category(name: "School bus tracker", color: Colors.red),
-    Category(name: "School bus route", color: Colors.blue),
-    Category(name: "Notification", color: Colors.yellow),
-    Category(name: "Leave", color: Colors.purple),
-    Category(name: "Message", color: Colors.brown),
-  ];
+  HomePageViewModel viewModel;
 
   Widget _searchBar() {
     return Container(
@@ -97,16 +105,19 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
         mainAxisSpacing: 12,
       ),
       padding: EdgeInsets.only(left: 28, right: 28, bottom: 58),
-      itemCount: categories.length,
+      itemCount: Category.categories.length,
       itemBuilder: (context, index) => BusCategoryCard(
-        categories[index],
-        onPress: () {},
+        Category.categories[index],
+        onPress: () {
+          viewModel.categoryOnPress(Category.categories[index]);
+        },
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    viewModel = ViewModelProvider.of(context);
     return SingleChildScrollView(
       child: BusHomeContainer(
         decoration: BoxDecoration(

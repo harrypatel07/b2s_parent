@@ -3,6 +3,7 @@ import 'package:b2s_parent/src/app/models/menu.dart';
 import 'package:b2s_parent/src/app/pages/sidemenu/sidemenu_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/sidemenu/widgets/listContent_clipper.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class SideMenuPage extends StatefulWidget {
@@ -48,9 +49,9 @@ class _SideMenuPageState extends State<SideMenuPage> {
         backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
             ? Colors.blue
             : Colors.white,
-        child: Image(
+        child: CachedNetworkImage(
           width: 60,
-          image: NetworkImage(viewModel.mainProfilePicture),
+          imageUrl: viewModel.mainProfilePicture,
           fit: BoxFit.cover,
         ),
       ),
@@ -61,9 +62,9 @@ class _SideMenuPageState extends State<SideMenuPage> {
             backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
                 ? Colors.blue
                 : Colors.white,
-            child: Image(
+            child: CachedNetworkImage(
               width: 30,
-              image: NetworkImage(viewModel.otherProfilePicture),
+              imageUrl: viewModel.otherProfilePicture,
               fit: BoxFit.cover,
             ),
           ),

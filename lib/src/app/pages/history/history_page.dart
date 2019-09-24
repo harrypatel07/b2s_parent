@@ -12,8 +12,8 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("History"),
+      appBar: new TS24AppBar(
+        title: new Text("Trips"),
         leading: appBarIconSideMenu(context),
       ),
       backgroundColor: ThemePrimary.history_page_backgroundcolor,
@@ -276,8 +276,8 @@ class _HistoryPageState extends State<HistoryPage> {
               name: "Luân",
               timePickup: "07:00 AM",
               timeDrop: "07:00 AM",
-              day: "26",
-              dayName: "Thứ 3",
+              day: "27",
+              dayName: "Thứ 4",
               month: "Tháng 09"),
         ]),
       ],

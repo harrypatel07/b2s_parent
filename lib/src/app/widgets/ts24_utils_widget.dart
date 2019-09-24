@@ -2,6 +2,7 @@ library ts24_utils;
 
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -45,12 +46,15 @@ class LoadingDialog {
           child: new Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              new CircularProgressIndicator(),
+              new CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                    Theme.of(context).primaryColor),
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                 child: new Text(
                   msg,
-                  //style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
             ],
@@ -115,5 +119,36 @@ class LoadingIndicator {
       );
 
     return Container();
+  }
+}
+
+class ToastController {
+  static void show({
+    BuildContext context,
+    String message,
+    Duration duration,
+  }) {
+    Flushbar(
+      message: message,
+      duration: duration,
+      animationDuration: Duration(milliseconds: 300),
+      //leftBarIndicatorColor: Colors.blue[300],
+      icon: Icon(
+        Icons.info_outline,
+        size: 28.0,
+        color: Colors.white,
+      ),
+      backgroundGradient: LinearGradient(
+        colors: [Theme.of(context).primaryColor, Colors.teal],
+      ),
+      backgroundColor: Colors.red,
+      boxShadows: [
+        BoxShadow(
+          color: Colors.blue[800],
+          offset: Offset(0.0, 2.0),
+          blurRadius: 3.0,
+        )
+      ],
+    )..show(context);
   }
 }

@@ -1,7 +1,10 @@
+import 'package:b2s_parent/src/app/pages/busAttendance/bus_attendance_page.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page.dart';
+import 'package:b2s_parent/src/app/pages/leave/leave_page.dart';
 import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page.dart';
 import 'package:b2s_parent/src/app/pages/login/login_page.dart';
+import 'package:b2s_parent/src/app/pages/message/message_page.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +16,10 @@ class Routes {
         TabsPage(ModalRoute.of(context).settings.arguments),
     HomePage.routeName: (context) => HomePage(),
     HistoryPage.routeName: (context) => HistoryPage(),
-    LocateBusPage.routeName: (context) => LocateBusPage()
+    LocateBusPage.routeName: (context) => LocateBusPage(),
+    BusAttendancePage.routeName: (context) => BusAttendancePage(),
+    LeavePage.routeName: (context) => LeavePage(),
+    MessagePage.routeName: (context) => MessagePage()
   };
 }
 

@@ -71,8 +71,17 @@ class LoginPageViewModel extends ViewModelBase {
 
   onSignInClicked() async {
     if (isValidInfo()) {
-      Navigator.pushReplacementNamed(context, TabsPage.routeName,
-          arguments: TabsArgument(routeChildName: HomePage.routeName));
+      ToastController.show(
+          context: context,
+          duration: Duration(milliseconds: 300),
+          message: "Đang xác thực tài khoản...");
+
+      Future.delayed(const Duration(milliseconds: 300), () {
+        Navigator.pushReplacementNamed(context, TabsPage.routeName,
+            arguments: TabsArgument(routeChildName: HomePage.routeName));
+      });
+      // Navigator.popAndPushNamed(context, TabsPage.routeName,
+      //     arguments: TabsArgument(routeChildName: HomePage.routeName));
     }
   }
 }

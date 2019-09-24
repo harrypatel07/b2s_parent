@@ -34,6 +34,10 @@ class Common {
   static Image convertImageFromBase64(String base64) {
     return Image.memory(base64Decode(base64));
   }
+
+  static Future<String> getJsonFile(String path) async {
+    return await rootBundle.loadString(path);
+  }
 }
 
 class Diacritics {

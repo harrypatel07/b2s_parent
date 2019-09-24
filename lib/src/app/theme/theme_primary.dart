@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 
 class ThemePrimary {
+  static const primaryColor = Color(0xFFFFD752);
+  static const gradientColor = Color(0xFFc49b29);
+  static const appBar_textTheme = TextTheme(
+    title: TextStyle(
+        color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+  );
+  static const appBar_iconTheme = IconThemeData(
+    color: Colors.white,
+  );
   static theme() {
     return ThemeData(
       fontFamily: "Quicksand",
-      primaryColor: Color(0xFFFFD752),
+      primaryColor: primaryColor,
       //primaryColor: Colors.blue,
       backgroundColor: Colors.white,
       snackBarTheme: SnackBarThemeData(
@@ -12,6 +21,8 @@ class ThemePrimary {
         actionTextColor: Colors.white,
       ),
       //canvasColor: Colors.white,
+      // appBarTheme: AppBarTheme(
+      //     textTheme: appBar_textTheme, iconTheme: appBar_iconTheme),
     );
   }
 
