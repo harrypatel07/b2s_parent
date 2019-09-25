@@ -3,7 +3,7 @@ import 'package:b2s_parent/src/app/models/menu.dart';
 import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page.dart';
 
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
-import 'package:b2s_parent/src/models/category.dart';
+import 'package:b2s_parent/src/app/models/category.dart';
 import 'package:flutter/material.dart';
 
 class HomePageViewModel extends ViewModelBase {

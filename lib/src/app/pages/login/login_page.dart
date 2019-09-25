@@ -1,12 +1,9 @@
-import 'package:b2s_parent/src/app/app_route.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/pages/login/login_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/service/index.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
-
 import '../../app_localizations.dart';
 
 class LoginPage extends StatefulWidget {

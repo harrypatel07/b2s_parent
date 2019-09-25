@@ -2,6 +2,7 @@ import 'package:b2s_parent/src/app/pages/busAttendance/bus_attendance_page.dart'
 import 'package:b2s_parent/src/app/pages/leave/leave_page.dart';
 import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page.dart';
 import 'package:b2s_parent/src/app/pages/message/message_page.dart';
+import 'package:b2s_parent/src/app/pages/notification/notification_page.dart';
 import 'package:flutter/material.dart';
 
 class Category {
@@ -23,7 +24,10 @@ class Category {
       routeName: LocateBusPage.routeName,
     ),
     Category(name: "School bus route", color: Colors.blue),
-    Category(name: "Notification", color: Colors.yellow),
+    Category(
+        name: "Notification",
+        color: Colors.yellow,
+        routeName: NotificationPage.routeName),
     Category(
       name: "Leave",
       color: Colors.purple,

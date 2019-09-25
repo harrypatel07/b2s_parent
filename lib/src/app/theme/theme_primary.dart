@@ -2,13 +2,42 @@ import 'package:flutter/material.dart';
 
 class ThemePrimary {
   static const primaryColor = Color(0xFFFFD752);
+
   static const gradientColor = Color(0xFFc49b29);
+
+  static const primaryFontFamily = "Quicksand";
+
   static const appBar_textTheme = TextTheme(
     title: TextStyle(
-        color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+        fontFamily: primaryFontFamily,
+        color: Colors.white,
+        fontSize: 18,
+        fontWeight: FontWeight.bold),
   );
   static const appBar_iconTheme = IconThemeData(
     color: Colors.white,
+  );
+
+  static const Color gradientStart = primaryColor;
+  static const Color gradientEnd = gradientColor;
+
+  static const primaryGradient = LinearGradient(
+    colors: const [gradientStart, gradientEnd],
+    stops: const [0.0, 1.0],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
+
+  static const chatBubbleGradient = const LinearGradient(
+    colors: const [Color(0xFFf7e572), Color(0xFFFF8961)],
+    begin: Alignment.topRight,
+    end: Alignment.bottomLeft,
+  );
+
+  static const chatBubbleGradient2 = const LinearGradient(
+    colors: const [Color(0xFFf0edda), Color(0xFFf0edda)],
+    begin: Alignment.topRight,
+    end: Alignment.bottomLeft,
   );
   static theme() {
     return ThemeData(
