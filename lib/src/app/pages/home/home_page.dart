@@ -214,7 +214,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
       child: BusHomeContainer(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
+          //borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
         ),
         children: <Widget>[
           Align(

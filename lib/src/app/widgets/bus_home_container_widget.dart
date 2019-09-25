@@ -22,7 +22,7 @@ class BusHomeContainer extends StatelessWidget {
 
     final pokeSize = screenSize.width * 1;
     final pokeTop = -(screenSize.width * 0.154);
-    final pokeRight = -(screenSize.width * .1);
+    // final pokeRight = -(screenSize.width * .1);
     final appBarTop = pokeSize / 2 + pokeTop - IconTheme.of(context).size / 2;
 
     return Container(
@@ -30,18 +30,18 @@ class BusHomeContainer extends StatelessWidget {
       decoration: decoration,
       child: Stack(
         children: <Widget>[
-          ClipPath(
-            clipper: BusHomeContainerClipPath(),
-            child: Container(
-              height: 340,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  // begin: Alignment.bottomLeft,
-                  // end: Alignment.topLeft,
-                  colors: [
-                    ThemePrimary.primaryColor,
-                    ThemePrimary.gradientColor
-                  ],
+          CustomPaint(
+            painter: BoxShadowPainter(),
+            child: ClipPath(
+              clipper: BusHomeContainerClipPath(),
+              child: Container(
+                height: 340,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    colors: [Color(0xfffffad9), Color(0xfffffce3)],
+                  ),
                 ),
               ),
             ),
@@ -124,6 +124,19 @@ class BusHomeContainerClipPath extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return true;
+  }
+}
+
+class BoxShadowPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Path path = BusHomeContainerClipPath().getClip(size);
+    canvas.drawShadow(path, Color(0xfffffad9), 10.0, false);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
     return true;
   }
 }
