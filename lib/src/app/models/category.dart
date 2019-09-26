@@ -14,16 +14,16 @@ class Category {
 
   static final List<Category> categories = [
     Category(
-      name: "Bus attendance",
+      name: "My students",
       color: Colors.teal,
       routeName: BusAttendancePage.routeName,
     ),
     Category(
-      name: "School bus tracker",
+      name: "Locale bus map",
       color: Colors.red,
       routeName: LocateBusPage.routeName,
     ),
-    Category(name: "School bus route", color: Colors.blue),
+    Category(name: "History trips", color: Colors.blue),
     Category(
         name: "Notification",
         color: Colors.yellow,
