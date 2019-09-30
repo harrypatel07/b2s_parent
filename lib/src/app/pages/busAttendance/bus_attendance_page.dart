@@ -50,6 +50,7 @@ class _BusAttendancePageState extends State<BusAttendancePage> {
             ],
           ),
         );
+
     Widget __listChildren() {
       Widget ___card(int index) {
         Widget ____left() {
@@ -221,7 +222,8 @@ class _BusAttendancePageState extends State<BusAttendancePage> {
         return new InkWell(
           borderRadius: BorderRadius.circular(12.0),
           onTap: () {
-            print("tap");
+            print("list tap");
+            viewModel.listOnTap();
           },
           child: Card(
             margin: EdgeInsets.only(top: 15),
@@ -280,6 +282,7 @@ class _BusAttendancePageState extends State<BusAttendancePage> {
 
   @override
   Widget build(BuildContext context) {
+    viewModel.context = context;
     return ViewModelProvider(
       child: StreamBuilder<Object>(
           stream: viewModel.stream,
