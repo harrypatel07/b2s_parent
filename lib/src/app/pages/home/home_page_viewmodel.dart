@@ -1,5 +1,6 @@
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/menu.dart';
+import 'package:b2s_parent/src/app/pages/history/history_page.dart';
 import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page.dart';
 
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
@@ -14,7 +15,8 @@ class HomePageViewModel extends ViewModelBase {
     tabsPageViewModel = ViewModelProvider.of(context);
     Category.categories.asMap().forEach((index, cat) {
       if (category.routeName != null) if (category.routeName == cat.routeName) {
-        if (category.routeName == LocateBusPage.routeName) {
+        if (category.routeName == LocateBusPage.routeName ||
+            category.routeName == HistoryPage.routeName) {
           if (tabsPageViewModel != null) {
             Menu.tabMenu.asMap().forEach((index, menu) {
               if (category.routeName == menu.routeChildName)

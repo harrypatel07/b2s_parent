@@ -1,4 +1,5 @@
 import 'package:b2s_parent/src/app/pages/busAttendance/bus_attendance_page.dart';
+import 'package:b2s_parent/src/app/pages/history/history_page.dart';
 import 'package:b2s_parent/src/app/pages/leave/leave_page.dart';
 import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page.dart';
 import 'package:b2s_parent/src/app/pages/message/message_page.dart';
@@ -23,7 +24,11 @@ class Category {
       color: Colors.red,
       routeName: LocateBusPage.routeName,
     ),
-    Category(name: "History trips", color: Colors.blue),
+    Category(
+      name: "History trips",
+      color: Colors.blue,
+      routeName: HistoryPage.routeName,
+    ),
     Category(
         name: "Notification",
         color: Colors.yellow,
