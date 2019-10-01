@@ -6,7 +6,7 @@ class Children {
   String gender;
   int age;
   Children(this.id, this.name, this.photo, this.gender, this.age);
-  static final List<Children> listEmployee = [
+  static final List<Children> list = [
     Children(
         1,
         'Boy A',

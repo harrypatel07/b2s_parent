@@ -47,6 +47,8 @@ dependencies:
   google_maps_flutter: ^0.5.21+3
   cached_network_image: ^1.1.1
   sliding_up_panel: ^0.3.6
+  timeline: ^0.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

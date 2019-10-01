@@ -71,3 +71,10 @@ class MyRouteObserver extends RouteObserver<PageRoute<dynamic>> {
     }
   }
 }
+
+class RoutePopArgument {
+  final String routeName;
+  final dynamic data;
+
+  RoutePopArgument(this.routeName, this.data);
+}

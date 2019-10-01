@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
+import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/service/index.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -11,6 +12,12 @@ class LocateBusPageViewModel extends ViewModelBase {
   GoogleMapController mapController;
   final LatLng center = const LatLng(10.777317, 106.677513);
   final Set<Marker> marker = <Marker>{};
+
+  ChildrenBusSession childrenBus;
+
+  LocateBusPageViewModel() {
+    childrenBus = ChildrenBusSession.list[0];
+  }
 
   void onMapCreated(GoogleMapController controller) async {
     _mapController.complete(controller);

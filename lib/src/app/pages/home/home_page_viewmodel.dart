@@ -8,6 +8,8 @@ import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/models/category.dart';
 import 'package:flutter/material.dart';
 
+import '../../app_route.dart';
+
 class HomePageViewModel extends ViewModelBase {
   TabsPageViewModel tabsPageViewModel;
   BuildContext context;
@@ -28,9 +30,10 @@ class HomePageViewModel extends ViewModelBase {
           final result = await Navigator.pushNamed(
             context,
             category.routeName,
-          );
-          if (result == BusAttendancePage.routeName)
-            tabsPageViewModel.onSlideMenuTapped(2);
+          ) as RoutePopArgument;
+          if (result != null) if (result.routeName.toString() ==
+              BusAttendancePage.routeName)
+            tabsPageViewModel.onSlideMenuTapped(2, data: result.data);
         }
       }
     });

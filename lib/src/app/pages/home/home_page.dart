@@ -284,6 +284,11 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     viewModel = ViewModelProvider.of(context);
     return SingleChildScrollView(

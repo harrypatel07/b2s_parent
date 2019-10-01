@@ -1,12 +1,14 @@
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
-import 'package:b2s_parent/src/app/models/children.dart';
+import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/pages/busAttendance/bus_attendance_page.dart';
 import 'package:flutter/material.dart';
 
-class BusAttendancePageViewModel extends ViewModelBase {
-  List<Children> listChildren = Children.listEmployee;
+import '../../app_route.dart';
 
-  listOnTap() {
-    Navigator.pop(context, BusAttendancePage.routeName);
+class BusAttendancePageViewModel extends ViewModelBase {
+  List<ChildrenBusSession> listChildren = ChildrenBusSession.list;
+
+  listOnTap(ChildrenBusSession data) {
+    Navigator.pop(context, RoutePopArgument(BusAttendancePage.routeName, data));
   }
 }
