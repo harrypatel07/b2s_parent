@@ -22,9 +22,10 @@ class CloudFiresStoreService {
       ChildrenBusSession.list.forEach((data) {
         _firestore
             .collection("childrenBusSession")
-            .add(data.toJson())
+            .document(data.sessionID)
+            .setData(data.toJson())
             .then((onValue) {
-          _docRef = onValue;
+          _docRef = _firestore.document(data.sessionID);
         }).catchError((onError) {
           print("Error adding document: " + onError);
         });
