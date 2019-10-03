@@ -4,6 +4,19 @@ class Driver {
   final String photo;
   final String gender;
   final String phone;
+
+  Driver(this.id, this.name, this.photo, this.gender, this.phone);
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data["id"] = this.id;
+    data["name"] = this.name;
+    data["photo"] = this.photo;
+    data["gender"] = this.gender;
+    data["phone"] = this.phone;
+    return data;
+  }
+
   static final List<Driver> list = [
     Driver(
         1,
@@ -18,6 +31,4 @@ class Driver {
         'F',
         "0905123456"),
   ];
-
-  Driver(this.id, this.name, this.photo, this.gender, this.phone);
 }

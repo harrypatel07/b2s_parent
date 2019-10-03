@@ -5,19 +5,39 @@ class Children {
   String location = 'HCM, VN.';
   String gender;
   int age;
-  Children(this.id, this.name, this.photo, this.gender, this.age);
+  bool primary;
+
+  Children(
+      {this.id, this.name, this.photo, this.gender, this.age, this.primary});
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data["id"] = this.id;
+    data["name"] = this.name;
+    data["photo"] = this.photo;
+    data["location"] = this.location;
+    data["gender"] = this.gender;
+    data["age"] = this.age;
+    data["primary"] = this.primary;
+    return data;
+  }
+
   static final List<Children> list = [
     Children(
-        1,
-        'Boy A',
-        "https://shalimarbphotography.com/wp-content/uploads/2018/06/SBP-2539.jpg",
-        'F',
-        12),
+        id: 1,
+        name: 'Boy A',
+        photo:
+            "https://shalimarbphotography.com/wp-content/uploads/2018/06/SBP-2539.jpg",
+        gender: 'F',
+        age: 12,
+        primary: true),
     Children(
-        2,
-        'Girl B',
-        "https://shalimarbphotography.com/wp-content/uploads/2018/06/SBP-0800.jpg",
-        'F',
-        10),
+        id: 2,
+        name: 'Girl B',
+        photo:
+            "https://shalimarbphotography.com/wp-content/uploads/2018/06/SBP-0800.jpg",
+        gender: 'F',
+        age: 10,
+        primary: false),
   ];
 }

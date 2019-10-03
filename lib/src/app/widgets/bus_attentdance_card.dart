@@ -3,6 +3,7 @@ import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BusAttentdanceCard extends StatelessWidget {
   final ChildrenBusSession childrenBusSession;
@@ -68,7 +69,7 @@ class BusAttentdanceCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 5),
                   child: Text(
-                    "Viet My School",
+                    childrenBusSession.schoolName,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.black38),
@@ -77,7 +78,7 @@ class BusAttentdanceCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 5),
                   child: Text(
-                    "Xe sắp đến đón trong 10 phúts",
+                    childrenBusSession.notification,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     style: TextStyle(
@@ -120,7 +121,9 @@ class BusAttentdanceCard extends StatelessWidget {
               Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: onTapCall,
+                  onTap: () {
+                    launch("tel://${childrenBusSession.driver.phone}");
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
