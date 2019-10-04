@@ -287,9 +287,16 @@ class _BusAttendancePageState extends State<BusAttendancePage> {
       );
 
   @override
+  void initState() {
+    viewModel.listenData();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     viewModel.context = context;
     return ViewModelProvider(
+      viewmodel: viewModel,
       child: StreamBuilder<Object>(
           stream: viewModel.stream,
           builder: (context, snapshot) {

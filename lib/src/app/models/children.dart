@@ -10,6 +10,16 @@ class Children {
   Children(
       {this.id, this.name, this.photo, this.gender, this.age, this.primary});
 
+  Children.fromJson(Map<dynamic, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    photo = json['photo'];
+    location = json['location'];
+    gender = json['gender'];
+    age = json['age'];
+    primary = json['primary'];
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data["id"] = this.id;

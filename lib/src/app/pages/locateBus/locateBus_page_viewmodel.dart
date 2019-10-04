@@ -20,8 +20,11 @@ class LocateBusPageViewModel extends ViewModelBase {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   final MarkerId markerBus = MarkerId("MarkerBus");
   final MarkerId markerSchool = MarkerId("MarkerSchool");
+  final MarkerId markerChild = MarkerId("NarkerChild");
   //VStar school
-  final LatLng vStarCrood = LatLng(10.743524, 106.699328);
+  final LatLng pinTo = LatLng(10.743524, 106.699328);
+  //TS24corp
+  final LatLng pinFrom = LatLng(10.777433, 106.677502);
 
   Map<PolylineId, Polyline> polyline = <PolylineId, Polyline>{};
   PolylineId selectedPolyline = PolylineId("Polyline01");
@@ -33,8 +36,17 @@ class LocateBusPageViewModel extends ViewModelBase {
   Firestore firestore = Firestore.instance;
   Geoflutterfire geo = Geoflutterfire();
   DocumentReference docRef;
+  CloudFiresStoreService cloudSerivce = CloudFiresStoreService();
+  StreamSubscription streamCloud;
   LocateBusPageViewModel() {
     childrenBus = ChildrenBusSession.list[0];
+    listenData(childrenBus.sessionID);
+  }
+
+  @override
+  dispose() {
+    streamCloud.cancel();
+    super.dispose();
   }
 
   void onMapCreated(GoogleMapController controller) async {
@@ -58,8 +70,6 @@ class LocateBusPageViewModel extends ViewModelBase {
     myLocationEnabled = true;
     childrenBus.status = StatusBus.list[0];
     this.updateState();
-    CloudFiresStoreService cloudSerivce = CloudFiresStoreService();
-    cloudSerivce.syncColection();
   }
 
   Future movingBus() async {
@@ -68,6 +78,8 @@ class LocateBusPageViewModel extends ViewModelBase {
         await GoogleMapService.getMarkerIcon('assets/images/pin.png');
     final iconSchool =
         await GoogleMapService.getMarkerIcon('assets/images/school.png');
+    final iconChild =
+        await GoogleMapService.getMarkerIcon('assets/images/pin_child.png');
     //Create marker bus
     markers[markerBus] = Marker(
       markerId: markerBus,
@@ -78,10 +90,18 @@ class LocateBusPageViewModel extends ViewModelBase {
     //Create marker school
     markers[markerSchool] = Marker(
       markerId: markerSchool,
-      position: vStarCrood,
+      position: pinTo,
       icon: iconSchool,
       infoWindow: InfoWindow(title: "VStar School"),
     );
+
+    //Create marker child
+    markers[markerChild] = Marker(
+      markerId: markerChild,
+      position: pinFrom,
+      icon: iconChild,
+    );
+
     this.updateState();
     //Draw polyline
     var step = await GoogleMapService.directionGetListStep(
@@ -108,8 +128,29 @@ class LocateBusPageViewModel extends ViewModelBase {
         final Marker _marker = markers[markerBus];
         markers[markerBus] = _marker.copyWith(positionParam: routes[index]);
         //if (index >= 1) polyline[selectedPolyline].points.add(routes[index]);
+        //Chuyển stutus children
+        if (index == 36) {
+          childrenBus.status = StatusBus.list[1];
+          childrenBus.notification = "Xe đang di chuyển,tốc độ 40km/h";
+          cloudSerivce.updateChildrenBusSession(childrenBus);
+        }
+        if (index == routes.length - 1) {
+          childrenBus.status = StatusBus.list[2];
+          childrenBus.notification = "Xe đã tới trường.";
+          cloudSerivce.updateChildrenBusSession(childrenBus);
+        }
         this.updateState();
       }
+    });
+  }
+
+  listenData(sessionID) {
+    if (streamCloud != null) streamCloud.cancel();
+    streamCloud = cloudSerivce
+        .listenChildrenBusSession(childrenBus.sessionID)
+        .listen((onData) {
+      childrenBus.fromJson(onData.data);
+      this.updateState();
     });
   }
 

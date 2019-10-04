@@ -17,7 +17,7 @@ class CloudFiresStoreService {
 
   CloudFiresStoreService._internal();
 
-  syncColection() {
+  syncColectionChildrenBusSession() {
     if (_docRef == null)
       ChildrenBusSession.list.forEach((data) {
         _firestore
@@ -30,5 +30,28 @@ class CloudFiresStoreService {
           print("Error adding document: " + onError);
         });
       });
+  }
+
+  updateChildrenBusSession(ChildrenBusSession data) {
+    _firestore
+        .collection("childrenBusSession")
+        .document(data.sessionID)
+        .setData(data.toJson())
+        .then((onValue) {
+      _docRef = _firestore.document(data.sessionID);
+    }).catchError((onError) {
+      print("Error adding document: " + onError);
+    });
+  }
+
+  Stream<DocumentSnapshot> listenChildrenBusSession(sessionID) {
+    return _firestore
+        .collection("childrenBusSession")
+        .document(sessionID)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> listenAllChildrenBusSession() {
+    return _firestore.collection("childrenBusSession").snapshots();
   }
 }

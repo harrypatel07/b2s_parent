@@ -1,11 +1,19 @@
 class Driver {
-  final int id;
-  final String name;
-  final String photo;
-  final String gender;
-  final String phone;
+  int id;
+  String name;
+  String photo;
+  String gender;
+  String phone;
 
   Driver(this.id, this.name, this.photo, this.gender, this.phone);
+
+  Driver.fromJson(Map<dynamic, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    photo = json['photo'];
+    gender = json['gender'];
+    phone = json['phone'];
+  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

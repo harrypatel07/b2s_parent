@@ -13,7 +13,18 @@ class ChildrenBusSession {
   String schoolName;
   String notification;
 
-  Map<String, dynamic> toJson() {
+  fromJson(Map<dynamic, dynamic> json) {
+    sessionID = json['sessionID'];
+    child = Children.fromJson(json['child']);
+    List list = json['listRouteBus'];
+    listRouteBus = list.map((item) => RouteBus.fromJson(item)).toList();
+    driver = Driver.fromJson(json['driver']);
+    status = StatusBus.fromJson(json['status']);
+    schoolName = json['schoolName'];
+    notification = json['notification'];
+  }
+
+  Map<dynamic, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['sessionID'] = this.sessionID;
     data['child'] = this.child.toJson();
@@ -56,14 +67,14 @@ class ChildrenBusSession {
 }
 
 class RouteBus {
-  final int id;
-  final String date;
-  final String time;
-  final String routeName;
-  final int type; //0: lượt đi, //1: lượt về
-  final bool status; // hoàn thành
-  final double lat;
-  final double lng;
+  int id;
+  String date;
+  String time;
+  String routeName;
+  int type; //0: lượt đi, //1: lượt về
+  bool status; // hoàn thành
+  double lat;
+  double lng;
   RouteBus(
       {this.id,
       this.date,
@@ -73,6 +84,17 @@ class RouteBus {
       this.status,
       this.lat,
       this.lng});
+
+  RouteBus.fromJson(Map<dynamic, dynamic> json) {
+    id = json['id'];
+    date = json['date'];
+    time = json['time'];
+    routeName = json['routeName'];
+    type = json['type'];
+    status = json['status'];
+    lat = json['lat'];
+    lng = json['lng'];
+  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -142,11 +164,17 @@ class RouteBus {
 }
 
 class StatusBus {
-  final int statusID;
-  final String statusName;
-  final int statusColor;
+  int statusID;
+  String statusName;
+  int statusColor;
 
   StatusBus(this.statusID, this.statusName, this.statusColor);
+
+  StatusBus.fromJson(Map<dynamic, dynamic> json) {
+    statusID = json['statusID'];
+    statusName = json['statusName'];
+    statusColor = json['statusColor'];
+  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
