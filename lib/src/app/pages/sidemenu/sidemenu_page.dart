@@ -27,48 +27,67 @@ class _SideMenuPageState extends State<SideMenuPage> {
           alignment: Alignment.bottomCenter,
           image: AssetImage('assets/images/sidemenu_bg.jpg'),
           colorFilter:
-              ColorFilter.mode(Colors.black.withOpacity(.2), BlendMode.darken),
+              ColorFilter.mode(Colors.black.withOpacity(.5), BlendMode.darken),
           fit: BoxFit.cover,
         ),
       ),
       accountName: Text(
-        "Minh Luân",
+        viewModel.childPrimary.name,
         style: TextStyle(
             color: Theme.of(context).primaryColor,
             fontSize: 20,
             fontWeight: FontWeight.bold),
       ),
       accountEmail: Text(
-        "luanvm@ts24corp.com",
+        viewModel.childPrimary.schoolName,
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),
       ),
-      currentAccountPicture: CircleAvatar(
-        backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
-            ? Colors.blue
-            : Colors.white,
-        child: CachedNetworkImage(
-          width: 60,
-          imageUrl: viewModel.mainProfilePicture,
-          fit: BoxFit.cover,
+      currentAccountPicture: CachedNetworkImage(
+        imageUrl: viewModel.childPrimary.photo,
+        imageBuilder: (context, imageProvider) => CircleAvatar(
+          radius: 35.0,
+          backgroundImage: imageProvider,
+          backgroundColor: Colors.transparent,
         ),
       ),
+      // CircleAvatar(
+      //   backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
+      //       ? Colors.blue
+      //       : Colors.white,
+      //   child: CachedNetworkImage(
+      //     width: 60,
+      //     imageUrl: viewModel.childPrimary.photo,
+      //     fit: BoxFit.cover,
+      //   ),
+      // ),
       otherAccountsPictures: <Widget>[
-        GestureDetector(
-          onTap: viewModel.switchUser,
-          child: CircleAvatar(
-            backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
-                ? Colors.blue
-                : Colors.white,
-            child: CachedNetworkImage(
-              width: 30,
-              imageUrl: viewModel.otherProfilePicture,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
+        ...viewModel.listChildOther.map((children) => GestureDetector(
+            onTap: () {
+              viewModel.switchUser(children);
+            },
+            child:
+                //  CircleAvatar(
+                //   backgroundColor:
+                //       Theme.of(context).platform == TargetPlatform.iOS
+                //           ? Colors.blue
+                //           : Colors.white,
+                //   child: CachedNetworkImage(
+                //     width: 30,
+                //     imageUrl: children.photo,
+                //     fit: BoxFit.cover,
+                //   ),
+                // ),
+                CachedNetworkImage(
+              imageUrl: children.photo,
+              imageBuilder: (context, imageProvider) => CircleAvatar(
+                radius: 35.0,
+                backgroundImage: imageProvider,
+                backgroundColor: Colors.transparent,
+              ),
+            )))
       ],
     );
   }

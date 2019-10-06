@@ -3,17 +3,39 @@ import 'package:b2s_parent/src/app/models/menu.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 import 'package:flutter/material.dart';
 
+import '../../models/children.dart';
+import '../../models/childrenBusSession.dart';
+
 class SideMenuPageViewModel extends ViewModelBase {
   String mainProfilePicture =
       "https://cdn1.iconfinder.com/data/icons/children-avatar-flat/128/children_avatar-01-512.png";
   String otherProfilePicture =
       "https://cdn1.iconfinder.com/data/icons/children-avatar-flat/128/children_avatar-11-256.png";
 
+  List<Children> listChildren = Children.list;
+  Children childPrimary;
+  List<Children> listChildOther;
   int currentIndex = 0;
-  void switchUser() {
-    String backupString = mainProfilePicture;
-    mainProfilePicture = otherProfilePicture;
-    otherProfilePicture = backupString;
+
+  SideMenuPageViewModel() {
+    childPrimary = Children.getChildrenPrimary(listChildren);
+    listChildOther = Children.getChildrenNotPrimary(listChildren);
+  }
+
+  void switchUser(Children children) {
+    // String backupString = mainProfilePicture;
+    // mainProfilePicture = otherProfilePicture;
+    // otherProfilePicture = backupString;
+    listChildren = Children.setChildrenPrimary(Children.list, children.id);
+    childPrimary = Children.getChildrenPrimary(listChildren);
+    listChildOther = Children.getChildrenNotPrimary(listChildren);
+    tabsPageViewModel = ViewModelProvider.of(context);
+    if (tabsPageViewModel != null) {
+      tabsPageViewModel.locateBusPageViewModel.childrenBus = ChildrenBusSession
+          .list
+          .singleWhere((item) => item.child.id == childPrimary.id);
+      tabsPageViewModel.locateBusPageViewModel.updateState();
+    }
     this.updateState();
   }
 
@@ -24,7 +46,8 @@ class SideMenuPageViewModel extends ViewModelBase {
     this.updateState();
     Navigator.of(context).pop();
     tabsPageViewModel = ViewModelProvider.of(context);
-    if (tabsPageViewModel != null)
+    if (tabsPageViewModel != null) {
       tabsPageViewModel.onSlideMenuTapped(menu.index);
+    }
   }
 }

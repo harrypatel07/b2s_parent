@@ -9,6 +9,8 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
+import '../../models/children.dart';
+
 class LocateBusPageViewModel extends ViewModelBase {
   bool showGoolgeMap = true;
   bool showSpinner = false;
@@ -39,7 +41,8 @@ class LocateBusPageViewModel extends ViewModelBase {
   CloudFiresStoreService cloudSerivce = CloudFiresStoreService();
   StreamSubscription streamCloud;
   LocateBusPageViewModel() {
-    childrenBus = ChildrenBusSession.list[0];
+    childrenBus = ChildrenBusSession.list.singleWhere((item) =>
+        item.child.id == Children.getChildrenPrimary(Children.list).id);
     listenData(childrenBus.sessionID);
   }
 
@@ -128,7 +131,7 @@ class LocateBusPageViewModel extends ViewModelBase {
         final Marker _marker = markers[markerBus];
         markers[markerBus] = _marker.copyWith(positionParam: routes[index]);
         //if (index >= 1) polyline[selectedPolyline].points.add(routes[index]);
-        //Chuyển stutus children
+        //Chuyển status children
         if (index == 36) {
           childrenBus.status = StatusBus.list[1];
           childrenBus.notification = "Xe đang di chuyển,tốc độ 40km/h";
