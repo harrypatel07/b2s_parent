@@ -38,19 +38,6 @@ class LoginBodyWidget extends StatefulWidget {
 class _LoginBodyWidgetState extends State<LoginBodyWidget> {
   LoginPageViewModel viewModel;
 
-  @override
-  Widget build(BuildContext context) {
-    Common.initFontSize(context);
-    viewModel = ViewModelProvider.of(context);
-    return Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        _background(),
-        _content(context),
-      ],
-    );
-  }
-
   Widget _background() => Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
@@ -60,21 +47,21 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Expanded(
-                    flex: 5,
-                    child: Text(translation.text("LOGIN_PAGE.WELCOME"),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            //fontFamily: "Poppins-Bold",
-                            fontSize: Common.setFontSize(30),
-                            letterSpacing: .6,
-                            fontWeight: FontWeight.bold)),
-                  ),
+                  // Expanded(
+                  //   flex: 5,
+                  //   child: Text(translation.text("LOGIN_PAGE.WELCOME"),
+                  //       textAlign: TextAlign.center,
+                  //       style: TextStyle(
+                  //           //fontFamily: "Poppins-Bold",
+                  //           fontSize: Common.setFontSize(30),
+                  //           letterSpacing: .6,
+                  //           fontWeight: FontWeight.bold)),
+                  // ),
                   Expanded(
                       flex: 5,
                       child: Container(
                         height: 280,
-                        child: Image.asset("assets/images/bus_bg.gif"),
+                        child: Image.asset("assets/images/B2S_logo_Parent.png"),
                       )),
                 ],
               ),
@@ -189,25 +176,26 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Row(
-                children: <Widget>[
-//                  SizedBox(
-//                    width: 12.0,
-//                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: radioButton(false),
-                  ),
-                  SizedBox(
-                    width: 8.0,
-                  ),
-                  Text("Remember me",
-                      style: TextStyle(
-                        fontSize: 12,
-                        //fontFamily: "Poppins-Medium"
-                      ))
-                ],
-              ),
+//               Row(
+//                 children: <Widget>[
+// //                  SizedBox(
+// //                    width: 12.0,
+// //                  ),
+//                   GestureDetector(
+//                     onTap: () {},
+//                     child: radioButton(false),
+//                   ),
+//                   SizedBox(
+//                     width: 8.0,
+//                   ),
+//                   Text("Remember me",
+//                       style: TextStyle(
+//                         fontSize: 12,
+//                         //fontFamily: "Poppins-Medium"
+//                       ))
+//                 ],
+//               ),
+              Container(),
               Container(
                 width: MediaQuery.of(context).size.width - 250,
                 height: 40,
@@ -261,6 +249,19 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
           ],
         ),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Common.initFontSize(context);
+    viewModel = ViewModelProvider.of(context);
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        _background(),
+        _content(context),
+      ],
     );
   }
 }

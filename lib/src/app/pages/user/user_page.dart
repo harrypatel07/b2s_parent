@@ -1,31 +1,184 @@
+import 'package:b2s_parent/src/app/core/baseViewModel.dart';
+import 'package:b2s_parent/src/app/models/children.dart';
+import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
+import 'package:b2s_parent/src/app/pages/user/popup_edit_profile_children/popup_edit_profile_children.dart';
+import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children.dart';
+import 'package:b2s_parent/src/app/pages/user/settings/user_settings.dart';
+import 'package:b2s_parent/src/app/pages/user/user_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
-class UserPage extends StatelessWidget {
+class UserPage extends StatefulWidget {
   static const String routeName = "/user";
+  _UserPageState createState() => _UserPageState();
+}
+
+class _UserPageState extends State<UserPage>
+    with SingleTickerProviderStateMixin {
+  AnimationController _controller;
+  Animation<double> _animation;
+  RenderBox _renderBox;
+  UserPageViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 1000), vsync: this);
+    _animation = Tween(begin: 0.0, end: 1.0).animate(_controller);
+  }
+
+  @override
+  dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Widget _itemChild(
+      BuildContext context, UserPageViewModel viewModel, Children children) {
+    return new Column(
+      children: <Widget>[
+        new Container(
+          //color: Colors.blue,
+          margin: EdgeInsets.only(right: 10),
+          child: Row(
+            children: <Widget>[
+              new Expanded(
+                flex: 6,
+                child: new Container(
+                  //margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  padding: EdgeInsets.fromLTRB(20, 7.5, 0, 7.5),
+                  decoration: new BoxDecoration(
+                    //color: Colors.white30, //new Color(0xFF333366),
+                    //color: Colors.teal,
+                    shape: BoxShape.rectangle,
+                    borderRadius: new BorderRadius.circular(0.0),
+                  ),
+                  child: new Row(
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            ProfileChildrenPage.routeName,
+                            arguments: children,
+                          );
+                          print('on Tap avatar');
+                        },
+                        child: Hero(
+                          tag: children.photo,
+                          child: new CachedNetworkImage(
+                            imageUrl: children.photo,
+                            imageBuilder: (context, imageProvider) =>
+                                CircleAvatar(
+                              radius: 20.0,
+                              backgroundImage: imageProvider,
+                              backgroundColor: Colors.transparent,
+                            ),
+                          ),
+                        ),
+                      ),
+                      new Flexible(
+                        child: new Container(
+                          margin: EdgeInsets.only(left: 10),
+                          child: new Text(
+                            children.name,
+                            style: TextStyle(fontSize: 14),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              new Expanded(
+                flex: 1,
+                child: InkWell(
+                  onTap: () => _popupChildrenManager(context, children),
+                  child: new Container(
+                    height: 50,
+                    //color: Colors.green,
+                    margin: EdgeInsets.only(top: 5, bottom: 5, right: 5),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.edit,
+                        size: 25,
+                        color: Colors.orangeAccent.shade400,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        new Container(
+          height: 1,
+          color: Colors.grey.shade200,
+        ),
+      ],
+    );
+  }
+
+  void _popupChildrenManager(BuildContext context, Children children) {
+    showGeneralDialog(
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionBuilder: (context, a1, a2, widget) {
+          final curvedValue = Curves.easeInOutBack.transform(a1.value) - 1.0;
+          return Transform(
+            transform: Matrix4.translationValues(0.0, -curvedValue * 200, 0.0),
+            child: PopupEditProfileChildren(ProfileChildrenArgs(
+                children: children,
+                buttonText: "OKAY",
+                userViewModel: viewModel)),
+          );
+        },
+        transitionDuration: Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        pageBuilder: (context, animation1, animation2) {});
+  }
+
+  // Widget _buildUserStats(String name, String value) {
+  //   return Column(
+  //     children: <Widget>[
+  //       Text(
+  //         name,
+  //         style: TextStyle(
+  //           color: Colors.grey.withOpacity(0.6),
+  //           fontWeight: FontWeight.w600,
+  //           fontSize: 16.0,
+  //         ),
+  //       ),
+  //       Text(
+  //         value,
+  //         style: TextStyle(
+  //           color: Colors.black87,
+  //           fontWeight: FontWeight.w900,
+  //           fontSize: 20.0,
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final hr = Divider();
-    final userStats = Positioned(
-      bottom: 10.0,
-      left: 40.0,
-      right: 40.0,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          _buildUserStats('VISITORS', '2305'),
-          _buildUserStats('LIKED', '276'),
-          _buildUserStats('MATCHED', '51'),
-        ],
-      ),
+    TabsPageViewModel tabsPageViewModel = ViewModelProvider.of(context);
+    viewModel = tabsPageViewModel.userPageViewModel;
+    viewModel.context = context;
+    final hr = new Container(
+      height: 1,
+      color: Colors.grey.shade200,
     );
 
     final userImage = CachedNetworkImage(
-        imageUrl:
-            "https://cdn1.iconfinder.com/data/icons/children-avatar-flat/128/children_avatar-01-512.png",
+        imageUrl: viewModel.parent.photo,
         imageBuilder: (context, imageProvider) => Container(
               height: 100.0,
               width: 100.0,
@@ -38,30 +191,24 @@ class UserPage extends StatelessWidget {
               ),
             ));
 
-    final userNameLocation = Container(
+    final userName = Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            "Luân",
-            style: TextStyle(
-              fontSize: 24.0,
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-          Text(
-            "VN",
-            style: TextStyle(
-              color: Colors.grey.withOpacity(0.6),
-              fontSize: 20.0,
-              fontWeight: FontWeight.w600,
+          Flexible(
+            child: Text(
+              viewModel.parent.name,
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.w900,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
       ),
     );
-
     final userInfo = Stack(
       children: <Widget>[
         Padding(
@@ -80,155 +227,197 @@ class UserPage extends StatelessWidget {
                 ),
                 color: Colors.white,
               ),
-              child: Padding(
+              child: Container(
                 padding: const EdgeInsets.only(left: 20.0, bottom: 20.0),
-                child: Row(
-                  children: <Widget>[
-                    userImage,
-                    SizedBox(width: 10.0),
-                    userNameLocation
-                  ],
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        width: 100,
+                        height: 100,
+                        child: userImage,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width - 180,
+                        child: userName,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         ),
-        userStats
       ],
     );
-
-    final secondCard = Padding(
-      padding: EdgeInsets.only(right: 20.0, left: 20.0, bottom: 30.0),
-      child: Material(
-        elevation: 5.0,
-        borderRadius: BorderRadius.circular(8.0),
-        shadowColor: Colors.white,
-        child: Container(
-          height: 200.0,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Column(
-            children: <Widget>[
-              _buildIconTile(Icons.favorite, Colors.red, 'Likes'),
-              hr,
-              _buildIconTile(LineIcons.eye, Colors.green, 'Visitors'),
-              hr,
-              _buildIconTile(LineIcons.users, Colors.purpleAccent, 'Groups'),
-            ],
-          ),
+    Widget _buildIconTileSettings(IconData icon, Color color, String title) {
+      return new ListTile(
+        title: Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-      ),
-    );
-
-    final thirdCard = Padding(
-      padding: EdgeInsets.only(right: 20.0, left: 20.0, bottom: 30.0),
-      child: Material(
-        elevation: 5.0,
-        borderRadius: BorderRadius.circular(8.0),
-        shadowColor: Colors.white,
-        child: Container(
-          height: 350.0,
+        leading: Container(
+          height: 30.0,
+          width: 30.0,
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8.0),
+            color: color,
+            borderRadius: BorderRadius.circular(10.0),
           ),
-          child: Column(
-            children: <Widget>[
-              _buildIconTile(LineIcons.money, Colors.red, 'My Wallet'),
-              hr,
-              _buildIconTile(LineIcons.diamond, Colors.blue, 'VIP Center'),
-              hr,
-              _buildIconTile(
-                  LineIcons.user_plus, Colors.orangeAccent, 'Find Friends'),
-              hr,
-              _buildIconTile(LineIcons.user_times, Colors.black, 'Blacklist'),
-              hr,
-              _buildIconTile(
-                  LineIcons.cogs, Colors.grey.withOpacity(0.6), 'Settings'),
-            ],
-          ),
-        ),
-      ),
-    );
-
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                        height: 350.0,
-                      ),
-                      Container(
-                        height: 250.0,
-                        decoration: BoxDecoration(
-                            gradient: ThemePrimary.primaryGradient),
-                      ),
-                      Positioned(top: 100, right: 0, left: 0, child: userInfo)
-                    ],
-                  ),
-                  secondCard,
-                  thirdCard
-                ],
-              ),
+          child: Center(
+            child: Icon(
+              icon,
+              color: Colors.white,
             ),
-          ],
+          ),
         ),
-      ),
-    );
-  }
+        trailing: Icon(LineIcons.chevron_circle_right),
+        onTap: () => {
+          Navigator.pushNamed(
+            context,
+            UserSettingsPage.routeName,
+          ),
+        },
+      );
+    }
 
-  Widget _buildUserStats(String name, String value) {
-    return Column(
-      children: <Widget>[
-        Text(
-          name,
-          style: TextStyle(
-            color: Colors.grey.withOpacity(0.6),
-            fontWeight: FontWeight.w600,
-            fontSize: 16.0,
+    Widget _itemChildAdd() {
+      return InkWell(
+        onTap: () => _popupChildrenManager(context, null),
+        child: new Container(
+          height: 50,
+          child: Align(
+            alignment: Alignment.center,
+            child: Icon(
+              Icons.add_circle,
+              size: 40,
+              color: Colors.teal,
+            ),
           ),
         ),
-        Text(
-          value,
-          style: TextStyle(
-            color: Colors.black87,
-            fontWeight: FontWeight.w900,
-            fontSize: 20.0,
-          ),
-        ),
-      ],
-    );
-  }
+      );
+    }
 
-  Widget _buildIconTile(IconData icon, Color color, String title) {
-    return ListTile(
-      title: Text(
-        title,
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      leading: Container(
-        height: 30.0,
-        width: 30.0,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Center(
-          child: Icon(
-            icon,
-            color: Colors.white,
+    Widget _buildChildrenContent() {
+      List<Widget> listChildrenItem = new List();
+      viewModel.listChildren.forEach((item) =>
+          {listChildrenItem.add(_itemChild(context, viewModel, item))});
+      listChildrenItem.add(_itemChildAdd());
+      return FadeTransition(
+          opacity: _animation,
+          child: Container(
+            //height: 200,
+            color: Colors.grey.shade300,
+            child: Column(
+              children: listChildrenItem,
+            ),
+          ));
+    }
+
+    Widget _buildChildrenTitle(IconData icon, Color color, String title) {
+      return new Column(
+        children: <Widget>[
+          new ListTile(
+              title: Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              leading: Container(
+                height: 30.0,
+                width: 30.0,
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Center(
+                  child: Icon(
+                    icon,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              trailing: Icon((viewModel.isShowChildrenManager)
+                  ? LineIcons.chevron_circle_down
+                  : LineIcons.chevron_circle_right),
+              onTap: () {
+                viewModel.updateStatusChildrenManager();
+                if (viewModel.isShowChildrenManager)
+                  _controller.forward();
+                else
+                  _controller.reverse();
+                print("Tab title");
+              }),
+          if (viewModel.isShowChildrenManager) _buildChildrenContent(),
+        ],
+      );
+    }
+
+    Widget secondCard() {
+      return Padding(
+        padding: EdgeInsets.only(right: 20.0, left: 20.0, bottom: 30.0),
+        child: Material(
+          elevation: 5.0,
+          borderRadius: BorderRadius.circular(8.0),
+          shadowColor: Colors.white,
+          child: Container(
+            //height: 200.0,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Column(
+              children: <Widget>[
+                _buildChildrenTitle(
+                    Icons.person_pin, Colors.blue, "Children Manager"),
+                hr,
+                _buildIconTileSettings(
+                    LineIcons.cogs, Colors.grey.withOpacity(0.6), 'Settings'),
+              ],
+            ),
           ),
         ),
-      ),
-      trailing: Icon(LineIcons.chevron_circle_right),
+      );
+    }
+
+    return ViewModelProvider(
+      viewmodel: viewModel,
+      child: StreamBuilder<Object>(
+          stream: viewModel.stream,
+          builder: (context, snapshot) {
+            return Scaffold(
+              body: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        children: <Widget>[
+                          Stack(
+                            children: <Widget>[
+                              Container(
+                                height: 350.0,
+                              ),
+                              Container(
+                                height: 250.0,
+                                decoration: BoxDecoration(
+                                    gradient: ThemePrimary.primaryGradient),
+                              ),
+                              Positioned(
+                                  top: 100, right: 0, left: 0, child: userInfo)
+                            ],
+                          ),
+                          secondCard(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
     );
   }
 }

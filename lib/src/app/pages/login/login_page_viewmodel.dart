@@ -1,7 +1,10 @@
+import 'package:b2s_parent/src/app/app_localizations.dart';
+import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/helper/validator-helper.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page.dart';
+import 'package:b2s_parent/src/app/provider/api_master.dart';
 import 'package:b2s_parent/src/app/widgets/ts24_utils_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +25,7 @@ class LoginPageViewModel extends ViewModelBase {
 
   LoginPageViewModel() {
     //account demo
-    _emailController.text = "luan.vm@ts24corp.com";
+    _emailController.text = "luanvm@ts24.vn";
     _passController.text = "123456";
     _emailController.addListener(() {
       if (_emailController.text.length > 1) isValidEmail();
@@ -70,18 +73,32 @@ class LoginPageViewModel extends ViewModelBase {
   }
 
   onSignInClicked() async {
+    //return api.getOdoo();
     if (isValidInfo()) {
-      ToastController.show(
-          context: context,
-          duration: Duration(milliseconds: 300),
-          message: "Đang xác thực tài khoản...");
+      //Kiểm tra login
+      LoadingDialog.showLoadingDialog(
+          context, translation.text("WAITING_MESSAGE.AUTH_ACCOUNT"));
+      var _checkLogin = await api.checkLogin(
+        username: _emailController.text.trim(),
+        password: _passController.text.trim(),
+      );
+      LoadingDialog.hideLoadingDialog(context);
+      if (_checkLogin == StatusCodeGetToken.TRUE) {
+        ToastController.show(
+            context: context,
+            duration: Duration(milliseconds: 300),
+            message: translation.text("WAITING_MESSAGE.PERMISSION_CONNECT"));
 
-      Future.delayed(const Duration(milliseconds: 300), () {
-        Navigator.pushReplacementNamed(context, TabsPage.routeName,
-            arguments: TabsArgument(routeChildName: HomePage.routeName));
-      });
-      // Navigator.popAndPushNamed(context, TabsPage.routeName,
-      //     arguments: TabsArgument(routeChildName: HomePage.routeName));
+        Future.delayed(const Duration(milliseconds: 300), () {
+          Navigator.pushReplacementNamed(context, TabsPage.routeName,
+              arguments: TabsArgument(routeChildName: HomePage.routeName));
+        });
+        // Navigator.popAndPushNamed(context, TabsPage.routeName,
+        //     arguments: TabsArgument(routeChildName: HomePage.routeName));
+      } else {
+        return LoadingDialog.showMsgDialog(
+            context, translation.text("ERROR_MESSAGE.WRONG_LOGIN"));
+      }
     }
   }
 }

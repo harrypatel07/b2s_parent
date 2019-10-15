@@ -9,6 +9,9 @@ import 'package:b2s_parent/src/app/pages/message/messageUser/message_user_page.d
 import 'package:b2s_parent/src/app/pages/message/message_page.dart';
 import 'package:b2s_parent/src/app/pages/notification/notification_page.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page.dart';
+import 'package:b2s_parent/src/app/pages/user/popup_edit_profile_children/popup_edit_profile_children.dart';
+import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children.dart';
+import 'package:b2s_parent/src/app/pages/user/settings/user_settings.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
@@ -28,6 +31,9 @@ class Routes {
     MessageUserPage.routeName: (context) =>
         MessageUserPage(userId: ModalRoute.of(context).settings.arguments),
     NotificationPage.routeName: (context) => NotificationPage(),
+    PopupEditProfileChildren.routeName: (context) => PopupEditProfileChildren(ModalRoute.of(context).settings.arguments),
+    UserSettingsPage.routeName: (context) => UserSettingsPage(),
+    ProfileChildrenPage.routeName:(context) => ProfileChildrenPage(children: ModalRoute.of(context).settings.arguments,)
   };
 }
 

@@ -4,7 +4,9 @@ import 'package:b2s_parent/src/app/helper/dateUtils.dart';
 import 'package:b2s_parent/src/app/models/month_module.dart';
 import 'package:b2s_parent/src/app/pages/leave/leave_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/leave/widgets/item_date.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class LeavePage extends StatefulWidget {
   static const String routeName = "/leave";
@@ -256,7 +258,6 @@ class _LeavePageState extends State<LeavePage> {
                   ],
                 ),
               ),
-
             ],
           ),
         )
@@ -264,9 +265,88 @@ class _LeavePageState extends State<LeavePage> {
     );
   }
 
+  Widget _appBarTitle() {
+    return Container(
+      child: new Row(
+        children: <Widget>[
+          new CachedNetworkImage(
+            imageUrl: viewModel.childPrimary.photo,
+            imageBuilder: (context, imageProvider) => CircleAvatar(
+              radius: 20.0,
+              backgroundImage: imageProvider,
+              backgroundColor: Colors.transparent,
+            ),
+          ),
+          new Container(
+            margin: EdgeInsets.only(left: 10),
+            child: new Text(
+              viewModel.childPrimary.name,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  var alertStyle = AlertStyle(
+    animationType: AnimationType.fromTop,
+    isCloseButton: false,
+    isOverlayTapDismiss: true,
+    descStyle: TextStyle(fontWeight: FontWeight.bold),
+    animationDuration: Duration(milliseconds: 400),
+    alertBorder: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15.0),
+      side: BorderSide(
+        color: Colors.grey,
+      ),
+    ),
+    titleStyle: TextStyle(
+      color: Colors.red,
+    ),
+  );
+
+  void _popupConfirm() {
+      new Alert(
+      context: context,
+      type: AlertType.info,
+      style: alertStyle,
+      title: "THÔNG BÁO",
+      desc: "Xác nhận thay đổi thông tin ?.",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Không",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          gradient: LinearGradient(colors: [Colors.green, Colors.teal]),
+          onPressed: () => Navigator.pop(context),
+          width: 120,
+        ),
+        DialogButton(
+          child: Text(
+            "Có",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          gradient: LinearGradient(colors: [
+            Color.fromRGBO(255, 69, 0, 1.0),
+            Color.fromRGBO(255, 165, 0, 1.0),
+            Color.fromRGBO(255, 215, 0, 1.0),
+          ]),
+          onPressed: () =>
+          {
+            viewModel.onSend(),
+            print("onSend list leave of primary child"),
+            Navigator.pop(context),
+          },
+          width: 120,
+        )
+      ],
+    ).show();
+  }
   Widget _appBar() {
     return new AppBar(
-      title: new Text("Leave"),
+      title: _appBarTitle(),
       actions: <Widget>[
         IconButton(
           icon: const Icon(
@@ -275,7 +355,8 @@ class _LeavePageState extends State<LeavePage> {
           ),
           tooltip: 'Show Snackbar',
           onPressed: () {
-            viewModel.onSend();
+            _popupConfirm();
+            print('open popup');
           },
         ),
       ],
@@ -286,7 +367,6 @@ class _LeavePageState extends State<LeavePage> {
   @override
   Widget build(BuildContext context) {
     viewModel.context = context;
-    viewModel.onCreate();
     return ViewModelProvider(
       viewmodel: viewModel,
       child: StreamBuilder<Object>(
