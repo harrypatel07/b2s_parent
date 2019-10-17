@@ -159,6 +159,94 @@ class ApiMaster {
     return result;
   }
 
+  /// Lấy thông tin user session.
+  ///
+  ///  Trả về {
+  ///  "uid": 3,
+  ///   "name": "Max"
+  ///   "partnerId": 2
+  /// }
+  Future<dynamic> getUser() async {
+    Future<dynamic> _getPartnerId(dynamic uid) {
+      body = new Map();
+      body["fields"] = ['id'];
+      body["domain"] = [
+        ['user_ids', '=', uid]
+      ];
+      var params = convertSerialize(body);
+      return http
+          .get('${this.api}/search_read/res.partner?$params',
+              headers: this.headers)
+          .then((http.Response response) {
+        if (response.statusCode == 200) {
+          var list = json.decode(response.body);
+          if (list is List) if (list.length > 0) return list[0]["id"];
+          return null;
+        } else
+          return 0;
+      }).catchError((error) {
+        return 0;
+      });
+    }
+
+    await this.authorization();
+    return http
+        .get('${this.api}/user', headers: this.headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 200) {
+        var userInfo = json.decode(response.body);
+        var partnerID = await _getPartnerId(userInfo["uid"]);
+        userInfo["partnerID"] = partnerID;
+        this.grandType = GrandType.client_credentials;
+        this.clientId = client_id;
+        this.clienSecret = client_secret;
+        return userInfo;
+      } else
+        return null;
+    }).catchError((error) {
+      return null;
+    });
+  }
+
+  /// Lấy thông tin user info.
+  ///
+  ///  Trả về {
+  ///   "address": {
+  ///     "country": "United States",
+  ///     "formatted": "YourCompany\\n215 Vine St\\n\\nScranton PA 18503\\nUnited States",
+  ///     "postal_code": "18503",
+  ///     "region": "Pennsylvania",
+  ///     "street_address": "215 Vine St"
+  ///   },
+  ///   "email": "admin@yourcompany.example.com",
+  ///   "locale": "en_US",
+  ///   "name": "Mitchell Admin",
+  ///   "phone_number": "+1 555-555-5555",
+  ///   "picture": "data:image/jpg;base64,/9j/4AA...",
+  ///   "sub": 3,
+  ///   "updated_at": "2018-12-13",
+  ///   "username": "admin",
+  ///   "website": "https://www.mukit.at",
+  ///   "zoneinfo": "Europe/Brussels"
+  /// }
+  Future<dynamic> getUserInfo() async {
+    await this.authorization();
+    return http
+        .get('${this.api}/userinfo', headers: this.headers)
+        .then((http.Response response) {
+      if (response.statusCode == 200) {
+        var userInfo = json.decode(response.body);
+        this.grandType = GrandType.client_credentials;
+        this.clientId = client_id;
+        this.clienSecret = client_secret;
+        return userInfo;
+      } else
+        return null;
+    }).catchError((error) {
+      return null;
+    });
+  }
+
   Future getOdoo() async {
     var client = new OdooClient(domainApi);
     // Synchronize way
@@ -173,17 +261,22 @@ class ApiMaster {
           final user = auth.getUser();
           print("Hello ${user.name}");
 
-          var domain = [
-            ["partner_id", "=", 50]
+          final domain = [
+            '|',
+            ['id', '=', 48],
+            ['parent_id', '=', 48]
           ];
-          var fields = [];
+          final fields = ["id", "name", "email"];
           client
-              .searchRead("sale.order", domain, [], limit: 10, offset: 0)
+              .searchRead("res.partner", domain, [],
+                  limit: 10, offset: 0, order: "date")
               .then((OdooResponse result) {
             if (!result.hasError()) {
               final data = result.getResult();
               final records = data['records'];
               print(records);
+            } else {
+              print(result.getError().toString());
             }
           });
         } else {

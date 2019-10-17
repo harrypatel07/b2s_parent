@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:b2s_parent/src/app/core/app_setting.dart';
+import 'package:b2s_parent/src/app/models/parent.dart';
+import 'package:b2s_parent/src/app/models/res-partner.dart';
 import 'package:http/http.dart' as http;
 
 import 'api_master.dart';
@@ -27,44 +29,41 @@ class Api1 extends ApiMaster {
     return result;
   }
 
-  //Kiểm tra quyền truy cập POS
-  Future<bool> checkAccessRightPOS() async {
-    await this.authorization();
-    return http
-        .get('${this.api}/access/rights/pos.config', headers: this.headers)
-        .then((http.Response response) {
-      if (response.statusCode == 200) {
-        bool result = response.body.toLowerCase() == 'true' ? true : false;
-        return result;
-      }
-      return false;
-    });
-  }
-
-  //Lấy thông tin user session
-  Future<dynamic> getUserInfo() async {
+  /// Lấy thông tin Parent và children
+  ///
+  Future<List<ResPartner>> getParentInfo(int id) async {
     await this.authorization();
     body = new Map();
-    body["fields"] = ['name', 'id'];
     body["domain"] = [
-      [
-        'email',
-        '=',
-        this.username,
-      ]
+      '|',
+      ['id', '=', id],
+      ['parent_id', '=', id]
     ];
-    body["limit"] = 1;
     var params = convertSerialize(body);
+    List<ResPartner> listResult = new List();
     return http
-        .get('${this.api}/search_read/res.users?$params', headers: this.headers)
-        .then((http.Response response) {
+        .get('${this.api}/search_read/res.partner?$params',
+            headers: this.headers)
+        .then((http.Response response) async {
       if (response.statusCode == 200) {
-        var list = json.decode(response.body);
-        return list;
-      } else
-        return null;
+        List list = json.decode(response.body);
+        if (list.length > 0)
+          listResult = list.map((item) => ResPartner.fromJson(item)).toList();
+        final parent = listResult.firstWhere((item) => item.id == id);
+        final children = listResult.where((item) {
+          if (item.parentId is List) {
+            final List listParent = item.parentId;
+            return listParent[0] == id;
+          }
+          return false;
+        }).toList();
+        Parent parentInfo = Parent();
+        parentInfo.fromResPartner(parent, children);
+        await parentInfo.saveLocal();
+      }
+      return listResult;
     }).catchError((error) {
-      return null;
+      return listResult;
     });
   }
 }

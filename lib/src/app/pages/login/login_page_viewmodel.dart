@@ -73,7 +73,6 @@ class LoginPageViewModel extends ViewModelBase {
   }
 
   onSignInClicked() async {
-    //return api.getOdoo();
     if (isValidInfo()) {
       //Kiểm tra login
       LoadingDialog.showLoadingDialog(
@@ -82,20 +81,27 @@ class LoginPageViewModel extends ViewModelBase {
         username: _emailController.text.trim(),
         password: _passController.text.trim(),
       );
-      LoadingDialog.hideLoadingDialog(context);
+
       if (_checkLogin == StatusCodeGetToken.TRUE) {
+        var userInfo = await api.getUser();
+        if (userInfo != null) {
+          var parentInfo = await api.getParentInfo(userInfo['partnerID']);
+          print(parentInfo);
+        }
+        LoadingDialog.hideLoadingDialog(context);
         ToastController.show(
             context: context,
             duration: Duration(milliseconds: 300),
             message: translation.text("WAITING_MESSAGE.PERMISSION_CONNECT"));
 
-        Future.delayed(const Duration(milliseconds: 300), () {
-          Navigator.pushReplacementNamed(context, TabsPage.routeName,
-              arguments: TabsArgument(routeChildName: HomePage.routeName));
-        });
+        // Future.delayed(const Duration(milliseconds: 300), () {
+        //   Navigator.pushReplacementNamed(context, TabsPage.routeName,
+        //       arguments: TabsArgument(routeChildName: HomePage.routeName));
+        // });
         // Navigator.popAndPushNamed(context, TabsPage.routeName,
         //     arguments: TabsArgument(routeChildName: HomePage.routeName));
       } else {
+        LoadingDialog.hideLoadingDialog(context);
         return LoadingDialog.showMsgDialog(
             context, translation.text("ERROR_MESSAGE.WRONG_LOGIN"));
       }

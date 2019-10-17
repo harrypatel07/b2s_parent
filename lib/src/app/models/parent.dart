@@ -1,36 +1,104 @@
+import 'dart:convert';
+
+import 'package:b2s_parent/src/app/core/app_setting.dart';
+import 'package:b2s_parent/src/app/models/res-partner.dart';
+
 class Parent {
   int id;
-  String name;
-  String photo;
-  String gender;
-  String phone;
+  dynamic name;
+  dynamic photo;
+  dynamic email;
+  dynamic phone;
+  dynamic gender;
+  dynamic contactAddress;
+  List<ResPartner> listChildren;
+  static dynamic aliasName = "Parent";
+  static final Parent _singleton = new Parent._internal();
 
-  Parent(this.id, this.name, this.photo, this.gender, this.phone);
+  factory Parent() {
+    return _singleton;
+  }
 
-  Parent.fromJson(Map<dynamic, dynamic> json) {
+  Parent._internal();
+
+  Parent.newInstance(
+      {this.id,
+      this.name,
+      this.photo,
+      this.email,
+      this.phone,
+      this.gender,
+      this.contactAddress}) {
+    id = id;
+    name = name;
+    photo = photo;
+    email = email;
+    phone = phone;
+    gender = gender;
+    contactAddress = contactAddress;
+  }
+
+  fromResPartner(ResPartner parent, List<ResPartner> child) {
+    id = parent.id;
+    name = parent.name;
+    photo = parent.image;
+    email = parent.email;
+    phone = parent.phone;
+    gender = parent.title;
+    contactAddress = parent.contactAddress;
+    listChildren = child;
+  }
+
+  fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     name = json['name'];
     photo = json['photo'];
-    gender = json['gender'];
+    email = json['email'];
     phone = json['phone'];
+    gender = json['gender'];
+    contactAddress = json['contactAddress'];
+    List list = json['listChildren'];
+    listChildren = list.map((item) => ResPartner.fromJson(item)).toList();
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data["id"] = this.id;
-    data["name"] = this.name;
-    data["photo"] = this.photo;
-    data["gender"] = this.gender;
-    data["phone"] = this.phone;
+  Map<dynamic, dynamic> toJson() {
+    final Map<dynamic, dynamic> data = new Map<dynamic, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['photo'] = this.photo;
+    data['email'] = this.email;
+    data['phone'] = this.phone;
+    data['gender'] = this.gender;
+    data['contactAddress'] = this.contactAddress;
+    data['listChildren'] =
+        this.listChildren.map((item) => item.toJson()).toList();
     return data;
   }
 
-  static final info = [
-    Parent(
-        1,
-        'Driver 1',
-        "https://shalimarbphotography.com/wp-content/uploads/2018/06/SBP-2539.jpg",
-        'F',
-        "0907488458"),
+  Future<dynamic> saveLocal() async {
+    return localStorage.setItem(Parent.aliasName, json.encode(this));
+  }
+
+  Future<Parent> reloadData() async {
+    bool ready = await localStorage.ready;
+    if (ready) {
+      if (localStorage.getItem(Parent.aliasName) != null) {
+        print(jsonDecode(localStorage.getItem(Parent.aliasName)));
+        this.fromJson(jsonDecode(localStorage.getItem(Parent.aliasName)));
+
+        return this;
+      }
+    }
+    return this;
+  }
+
+  static List<Parent> info = [
+    Parent.newInstance(
+        id: 1,
+        name: 'Phu huynh',
+        gender: "M",
+        phone: "0907488458",
+        photo:
+            "https://health.uottawa.ca/sites/health.uottawa.ca/files/mparent.jpg")
   ];
 }
