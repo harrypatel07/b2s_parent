@@ -10,7 +10,7 @@ class UserPageViewModel extends ViewModelBase {
 
   UserPageViewModel() {
     isShowChildrenManager = false;
-    parent = Parent.info[0];
+    parent = new Parent();
     listChildren = Children.list;
   }
 
@@ -19,8 +19,8 @@ class UserPageViewModel extends ViewModelBase {
     this.updateState();
   }
 
-    @override
-    void dispose() {
+  @override
+  void dispose() {
     // TODO: implement dispose
     super.dispose();
   }

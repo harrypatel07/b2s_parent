@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
 
-class MonthModule{
+class MonthModule {
   DateTime _date;
   //0 empty
   //1 left
@@ -10,7 +9,6 @@ class MonthModule{
   Color _color;
   bool _isSelected;
   int _typeDraw;
-
   MonthModule(this._date);
 
   DateTime get date => _date;
@@ -26,12 +24,12 @@ class MonthModule{
   }
 
   bool get isSelected => _isSelected;
-  set isSelected(bool value){
+  set isSelected(bool value) {
     _isSelected = value;
   }
 
   Color get color => _color;
-  set color(Color value){
+  set color(Color value) {
     _color = value;
   }
 }

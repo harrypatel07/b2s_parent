@@ -83,10 +83,11 @@ class LoginPageViewModel extends ViewModelBase {
       );
 
       if (_checkLogin == StatusCodeGetToken.TRUE) {
+        // Lấy id của user
         var userInfo = await api.getUser();
         if (userInfo != null) {
-          var parentInfo = await api.getParentInfo(userInfo['partnerID']);
-          print(parentInfo);
+          //Đổ data vào parent model
+          await api.getParentInfo(userInfo['partnerID']);
         }
         LoadingDialog.hideLoadingDialog(context);
         ToastController.show(
@@ -94,10 +95,10 @@ class LoginPageViewModel extends ViewModelBase {
             duration: Duration(milliseconds: 300),
             message: translation.text("WAITING_MESSAGE.PERMISSION_CONNECT"));
 
-        // Future.delayed(const Duration(milliseconds: 300), () {
-        //   Navigator.pushReplacementNamed(context, TabsPage.routeName,
-        //       arguments: TabsArgument(routeChildName: HomePage.routeName));
-        // });
+        Future.delayed(const Duration(milliseconds: 300), () {
+          Navigator.pushReplacementNamed(context, TabsPage.routeName,
+              arguments: TabsArgument(routeChildName: HomePage.routeName));
+        });
         // Navigator.popAndPushNamed(context, TabsPage.routeName,
         //     arguments: TabsArgument(routeChildName: HomePage.routeName));
       } else {
