@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:b2s_parent/src/app/core/app_setting.dart';
 
 class ResPartner {
@@ -386,11 +388,14 @@ class ResPartner {
     hasUnreconciledEntries = json['has_unreconciled_entries'];
     id = json['id'];
     imStatus = json['im_status'];
-    image = "$domainApi/web/image?model=res.partner&field=image&id=$id";
-    imageMedium =
-        "$domainApi/web/image?model=res.partner&field=imageMedium&id=$id";
-    imageSmall =
-        "$domainApi/web/image?model=res.partner&field=imageSmall&id=$id";
+    // image = "$domainApi/web/image?model=res.partner&field=image&id=$id";
+    // imageMedium =
+    //     "$domainApi/web/image?model=res.partner&field=imageMedium&id=$id";
+    // imageSmall =
+    //     "$domainApi/web/image?model=res.partner&field=imageSmall&id=$id";
+    image = base64.decode(json['image']);
+    imageMedium = base64.decode(json['image_medium']);
+    imageSmall = base64.decode(json['image_small']);
     industryId = json['industry_id'];
     if (json["invoice_ids"] != null) {
       invoiceIds = List<dynamic>.from(

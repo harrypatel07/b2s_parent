@@ -123,28 +123,28 @@ class LocateBusPageViewModel extends ViewModelBase {
     var index = 0;
     this.updateState();
 
-    Timer.periodic(new Duration(seconds: 2), (timer) {
-      index++;
-      if (index == routes.length)
-        timer.cancel();
-      else {
-        final Marker _marker = markers[markerBus];
-        markers[markerBus] = _marker.copyWith(positionParam: routes[index]);
-        //if (index >= 1) polyline[selectedPolyline].points.add(routes[index]);
-        //Chuyển status children
-        if (index == 36) {
-          childrenBus.status = StatusBus.list[1];
-          childrenBus.notification = "Xe đang di chuyển,tốc độ 40km/h";
-          cloudSerivce.updateChildrenBusSession(childrenBus);
-        }
-        if (index == routes.length - 1) {
-          childrenBus.status = StatusBus.list[2];
-          childrenBus.notification = "Xe đã tới trường.";
-          cloudSerivce.updateChildrenBusSession(childrenBus);
-        }
-        this.updateState();
-      }
-    });
+    // Timer.periodic(new Duration(seconds: 2), (timer) {
+    //   index++;
+    //   if (index == routes.length)
+    //     timer.cancel();
+    //   else {
+    //     final Marker _marker = markers[markerBus];
+    //     markers[markerBus] = _marker.copyWith(positionParam: routes[index]);
+    //     //if (index >= 1) polyline[selectedPolyline].points.add(routes[index]);
+    //     //Chuyển status children
+    //     if (index == 36) {
+    //       childrenBus.status = StatusBus.list[1];
+    //       childrenBus.notification = "Xe đang di chuyển,tốc độ 40km/h";
+    //       cloudSerivce.updateChildrenBusSession(childrenBus);
+    //     }
+    //     if (index == routes.length - 1) {
+    //       childrenBus.status = StatusBus.list[2];
+    //       childrenBus.notification = "Xe đã tới trường.";
+    //       cloudSerivce.updateChildrenBusSession(childrenBus);
+    //     }
+    //     this.updateState();
+    //   }
+    // });
   }
 
   listenData(sessionID) {

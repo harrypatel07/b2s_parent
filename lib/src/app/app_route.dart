@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/pages/busAttendance/bus_attendance_page.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page.dart';
@@ -15,8 +16,19 @@ import 'package:b2s_parent/src/app/pages/user/settings/user_settings.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
+  static Widget defaultPage;
+  static navigateDefaultPage() async {
+    Parent parent = new Parent();
+    bool result = await parent.checkParentExist();
+    if (result)
+      Routes.defaultPage =
+          TabsPage(TabsArgument(routeChildName: HomePage.routeName));
+    else
+      Routes.defaultPage = LoginPage();
+  }
+
   static final Map<String, WidgetBuilder> route = {
-    '/': (context) => LoginPage(),
+    // '/': (context) => LoginPage(),
     LoginPage.routeName: (context) => LoginPage(),
     TabsPage.routeName: (context) =>
         TabsPage(ModalRoute.of(context).settings.arguments),
@@ -31,9 +43,12 @@ class Routes {
     MessageUserPage.routeName: (context) =>
         MessageUserPage(userId: ModalRoute.of(context).settings.arguments),
     NotificationPage.routeName: (context) => NotificationPage(),
-    PopupEditProfileChildren.routeName: (context) => PopupEditProfileChildren(ModalRoute.of(context).settings.arguments),
+    PopupEditProfileChildren.routeName: (context) =>
+        PopupEditProfileChildren(ModalRoute.of(context).settings.arguments),
     UserSettingsPage.routeName: (context) => UserSettingsPage(),
-    ProfileChildrenPage.routeName:(context) => ProfileChildrenPage(children: ModalRoute.of(context).settings.arguments,)
+    ProfileChildrenPage.routeName: (context) => ProfileChildrenPage(
+          children: ModalRoute.of(context).settings.arguments,
+        )
   };
 }
 

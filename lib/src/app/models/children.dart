@@ -1,12 +1,16 @@
+import 'dart:typed_data';
+
+import 'package:b2s_parent/src/app/models/res-partner.dart';
+
 class Children {
   int id;
-  String name;
-  String photo;
-  String location = 'HCM, VN.';
-  String gender;
-  int age;
+  dynamic name;
+  dynamic photo;
+  dynamic location = 'HCM, VN.';
+  dynamic gender;
+  dynamic age;
   bool primary;
-  String schoolName;
+  dynamic schoolName;
 
   Children(
       {this.id,
@@ -17,10 +21,21 @@ class Children {
       this.primary,
       this.schoolName});
 
+  Children.fromResPartner(ResPartner children, {bool primary}) {
+    id = children.id;
+    name = children.name;
+    photo = children.image;
+    location = children.contactAddress;
+    gender = children.title;
+    this.primary = primary;
+  }
+
   Children.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    photo = json['photo'];
+    List photoUint8 = json['photo'];
+    photoUint8 = photoUint8.cast<int>();
+    photo = Uint8List.fromList(photoUint8);
     location = json['location'];
     gender = json['gender'];
     age = json['age'];

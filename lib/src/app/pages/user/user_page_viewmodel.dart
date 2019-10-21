@@ -11,7 +11,7 @@ class UserPageViewModel extends ViewModelBase {
   UserPageViewModel() {
     isShowChildrenManager = false;
     parent = new Parent();
-    listChildren = Children.list;
+    listChildren = parent.listChildren;
   }
 
   updateStatusChildrenManager() {

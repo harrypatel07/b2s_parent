@@ -69,15 +69,20 @@ class _UserPageState extends State<UserPage>
                         },
                         child: Hero(
                           tag: children.photo,
-                          child: new CachedNetworkImage(
-                            imageUrl: children.photo,
-                            imageBuilder: (context, imageProvider) =>
-                                CircleAvatar(
-                              radius: 20.0,
-                              backgroundImage: imageProvider,
-                              backgroundColor: Colors.transparent,
-                            ),
+                          child: CircleAvatar(
+                            radius: 20.0,
+                            backgroundImage: MemoryImage(children.photo),
+                            backgroundColor: Colors.transparent,
                           ),
+                          // new CachedNetworkImage(
+                          //   imageUrl: children.photo,
+                          //   imageBuilder: (context, imageProvider) =>
+                          //       CircleAvatar(
+                          //     radius: 20.0,
+                          //     backgroundImage: imageProvider,
+                          //     backgroundColor: Colors.transparent,
+                          //   ),
+                          // ),
                         ),
                       ),
                       new Flexible(
@@ -177,19 +182,28 @@ class _UserPageState extends State<UserPage>
       color: Colors.grey.shade200,
     );
 
-    final userImage = CachedNetworkImage(
-        imageUrl: viewModel.parent.photo,
-        imageBuilder: (context, imageProvider) => Container(
-              height: 100.0,
-              width: 100.0,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
-                ),
-                shape: BoxShape.circle,
-              ),
-            ));
+    // final userImage = CachedNetworkImage(
+    //     imageUrl: viewModel.parent.photo,
+    //     imageBuilder: (context, imageProvider) => Container(
+    //           height: 100.0,
+    //           width: 100.0,
+    //           decoration: BoxDecoration(
+    //             image: DecorationImage(
+    //               image: imageProvider,
+    //               fit: BoxFit.cover,
+    //             ),
+    //             shape: BoxShape.circle,
+    //           ),
+    //         ));
+    final userImage = Container(
+      height: 100.0,
+      width: 100.0,
+      decoration: BoxDecoration(
+        color: Colors.red,
+        image: DecorationImage(image: MemoryImage(viewModel.parent.photo)),
+        shape: BoxShape.circle,
+      ),
+    );
 
     final userName = Container(
       child: Column(
