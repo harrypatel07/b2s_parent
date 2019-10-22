@@ -8,39 +8,59 @@ class Children {
   dynamic photo;
   dynamic location = 'HCM, VN.';
   dynamic gender;
+  dynamic genderId;
   dynamic age;
   bool primary;
   dynamic schoolName;
+  dynamic phone;
+  dynamic email;
+  dynamic parentId;
+  Children({
+    this.id,
+    this.name,
+    this.photo,
+    this.gender,
+    this.age,
+    this.primary,
+    this.schoolName,
+    this.phone,
+    this.email,
+    this.parentId,
+    this.genderId,
+  });
 
-  Children(
-      {this.id,
-      this.name,
-      this.photo,
-      this.gender,
-      this.age,
-      this.primary,
-      this.schoolName});
-
-  Children.fromResPartner(ResPartner children, {bool primary}) {
-    id = children.id;
-    name = children.name;
-    photo = children.image;
-    location = children.contactAddress;
-    gender = children.title;
+  Children.fromResPartner(ResPartner resPartner, {bool primary}) {
+    id = resPartner.id;
+    name = resPartner.name;
+    photo = resPartner.image;
+    location = resPartner.contactAddress;
+    if (resPartner.title is List) {
+      gender = resPartner.title[1];
+      genderId = resPartner.title[0];
+    }
+    email = resPartner.email;
+    phone = resPartner.phone;
+    if (resPartner.parentId is List) parentId = resPartner.parentId[0];
     this.primary = primary;
   }
 
   Children.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    List photoUint8 = json['photo'];
-    photoUint8 = photoUint8.cast<int>();
-    photo = Uint8List.fromList(photoUint8);
+    if (json['photo'] is List) {
+      List photoUint8 = json['photo'];
+      photoUint8 = photoUint8.cast<int>();
+      photo = Uint8List.fromList(photoUint8);
+    } else if (!(json['photo'] is bool)) photo = json['photo'];
     location = json['location'];
     gender = json['gender'];
+    genderId = json['genderId'];
     age = json['age'];
     primary = json['primary'];
     schoolName = json['schoolName'];
+    phone = json['phone'];
+    email = json['email'];
+    parentId = json['parentId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,9 +70,13 @@ class Children {
     data["photo"] = this.photo;
     data["location"] = this.location;
     data["gender"] = this.gender;
+    data["genderId"] = this.genderId;
     data["age"] = this.age;
     data["primary"] = this.primary;
     data["schoolName"] = this.schoolName;
+    data["phone"] = this.phone;
+    data["email"] = this.email;
+    data["parentId"] = this.parentId;
     return data;
   }
 

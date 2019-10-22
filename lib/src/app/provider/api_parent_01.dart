@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
+import 'package:b2s_parent/src/app/models/res-partner-title.dart';
 import 'package:b2s_parent/src/app/models/res-partner.dart';
 import 'package:http/http.dart' as http;
 
@@ -64,6 +65,76 @@ class Api1 extends ApiMaster {
       return listResult;
     }).catchError((error) {
       return listResult;
+    });
+  }
+
+  ///Lấy thông tin title(gender) của khách hàng
+  Future<List<ResPartnerTitle>> getTitleCustomer() async {
+    await this.authorization();
+    List<ResPartnerTitle> listResult = new List();
+    return http
+        .get('${this.api}/search_read/res.partner.title', headers: this.headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 200) {
+        List list = json.decode(response.body);
+        if (list.length > 0)
+          listResult =
+              list.map((item) => ResPartnerTitle.fromJson(item)).toList();
+      }
+      return listResult;
+    }).catchError((error) {
+      return listResult;
+    });
+  }
+
+  ///Update thông tin khách hàng
+  ///
+  ///Success - Trả về true
+  ///
+  ///Fail - Trả về false
+  Future<bool> updateCustomer(ResPartner partner) async {
+    await this.authorization();
+    body = new Map();
+    body["model"] = "res.partner";
+    body["ids"] = json.encode([partner.id]);
+    body["values"] = json.encode(partner.toJson());
+    return http
+        .put('${this.api}/write', headers: this.headers, body: body)
+        .then((http.Response response) {
+      var result = false;
+      if (response.statusCode == 200) {
+        print(response.body);
+        result = true;
+        //print(list);
+      } else {
+        result = false;
+      }
+      return result;
+    });
+  }
+
+  ///Insert thông tin khách hàng
+  ///
+  ///Success - Trả về new id
+  ///
+  ///Fail - Trả về null
+  Future<dynamic> insertCustomer(ResPartner partner) async {
+    await this.authorization();
+    body = new Map();
+    body["model"] = "res.partner";
+    body["values"] = json.encode(partner.toJson());
+    return http
+        .post('${this.api}/create', headers: this.headers, body: body)
+        .then((http.Response response) {
+      var result;
+      if (response.statusCode == 200) {
+        print(response.body);
+        if (response.body is List) result = response.body[0];
+        //print(list);
+      } else {
+        result = null;
+      }
+      return result;
     });
   }
 }

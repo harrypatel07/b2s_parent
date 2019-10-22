@@ -12,6 +12,7 @@ class Parent {
   dynamic email;
   dynamic phone;
   dynamic gender;
+  dynamic genderId;
   dynamic contactAddress;
   List<Children> listChildren;
   static dynamic aliasName = "Parent";
@@ -40,14 +41,17 @@ class Parent {
     contactAddress = contactAddress;
   }
 
-  fromResPartner(ResPartner parent, List<ResPartner> child) {
-    id = parent.id;
-    name = parent.name;
-    photo = parent.image;
-    email = parent.email;
-    phone = parent.phone;
-    gender = parent.title;
-    contactAddress = parent.contactAddress;
+  fromResPartner(ResPartner resPartner, List<ResPartner> child) {
+    id = resPartner.id;
+    name = resPartner.name;
+    photo = resPartner.image;
+    email = resPartner.email;
+    phone = resPartner.phone;
+    if (resPartner.title is List) {
+      gender = resPartner.title[1];
+      genderId = resPartner.title[0];
+    }
+    contactAddress = resPartner.contactAddress;
     int index = 0;
     listChildren = child.map((item) {
       bool primary = false;
@@ -66,6 +70,7 @@ class Parent {
     email = json['email'];
     phone = json['phone'];
     gender = json['gender'];
+    genderId = json['genderId'];
     contactAddress = json['contactAddress'];
     List list = json['listChildren'];
     listChildren = list.map((item) => Children.fromJson(item)).toList();
@@ -79,6 +84,7 @@ class Parent {
     data['email'] = this.email;
     data['phone'] = this.phone;
     data['gender'] = this.gender;
+    data['genderId'] = this.genderId;
     data['contactAddress'] = this.contactAddress;
     data['listChildren'] =
         this.listChildren.map((item) => item.toJson()).toList();
