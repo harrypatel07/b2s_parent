@@ -19,6 +19,7 @@ class TabsPageViewModel extends ViewModelBase {
     homePageViewModel = HomePageViewModel();
     userPageViewModel = UserPageViewModel();
     cloudService.syncColectionChildrenBusSession();
+    cloudService.sendMessage();
   }
   onTapped(int index) {
     currentTabIndex = index;

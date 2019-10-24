@@ -54,4 +54,26 @@ class CloudFiresStoreService {
   Stream<QuerySnapshot> listenAllChildrenBusSession() {
     return _firestore.collection("childrenBusSession").snapshots();
   }
+
+  sendMessage() {
+    final groupChatId = "User01-User02";
+    var documentReference = _firestore
+        .collection('chat')
+        .document(groupChatId)
+        .collection(String.fromCharCodes(groupChatId.runes.toList().reversed))
+        .document();
+
+    _firestore.runTransaction((transaction) async {
+      await transaction.set(
+        documentReference,
+        {
+          'senderId': "User01",
+          'receiverId': "User02",
+          'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
+          'content': "234",
+          'type': 0
+        },
+      );
+    });
+  }
 }

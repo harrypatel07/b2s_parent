@@ -87,6 +87,24 @@ class Api1 extends ApiMaster {
     });
   }
 
+  ///Lấy danh sách contact for user to chat
+  Future<dynamic> getListContact() async {
+    await this.authorization();
+    List<ResPartner> listResult = List();
+    return http
+        .get('${this.api}/search_read/res.partner', headers: this.headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 200) {
+        List list = json.decode(response.body);
+        if (list.length > 0)
+          listResult = list.map((item) => ResPartner.fromJson(item)).toList();
+      }
+      return listResult;
+    }).catchError((error) {
+      return listResult;
+    });
+  }
+
   ///Update thông tin khách hàng
   ///
   ///Success - Trả về true
