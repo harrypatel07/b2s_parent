@@ -16,6 +16,8 @@ const String password_client_secret = 'a2EEtXnVfjf1QPRy7CAzkdPpbiYP0m';
 
 final String ggKey = "AIzaSyCjB1Kh7OstaDns8ie6uPysWEWa_vwS3iw";
 
+const superKeyEncrypt = "b2s@#encrypt";
+
 const emptyState = {
   'assetImage': AssetImage('assets/images/empty.png'),
   'assetPath': 'assets/images/empty.png',

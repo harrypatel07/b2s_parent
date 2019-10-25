@@ -1,8 +1,12 @@
 import 'dart:convert';
 
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
+import 'package:b2s_parent/src/app/service/encrypt-service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:encrypt/encrypt.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+
+import 'common-service.dart';
 
 class CloudFiresStoreService {
   final Geoflutterfire _geo = Geoflutterfire();
@@ -56,7 +60,14 @@ class CloudFiresStoreService {
   }
 
   sendMessage() {
-    final groupChatId = "User01-User02";
+    var id = EncrypteService.encrypt("User01").base64,
+        peerId = EncrypteService.encrypt("User02").base64,
+        groupChatId = "";
+    if (id.hashCode <= peerId.hashCode) {
+      groupChatId = '$id-$peerId';
+    } else {
+      groupChatId = '$peerId-$id';
+    }
     var documentReference = _firestore
         .collection('chat')
         .document(groupChatId)
