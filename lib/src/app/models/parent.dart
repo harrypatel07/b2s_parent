@@ -14,12 +14,17 @@ class Parent {
   dynamic gender;
   dynamic genderId;
   dynamic contactAddress;
+  dynamic lat;
+  dynamic lng;
   List<Children> listChildren;
   static dynamic aliasName = "Parent";
-  static final Parent _singleton = new Parent._internal();
+  static Parent _singleton;
 
   factory Parent() {
-    return _singleton;
+    if (_singleton != null)
+      return _singleton;
+    else
+      return _singleton = new Parent._internal();
   }
 
   Parent._internal();
@@ -31,7 +36,9 @@ class Parent {
       this.email,
       this.phone,
       this.gender,
-      this.contactAddress}) {
+      this.contactAddress,
+      this.lat,
+      this.lng}) {
     id = id;
     name = name;
     photo = photo;
@@ -93,6 +100,16 @@ class Parent {
 
   Future<dynamic> saveLocal() async {
     return localStorage.setItem(Parent.aliasName, json.encode(this));
+  }
+
+  Future<dynamic> clearLocal() async {
+    bool ready = await localStorage.ready;
+    if (ready) {
+      if (localStorage.getItem(Parent.aliasName) != null) {
+        localStorage.deleteItem(Parent.aliasName);
+        _singleton = null;
+      }
+    }
   }
 
   Future<Parent> reloadData() async {

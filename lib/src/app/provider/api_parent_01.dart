@@ -88,7 +88,7 @@ class Api1 extends ApiMaster {
   }
 
   ///Lấy danh sách contact for user to chat
-  Future<dynamic> getListContact() async {
+  Future<List<ResPartner>> getListContact() async {
     await this.authorization();
     List<ResPartner> listResult = List();
     return http

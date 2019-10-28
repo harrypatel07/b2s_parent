@@ -1,8 +1,6 @@
 import 'dart:ui';
-import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/theme/sizeConfig.dart';
-import 'package:crypto/crypto.dart';
-import 'package:encrypt/encrypt.dart';
+
 import 'package:flutter/material.dart' hide Key;
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -78,6 +76,24 @@ class Common {
     }
     result["time"] = DateFormat('hh:mm a').format(day);
     return result;
+  }
+
+  static createKeyWord(String name, {String split = ''}) {
+    var arrName = [], curName = '';
+    name.split(split).forEach((letter) {
+      curName += letter;
+      arrName.add(curName);
+    });
+    return arrName;
+  }
+
+  static createKeyWordForChat(String name, {String split = ''}) {
+    var arrName = [], curName = '';
+    name.split(split).forEach((letter) {
+      curName = letter;
+      arrName.add(curName);
+    });
+    return arrName;
   }
 }
 

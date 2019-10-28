@@ -1,13 +1,10 @@
 import 'dart:convert';
 
-import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/user/user_page_viewmodel.dart';
-import 'package:b2s_parent/src/app/service/cloudFirestore-service.dart';
-import 'package:crypto/crypto.dart';
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 
@@ -17,13 +14,13 @@ class TabsPageViewModel extends ViewModelBase {
   LocateBusPageViewModel locateBusPageViewModel;
   HomePageViewModel homePageViewModel;
   UserPageViewModel userPageViewModel;
-  CloudFiresStoreService cloudService = CloudFiresStoreService();
+  // CloudFiresStoreService cloudService = CloudFiresStoreService();
   TabsPageViewModel() {
     locateBusPageViewModel = LocateBusPageViewModel();
     homePageViewModel = HomePageViewModel();
     userPageViewModel = UserPageViewModel();
-    cloudService.syncColectionChildrenBusSession();
-    cloudService.sendMessage();
+    cloudService.busSession.syncColectionChildrenBusSession();
+    // cloudService.sendMessage();
   }
   onTapped(int index) {
     currentTabIndex = index;

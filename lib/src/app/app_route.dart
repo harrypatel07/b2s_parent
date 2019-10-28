@@ -39,7 +39,7 @@ class Routes {
     LeavePage.routeName: (context) => LeavePage(),
     MessagePage.routeName: (context) => MessagePage(),
     MessageDetailPage.routeName: (context) =>
-        MessageDetailPage(userId: ModalRoute.of(context).settings.arguments),
+        MessageDetailPage(peerId: ModalRoute.of(context).settings.arguments),
     MessageUserPage.routeName: (context) =>
         MessageUserPage(userId: ModalRoute.of(context).settings.arguments),
     NotificationPage.routeName: (context) => NotificationPage(),

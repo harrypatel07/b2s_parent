@@ -38,7 +38,6 @@ class LocateBusPageViewModel extends ViewModelBase {
   Firestore firestore = Firestore.instance;
   Geoflutterfire geo = Geoflutterfire();
   DocumentReference docRef;
-  CloudFiresStoreService cloudSerivce = CloudFiresStoreService();
   StreamSubscription streamCloud;
   LocateBusPageViewModel() {
     childrenBus = ChildrenBusSession.list.singleWhere((item) =>
@@ -149,7 +148,7 @@ class LocateBusPageViewModel extends ViewModelBase {
 
   listenData(sessionID) {
     if (streamCloud != null) streamCloud.cancel();
-    streamCloud = cloudSerivce
+    streamCloud = cloudService.busSession
         .listenChildrenBusSession(childrenBus.sessionID)
         .listen((onData) {
       childrenBus.fromJson(onData.data);

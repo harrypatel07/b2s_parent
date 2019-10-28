@@ -16,24 +16,24 @@ class UserPageViewModel extends ViewModelBase {
     listChildren = parent.listChildren;
 
     //demo update insert children
-    api.getTitleCustomer().then((value) {
-      print(value);
-      listChildren[0].name = "Học sinh nữ";
-      listChildren[0].gender = value[0].displayName;
-      listChildren[0].genderId = value[0].id;
-      ResPartner child = ResPartner.fromChildren(listChildren[0]);
-      api.updateCustomer(child).then((result) {
-        if (result) parent.saveLocal();
-      });
-      // Children newChild = Children();
-      // newChild.name = "Học sinh nam";
-      // newChild.parentId = parent.id;
-      // newChild.age = 12;
-      // listChildren.add(newChild);
-      // api.insertCustomer(ResPartner.fromChildren(newChild)).then((result) {
-      //   if (result) parent.saveLocal();
-      // });
-    });
+    // api.getTitleCustomer().then((value) {
+    //   print(value);
+    //   listChildren[0].name = "Học sinh nữ";
+    //   listChildren[0].gender = value[0].displayName;
+    //   listChildren[0].genderId = value[0].id;
+    //   ResPartner child = ResPartner.fromChildren(listChildren[0]);
+    //   api.updateCustomer(child).then((result) {
+    //     if (result) parent.saveLocal();
+    //   });
+    //   // Children newChild = Children();
+    //   // newChild.name = "Học sinh nam";
+    //   // newChild.parentId = parent.id;
+    //   // newChild.age = 12;
+    //   // listChildren.add(newChild);
+    //   // api.insertCustomer(ResPartner.fromChildren(newChild)).then((result) {
+    //   //   if (result) parent.saveLocal();
+    //   // });
+    // });
   }
 
   updateStatusChildrenManager() {

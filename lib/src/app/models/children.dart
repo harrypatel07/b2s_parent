@@ -15,19 +15,25 @@ class Children {
   dynamic phone;
   dynamic email;
   dynamic parentId;
-  Children({
-    this.id,
-    this.name,
-    this.photo,
-    this.gender,
-    this.age,
-    this.primary,
-    this.schoolName,
-    this.phone,
-    this.email,
-    this.parentId,
-    this.genderId,
-  });
+  dynamic paidTicket;
+  dynamic lat;
+  dynamic lng;
+  Children(
+      {this.id,
+      this.name,
+      this.photo,
+      this.gender,
+      this.age,
+      this.primary,
+      this.schoolName,
+      this.phone,
+      this.email,
+      this.parentId,
+      this.genderId,
+      this.paidTicket,
+      this.location,
+      this.lat,
+      this.lng});
 
   Children.fromResPartner(ResPartner resPartner, {bool primary}) {
     id = resPartner.id;
