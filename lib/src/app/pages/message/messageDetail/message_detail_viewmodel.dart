@@ -1,13 +1,17 @@
 import 'dart:async';
 
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
-import 'package:b2s_parent/src/app/service/index.dart';
+import 'package:b2s_parent/src/app/models/chat.dart';
+import 'package:b2s_parent/src/app/models/message.dart';
+import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:flutter/material.dart';
 
 class MessageDetailViewModel extends ViewModelBase {
   TextEditingController _textMessageController = new TextEditingController();
   get textMessageController => _textMessageController;
-
+  ScrollController listScrollController = new ScrollController();
+  Parent parent = Parent();
+  Chatting chat;
   MessageDetailViewModel() {
     _textMessageController.addListener(() {
       this.updateState();
@@ -17,16 +21,37 @@ class MessageDetailViewModel extends ViewModelBase {
   @override
   void dispose() {
     _textMessageController.dispose();
-    streamCloud.cancel();
+    if (streamCloud != null) streamCloud.cancel();
     super.dispose();
   }
 
-  onSendMessage() async {
-    await cloudService.chat.sendMessage(
-        strId: "fas2wdasdf48", strPeerId: "fasfasfas24", content: "abc");
-    var _snap = await cloudService.chat.listenListMessageByUserId("48");
+  Future listenData() async {
+    if (streamCloud != null) streamCloud.cancel();
+    final _snap = await cloudService.chat.listenListMessageByIdAndPeerId(
+        parent.id.toString(), chat.peerId.toString());
     streamCloud = _snap.listen((onData) {
-      print(onData);
+      if (onData.documents.length > 0) {
+        chat.listMessage = onData.documents
+            .map((item) => Messages.fromDocumentSnapShot(item))
+            .toList();
+      }
+      loading = false;
+      this.updateState();
     });
+  }
+
+  onSendMessage() async {
+    if (_textMessageController.text.trim() != '') {
+      var _content = _textMessageController.text.trim();
+      textMessageController.clear();
+      await cloudService.chat.sendMessage(
+          strId: parent.id.toString(),
+          strPeerId: chat.peerId.toString(),
+          content: _content);
+      listScrollController.animateTo(0.0,
+          duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+    }
+    //  else
+    //   Fluttertoast.showToast(msg: 'Nothing to send');
   }
 }

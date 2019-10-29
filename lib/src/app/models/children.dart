@@ -46,6 +46,8 @@ class Children {
     }
     email = resPartner.email;
     phone = resPartner.phone;
+    schoolName = "";
+    paidTicket = false;
     if (resPartner.parentId is List) parentId = resPartner.parentId[0];
     this.primary = primary;
   }
@@ -67,6 +69,9 @@ class Children {
     phone = json['phone'];
     email = json['email'];
     parentId = json['parentId'];
+    paidTicket = json['paidTicket'];
+    lat = json['lat'];
+    lng = json['lng'];
   }
 
   Map<String, dynamic> toJson() {
@@ -83,6 +88,9 @@ class Children {
     data["phone"] = this.phone;
     data["email"] = this.email;
     data["parentId"] = this.parentId;
+    data["paidTicket"] = this.paidTicket;
+    data["lat"] = this.lat;
+    data["lng"] = this.lng;
     return data;
   }
 
@@ -95,6 +103,7 @@ class Children {
         gender: 'F',
         age: 12,
         primary: true,
+        paidTicket: true,
         schoolName: "VStar school"),
     Children(
         id: 2,
@@ -104,6 +113,7 @@ class Children {
         gender: 'F',
         age: 10,
         primary: false,
+        paidTicket: true,
         schoolName: "VStar school"),
   ];
 
@@ -118,8 +128,13 @@ class Children {
     return list;
   }
 
+  static List<Children> getListChildrenPaidTicket(List<Children> list) {
+    return list.where((child) => child.paidTicket == true).toList();
+  }
+
   static Children getChildrenPrimary(List<Children> list) {
-    return list.singleWhere((child) => child.primary == true);
+    return list.firstWhere((child) => child.primary == true,
+        orElse: () => null);
   }
 
   static List<Children> getChildrenNotPrimary(List<Children> list) {

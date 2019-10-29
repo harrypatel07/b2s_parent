@@ -31,28 +31,39 @@ class _SideMenuPageState extends State<SideMenuPage> {
           fit: BoxFit.cover,
         ),
       ),
-      accountName: Text(
-        viewModel.childPrimary.name,
-        style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontSize: 20,
-            fontWeight: FontWeight.bold),
-      ),
-      accountEmail: Text(
-        viewModel.childPrimary.schoolName,
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      currentAccountPicture: CachedNetworkImage(
-        imageUrl: viewModel.childPrimary.photo,
-        imageBuilder: (context, imageProvider) => CircleAvatar(
-          radius: 35.0,
-          backgroundImage: imageProvider,
-          backgroundColor: Colors.transparent,
-        ),
-      ),
+      accountName: viewModel.childPrimary != null
+          ? Text(
+              viewModel.childPrimary.name,
+              style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            )
+          : Container(),
+      accountEmail: viewModel.childPrimary != null
+          ? Text(
+              viewModel.childPrimary.schoolName,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            )
+          : Container(),
+      currentAccountPicture: viewModel.childPrimary != null
+          ? CircleAvatar(
+              radius: 35.0,
+              backgroundImage: MemoryImage(viewModel.childPrimary.photo),
+              backgroundColor: Colors.transparent,
+            )
+          : Container(),
+      //  CachedNetworkImage(
+      //   imageUrl: viewModel.childPrimary.photo,
+      //   imageBuilder: (context, imageProvider) => CircleAvatar(
+      //     radius: 35.0,
+      //     backgroundImage: imageProvider,
+      //     backgroundColor: Colors.transparent,
+      //   ),
+      // ),
       // CircleAvatar(
       //   backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
       //       ? Colors.blue
@@ -64,7 +75,8 @@ class _SideMenuPageState extends State<SideMenuPage> {
       //   ),
       // ),
       otherAccountsPictures: <Widget>[
-        ...viewModel.listChildOther.map((children) => GestureDetector(
+        ...viewModel.listChildOther.map(
+          (children) => GestureDetector(
             onTap: () {
               viewModel.switchUser(children);
             },
@@ -80,14 +92,20 @@ class _SideMenuPageState extends State<SideMenuPage> {
                 //     fit: BoxFit.cover,
                 //   ),
                 // ),
-                CachedNetworkImage(
-              imageUrl: children.photo,
-              imageBuilder: (context, imageProvider) => CircleAvatar(
-                radius: 35.0,
-                backgroundImage: imageProvider,
-                backgroundColor: Colors.transparent,
-              ),
-            )))
+                //   CachedNetworkImage(
+                // imageUrl: children.photo,
+                // imageBuilder: (context, imageProvider) => CircleAvatar(
+                //   radius: 35.0,
+                //   backgroundImage: imageProvider,
+                //   backgroundColor: Colors.transparent,
+                // ),
+                CircleAvatar(
+              radius: 35.0,
+              backgroundImage: MemoryImage(children.photo),
+              backgroundColor: Colors.transparent,
+            ),
+          ),
+        )
       ],
     );
   }

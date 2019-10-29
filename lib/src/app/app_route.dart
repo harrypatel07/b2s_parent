@@ -15,15 +15,21 @@ import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children.
 import 'package:b2s_parent/src/app/pages/user/settings/user_settings.dart';
 import 'package:flutter/material.dart';
 
+import 'core/app_setting.dart';
+
 class Routes {
   static Widget defaultPage;
   static navigateDefaultPage() async {
     Parent parent = new Parent();
     bool result = await parent.checkParentExist();
-    if (result)
+    if (result) {
+      //Lấy lại danh sách children đã mua vé
+      api.getParentInfo(parent.id).then((_) {
+        api.getTicketOfListChildren();
+      });
       Routes.defaultPage =
           TabsPage(TabsArgument(routeChildName: HomePage.routeName));
-    else
+    } else
       Routes.defaultPage = LoginPage();
   }
 
@@ -39,7 +45,7 @@ class Routes {
     LeavePage.routeName: (context) => LeavePage(),
     MessagePage.routeName: (context) => MessagePage(),
     MessageDetailPage.routeName: (context) =>
-        MessageDetailPage(peerId: ModalRoute.of(context).settings.arguments),
+        MessageDetailPage(chatting: ModalRoute.of(context).settings.arguments),
     MessageUserPage.routeName: (context) =>
         MessageUserPage(userId: ModalRoute.of(context).settings.arguments),
     NotificationPage.routeName: (context) => NotificationPage(),

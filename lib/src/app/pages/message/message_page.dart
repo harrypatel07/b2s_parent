@@ -54,11 +54,7 @@ class _MessagePageState extends State<MessagePage> {
                     ),
                     ListTile(
                       onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          MessageDetailPage.routeName,
-                          arguments: _model.peerId,
-                        );
+                        viewModel.onItemClick(_model);
                       },
                       leading: InkWell(
                         onTap: () {
@@ -68,38 +64,44 @@ class _MessagePageState extends State<MessagePage> {
                             arguments: _model.peerId,
                           );
                         },
-                        child:
-                            //  Hero(
-                            //     tag: _model.avatarUrl,
-                            //     child:
-                            // CachedNetworkImage(
-                            //   imageUrl: _model.avatarUrl,
-                            //   imageBuilder: (context, imageProvider) => CircleAvatar(
-                            //     radius: 24.0,
-                            //     backgroundImage: imageProvider,
-                            //     backgroundColor: Colors.transparent,
-                            //   ),
-                            // ),
-                            CircleAvatar(
-                          radius: 24.0,
-                          // backgroundImage: MemoryImage(_model.avatarUrl),
-                          backgroundColor: Colors.transparent,
+                        child: Hero(
+                          tag: _model.peerId,
+                          child:
+                              // CachedNetworkImage(
+                              //   imageUrl: _model.avatarUrl,
+                              //   imageBuilder: (context, imageProvider) => CircleAvatar(
+                              //     radius: 24.0,
+                              //     backgroundImage: imageProvider,
+                              //     backgroundColor: Colors.transparent,
+                              //   ),
+                              // ),
+                              CircleAvatar(
+                            radius: 24.0,
+                            backgroundImage: MemoryImage(_model.avatarUrl),
+                            backgroundColor: Colors.transparent,
+                          ),
                         ),
-                        //  ),
                       ),
                       title: Row(
                         children: <Widget>[
-                          Text(_model.name,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20)),
-                          SizedBox(
-                            width: 16.0,
+                          Expanded(
+                            child: Text(_model.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20)),
                           ),
-                          Text(
-                            _model.datetime,
-                            style: TextStyle(fontSize: 12.0),
+                          // SizedBox(
+                          //   width: 16.0,
+                          // ),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                _model.datetime,
+                                style: TextStyle(fontSize: 12.0),
+                              ),
+                            ),
                           ),
                         ],
                       ),

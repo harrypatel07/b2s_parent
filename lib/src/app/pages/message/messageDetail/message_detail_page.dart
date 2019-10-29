@@ -1,4 +1,5 @@
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
+import 'package:b2s_parent/src/app/models/message.dart';
 import 'package:b2s_parent/src/app/pages/message/messageDetail/message_detail_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/message/messageUser/message_user_page.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
@@ -6,11 +7,13 @@ import 'package:b2s_parent/src/app/widgets/chat_bubble.dart';
 import 'package:b2s_parent/src/app/models/chat.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MessageDetailPage extends StatefulWidget {
-  final dynamic peerId;
+  final Chatting chatting;
+
   static const String routeName = "/messageDetail";
-  MessageDetailPage({Key key, this.peerId}) : super(key: key);
+  MessageDetailPage({Key key, this.chatting}) : super(key: key);
   @override
   _MessageDetailPageState createState() => _MessageDetailPageState();
 }
@@ -18,44 +21,56 @@ class MessageDetailPage extends StatefulWidget {
 class _MessageDetailPageState extends State<MessageDetailPage> {
   MessageDetailViewModel viewModel = MessageDetailViewModel();
   @override
+  void initState() {
+    viewModel.chat = widget.chatting;
+    viewModel.listenData();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     viewModel.context = context;
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
 
-    final ChatModel chat =
-        ChatModel.dummyData.singleWhere((chat) => chat.peerId == 1);
-
-    final userImage = InkWell(
+    Widget userImage() => InkWell(
         onTap: () => Navigator.pushNamed(context, MessageUserPage.routeName,
-            arguments: widget.peerId),
+            arguments: widget.chatting.peerId),
         child: Hero(
-          tag: chat.avatarUrl,
-          child: CachedNetworkImage(
-            imageUrl: chat.avatarUrl,
-            imageBuilder: (context, imageProvider) => Container(
-              margin: EdgeInsets.only(right: 8.0, bottom: 10.0),
-              height: 50.0,
-              width: 50.0,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
-                ),
-                shape: BoxShape.circle,
+          tag: viewModel.chat.name,
+          child: Container(
+            margin: EdgeInsets.only(right: 8.0, bottom: 10.0),
+            height: 50.0,
+            width: 50.0,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: MemoryImage(viewModel.chat.avatarUrl),
+                fit: BoxFit.cover,
               ),
+              shape: BoxShape.circle,
             ),
           ),
+          //  CachedNetworkImage(
+          //   imageUrl: viewModel.chat.avatarUrl,
+          //   imageBuilder: (context, imageProvider) => Container(
+          //     margin: EdgeInsets.only(right: 8.0, bottom: 10.0),
+          //     height: 50.0,
+          //     width: 50.0,
+          //     decoration: BoxDecoration(
+          //       image: DecorationImage(
+          //         image: imageProvider,
+          //         fit: BoxFit.cover,
+          //       ),
+          //       shape: BoxShape.circle,
+          //     ),
+          //   ),
+          // ),
         ));
-
-    final userName = Hero(
-      tag: chat.name,
-      child: Text(
-        chat.name,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-        ),
+    final userName = Text(
+      viewModel.chat.name,
+      style: TextStyle(
+        fontSize: 20.0,
+        fontWeight: FontWeight.bold,
       ),
     );
 
@@ -71,8 +86,8 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
                   onPressed: () => Navigator.pop(context),
                   icon: Icon(Icons.arrow_back),
                 ),
-                userName,
-                userImage
+                Expanded(child: userName),
+                userImage()
               ],
             ),
           ),
@@ -102,18 +117,30 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
           ),
         );
 
-    Widget _messageList() => chat.listMessage.length > 0
-        ? ListView.builder(
-            padding: EdgeInsets.only(bottom: 40),
-            scrollDirection: Axis.vertical,
-            itemCount: chat.listMessage.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ChatBubble(
-                message: chat.listMessage[index],
-              );
-            },
-          )
-        : Container();
+    Widget _messageList() {
+      return viewModel.chat.listMessage.length > 0
+          ? ListView.builder(
+              controller: viewModel.listScrollController,
+              padding: EdgeInsets.only(bottom: 60),
+              scrollDirection: Axis.vertical,
+              itemCount: viewModel.chat.listMessage.length,
+              reverse: true,
+              itemBuilder: (BuildContext context, int index) {
+                var chat = viewModel.chat.listMessage[index];
+                // return __buildItem(index, viewModel.chat.listMessage[index]);
+                return ChatBubble(
+                  message: MessageBubble(
+                      timestamp: chat.timestamp,
+                      avatarUrl: viewModel.chat.avatarUrl,
+                      body: chat.content,
+                      fromMe: chat.receiverId == viewModel.chat.peerId
+                          ? true
+                          : false),
+                );
+              },
+            )
+          : Container();
+    }
 
     Widget _inputBox() => Positioned(
           bottom: 0,
@@ -138,7 +165,11 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
                 ),
                 _textInput(),
                 IconButton(
-                  onPressed: viewModel.onSendMessage,
+                  onPressed: () {
+                    viewModel.onSendMessage();
+                    //hide keyboard
+                    FocusScope.of(context).requestFocus(new FocusNode());
+                  },
                   icon: Icon(
                     Icons.send,
                     color: viewModel.textMessageController.text.length == 0

@@ -1,8 +1,13 @@
-class Message {
+import 'dart:typed_data';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class MessageBubble {
   bool fromMe;
   String body;
-
-  Message(this.body, this.fromMe);
+  Uint8List avatarUrl;
+  String timestamp;
+  MessageBubble({this.body, this.fromMe, this.avatarUrl, this.timestamp});
 }
 
 class Messages {
@@ -33,5 +38,13 @@ class Messages {
     data["type"] = this.type;
     data["content"] = this.content;
     return data;
+  }
+
+  Messages.fromDocumentSnapShot(DocumentSnapshot document) {
+    senderId = document['senderId'];
+    receiverId = document['receiverId'];
+    timestamp = document['timestamp'];
+    type = document['type'];
+    content = document['content'];
   }
 }

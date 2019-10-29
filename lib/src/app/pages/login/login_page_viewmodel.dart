@@ -88,6 +88,8 @@ class LoginPageViewModel extends ViewModelBase {
         if (userInfo != null) {
           //Đổ data vào parent model
           await api.getParentInfo(userInfo['partnerID']);
+          //Lấy danh sách children đã mua vé
+          await api.getTicketOfListChildren();
         }
         LoadingDialog.hideLoadingDialog(context);
         ToastController.show(

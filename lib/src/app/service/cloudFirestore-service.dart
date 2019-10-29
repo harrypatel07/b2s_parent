@@ -45,7 +45,7 @@ class CollectionChat extends InterfaceFireStore {
     var _jsonMessKey = Map<String, dynamic>.from(message.toJson());
     _jsonMessKey["keyword"] =
         Common.createKeyWordForChat(groupChatId, split: split);
-    await _firestore
+    _firestore
         .collection(_collectionName)
         .document(groupChatId)
         .setData(_jsonMessKey);
@@ -85,14 +85,34 @@ class CollectionChat extends InterfaceFireStore {
     //     .collection(String.fromCharCodes(groupChatId.runes.toList().reversed))
     //     .snapshots();
   }
+
+  ///listen List Message by id and peerID
+  Future<Stream<QuerySnapshot>> listenListMessageByIdAndPeerId(
+      String strId, String strPeerId) async {
+    var id = EncrypteService.encryptHash(strId),
+        peerId = EncrypteService.encryptHash(strPeerId),
+        groupChatId = "";
+    if (id.hashCode <= peerId.hashCode) {
+      groupChatId = '$id$split$peerId';
+    } else {
+      groupChatId = '$peerId$split$id';
+    }
+    return _firestore
+        .collection(_collectionName)
+        .document(groupChatId)
+        .collection(String.fromCharCodes(groupChatId.runes.toList().reversed))
+        .orderBy('timestamp', descending: true)
+        .snapshots();
+  }
 }
 
 class CollectionBusSession extends InterfaceFireStore {
+  final _collectionName = "childrenBusSession";
   syncColectionChildrenBusSession() {
     if (_docRef == null)
       ChildrenBusSession.list.forEach((data) {
         _firestore
-            .collection("childrenBusSession")
+            .collection(_collectionName)
             .document(data.sessionID)
             .setData(data.toJson())
             .then((onValue) {
@@ -105,7 +125,7 @@ class CollectionBusSession extends InterfaceFireStore {
 
   updateChildrenBusSession(ChildrenBusSession data) {
     _firestore
-        .collection("childrenBusSession")
+        .collection(_collectionName)
         .document(data.sessionID)
         .setData(data.toJson())
         .then((onValue) {
@@ -117,12 +137,12 @@ class CollectionBusSession extends InterfaceFireStore {
 
   Stream<DocumentSnapshot> listenChildrenBusSession(sessionID) {
     return _firestore
-        .collection("childrenBusSession")
+        .collection(_collectionName)
         .document(sessionID)
         .snapshots();
   }
 
   Stream<QuerySnapshot> listenAllChildrenBusSession() {
-    return _firestore.collection("childrenBusSession").snapshots();
+    return _firestore.collection(_collectionName).snapshots();
   }
 }

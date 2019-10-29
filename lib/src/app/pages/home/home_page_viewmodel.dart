@@ -1,4 +1,5 @@
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
+import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/models/menu.dart';
 import 'package:b2s_parent/src/app/pages/busAttendance/bus_attendance_page.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page.dart';
@@ -13,6 +14,7 @@ import '../../app_route.dart';
 class HomePageViewModel extends ViewModelBase {
   TabsPageViewModel tabsPageViewModel;
   BuildContext context;
+  List<ChildrenBusSession> listChildren = ChildrenBusSession.list;
 
   void categoryOnPress(Category category) {
     tabsPageViewModel = ViewModelProvider.of(context);
@@ -37,5 +39,9 @@ class HomePageViewModel extends ViewModelBase {
         }
       }
     });
+  }
+
+  listOnTap(ChildrenBusSession data) {
+    Navigator.pop(context, RoutePopArgument(BusAttendancePage.routeName, data));
   }
 }

@@ -32,15 +32,15 @@ class Menu {
       page: HistoryPage(),
       routeChildName: HistoryPage.routeName,
     ),
+    // Menu(
+    //   index: 2,
+    //   title: "Locate bus",
+    //   iconData: FontAwesomeIcons.bus,
+    //   page: LocateBusPage(),
+    //   routeChildName: LocateBusPage.routeName,
+    // ),
     Menu(
       index: 2,
-      title: "Locate bus",
-      iconData: FontAwesomeIcons.bus,
-      page: LocateBusPage(),
-      routeChildName: LocateBusPage.routeName,
-    ),
-    Menu(
-      index: 3,
       title: "User",
       iconData: Icons.person,
       page: UserPage(),

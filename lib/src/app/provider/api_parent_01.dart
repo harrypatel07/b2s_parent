@@ -3,6 +3,7 @@ import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/res-partner-title.dart';
 import 'package:b2s_parent/src/app/models/res-partner.dart';
+import 'package:b2s_parent/src/app/models/sale-order-line.dart';
 import 'package:http/http.dart' as http;
 
 import 'api_master.dart';
@@ -65,6 +66,30 @@ class Api1 extends ApiMaster {
       return listResult;
     }).catchError((error) {
       return listResult;
+    });
+  }
+
+  ///Lấy thông tin khách hàng
+  Future<ResPartner> getCustomerInfo(String id) async {
+    await this.authorization();
+    body = new Map();
+    body["domain"] = [
+      ['id', '=', id],
+    ];
+    var params = convertSerialize(body);
+    List<ResPartner> listResult = new List();
+    return http
+        .get('${this.api}/search_read/res.partner?$params',
+            headers: this.headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 200) {
+        List list = json.decode(response.body);
+        if (list.length > 0)
+          listResult = list.map((item) => ResPartner.fromJson(item)).toList();
+      }
+      return listResult[0];
+    }).catchError((error) {
+      return null;
     });
   }
 
@@ -153,6 +178,49 @@ class Api1 extends ApiMaster {
         result = null;
       }
       return result;
+    });
+  }
+
+  /// Lấy thông tin vé của children
+  ///
+  Future<List<SaleOrderLine>> getTicketOfListChildren() async {
+    Parent parent = Parent();
+    List<SaleOrderLine> listResult = new List();
+    await this.authorization();
+    body = new Map();
+    if (parent.listChildren.length == 0) return listResult;
+    var domain = List<dynamic>();
+    if (parent.listChildren.length > 1) {
+      for (var i = 0; i < parent.listChildren.length - 1; i++) {
+        domain.add("|");
+      }
+    }
+    parent.listChildren.forEach((item) {
+      domain.add(["order_partner_id", "=", item.id]);
+    });
+    body["domain"] = domain;
+    var params = convertSerialize(body);
+    return http
+        .get('${this.api}/search_read/sale.order.line?$params',
+            headers: this.headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 200) {
+        List list = json.decode(response.body);
+        if (list.length > 0) {
+          listResult =
+              list.map((item) => SaleOrderLine.fromJson(item)).toList();
+          listResult.forEach((item) {
+            parent.listChildren.forEach((children) {
+              if (item.orderPartnerId[0] == children.id)
+                children.paidTicket = true;
+            });
+          });
+          parent.saveLocal();
+        }
+      }
+      return listResult;
+    }).catchError((error) {
+      return listResult;
     });
   }
 }
