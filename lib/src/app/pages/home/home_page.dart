@@ -8,6 +8,7 @@ import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:b2s_parent/src/app/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = "/home";
@@ -97,7 +98,26 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
         child: viewModel.listChildren.length == 0
             ? Container()
             : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(top: 20),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(
+                          FontAwesomeIcons.busAlt,
+                          color: ThemePrimary.primaryColor,
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text(
+                            "Chuyến đi trong ngày",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   ...viewModel.listChildren
                       .asMap()
                       .map((index, item) {
@@ -107,7 +127,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
                                 ? Column(
                                     children: <Widget>[
                                       SizedBox(
-                                        height: 70,
+                                        height: 20,
                                       ),
                                       ___card(index)
                                     ],
@@ -122,9 +142,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
     }
 
     return Container(
-      child: Stack(
-        children: <Widget>[__background(), __listChildren()],
-      ),
+      child: __listChildren(),
     );
   }
 
@@ -138,7 +156,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
         crossAxisSpacing: 10,
         mainAxisSpacing: 12,
       ),
-      padding: EdgeInsets.only(left: 28, right: 28, bottom: 58),
+      padding: EdgeInsets.only(left: 28, right: 28),
       itemCount: Category.categories.length,
       itemBuilder: (context, index) => BusCategoryCard(
         Category.categories[index],
@@ -157,14 +175,23 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
   @override
   Widget build(BuildContext context) {
     viewModel = ViewModelProvider.of(context);
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Align(
-              alignment: Alignment.topLeft, child: appBarIconSideMenu(context)),
-          _buildListChildren(),
-          _categoryList(),
-        ],
+    return Scaffold(
+      appBar: new TS24AppBar(
+        title: new Text("Bus2School"),
+        leading: appBarIconSideMenu(context),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.only(bottom: 30),
+        child: Column(
+          children: <Widget>[
+            // Align(
+            //     alignment: Alignment.topLeft,
+            //     child: appBarIconSideMenu(context)),
+            SizedBox(height: 30),
+            _categoryList(),
+            _buildListChildren(),
+          ],
+        ),
       ),
     );
   }

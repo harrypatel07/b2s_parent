@@ -42,6 +42,10 @@ class HomePageViewModel extends ViewModelBase {
   }
 
   listOnTap(ChildrenBusSession data) {
-    Navigator.pop(context, RoutePopArgument(BusAttendancePage.routeName, data));
+    // tabsPageViewModel = ViewModelProvider.of(context);
+    // tabsPageViewModel.locateBusPageViewModel.childrenBus = data;
+    // tabsPageViewModel.locateBusPageViewModel.listenData(data.sessionID);
+    Navigator.pushNamed(context, LocateBusPage.routeName,
+        arguments: LocateBusArgument(data));
   }
 }

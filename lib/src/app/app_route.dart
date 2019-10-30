@@ -40,7 +40,8 @@ class Routes {
         TabsPage(ModalRoute.of(context).settings.arguments),
     HomePage.routeName: (context) => HomePage(),
     HistoryPage.routeName: (context) => HistoryPage(),
-    LocateBusPage.routeName: (context) => LocateBusPage(),
+    LocateBusPage.routeName: (context) =>
+        LocateBusPage(ModalRoute.of(context).settings.arguments),
     BusAttendancePage.routeName: (context) => BusAttendancePage(),
     LeavePage.routeName: (context) => LeavePage(),
     MessagePage.routeName: (context) => MessagePage(),

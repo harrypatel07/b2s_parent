@@ -1,6 +1,6 @@
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
+import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page_viewmodel.dart';
-import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/widgets/bus_attentdance_card.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:b2s_parent/src/app/widgets/ts24_timeline.dart';
@@ -10,12 +10,21 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class LocateBusPage extends StatefulWidget {
   static const String routeName = "/locateBus";
+  final LocateBusArgument args;
+
+  const LocateBusPage(this.args);
   @override
   _LocateBusPageState createState() => _LocateBusPageState();
 }
 
+class LocateBusArgument {
+  final ChildrenBusSession data;
+
+  LocateBusArgument(this.data);
+}
+
 class _LocateBusPageState extends State<LocateBusPage> {
-  LocateBusPageViewModel viewModel;
+  LocateBusPageViewModel viewModel = LocateBusPageViewModel();
 
   final double _initFabHeight = 100.0;
   double _fabHeight;
@@ -43,6 +52,9 @@ class _LocateBusPageState extends State<LocateBusPage> {
       //   });
       // }
     });
+    viewModel.context = context;
+    viewModel.childrenBus = widget.args.data;
+    viewModel.listenData(widget.args.data.sessionID);
   }
 
   Widget _buildBody() {
@@ -156,8 +168,8 @@ class _LocateBusPageState extends State<LocateBusPage> {
 
   @override
   Widget build(BuildContext context) {
-    TabsPageViewModel tabsPageViewModel = ViewModelProvider.of(context);
-    viewModel = tabsPageViewModel.locateBusPageViewModel;
+    // TabsPageViewModel tabsPageViewModel = ViewModelProvider.of(context);
+    // viewModel = tabsPageViewModel.locateBusPageViewModel;
     _panelHeightOpen = MediaQuery.of(context).size.height * 2 / 3;
     return StatefulWrapper(
       onInit: () {},
@@ -166,41 +178,43 @@ class _LocateBusPageState extends State<LocateBusPage> {
         child: StreamBuilder<Object>(
             stream: viewModel.stream,
             builder: (context, snapshot) {
-              return Stack(
-                children: <Widget>[
-                  SlidingUpPanel(
-                    controller: _pc,
-                    parallaxEnabled: true,
-                    backdropEnabled: true,
-                    parallaxOffset: .5,
-                    maxHeight: _panelHeightOpen,
-                    minHeight: _panelHeightClosed,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(18.0),
-                        topRight: Radius.circular(18.0)),
-                    panel: _buildPanel(),
-                    onPanelOpened: () {
-                      setState(() {
-                        disableScroll = false;
-                      });
-                    },
-                    onPanelClosed: () {
-                      setState(() {
-                        disableScroll = true;
-                      });
-                    },
-                    onPanelSlide: (double pos) => setState(() {
-                      _fabHeight =
-                          pos * (_panelHeightOpen - _panelHeightClosed) +
-                              _initFabHeight;
-                    }),
-                    body: new Scaffold(
-                      body: _buildBody(),
-                      // body: Container()
+              return Material(
+                child: Stack(
+                  children: <Widget>[
+                    SlidingUpPanel(
+                      controller: _pc,
+                      parallaxEnabled: true,
+                      backdropEnabled: true,
+                      parallaxOffset: .5,
+                      maxHeight: _panelHeightOpen,
+                      minHeight: _panelHeightClosed,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(18.0),
+                          topRight: Radius.circular(18.0)),
+                      panel: _buildPanel(),
+                      onPanelOpened: () {
+                        setState(() {
+                          disableScroll = false;
+                        });
+                      },
+                      onPanelClosed: () {
+                        setState(() {
+                          disableScroll = true;
+                        });
+                      },
+                      onPanelSlide: (double pos) => setState(() {
+                        _fabHeight =
+                            pos * (_panelHeightOpen - _panelHeightClosed) +
+                                _initFabHeight;
+                      }),
+                      body: new Scaffold(
+                        body: _buildBody(),
+                        // body: Container()
+                      ),
                     ),
-                  ),
-                  _buildIconLocation()
-                ],
+                    _buildIconLocation()
+                  ],
+                ),
               );
             }),
       ),

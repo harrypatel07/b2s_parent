@@ -14,34 +14,34 @@ class Category {
   final String routeName;
 
   static final List<Category> categories = [
+    // Category(
+    //   name: "My students",
+    //   color: Colors.teal,
+    //   routeName: BusAttendancePage.routeName,
+    // ),
+    // Category(
+    //   name: "Locale bus map",
+    //   color: Colors.red,
+    //   routeName: LocateBusPage.routeName,
+    // ),
     Category(
-      name: "My students",
-      color: Colors.teal,
-      routeName: BusAttendancePage.routeName,
-    ),
-    Category(
-      name: "Locale bus map",
-      color: Colors.red,
-      routeName: LocateBusPage.routeName,
-    ),
-    Category(
-      name: "History trips",
-      color: Colors.blue,
-      routeName: HistoryPage.routeName,
-    ),
-    Category(
-        name: "Notification",
-        color: Colors.yellow,
-        routeName: NotificationPage.routeName),
-    Category(
-      name: "Leave",
+      name: "Nghỉ học",
       color: Colors.purple,
       routeName: LeavePage.routeName,
     ),
     Category(
-      name: "Message",
+      name: "Tin nhắn",
       color: Colors.brown,
       routeName: MessagePage.routeName,
     ),
+    Category(
+      name: "Lịch sử chuyến",
+      color: Colors.blue,
+      routeName: HistoryPage.routeName,
+    ),
+    Category(
+        name: "Thông báo",
+        color: Colors.yellow,
+        routeName: NotificationPage.routeName),
   ];
 }

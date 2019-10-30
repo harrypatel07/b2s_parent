@@ -171,8 +171,8 @@ class Api1 extends ApiMaster {
         .then((http.Response response) {
       var result;
       if (response.statusCode == 200) {
-        print(response.body);
-        if (response.body is List) result = response.body[0];
+        var list = json.decode(response.body);
+        if (list is List) result = list[0];
         //print(list);
       } else {
         result = null;
