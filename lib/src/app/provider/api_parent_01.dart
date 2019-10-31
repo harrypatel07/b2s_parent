@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
+import 'package:b2s_parent/src/app/models/picking-transport-info.dart';
 import 'package:b2s_parent/src/app/models/res-partner-title.dart';
 import 'package:b2s_parent/src/app/models/res-partner.dart';
 import 'package:b2s_parent/src/app/models/sale-order-line.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 import 'api_master.dart';
 
@@ -99,6 +101,31 @@ class Api1 extends ApiMaster {
     List<ResPartnerTitle> listResult = new List();
     return http
         .get('${this.api}/search_read/res.partner.title', headers: this.headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 200) {
+        List list = json.decode(response.body);
+        if (list.length > 0)
+          listResult =
+              list.map((item) => ResPartnerTitle.fromJson(item)).toList();
+      }
+      return listResult;
+    }).catchError((error) {
+      return listResult;
+    });
+  }
+
+  ///Lấy danh sách trường học
+  Future<List<ResPartnerTitle>> getListSchool() async {
+    await this.authorization();
+    List<ResPartnerTitle> listResult = new List();
+    body = new Map();
+    body["domain"] = [
+      ['is_company', '=', true],
+    ];
+    var params = convertSerialize(body);
+    return http
+        .get('${this.api}/search_read/res.partner?$params',
+            headers: this.headers)
         .then((http.Response response) async {
       if (response.statusCode == 200) {
         List list = json.decode(response.body);
@@ -217,6 +244,39 @@ class Api1 extends ApiMaster {
           });
           parent.saveLocal();
         }
+      }
+      return listResult;
+    }).catchError((error) {
+      return listResult;
+    });
+  }
+
+  ///Lấy session chuyến đi trong ngày của các children
+  Future<List<PickingTransportInfo>> getListChildrenBusSession() async {
+    await this.authorization();
+    Parent parent = Parent();
+    List<int> listChildrenId =
+        parent.listChildren.map((item) => item.id).toList();
+    var dateFrom = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    var dateTo =
+        DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 1)));
+    List<PickingTransportInfo> listResult = new List();
+    body = new Map();
+    body["domain"] = [
+      ['saleorder_id.partner_id', 'in', listChildrenId],
+      ['transport_date', '>=', dateFrom],
+      ['transport_date', '<', dateTo],
+    ];
+    var params = convertSerialize(body);
+    return http
+        .get('${this.api}/search_read/picking.transport.info?$params',
+            headers: this.headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 200) {
+        List list = json.decode(response.body);
+        if (list.length > 0)
+          listResult =
+              list.map((item) => PickingTransportInfo.fromJson(item)).toList();
       }
       return listResult;
     }).catchError((error) {

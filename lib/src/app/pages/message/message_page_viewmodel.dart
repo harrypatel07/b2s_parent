@@ -44,6 +44,9 @@ class MessagePageViewModel extends ViewModelBase {
   }
 
   onItemClick(Chatting chatting) {
+    // return api.getListChildrenBusSession().then((data) {
+    //   print(data);
+    // });
     Navigator.pushNamed(
       context,
       MessageDetailPage.routeName,

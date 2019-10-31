@@ -12,12 +12,15 @@ class Children {
   dynamic age;
   bool primary;
   dynamic schoolName;
+  dynamic schoolId;
   dynamic phone;
   dynamic email;
   dynamic parentId;
   dynamic paidTicket;
   dynamic lat;
   dynamic lng;
+  dynamic classes;
+
   Children(
       {this.id,
       this.name,
@@ -26,6 +29,8 @@ class Children {
       this.age,
       this.primary,
       this.schoolName,
+      this.schoolId,
+      this.classes,
       this.phone,
       this.email,
       this.parentId,
@@ -44,10 +49,15 @@ class Children {
       gender = resPartner.title[1];
       genderId = resPartner.title[0];
     }
+    if (resPartner.xSchool is List) {
+      schoolName = resPartner.xSchool[1];
+      schoolId = resPartner.xSchool[0];
+      classes = resPartner.xClass;
+    }
     email = resPartner.email;
     phone = resPartner.phone;
-    schoolName = "";
     paidTicket = false;
+
     if (resPartner.parentId is List) parentId = resPartner.parentId[0];
     this.primary = primary;
   }
@@ -66,6 +76,8 @@ class Children {
     age = json['age'];
     primary = json['primary'];
     schoolName = json['schoolName'];
+    schoolId = json['schoolId'];
+    classes = json['classes'];
     phone = json['phone'];
     email = json['email'];
     parentId = json['parentId'];
@@ -85,6 +97,8 @@ class Children {
     data["age"] = this.age;
     data["primary"] = this.primary;
     data["schoolName"] = this.schoolName;
+    data["schoolId"] = this.schoolId;
+    data["classes"] = this.classes;
     data["phone"] = this.phone;
     data["email"] = this.email;
     data["parentId"] = this.parentId;
