@@ -1,10 +1,16 @@
 import 'dart:convert';
 import 'package:b2s_parent/src/app/core/app_setting.dart';
+import 'package:b2s_parent/src/app/models/children.dart';
+import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
+import 'package:b2s_parent/src/app/models/driver.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
+import 'package:b2s_parent/src/app/models/picking-route.dart';
 import 'package:b2s_parent/src/app/models/picking-transport-info.dart';
 import 'package:b2s_parent/src/app/models/res-partner-title.dart';
 import 'package:b2s_parent/src/app/models/res-partner.dart';
+import 'package:b2s_parent/src/app/models/route-location.dart';
 import 'package:b2s_parent/src/app/models/sale-order-line.dart';
+import 'package:b2s_parent/src/app/models/sale-order.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
@@ -71,6 +77,34 @@ class Api1 extends ApiMaster {
     });
   }
 
+  ///Lấy thông tin driver
+  Future<Driver> getDriverInfo(String id) async {
+    await this.authorization();
+    body = new Map();
+    body["domain"] = [
+      ['id', '=', id],
+    ];
+    body["fields"] = ['id', 'name', 'image', 'title', 'phone'];
+    var params = convertSerialize(body);
+    List<ResPartner> listResult = new List();
+    Driver driver;
+    return http
+        .get('${this.api}/search_read/res.partner?$params',
+            headers: this.headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 200) {
+        List list = json.decode(response.body);
+        if (list.length > 0) {
+          listResult = list.map((item) => ResPartner.fromJson(item)).toList();
+          driver = Driver.fromResPartner(listResult[0]);
+        }
+      }
+      return driver;
+    }).catchError((error) {
+      return null;
+    });
+  }
+
   ///Lấy thông tin khách hàng
   Future<ResPartner> getCustomerInfo(String id) async {
     await this.authorization();
@@ -115,9 +149,9 @@ class Api1 extends ApiMaster {
   }
 
   ///Lấy danh sách trường học
-  Future<List<ResPartnerTitle>> getListSchool() async {
+  Future<List<ResPartner>> getListSchool() async {
     await this.authorization();
-    List<ResPartnerTitle> listResult = new List();
+    List<ResPartner> listResult = new List();
     body = new Map();
     body["domain"] = [
       ['is_company', '=', true],
@@ -130,8 +164,7 @@ class Api1 extends ApiMaster {
       if (response.statusCode == 200) {
         List list = json.decode(response.body);
         if (list.length > 0)
-          listResult =
-              list.map((item) => ResPartnerTitle.fromJson(item)).toList();
+          listResult = list.map((item) => ResPartner.fromJson(item)).toList();
       }
       return listResult;
     }).catchError((error) {
@@ -183,6 +216,32 @@ class Api1 extends ApiMaster {
     });
   }
 
+  ///Update picking transport info
+  ///
+  ///Success - Trả về true
+  ///
+  ///Fail - Trả về false
+  Future<bool> updatePickingTransportInfo(PickingTransportInfo picking) async {
+    await this.authorization();
+    body = new Map();
+    body["model"] = "picking.transport.info";
+    body["ids"] = json.encode([picking.id]);
+    body["values"] = json.encode(picking.toJson());
+    return http
+        .put('${this.api}/write', headers: this.headers, body: body)
+        .then((http.Response response) {
+      var result = false;
+      if (response.statusCode == 200) {
+        print(response.body);
+        result = true;
+        //print(list);
+      } else {
+        result = false;
+      }
+      return result;
+    });
+  }
+
   ///Insert thông tin khách hàng
   ///
   ///Success - Trả về new id
@@ -215,7 +274,8 @@ class Api1 extends ApiMaster {
     List<SaleOrderLine> listResult = new List();
     await this.authorization();
     body = new Map();
-    if (parent.listChildren.length == 0) return listResult;
+    if (parent.listChildren.length == 0 || parent.listChildren.length == null)
+      return listResult;
     var domain = List<dynamic>();
     if (parent.listChildren.length > 1) {
       for (var i = 0; i < parent.listChildren.length - 1; i++) {
@@ -252,7 +312,7 @@ class Api1 extends ApiMaster {
   }
 
   ///Lấy session chuyến đi trong ngày của các children
-  Future<List<PickingTransportInfo>> getListChildrenBusSession() async {
+  Future<List<ChildrenBusSession>> getListChildrenBusSession() async {
     await this.authorization();
     Parent parent = Parent();
     List<int> listChildrenId =
@@ -260,12 +320,13 @@ class Api1 extends ApiMaster {
     var dateFrom = DateFormat('yyyy-MM-dd').format(DateTime.now());
     var dateTo =
         DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 1)));
-    List<PickingTransportInfo> listResult = new List();
+    List<ChildrenBusSession> listResult = new List();
     body = new Map();
     body["domain"] = [
       ['saleorder_id.partner_id', 'in', listChildrenId],
       ['transport_date', '>=', dateFrom],
       ['transport_date', '<', dateTo],
+      ['state', '!=', 'res']
     ];
     var params = convertSerialize(body);
     return http
@@ -274,13 +335,132 @@ class Api1 extends ApiMaster {
         .then((http.Response response) async {
       if (response.statusCode == 200) {
         List list = json.decode(response.body);
-        if (list.length > 0)
-          listResult =
+        if (list.length > 0) {
+          var listPickingTransportInfo =
               list.map((item) => PickingTransportInfo.fromJson(item)).toList();
+          for (var pickingTransportInfo in listPickingTransportInfo) {
+            var _saleOrder = await this
+                .getSaleOrderById(pickingTransportInfo.saleorderId[0]);
+            Children children;
+            Driver driver;
+            List<RouteBus> listRouteBus = [];
+            Parent parent = Parent();
+            children = parent.listChildren.firstWhere((_child) {
+              if (_saleOrder.partnerId is List)
+                return _child.id == _saleOrder.partnerId[0];
+              return false;
+            });
+            if (pickingTransportInfo.vehicleDriver is List) {
+              driver = await this.getDriverInfo(
+                  pickingTransportInfo.vehicleDriver[0].toString());
+            }
+            //Tạo list Route bus
+            if (pickingTransportInfo.pickingRouteIds is List) {
+              var pickingRoute = await this
+                  .getPickingRouteById(pickingTransportInfo.pickingRouteIds[0]);
+              var startRouteLocation = await this
+                  .getRouteLocationById(pickingRoute.sourceLocation[0]);
+              var destinationRouteLocation = await this
+                  .getRouteLocationById(pickingRoute.destinationLocation[0]);
+              listRouteBus.add(RouteBus.fromRouteLocation(
+                routeLocation: startRouteLocation,
+                pickingRoute: pickingRoute,
+                type: 0,
+                pickingTransportInfo: pickingTransportInfo,
+              ));
+              listRouteBus.add(RouteBus.fromRouteLocation(
+                routeLocation: destinationRouteLocation,
+                pickingRoute: pickingRoute,
+                type: 1,
+                pickingTransportInfo: pickingTransportInfo,
+              ));
+            }
+            listResult.add(ChildrenBusSession.fromPickingTransportInfo(
+                pti: pickingTransportInfo,
+                objChildren: children,
+                objDriver: driver,
+                objListRouteBus: listRouteBus));
+          }
+        }
       }
       return listResult;
     }).catchError((error) {
       return listResult;
+    });
+  }
+
+  //Lấy thông tin sale order by id
+  Future<SaleOrder> getSaleOrderById(int id) async {
+    await this.authorization();
+    body = new Map();
+    body["domain"] = [
+      ['id', '=', id],
+    ];
+    body['fields'] = ['partner_id'];
+    var params = convertSerialize(body);
+    List<SaleOrder> listResult = new List();
+    return http
+        .get('${this.api}/search_read/sale.order?$params',
+            headers: this.headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 200) {
+        List list = json.decode(response.body);
+        if (list.length > 0)
+          listResult = list.map((item) => SaleOrder.fromJson(item)).toList();
+      }
+      return listResult[0];
+    }).catchError((error) {
+      return null;
+    });
+  }
+
+  //Lấy thông tin Route Location by id
+  Future<RouteLocation> getRouteLocationById(int id) async {
+    await this.authorization();
+    body = new Map();
+    body["domain"] = [
+      ['id', '=', id],
+    ];
+    body['fields'] = ['x_posx', 'x_posy', 'x_check_school'];
+    var params = convertSerialize(body);
+    List<RouteLocation> listResult = new List();
+    return http
+        .get('${this.api}/search_read/route.location?$params',
+            headers: this.headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 200) {
+        List list = json.decode(response.body);
+        if (list.length > 0)
+          listResult =
+              list.map((item) => RouteLocation.fromJson(item)).toList();
+      }
+      return listResult[0];
+    }).catchError((error) {
+      return null;
+    });
+  }
+
+  //Lấy thông tin PickingRoute by id
+  Future<PickingRoute> getPickingRouteById(int id) async {
+    await this.authorization();
+    body = new Map();
+    body["domain"] = [
+      ['id', '=', id],
+    ];
+    var params = convertSerialize(body);
+    List<PickingRoute> listResult = new List();
+    return http
+        .get('${this.api}/search_read/picking.route?$params',
+            headers: this.headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 200) {
+        List list = json.decode(response.body);
+        if (list.length > 0)
+          listResult = list.map((item) => PickingRoute.fromJson(item)).toList();
+      }
+      return listResult[0];
+    }).catchError((error) {
+      return null;
     });
   }
 }

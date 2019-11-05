@@ -1,107 +1,111 @@
 class SaleOrder {
-  String sLastUpdate;
+  dynamic sLastUpdate;
   dynamic accessToken;
-  String accessUrl;
-  String accessWarning;
+  dynamic accessUrl;
+  dynamic accessWarning;
   dynamic activityDateDeadline;
-  List<dynamic> activityIds;
+  dynamic activityIds;
   dynamic activityState;
   dynamic activitySummary;
   dynamic activityTypeId;
   dynamic activityUserId;
-  List<dynamic> amountByGroup;
-  int amountDelivery;
-  int amountTax;
-  int amountTotal;
-  int amountUndiscounted;
-  int amountUntaxed;
+  dynamic amountByGroup;
+  dynamic amountDelivery;
+  dynamic amountTax;
+  dynamic amountTotal;
+  dynamic amountUndiscounted;
+  dynamic amountUntaxed;
   dynamic analyticAccountId;
-  List<dynamic> authorizedTransactionIds;
-  List<dynamic> availableCarrierIds;
+  dynamic authorizedTransactionIds;
+  dynamic availableCarrierIds;
+  dynamic campaignId;
   dynamic carrierId;
-  int cartQuantity;
+  dynamic cartQuantity;
   dynamic cartRecoveryEmailSent;
   dynamic clientOrderRef;
   dynamic commitmentDate;
-  List<dynamic> companyId;
+  dynamic companyId;
   dynamic confirmationDate;
-  String createDate;
-  List<dynamic> createUid;
-  List<dynamic> currencyId;
-  int currencyRate;
-  String dateOrder;
-  int deliveryCount;
+  dynamic createDate;
+  dynamic createUid;
+  dynamic currencyId;
+  dynamic currencyRate;
+  dynamic dateOrder;
+  dynamic deliveryCount;
   dynamic deliveryMessage;
-  int deliveryPrice;
+  dynamic deliveryPrice;
   dynamic deliveryRatingSuccess;
-  String displayName;
+  dynamic displayName;
   dynamic effectiveDate;
-  String expectedDate;
+  dynamic expectedDate;
   dynamic fiscalPositionId;
   dynamic hasDelivery;
-  int id;
+  dynamic id;
   dynamic incoterm;
-  int invoiceCount;
-  List<dynamic> invoiceIds;
+  dynamic invoiceCount;
+  dynamic invoiceIds;
   dynamic invoiceShippingOnDelivery;
-  String invoiceStatus;
+  dynamic invoiceStatus;
   dynamic isAbandonedCart;
   dynamic isExpired;
-  int messageAttachmentCount;
-  List<dynamic> messageChannelIds;
-  List<dynamic> messageFollowerIds;
+  dynamic mediumId;
+  dynamic messageAttachmentCount;
+  dynamic messageChannelIds;
+  dynamic messageFollowerIds;
   dynamic messageHasError;
-  int messageHasErrorCounter;
-  List<dynamic> messageIds;
+  dynamic messageHasErrorCounter;
+  dynamic messageIds;
   dynamic messageIsFollower;
   dynamic messageMainAttachmentId;
   dynamic messageNeedaction;
-  int messageNeedactionCounter;
-  List<dynamic> messagePartnerIds;
+  dynamic messageNeedactionCounter;
+  dynamic messagePartnerIds;
   dynamic messageUnread;
-  int messageUnreadCounter;
-  String name;
-  String note;
+  dynamic messageUnreadCounter;
+  dynamic name;
+  dynamic note;
   dynamic onlyServices;
-  List<dynamic> orderLine;
+  dynamic opportunityId;
+  dynamic orderLine;
   dynamic origin;
-  List<dynamic> partnerId;
-  List<dynamic> partnerInvoiceId;
-  List<dynamic> partnerShippingId;
+  dynamic partnerId;
+  dynamic partnerInvoiceId;
+  dynamic partnerShippingId;
   dynamic paymentTermId;
-  List<dynamic> pickingIds;
-  String pickingPolicy;
-  List<dynamic> pricelistId;
+  dynamic pickingIds;
+  dynamic pickingPolicy;
+  dynamic pricelistId;
   dynamic procurementGroupId;
-  int recurringInterval;
-  dynamic recurringRuleType;
   dynamic reference;
-  int remainingValidityDays;
+  dynamic remainingValidityDays;
   dynamic requirePayment;
   dynamic requireSignature;
-  List<dynamic> saleOrderOptionIds;
+  dynamic saleOrderOptionIds;
   dynamic saleOrderTemplateId;
   dynamic signature;
   dynamic signedBy;
-  String state;
-  List<dynamic> teamId;
-  List<dynamic> transactionIds;
-  List<dynamic> transporterId;
-  String typeName;
-  List<dynamic> userId;
+  dynamic sourceId;
+  dynamic state;
+  dynamic tagIds;
+  dynamic teamId;
+  dynamic transactionIds;
+  dynamic transporterId;
+  dynamic typeName;
+  dynamic userId;
   dynamic validityDate;
-  List<dynamic> warehouseId;
+  dynamic warehouseId;
   dynamic warningStock;
   dynamic websiteId;
-  List<dynamic> websiteMessageIds;
-  List<dynamic> websiteOrderLine;
-  String writeDate;
-  List<dynamic> writeUid;
+  dynamic websiteMessageIds;
+  dynamic websiteOrderLine;
+  dynamic writeDate;
+  dynamic writeUid;
   dynamic xIsSameCustomerAddress;
-  List<dynamic> xPickupAddress;
+  dynamic xPickupAddress;
   dynamic xSchool;
   dynamic xStartDate;
-  List<dynamic> xVehicles;
+  dynamic xTime;
+  dynamic xVehicles;
 
   SaleOrder(
       {this.sLastUpdate,
@@ -123,6 +127,7 @@ class SaleOrder {
       this.analyticAccountId,
       this.authorizedTransactionIds,
       this.availableCarrierIds,
+      this.campaignId,
       this.carrierId,
       this.cartQuantity,
       this.cartRecoveryEmailSent,
@@ -152,6 +157,7 @@ class SaleOrder {
       this.invoiceStatus,
       this.isAbandonedCart,
       this.isExpired,
+      this.mediumId,
       this.messageAttachmentCount,
       this.messageChannelIds,
       this.messageFollowerIds,
@@ -168,6 +174,7 @@ class SaleOrder {
       this.name,
       this.note,
       this.onlyServices,
+      this.opportunityId,
       this.orderLine,
       this.origin,
       this.partnerId,
@@ -178,8 +185,6 @@ class SaleOrder {
       this.pickingPolicy,
       this.pricelistId,
       this.procurementGroupId,
-      this.recurringInterval,
-      this.recurringRuleType,
       this.reference,
       this.remainingValidityDays,
       this.requirePayment,
@@ -188,7 +193,9 @@ class SaleOrder {
       this.saleOrderTemplateId,
       this.signature,
       this.signedBy,
+      this.sourceId,
       this.state,
+      this.tagIds,
       this.teamId,
       this.transactionIds,
       this.transporterId,
@@ -206,6 +213,7 @@ class SaleOrder {
       this.xPickupAddress,
       this.xSchool,
       this.xStartDate,
+      this.xTime,
       this.xVehicles});
 
   SaleOrder.fromJson(Map<String, dynamic> json) {
@@ -214,55 +222,31 @@ class SaleOrder {
     accessUrl = json['access_url'];
     accessWarning = json['access_warning'];
     activityDateDeadline = json['activity_date_deadline'];
-    if (json["activity_ids"] != null) {
-      activityIds = List<dynamic>.from(
-          json["activity_ids"] != null ? json["activity_ids"] : []);
-    }
+    activityIds = json['activity_ids'];
     activityState = json['activity_state'];
     activitySummary = json['activity_summary'];
     activityTypeId = json['activity_type_id'];
     activityUserId = json['activity_user_id'];
-    if (json["amount_by_group"] != null) {
-      amountByGroup = List<dynamic>.from(
-          json["amount_by_group"] != null ? json["amount_by_group"] : []);
-    }
+    amountByGroup = json['amount_by_group'];
     amountDelivery = json['amount_delivery'];
     amountTax = json['amount_tax'];
     amountTotal = json['amount_total'];
     amountUndiscounted = json['amount_undiscounted'];
     amountUntaxed = json['amount_untaxed'];
     analyticAccountId = json['analytic_account_id'];
-    if (json["authorized_transaction_ids"] != null) {
-      authorizedTransactionIds = List<dynamic>.from(
-          json["authorized_transaction_ids"] != null
-              ? json["authorized_transaction_ids"]
-              : []);
-    }
-    if (json["available_carrier_ids"] != null) {
-      availableCarrierIds = List<dynamic>.from(
-          json["available_carrier_ids"] != null
-              ? json["available_carrier_ids"]
-              : []);
-    }
+    authorizedTransactionIds = json['authorized_transaction_ids'];
+    availableCarrierIds = json['available_carrier_ids'];
+    campaignId = json['campaign_id'];
     carrierId = json['carrier_id'];
     cartQuantity = json['cart_quantity'];
     cartRecoveryEmailSent = json['cart_recovery_email_sent'];
     clientOrderRef = json['client_order_ref'];
     commitmentDate = json['commitment_date'];
-    if (json["company_id"] != null) {
-      companyId = List<dynamic>.from(
-          json["company_id"] != null ? json["company_id"] : []);
-    }
+    companyId = json['company_id'];
     confirmationDate = json['confirmation_date'];
     createDate = json['create_date'];
-    if (json["create_uid"] != null) {
-      createUid = List<dynamic>.from(
-          json["create_uid"] != null ? json["create_uid"] : []);
-    }
-    if (json["currency_id"] != null) {
-      currencyId = List<dynamic>.from(
-          json["currency_id"] != null ? json["currency_id"] : []);
-    }
+    createUid = json['create_uid'];
+    currencyId = json['currency_id'];
     currencyRate = json['currency_rate'];
     dateOrder = json['date_order'];
     deliveryCount = json['delivery_count'];
@@ -277,140 +261,69 @@ class SaleOrder {
     id = json['id'];
     incoterm = json['incoterm'];
     invoiceCount = json['invoice_count'];
-    if (json["invoice_ids"] != null) {
-      invoiceIds = List<dynamic>.from(
-          json["invoice_ids"] != null ? json["invoice_ids"] : []);
-    }
+    invoiceIds = json['invoice_ids'];
     invoiceShippingOnDelivery = json['invoice_shipping_on_delivery'];
     invoiceStatus = json['invoice_status'];
     isAbandonedCart = json['is_abandoned_cart'];
     isExpired = json['is_expired'];
+    mediumId = json['medium_id'];
     messageAttachmentCount = json['message_attachment_count'];
-    if (json["message_channel_ids"] != null) {
-      messageChannelIds = List<dynamic>.from(json["message_channel_ids"] != null
-          ? json["message_channel_ids"]
-          : []);
-    }
-    if (json["message_follower_ids"] != null) {
-      messageFollowerIds = List<dynamic>.from(
-          json["message_follower_ids"] != null
-              ? json["message_follower_ids"]
-              : []);
-    }
+    messageChannelIds = json['message_channel_ids'];
+    messageFollowerIds = json['message_follower_ids'];
     messageHasError = json['message_has_error'];
     messageHasErrorCounter = json['message_has_error_counter'];
-    if (json["message_ids"] != null) {
-      messageIds = List<dynamic>.from(
-          json["message_ids"] != null ? json["message_ids"] : []);
-    }
+    messageIds = json['message_ids'];
     messageIsFollower = json['message_is_follower'];
     messageMainAttachmentId = json['message_main_attachment_id'];
     messageNeedaction = json['message_needaction'];
     messageNeedactionCounter = json['message_needaction_counter'];
-    if (json["message_partner_ids"] != null) {
-      messagePartnerIds = List<dynamic>.from(json["message_partner_ids"] != null
-          ? json["message_partner_ids"]
-          : []);
-    }
+    messagePartnerIds = json['message_partner_ids'];
     messageUnread = json['message_unread'];
     messageUnreadCounter = json['message_unread_counter'];
     name = json['name'];
     note = json['note'];
     onlyServices = json['only_services'];
-    if (json["order_line"] != null) {
-      orderLine = List<dynamic>.from(
-          json["order_line"] != null ? json["order_line"] : []);
-    }
+    opportunityId = json['opportunity_id'];
+    orderLine = json['order_line'];
     origin = json['origin'];
-    if (json["partner_id"] != null) {
-      partnerId = List<dynamic>.from(
-          json["partner_id"] != null ? json["partner_id"] : []);
-    }
-    if (json["partner_invoice_id"] != null) {
-      partnerInvoiceId = List<dynamic>.from(
-          json["partner_invoice_id"] != null ? json["partner_invoice_id"] : []);
-    }
-    if (json["partner_shipping_id"] != null) {
-      partnerShippingId = List<dynamic>.from(json["partner_shipping_id"] != null
-          ? json["partner_shipping_id"]
-          : []);
-    }
+    partnerId = json['partner_id'];
+    partnerInvoiceId = json['partner_invoice_id'];
+    partnerShippingId = json['partner_shipping_id'];
     paymentTermId = json['payment_term_id'];
-    if (json["picking_ids"] != null) {
-      pickingIds = List<dynamic>.from(
-          json["picking_ids"] != null ? json["picking_ids"] : []);
-    }
+    pickingIds = json['picking_ids'];
     pickingPolicy = json['picking_policy'];
-    if (json["pricelist_id"] != null) {
-      pricelistId = List<dynamic>.from(
-          json["pricelist_id"] != null ? json["pricelist_id"] : []);
-    }
+    pricelistId = json['pricelist_id'];
     procurementGroupId = json['procurement_group_id'];
-    recurringInterval = json['recurring_interval'];
-    recurringRuleType = json['recurring_rule_type'];
     reference = json['reference'];
     remainingValidityDays = json['remaining_validity_days'];
     requirePayment = json['require_payment'];
     requireSignature = json['require_signature'];
-    if (json["sale_order_option_ids"] != null) {
-      saleOrderOptionIds = List<dynamic>.from(
-          json["sale_order_option_ids"] != null
-              ? json["sale_order_option_ids"]
-              : []);
-    }
+    saleOrderOptionIds = json['sale_order_option_ids'];
     saleOrderTemplateId = json['sale_order_template_id'];
     signature = json['signature'];
     signedBy = json['signed_by'];
+    sourceId = json['source_id'];
     state = json['state'];
-    if (json["team_id"] != null) {
-      teamId =
-          List<dynamic>.from(json["team_id"] != null ? json["team_id"] : []);
-    }
-    if (json["transaction_ids"] != null) {
-      transactionIds = List<dynamic>.from(
-          json["transaction_ids"] != null ? json["transaction_ids"] : []);
-    }
-    if (json["transporter_id"] != null) {
-      transporterId = List<dynamic>.from(
-          json["transporter_id"] != null ? json["transporter_id"] : []);
-    }
+    tagIds = json['tag_ids'];
+    teamId = json['team_id'];
+    transactionIds = json['transaction_ids'];
+    transporterId = json['transporter_id'];
     typeName = json['type_name'];
-    if (json["user_id"] != null) {
-      userId =
-          List<dynamic>.from(json["user_id"] != null ? json["user_id"] : []);
-    }
+    userId = json['user_id'];
     validityDate = json['validity_date'];
-    if (json["warehouse_id"] != null) {
-      warehouseId = List<dynamic>.from(
-          json["warehouse_id"] != null ? json["warehouse_id"] : []);
-    }
+    warehouseId = json['warehouse_id'];
     warningStock = json['warning_stock'];
     websiteId = json['website_id'];
-    if (json["website_message_ids"] != null) {
-      websiteMessageIds = List<dynamic>.from(json["website_message_ids"] != null
-          ? json["website_message_ids"]
-          : []);
-    }
-    if (json["website_order_line"] != null) {
-      websiteOrderLine = List<dynamic>.from(
-          json["website_order_line"] != null ? json["website_order_line"] : []);
-    }
+    websiteMessageIds = json['website_message_ids'];
+    websiteOrderLine = json['website_order_line'];
     writeDate = json['write_date'];
-    if (json["write_uid"] != null) {
-      writeUid = List<dynamic>.from(
-          json["write_uid"] != null ? json["write_uid"] : []);
-    }
+    writeUid = json['write_uid'];
     xIsSameCustomerAddress = json['x_is_same_customer_address'];
-    if (json["x_pickup_address"] != null) {
-      xPickupAddress = List<dynamic>.from(
-          json["x_pickup_address"] != null ? json["x_pickup_address"] : []);
-    }
+    xPickupAddress = json['x_pickup_address'];
     xSchool = json['x_school'];
     xStartDate = json['x_start_date'];
-    if (json["x_vehicles"] != null) {
-      xVehicles = List<dynamic>.from(
-          json["x_vehicles"] != null ? json["x_vehicles"] : []);
-    }
+    xTime = json['x_time'];
+    xVehicles = json['x_vehicles'];
   }
 
   Map<String, dynamic> toJson() {
@@ -434,6 +347,7 @@ class SaleOrder {
     data['analytic_account_id'] = this.analyticAccountId;
     data['authorized_transaction_ids'] = this.authorizedTransactionIds;
     data['available_carrier_ids'] = this.availableCarrierIds;
+    data['campaign_id'] = this.campaignId;
     data['carrier_id'] = this.carrierId;
     data['cart_quantity'] = this.cartQuantity;
     data['cart_recovery_email_sent'] = this.cartRecoveryEmailSent;
@@ -463,6 +377,7 @@ class SaleOrder {
     data['invoice_status'] = this.invoiceStatus;
     data['is_abandoned_cart'] = this.isAbandonedCart;
     data['is_expired'] = this.isExpired;
+    data['medium_id'] = this.mediumId;
     data['message_attachment_count'] = this.messageAttachmentCount;
     data['message_channel_ids'] = this.messageChannelIds;
     data['message_follower_ids'] = this.messageFollowerIds;
@@ -479,6 +394,7 @@ class SaleOrder {
     data['name'] = this.name;
     data['note'] = this.note;
     data['only_services'] = this.onlyServices;
+    data['opportunity_id'] = this.opportunityId;
     data['order_line'] = this.orderLine;
     data['origin'] = this.origin;
     data['partner_id'] = this.partnerId;
@@ -489,8 +405,6 @@ class SaleOrder {
     data['picking_policy'] = this.pickingPolicy;
     data['pricelist_id'] = this.pricelistId;
     data['procurement_group_id'] = this.procurementGroupId;
-    data['recurring_interval'] = this.recurringInterval;
-    data['recurring_rule_type'] = this.recurringRuleType;
     data['reference'] = this.reference;
     data['remaining_validity_days'] = this.remainingValidityDays;
     data['require_payment'] = this.requirePayment;
@@ -499,7 +413,9 @@ class SaleOrder {
     data['sale_order_template_id'] = this.saleOrderTemplateId;
     data['signature'] = this.signature;
     data['signed_by'] = this.signedBy;
+    data['source_id'] = this.sourceId;
     data['state'] = this.state;
+    data['tag_ids'] = this.tagIds;
     data['team_id'] = this.teamId;
     data['transaction_ids'] = this.transactionIds;
     data['transporter_id'] = this.transporterId;
@@ -517,6 +433,7 @@ class SaleOrder {
     data['x_pickup_address'] = this.xPickupAddress;
     data['x_school'] = this.xSchool;
     data['x_start_date'] = this.xStartDate;
+    data['x_time'] = this.xTime;
     data['x_vehicles'] = this.xVehicles;
     return data;
   }

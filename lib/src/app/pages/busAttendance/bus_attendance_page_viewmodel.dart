@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
+import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/pages/busAttendance/bus_attendance_page.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,14 @@ class BusAttendancePageViewModel extends ViewModelBase {
   listOnTap(ChildrenBusSession data) {
     Navigator.pop(context, RoutePopArgument(BusAttendancePage.routeName, data));
   }
-
+  onTapLeave(Children children){
+    listChildren.forEach((session){
+      if(session.child.id == children.id) {
+        session.status = StatusBus.list[3];
+        this.updateState();
+      }
+    });
+  }
   @override
   void dispose() {
     streamCloud.cancel();

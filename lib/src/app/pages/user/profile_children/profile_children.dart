@@ -1,7 +1,7 @@
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
+import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -16,10 +16,16 @@ class ProfileChildrenPage extends StatefulWidget {
 }
 
 class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
+  ChildrenBusSession busSession;
+  @override
+  void initState() {
+    // TODO: implement initState
+    busSession = ChildrenBusSession.list[0];//ChildrenBusSession.list.singleWhere((bus) => bus.child.id == widget.children.id);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    final ChildrenBusSession busSession =
-    ChildrenBusSession.list.singleWhere((bus) => bus.child.id == widget.children.id);
+
     final deviceWidth = MediaQuery.of(context).size.width;
 
     final cancelBtn = Positioned(
@@ -44,7 +50,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
       left: deviceWidth/2-80,
       child: QrImage(
         backgroundColor: Colors.white,
-        data: widget.children.photo,
+        data: widget.children.name,
         version: QrVersions.auto,
         size: 160.0,
       ),
@@ -53,25 +59,19 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
       children: <Widget>[
         Hero(
             tag: widget.children.photo,
-            child: Container(
+            child:
+            Container(
               height: 400,
               child: Column(
               children: <Widget>[
                 Flexible(
                   flex: 8,
-                  child: CachedNetworkImage(
-                    imageUrl: widget.children.photo,
-                    imageBuilder: (context, imageProvider) => Container(
-                      height: 350.0,
-                      width: deviceWidth,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
+                  child: Image(
+                    fit: BoxFit.cover,
+                    width: deviceWidth,
+                    height: 350,
+                    image: MemoryImage(widget.children.photo),
+                  )
                 ),
                 Flexible(
                   flex: 2,
@@ -79,7 +79,8 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                     ))
               ],
               ),
-            )),
+            )
+    ),
         cancelBtn,
         qrCode
       ],
@@ -104,12 +105,12 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
               ),
             ),
             Flexible(
-              flex: 2,
+              flex: 3,
               child: Container(
                 margin: EdgeInsets.only(left: 10),
-                padding: EdgeInsets.symmetric(horizontal: 3.0),
+                //padding: EdgeInsets.symmetric(horizontal: 3.0),
                 height: 30.0,
-                width: 60.0,
+                width: 80.0,
                 decoration: BoxDecoration(
                     gradient: ThemePrimary.chatBubbleGradient,
                     borderRadius: BorderRadius.circular(30.0)),
@@ -117,12 +118,8 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Icon(
-                        widget.children.gender == 'M' ? LineIcons.mars : LineIcons.venus,
-                        color: Colors.white,
-                      ),
                       Text(
-                        widget.children.age.toString(),
+                        widget.children.gender.toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -367,40 +364,47 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
         ),
       );
     }
-    final childrenInfo = Padding(
-      padding: EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
-      child: Material(
-        elevation: 5.0,
-        borderRadius: BorderRadius.circular(12.0),
-        shadowColor: Colors.white,
-        child: Container(
-          padding: EdgeInsets.all(0.0),
-          width: deviceWidth,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.0),
-            color: Colors.white,
-          ),
-          constraints: BoxConstraints(minHeight: 100.0),
+    childrenInfo(Children children){
+      return Padding(
+        padding: EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
+        child: Material(
+          elevation: 5.0,
+          borderRadius: BorderRadius.circular(12.0),
+          shadowColor: Colors.white,
           child: Container(
-            child: Column(
-              children: <Widget>[
-                rowTitle('THÔNG TIN HỌC SINH'),
-                row1('Họ và tên :', 'Nguyên Văn Á'),
-                hr,
-                row1('Lớp :', '2A'),
-                hr,
-                row1('Trường :', 'THPT Lê Văn Sỹ'),
-                hr,
-                row1('Địa chỉ :', '285 Cách mạng tháng 8'),
-                hr,
-                row1('Phụ huynh :', 'Nguyên Minh Long'),
-                Container(height: 1, margin: EdgeInsets.only(bottom: 10),)
-              ],
+            padding: EdgeInsets.all(0.0),
+            width: deviceWidth,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.0),
+              color: Colors.white,
+            ),
+            constraints: BoxConstraints(minHeight: 100.0),
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  rowTitle('THÔNG TIN HỌC SINH'),
+                  row1('Họ và tên :', children.name),
+                  hr,
+                  row1('Trường :', children.schoolName),
+                  hr,
+                  row1('Lớp :', children.classes),
+                  hr,
+                  row1('Địa chỉ :', children.location),
+                  hr,
+                  row1('Số điện thoại :', children.phone),
+                  hr,
+                  row1('Email :', children.email),
+                  hr,
+                  row1('Phụ huynh :', Parent().name),
+                  Container(height: 1, margin: EdgeInsets.only(bottom: 10),)
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+     }
+
     final busInfo = Padding(
       padding: EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
       child: Material(
@@ -438,14 +442,15 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
       ),
     );
     return Scaffold(
-      body: SingleChildScrollView(
+      body:
+      SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             userImage,
             userName,
             userLocation,
-            childrenInfo,
+            childrenInfo(widget.children),
             busInfo
           ],
         ),

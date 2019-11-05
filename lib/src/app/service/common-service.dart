@@ -10,7 +10,7 @@ class Common {
   Common();
 
   ///Trả về định dạng tiền theo VND
-  static String formatMoney(int number) {
+  static String formatMoney(double number) {
     final oCcy = new NumberFormat("#,##0");
     return oCcy.format(number);
   }
@@ -94,6 +94,12 @@ class Common {
       arrName.add(curName);
     });
     return arrName;
+  }
+
+  ///Get value of enum
+  static String getValueEnum(enumValue) {
+    if (enumValue != null) return enumValue.toString().split('.').last;
+    return null;
   }
 }
 

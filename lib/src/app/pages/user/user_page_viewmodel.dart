@@ -3,17 +3,28 @@ import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/res-partner.dart';
+import 'package:b2s_parent/src/app/models/sale-order-line.dart';
+import 'package:b2s_parent/src/app/pages/user/edit_profile_children/edit_profile_children.dart';
+import 'package:flutter/cupertino.dart';
+
+import 'edit_profile_parent/edit_profile_parent.dart';
 
 class UserPageViewModel extends ViewModelBase {
   bool check = true;
   bool isShowChildrenManager;
   Parent parent;
   List<Children> listChildren;
+  List<Children> listChildrenTickets;
+  List<SaleOrderLine> listSaleOrderLine;
 
   UserPageViewModel() {
     isShowChildrenManager = false;
     parent = new Parent();
     listChildren = parent.listChildren;
+    listChildrenTickets = Children.getListChildrenPaidTicket(listChildren);
+    api.getTicketOfListChildren().then((tickets){
+      listSaleOrderLine = tickets;
+    });
 
     //demo update insert children
     // api.getTitleCustomer().then((value) {
@@ -35,12 +46,31 @@ class UserPageViewModel extends ViewModelBase {
     //   // });
     // });
   }
-
+  onTapParent() async{
+    await Navigator.pushNamed(context, EditProfileParent.routeName,arguments: parent).then((_){
+      this.updateState();
+    });
+  }
+  onTapChildren(Children children) async{
+    await Navigator.pushNamed(context, EditProfileChildren.routeName,arguments: ProfileChildrenArgs(parent:parent,children: children)).then((r){
+      if(r!=null) {
+        listChildren = r;
+        this.updateState();
+      }
+    });
+  }
+  onTapCreateChildren()async{
+    await Navigator.pushNamed(context, EditProfileChildren.routeName,arguments: ProfileChildrenArgs(parent:parent)).then((r){
+      if(r!=null){
+        listChildren = r;
+        this.updateState();
+      }
+    });
+  }
   updateStatusChildrenManager() {
     isShowChildrenManager = !isShowChildrenManager;
     this.updateState();
   }
-
   @override
   void dispose() {
     super.dispose();

@@ -15,7 +15,7 @@ class LeavePageViewModel extends ViewModelBase {
   String pageViewTitle ;
   Children childPrimary;
   LeavePageViewModel(){
-    listDate = [new DateTime.utc(2019,9,1), new DateTime.utc(2019,10,4), new DateTime.utc(2019,10,5)];
+    listDate = new List() ;
     listDateShowPresent = new List();
     listDateShowNext = new List();
     dateDefault = new DateTime.now();

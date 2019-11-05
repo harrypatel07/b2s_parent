@@ -1,14 +1,15 @@
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
+import 'package:b2s_parent/src/app/pages/login/login_page.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
-import 'package:b2s_parent/src/app/pages/user/popup_edit_profile_children/popup_edit_profile_children.dart';
 import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children.dart';
 import 'package:b2s_parent/src/app/pages/user/settings/user_settings.dart';
+import 'package:b2s_parent/src/app/pages/user/tickets/tickes_children.dart';
 import 'package:b2s_parent/src/app/pages/user/user_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class UserPage extends StatefulWidget {
   static const String routeName = "/user";
@@ -19,7 +20,9 @@ class _UserPageState extends State<UserPage>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _animation;
-  RenderBox _renderBox;
+
+  Animation<double> _animationTickests;
+
   UserPageViewModel viewModel;
 
   @override
@@ -28,6 +31,7 @@ class _UserPageState extends State<UserPage>
     _controller = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
     _animation = Tween(begin: 0.0, end: 1.0).animate(_controller);
+    _animationTickests = Tween(begin: 0.0, end: 1.0).animate(_controller);
   }
 
   @override
@@ -47,62 +51,65 @@ class _UserPageState extends State<UserPage>
             children: <Widget>[
               new Expanded(
                 flex: 6,
-                child: new Container(
-                  //margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  padding: EdgeInsets.fromLTRB(20, 7.5, 0, 7.5),
-                  decoration: new BoxDecoration(
-                    //color: Colors.white30, //new Color(0xFF333366),
-                    //color: Colors.teal,
-                    shape: BoxShape.rectangle,
-                    borderRadius: new BorderRadius.circular(0.0),
-                  ),
-                  child: new Row(
-                    children: <Widget>[
-                      InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            ProfileChildrenPage.routeName,
-                            arguments: children,
-                          );
-                          print('on Tap avatar');
-                        },
-                        child: Hero(
-                          tag: children.photo,
-                          child: CircleAvatar(
-                            radius: 20.0,
-                            backgroundImage: MemoryImage(children.photo),
-                            backgroundColor: Colors.transparent,
-                          ),
-                          // new CachedNetworkImage(
-                          //   imageUrl: children.photo,
-                          //   imageBuilder: (context, imageProvider) =>
-                          //       CircleAvatar(
-                          //     radius: 20.0,
-                          //     backgroundImage: imageProvider,
-                          //     backgroundColor: Colors.transparent,
-                          //   ),
-                          // ),
-                        ),
-                      ),
-                      new Flexible(
-                        child: new Container(
-                          margin: EdgeInsets.only(left: 10),
-                          child: new Text(
-                            children.name,
-                            style: TextStyle(fontSize: 14),
-                            overflow: TextOverflow.ellipsis,
+                child: InkWell(
+                  onTap: () => viewModel.onTapChildren(children),
+                  child: new Container(
+                    //margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    padding: EdgeInsets.fromLTRB(20, 7.5, 0, 7.5),
+                    decoration: new BoxDecoration(
+                      //color: Colors.white30, //new Color(0xFF333366),
+                      //color: Colors.teal,
+                      shape: BoxShape.rectangle,
+                      borderRadius: new BorderRadius.circular(0.0),
+                    ),
+                    child: new Row(
+                      children: <Widget>[
+                        InkWell(
+                          onTap: () {
+                            print('on Tap avatar');
+                            Navigator.pushNamed(
+                              context,
+                              ProfileChildrenPage.routeName,
+                              arguments: children,
+                            );
+                          },
+                          child: Hero(
+                            tag: children.photo,
+                            child: CircleAvatar(
+                              radius: 20.0,
+                              backgroundImage: MemoryImage(children.photo),
+                              backgroundColor: Colors.transparent,
+                            ),
+                            // new CachedNetworkImage(
+                            //   imageUrl: children.photo,
+                            //   imageBuilder: (context, imageProvider) =>
+                            //       CircleAvatar(
+                            //     radius: 20.0,
+                            //     backgroundImage: imageProvider,
+                            //     backgroundColor: Colors.transparent,
+                            //   ),
+                            // ),
                           ),
                         ),
-                      )
-                    ],
+                        new Flexible(
+                          child: new Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: new Text(
+                              children.name,
+                              style: TextStyle(fontSize: 14),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
               new Expanded(
                 flex: 1,
                 child: InkWell(
-                  onTap: () => _popupChildrenManager(context, children),
+//                  onTap: () => _popupChildrenManager(context, children),
                   child: new Container(
                     height: 50,
                     //color: Colors.green,
@@ -129,49 +136,6 @@ class _UserPageState extends State<UserPage>
     );
   }
 
-  void _popupChildrenManager(BuildContext context, Children children) {
-    showGeneralDialog(
-        barrierColor: Colors.black.withOpacity(0.5),
-        transitionBuilder: (context, a1, a2, widget) {
-          final curvedValue = Curves.easeInOutBack.transform(a1.value) - 1.0;
-          return Transform(
-            transform: Matrix4.translationValues(0.0, -curvedValue * 200, 0.0),
-            child: PopupEditProfileChildren(ProfileChildrenArgs(
-                children: children,
-                buttonText: "OKAY",
-                userViewModel: viewModel)),
-          );
-        },
-        transitionDuration: Duration(milliseconds: 200),
-        barrierDismissible: true,
-        barrierLabel: '',
-        context: context,
-        pageBuilder: (context, animation1, animation2) {});
-  }
-
-  // Widget _buildUserStats(String name, String value) {
-  //   return Column(
-  //     children: <Widget>[
-  //       Text(
-  //         name,
-  //         style: TextStyle(
-  //           color: Colors.grey.withOpacity(0.6),
-  //           fontWeight: FontWeight.w600,
-  //           fontSize: 16.0,
-  //         ),
-  //       ),
-  //       Text(
-  //         value,
-  //         style: TextStyle(
-  //           color: Colors.black87,
-  //           fontWeight: FontWeight.w900,
-  //           fontSize: 20.0,
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     TabsPageViewModel tabsPageViewModel = ViewModelProvider.of(context);
@@ -181,20 +145,6 @@ class _UserPageState extends State<UserPage>
       height: 1,
       color: Colors.grey.shade200,
     );
-
-    // final userImage = CachedNetworkImage(
-    //     imageUrl: viewModel.parent.photo,
-    //     imageBuilder: (context, imageProvider) => Container(
-    //           height: 100.0,
-    //           width: 100.0,
-    //           decoration: BoxDecoration(
-    //             image: DecorationImage(
-    //               image: imageProvider,
-    //               fit: BoxFit.cover,
-    //             ),
-    //             shape: BoxShape.circle,
-    //           ),
-    //         ));
     final userImage = Container(
       height: 100.0,
       width: 100.0,
@@ -231,35 +181,40 @@ class _UserPageState extends State<UserPage>
             elevation: 5.0,
             borderRadius: BorderRadius.circular(8.0),
             shadowColor: Colors.white,
-            child: Container(
-              height: 220.0,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                border: Border.all(
-                  color: Colors.grey.withOpacity(0.2),
-                ),
-                color: Colors.white,
-              ),
+            child: InkWell(
+              onTap: () {
+                viewModel.onTapParent();
+              },
               child: Container(
-                padding: const EdgeInsets.only(left: 20.0, bottom: 20.0),
+                height: 220.0,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  border: Border.all(
+                    color: Colors.grey.withOpacity(0.2),
+                  ),
+                  color: Colors.white,
+                ),
                 child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        width: 100,
-                        height: 100,
-                        child: userImage,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width - 180,
-                        child: userName,
-                      ),
-                    ],
+                  padding: const EdgeInsets.only(left: 20.0, bottom: 20.0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          width: 100,
+                          height: 100,
+                          child: userImage,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width - 180,
+                          child: userName,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -300,7 +255,7 @@ class _UserPageState extends State<UserPage>
 
     Widget _itemChildAdd() {
       return InkWell(
-        onTap: () => _popupChildrenManager(context, null),
+        onTap: () => viewModel.onTapCreateChildren(),
         child: new Container(
           height: 50,
           child: Align(
@@ -369,6 +324,123 @@ class _UserPageState extends State<UserPage>
       );
     }
 
+    Widget _buildTicketTitle(IconData icon, Color color, String title) {
+      return new Column(
+        children: <Widget>[
+          new ListTile(
+              title: Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              leading: Container(
+                height: 30.0,
+                width: 30.0,
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Center(
+                  child: Icon(
+                    icon,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              trailing: Icon(LineIcons.chevron_circle_right),
+              onTap: () {
+                Navigator.pushNamed(context, TicketsChildren.routeName,
+                    arguments: ProfileTicketArgs(
+                        listChildrenTickets: viewModel.listChildrenTickets,
+                        listSaleOrderLine: viewModel.listSaleOrderLine));
+                print("Tab tickets");
+              }),
+        ],
+      );
+    }
+
+    void _popupConfirm() {
+      var alertStyle = AlertStyle(
+        animationType: AnimationType.fromTop,
+        isCloseButton: false,
+        isOverlayTapDismiss: true,
+        descStyle: TextStyle(fontWeight: FontWeight.bold),
+        animationDuration: Duration(milliseconds: 400),
+        alertBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+          side: BorderSide(
+            color: Colors.grey,
+          ),
+        ),
+        titleStyle: TextStyle(
+          color: Colors.red,
+        ),
+      );
+      new Alert(
+        context: context,
+        type: AlertType.info,
+        style: alertStyle,
+        title: "THÔNG BÁO",
+        desc: "Xác nhận đăng xuất ?.",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "Không",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            gradient: LinearGradient(colors: [Colors.green, Colors.teal]),
+            onPressed: () => Navigator.pop(context),
+            width: 120,
+          ),
+          DialogButton(
+            child: Text(
+              "Có",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            gradient: LinearGradient(colors: [
+              Color.fromRGBO(255, 69, 0, 1.0),
+              Color.fromRGBO(255, 165, 0, 1.0),
+              Color.fromRGBO(255, 215, 0, 1.0),
+            ]),
+            onPressed: () => {
+              viewModel.parent.clearLocal(),
+              Navigator.pushNamed(context, LoginPage.routeName),
+            },
+            width: 120,
+          )
+        ],
+      ).show();
+    }
+
+    Widget _buildLogOutTitle(IconData icon, Color color, String title) {
+      return new Column(
+        children: <Widget>[
+          new ListTile(
+              title: Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              leading: Container(
+                height: 30.0,
+                width: 30.0,
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Center(
+                  child: Icon(
+                    icon,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              trailing: Icon(LineIcons.chevron_circle_right),
+              onTap: () {
+                _popupConfirm();
+              }),
+        ],
+      );
+    }
+
     Widget secondCard() {
       return Padding(
         padding: EdgeInsets.only(right: 20.0, left: 20.0, bottom: 30.0),
@@ -385,10 +457,14 @@ class _UserPageState extends State<UserPage>
             child: Column(
               children: <Widget>[
                 _buildChildrenTitle(
-                    Icons.person_pin, Colors.blue, "Children Manager"),
+                    Icons.person_pin, Colors.blue, "Quản lý thông tin trẻ"),
+                hr,
+                _buildTicketTitle(Icons.person_pin, Colors.blue, "Quản lý vé"),
                 hr,
                 _buildIconTileSettings(
                     LineIcons.cogs, Colors.grey.withOpacity(0.6), 'Settings'),
+                hr,
+                _buildLogOutTitle(Icons.exit_to_app, Colors.blue, "Đăng xuất"),
               ],
             ),
           ),

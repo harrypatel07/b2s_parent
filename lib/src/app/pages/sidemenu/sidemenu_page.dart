@@ -40,7 +40,8 @@ class _SideMenuPageState extends State<SideMenuPage> {
                   fontWeight: FontWeight.bold),
             )
           : Container(),
-      accountEmail: viewModel.childPrimary != null
+      accountEmail: viewModel.childPrimary != null &&
+              viewModel.childPrimary.schoolName != null
           ? Text(
               viewModel.childPrimary.schoolName,
               style: TextStyle(

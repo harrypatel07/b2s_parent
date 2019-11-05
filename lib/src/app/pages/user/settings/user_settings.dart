@@ -15,7 +15,7 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
     height: 1,
     color: Colors.grey.shade200,
   );
-   _titleReminder() {
+  _titleReminder() {
     return Container(
       padding: EdgeInsets.all(20.0),
       child: Align(

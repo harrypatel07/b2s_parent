@@ -1,7 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
-
-import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 
@@ -401,9 +398,11 @@ class ResPartner {
     //     "$domainApi/web/image?model=res.partner&field=imageMedium&id=$id";
     // imageSmall =
     //     "$domainApi/web/image?model=res.partner&field=imageSmall&id=$id";
-    image = base64.decode(json['image']);
-    imageMedium = base64.decode(json['image_medium']);
-    imageSmall = base64.decode(json['image_small']);
+    if (json['image'] != null) image = base64.decode(json['image']);
+    if (json['image_medium'] != null)
+      imageMedium = base64.decode(json['image_medium']);
+    if (json['image_small'] != null)
+      imageSmall = base64.decode(json['image_small']);
     industryId = json['industry_id'];
     if (json["invoice_ids"] != null) {
       invoiceIds = List<dynamic>.from(
@@ -624,6 +623,8 @@ class ResPartner {
     email = children.email;
     phone = children.phone;
     parentId = children.parentId;
+    xSchool = children.schoolId;
+    xClass = children.classes;
   }
 
   ResPartner.fromParent(Parent parent) {

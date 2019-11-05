@@ -253,6 +253,9 @@ class _BusAttendancePageState extends State<BusAttendancePage> {
               viewModel.listOnTap(viewModel.listChildren[index]);
             },
             onTapCall: () {},
+            onTapLeave: (){
+              viewModel.onTapLeave(viewModel.listChildren[index].child);
+            },
           );
       return ListView.builder(
         itemCount: viewModel.listChildren.length,

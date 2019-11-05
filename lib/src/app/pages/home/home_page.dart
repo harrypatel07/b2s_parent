@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
@@ -19,26 +20,36 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   HomePageViewModel viewModel;
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     TabsPageViewModel tabsPageViewModel = ViewModelProvider.of(context);
     viewModel = tabsPageViewModel.homePageViewModel;
     viewModel.context = context;
-    return ViewModelProvider(
-      viewmodel: viewModel,
-      child: StreamBuilder<Object>(
-          stream: viewModel.stream,
-          builder: (context, snapshot) {
-            return TS24Scaffold(
-              backgroundColor: Colors.white,
-              // appBar: AppBar(
-              //   backgroundColor: Colors.white,
-              //   elevation: 0,
-              //   leading: appBarIconSideMenu(context),
-              // ),
-              body: HomeBodyWidget(),
-              // drawer: SideMenuPage(),
-            );
-          }),
+    return StatefulWrapper(
+      onInit: () {
+        // viewModel.loadData();
+      },
+      child: ViewModelProvider(
+        viewmodel: viewModel,
+        child: StreamBuilder<Object>(
+            stream: viewModel.stream,
+            builder: (context, snapshot) {
+              return TS24Scaffold(
+                backgroundColor: Colors.white,
+                // appBar: AppBar(
+                //   backgroundColor: Colors.white,
+                //   elevation: 0,
+                //   leading: appBarIconSideMenu(context),
+                // ),
+                body: HomeBodyWidget(),
+                // drawer: SideMenuPage(),
+              );
+            }),
+      ),
     );
   }
 }
@@ -87,6 +98,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
 
     Widget __listChildren() {
       Widget ___card(int index) => BusAttentdanceCard(
+            isExten: false,
             childrenBusSession: viewModel.listChildren[index],
             onTapCard: () {
               viewModel.listOnTap(viewModel.listChildren[index]);

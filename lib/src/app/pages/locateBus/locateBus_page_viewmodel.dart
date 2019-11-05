@@ -42,7 +42,7 @@ class LocateBusPageViewModel extends ViewModelBase {
   LocateBusPageViewModel() {
     childrenBus = ChildrenBusSession.list.singleWhere((item) =>
         item.child.id == Children.getChildrenPrimary(Children.list).id);
-    listenData(childrenBus.sessionID);
+    //listenData(childrenBus.sessionID);
   }
 
   @override

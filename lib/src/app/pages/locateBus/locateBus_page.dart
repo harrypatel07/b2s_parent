@@ -26,10 +26,10 @@ class LocateBusArgument {
 class _LocateBusPageState extends State<LocateBusPage> {
   LocateBusPageViewModel viewModel = LocateBusPageViewModel();
 
-  final double _initFabHeight = 100.0;
+  final double _initFabHeight = 145.0;
   double _fabHeight;
   double _panelHeightOpen = 0;
-  double _panelHeightClosed = 120.0;
+  double _panelHeightClosed = 145.0;
 
   ScrollController _sc = ScrollController();
   PanelController _pc = PanelController();
@@ -54,7 +54,7 @@ class _LocateBusPageState extends State<LocateBusPage> {
     });
     viewModel.context = context;
     viewModel.childrenBus = widget.args.data;
-    viewModel.listenData(widget.args.data.sessionID);
+    // viewModel.listenData(widget.args.data.sessionID);
   }
 
   Widget _buildBody() {
@@ -93,6 +93,7 @@ class _LocateBusPageState extends State<LocateBusPage> {
       return Stack(
         children: <Widget>[
           BusAttentdanceCard(
+            isExten: true,
               childrenBusSession: viewModel.childrenBus,
               onTapCard: () {
                 //  viewModel.listOnTap(viewModel.listChildren[index]);
@@ -143,10 +144,33 @@ class _LocateBusPageState extends State<LocateBusPage> {
             : ClampingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[__childrenCard(), __timeLine()],
+          children: <Widget>[
+            __childrenCard(),
+            //  __timeLine()
+          ],
         ));
   }
-
+  Widget _backButton(){
+    return Positioned(
+      top: 25,
+      left: 0,
+      child: InkWell(
+        onTap: (){
+          Navigator.of(context).pop();
+        },
+        child: Container(
+          padding: EdgeInsets.only(right: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(bottomRight: Radius.circular(25),topRight: Radius.circular(25)),
+            color: Colors.black38,
+          ),
+          width: 70,
+          height: 50,
+          child: Icon(Icons.arrow_back,color: Colors.white,),
+        ),
+      ),
+    );
+  }
   Widget _buildIconLocation() {
     return Positioned(
       right: 20.0,
@@ -170,7 +194,7 @@ class _LocateBusPageState extends State<LocateBusPage> {
   Widget build(BuildContext context) {
     // TabsPageViewModel tabsPageViewModel = ViewModelProvider.of(context);
     // viewModel = tabsPageViewModel.locateBusPageViewModel;
-    _panelHeightOpen = MediaQuery.of(context).size.height * 2 / 3;
+    _panelHeightOpen = MediaQuery.of(context).size.height * 3 / 7 - 15;
     return StatefulWrapper(
       onInit: () {},
       child: ViewModelProvider(
@@ -212,7 +236,8 @@ class _LocateBusPageState extends State<LocateBusPage> {
                         // body: Container()
                       ),
                     ),
-                    _buildIconLocation()
+                    _buildIconLocation(),
+                    _backButton()
                   ],
                 ),
               );

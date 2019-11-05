@@ -19,7 +19,7 @@ class TabsPageViewModel extends ViewModelBase {
     locateBusPageViewModel = LocateBusPageViewModel();
     homePageViewModel = HomePageViewModel();
     userPageViewModel = UserPageViewModel();
-    cloudService.busSession.syncColectionChildrenBusSession();
+    //cloudService.busSession.syncColectionChildrenBusSession();
     // cloudService.sendMessage();
   }
   onTapped(int index) {

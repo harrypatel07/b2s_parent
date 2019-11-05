@@ -11,7 +11,7 @@ class Children {
   dynamic genderId;
   dynamic age;
   bool primary;
-  dynamic schoolName;
+  dynamic schoolName = "";
   dynamic schoolId;
   dynamic phone;
   dynamic email;

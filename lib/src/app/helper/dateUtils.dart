@@ -25,7 +25,7 @@ List<MonthModule> getDateInMonth(List<MonthModule> listDateShow,
       listDateShow.add(monthModule);
   }
   for (int i = listDateShow.length - 1; i >= 0; i--) {
-    DateTime day = new DateTime(year, month, i);
+    DateTime day = new DateTime(year, month, listDateShow[i].date.day);
     if (day.month == month) {
       if ((day.weekday == DateTime.saturday || day.weekday == DateTime.sunday) && day.isAfter(DateTime.now())) {
         if (!containsDayInList(listDateTemp, day))
@@ -34,7 +34,7 @@ List<MonthModule> getDateInMonth(List<MonthModule> listDateShow,
     }
   }
   for (int i = listDateShow.length - 1; i >= 0; i--) {
-    DateTime dayOfWeek = new DateTime(year, month, i);
+    DateTime dayOfWeek = new DateTime(year, month, listDateShow[i].date.day);
     if (i == 0) {
       if (containsDayInList(listDateTemp, listDateShow[i + 1].date)) {
         listDateShow[i].typeDraw = LEFT_HALF_SCHEDULE;
@@ -42,6 +42,11 @@ List<MonthModule> getDateInMonth(List<MonthModule> listDateShow,
       } else {
         listDateShow[i].typeDraw = EMPTY_SCHEDULE;
         listDateShow[i].color = Colors.green;
+        if ((dayOfWeek.weekday == DateTime.saturday ||
+            dayOfWeek.weekday == DateTime.sunday) && dayOfWeek.isAfter(DateTime.now())) {
+          listDateShow[i].typeDraw = FILL_CIRCLE;
+          listDateShow[i].color = Colors.red;
+        }
       }
     } else if (i == listDateShow.length - 1) {
       if (containsDayInList(listDateTemp, listDateShow[i - 1].date) &&
@@ -54,6 +59,11 @@ List<MonthModule> getDateInMonth(List<MonthModule> listDateShow,
       } else {
         listDateShow[i].typeDraw = EMPTY_SCHEDULE;
         listDateShow[i].color = Colors.green;
+        if ((dayOfWeek.weekday == DateTime.saturday ||
+            dayOfWeek.weekday == DateTime.sunday) && dayOfWeek.isAfter(DateTime.now())) {
+          listDateShow[i].typeDraw = FILL_CIRCLE;
+          listDateShow[i].color = Colors.red;
+        }
       }
     } else if (containsDayInList(listDateTemp, listDateShow[i].date)) {
       if (!(containsDayInList(listDateTemp, listDateShow[i - 1].date)) &&
@@ -75,15 +85,25 @@ List<MonthModule> getDateInMonth(List<MonthModule> listDateShow,
       } else {
         listDateShow[i].typeDraw = EMPTY_SCHEDULE;
         listDateShow[i].color = Colors.green;
+        if ((dayOfWeek.weekday == DateTime.saturday ||
+            dayOfWeek.weekday == DateTime.sunday) && dayOfWeek.isAfter(DateTime.now())) {
+          listDateShow[i].typeDraw = FILL_CIRCLE;
+          listDateShow[i].color = Colors.red;
+        }
       }
     } else {
       listDateShow[i].typeDraw = EMPTY_SCHEDULE;
       listDateShow[i].color = Colors.green;
+      if ((dayOfWeek.weekday == DateTime.saturday ||
+          dayOfWeek.weekday == DateTime.sunday) && dayOfWeek.isAfter(DateTime.now())) {
+        listDateShow[i].typeDraw = FILL_CIRCLE;
+        listDateShow[i].color = Colors.red;
+      }
     }
     if (dayOfWeek.month == month) {
       if ((dayOfWeek.weekday == DateTime.saturday ||
           dayOfWeek.weekday == DateTime.sunday) && dayOfWeek.isAfter(DateTime.now())) {
-        listDateShow[i + day - 1].color = Colors.red;
+        listDateShow[i].color = Colors.red;
       }
       if (dayOfWeek.isBefore(DateTime.now())) {
         listDateShow[i].typeDraw = GREY_DAY;

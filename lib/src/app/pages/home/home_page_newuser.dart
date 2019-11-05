@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
@@ -15,6 +16,12 @@ class HomePageNewUser extends StatefulWidget {
 
 class _HomePageNewUserState extends State<HomePageNewUser> {
   HomePageViewModel viewModel;
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     TabsPageViewModel tabsPageViewModel = ViewModelProvider.of(context);

@@ -1,3 +1,8 @@
+import 'package:b2s_parent/src/app/models/picking-route.dart';
+import 'package:b2s_parent/src/app/models/picking-transport-info.dart';
+import 'package:b2s_parent/src/app/models/route-location.dart';
+import 'package:b2s_parent/src/app/service/index.dart';
+import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 
@@ -10,9 +15,54 @@ class ChildrenBusSession {
   List<RouteBus> listRouteBus;
   Driver driver;
   StatusBus status;
-  String schoolName;
-  String notification;
+  dynamic schoolName;
+  dynamic notification;
+  dynamic vehicleId;
+  ChildrenBusSession.fromPickingTransportInfo(
+      {PickingTransportInfo pti,
+      Children objChildren,
+      Driver objDriver,
+      List<RouteBus> objListRouteBus}) {
+    sessionID = pti.id.toString();
+    //Kiểm tra chuyến đi hay chuyền về
+    var _type = 0;
+    if (pti.deliveryId is List) {
+      if (pti.deliveryId[1].toString().contains("OUT")) _type = 1;
+    }
+    if (objChildren != null) {
+      child = objChildren;
+      schoolName = child.schoolName;
+    }
+    if (objDriver != null) driver = objDriver;
+    notification = "";
 
+    PickingTransportInfo_State.values.forEach((value) {
+      if (Common.getValueEnum(value) == pti.state)
+        switch (value) {
+          case PickingTransportInfo_State.draft:
+            status = StatusBus.list[0];
+            break;
+          case PickingTransportInfo_State.halt:
+            status = StatusBus.list[1];
+
+            break;
+          case PickingTransportInfo_State.done:
+            if (_type == 0)
+              status = StatusBus.list[2];
+            else
+              status = StatusBus.list[4];
+            break;
+          case PickingTransportInfo_State.cancel:
+            status = StatusBus.list[3];
+            break;
+          default:
+        }
+    });
+    if (pti.vehicleId is List) {
+      vehicleId = pti.vehicleId[1].toString().split('/').last;
+    }
+    listRouteBus = objListRouteBus;
+  }
   fromJson(Map<dynamic, dynamic> json) {
     sessionID = json['sessionID'];
     child = Children.fromJson(json['child']);
@@ -67,24 +117,56 @@ class ChildrenBusSession {
 }
 
 class RouteBus {
-  int id;
+  dynamic id;
   String date;
   String time;
   String routeName;
   int type; //0: lượt đi, //1: lượt về
-  bool status; // hoàn thành
+  dynamic status; // hoàn thành
+  bool isSchool;
   double lat;
   double lng;
-  RouteBus(
-      {this.id,
-      this.date,
-      this.time,
-      this.routeName,
-      this.type,
-      this.status,
-      this.lat,
-      this.lng});
+  RouteBus({
+    this.id,
+    this.date,
+    this.time,
+    this.routeName,
+    this.type,
+    this.status,
+    this.lat,
+    this.lng,
+    this.isSchool,
+  });
 
+  RouteBus.fromRouteLocation(
+      {RouteLocation routeLocation,
+      PickingRoute pickingRoute,
+      int type,
+      PickingTransportInfo pickingTransportInfo}) {
+    if (type == 0) //0-điểm bắt đầu, 1-điểm kết thúc
+    {
+      routeName = pickingRoute.sourceLocation is List
+          ? pickingRoute.sourceLocation[1]
+          : "";
+      this.date = DateFormat('yyyy-MM-dd')
+          .format(DateTime.parse(pickingRoute.startTime.toString()));
+      this.time = DateFormat('hh:mm')
+          .format(DateTime.parse(pickingRoute.startTime.toString()));
+    } else //0-điểm bắt đầu, 1-điểm kết thúc
+    {
+      routeName = pickingRoute.destinationLocation is List
+          ? pickingRoute.destinationLocation[1]
+          : "";
+      this.date = DateFormat('yyyy-MM-dd')
+          .format(DateTime.parse(pickingRoute.endTime.toString()));
+      this.time = DateFormat('hh:mm')
+          .format(DateTime.parse(pickingRoute.endTime.toString()));
+    }
+    lat = double.parse(routeLocation.xPosx.toString());
+    lng = double.parse(routeLocation.xPosy.toString());
+    id = this.date + this.time;
+    this.isSchool = routeLocation.xCheckSchool;
+  }
   RouteBus.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     date = json['date'];

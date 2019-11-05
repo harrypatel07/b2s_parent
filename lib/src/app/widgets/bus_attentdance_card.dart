@@ -9,16 +9,29 @@ class BusAttentdanceCard extends StatelessWidget {
   final ChildrenBusSession childrenBusSession;
   final Function onTapCard;
   final Function onTapCall;
+  final Function onTapLeave;
+  final bool isExten;
   const BusAttentdanceCard(
-      {Key key, this.childrenBusSession, this.onTapCard, this.onTapCall})
+      {Key key,
+      this.childrenBusSession,
+      this.onTapCard,
+      this.onTapCall,
+      this.onTapLeave,
+      this.isExten})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     Widget ____left() {
       return Container(
+        height: (isExten) ? 305 : 140,
         width: 13,
         decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black12,
+                offset: Offset(0.0, 15.0),
+                blurRadius: 15.0),
+          ],
           color: Color(childrenBusSession.status.statusColor),
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(18),
@@ -32,29 +45,10 @@ class BusAttentdanceCard extends StatelessWidget {
       Widget _____userImage() {
         return Container(
           padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: <Widget>[
-              CachedNetworkImage(
-                imageUrl: childrenBusSession.child.photo,
-                imageBuilder: (context, imageProvider) => CircleAvatar(
-                  radius: 35.0,
-                  backgroundImage: imageProvider,
-                  backgroundColor: Colors.transparent,
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      childrenBusSession.child.name,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          child: CircleAvatar(
+            radius: 24.0,
+            backgroundImage: MemoryImage(childrenBusSession.child.photo),
+            backgroundColor: Colors.transparent,
           ),
         );
       }
@@ -115,59 +109,76 @@ class BusAttentdanceCard extends StatelessWidget {
       Widget _____driverPhone() {
         return Container(
           width: 100,
+          padding: EdgeInsets.only(top: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    launch("tel://${childrenBusSession.driver.phone}");
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.only(right: 12),
-                        alignment: Alignment.centerLeft,
-                        child: Icon(
-                          Icons.call,
-                          color: ThemePrimary.primaryColor,
+              (isExten)
+                  ? Container()
+                  : Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          launch("tel://${childrenBusSession.driver.phone}");
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              padding: const EdgeInsets.only(right: 12),
+                              alignment: Alignment.centerLeft,
+                              child: Icon(
+                                Icons.call,
+                                color: ThemePrimary.primaryColor,
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                child: Text(
+                                  "Gọi\ndriver",
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.black38,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
-                      Expanded(
-                        child: Container(
-                          child: Text(
-                            "Gọi\ndriver",
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.black38,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+                    ),
               Padding(
                 padding: const EdgeInsets.only(top: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(right: 12),
-                      child: Icon(
-                        FontAwesomeIcons.busAlt,
-                        color: ThemePrimary.primaryColor,
-                      ),
-                    ),
+                        padding: const EdgeInsets.only(right: 12),
+                        child: FlatButton.icon(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(18.0),
+
+                          ),
+                          color: ThemePrimary.primaryColor,
+                          label: Text(
+                            'Nghỉ',
+                            style: TextStyle(color: Colors.black38),
+                          ),
+                          onPressed: () {
+                            print('Leave button onTap');
+                          },
+                          icon: Icon(
+                            FontAwesomeIcons.home,
+                            color: Colors.red,
+                            size: 20,
+                          ),
+                        )),
                     Expanded(
                       child: Container(
                         child: Text(
-                          "123 tran hung dao q 5 dsadsa",
+                          "Nghỉ",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: TextStyle(
@@ -179,21 +190,178 @@ class BusAttentdanceCard extends StatelessWidget {
                     )
                   ],
                 ),
+              ),
+            ],
+          ),
+        );
+      }
+
+      final hr = Container(
+        height: 1,
+        color: Colors.grey.shade300,
+      );
+      Widget row1(String title, String content, double height) {
+        return Container(
+          height: height,
+          color: Colors.white,
+          padding: EdgeInsets.only(left: 15.0, right: 15.0),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                flex: 3,
+                child: Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 7,
+                child: Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    content,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                ),
               )
             ],
           ),
         );
       }
 
-      return Expanded(
-        child: Container(
-            child: Row(
+      Widget rowIcon(String title, String content, String phoneNumber) {
+        return Container(
+          color: Colors.white,
+          padding: EdgeInsets.only(left: 15.0, right: 15.0),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                flex: 3,
+                child: Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 7,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 10,
+                      child: Container(
+                        padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          content,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: InkWell(
+                        onTap: () {
+                          launch("tel://$phoneNumber");
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: 2),
+//color: Colors.amber,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.call,
+                              color: Colors.amber,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: InkWell(
+                        onTap: () {
+                          launch("sms://$phoneNumber");
+                        },
+                        child: Container(
+// color: Colors.red,
+                          margin: EdgeInsets.only(left: 2),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.message,
+                              color: Colors.lightBlue,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+
+      return Container(
+        width: MediaQuery.of(context).size.width - 43,
+//        height: 265,
+        color: Colors.transparent,
+        child: Column(
           children: <Widget>[
-            _____userImage(),
-            _____status(),
-            _____driverPhone()
+            Container(
+                height: 104,
+                child: Row(
+                  children: <Widget>[
+                    _____userImage(),
+                    _____status(),
+                    _____driverPhone()
+                  ],
+                )),
+            Container(
+              padding: EdgeInsets.only(left: 15),
+              width: MediaQuery.of(context).size.width - 43,
+              height: 35,
+              child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    childrenBusSession.child.name,
+                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+                    overflow: TextOverflow.ellipsis,
+                  )),
+            ),
+            if (isExten)
+              Container(
+                child: Column(
+                  children: <Widget>[
+                    hr,
+                    row1('Trường:', childrenBusSession.child.schoolName.toString(), 70),
+                    hr,
+                    row1('Biển số xe:', childrenBusSession.sessionID.toString(), 40),
+                    hr,
+                    rowIcon('Tài xế:', childrenBusSession.driver.name.toString(),
+                        childrenBusSession.driver.phone.toString()),
+                  ],
+                ),
+              ),
           ],
-        )),
+        ),
       );
     }
 
@@ -207,16 +375,24 @@ class BusAttentdanceCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(18.0),
         ),
         child: Container(
-            height: 120,
+            height: (isExten) ? 305 : 140,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(18),
             ),
-            child: Row(
+            child: Column(
               children: <Widget>[
-                ____left(),
-                ____right(),
+                Container(
+//                  height: 275,
+                  child: Row(
+                    children: <Widget>[
+                      ____left(),
+                      ____right(),
+                    ],
+                  ),
+                ),
+//                hr,
               ],
             )),
       ),

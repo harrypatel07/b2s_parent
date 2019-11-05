@@ -5,9 +5,7 @@ import 'package:b2s_parent/src/app/pages/message/messageUser/message_user_page.d
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/chat_bubble.dart';
 import 'package:b2s_parent/src/app/models/chat.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class MessageDetailPage extends StatefulWidget {
   final Chatting chatting;

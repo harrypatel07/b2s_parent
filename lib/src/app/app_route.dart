@@ -5,14 +5,18 @@ import 'package:b2s_parent/src/app/pages/home/home_page.dart';
 import 'package:b2s_parent/src/app/pages/leave/leave_page.dart';
 import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page.dart';
 import 'package:b2s_parent/src/app/pages/login/login_page.dart';
+import 'package:b2s_parent/src/app/pages/message/ContactsPage/contacts_page.dart';
 import 'package:b2s_parent/src/app/pages/message/messageDetail/message_detail_page.dart';
 import 'package:b2s_parent/src/app/pages/message/messageUser/message_user_page.dart';
 import 'package:b2s_parent/src/app/pages/message/message_page.dart';
+import 'package:b2s_parent/src/app/pages/message/profileMessageUser/profile_message_user_page.dart';
 import 'package:b2s_parent/src/app/pages/notification/notification_page.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page.dart';
-import 'package:b2s_parent/src/app/pages/user/popup_edit_profile_children/popup_edit_profile_children.dart';
+import 'package:b2s_parent/src/app/pages/user/edit_profile_children/edit_profile_children.dart';
+import 'package:b2s_parent/src/app/pages/user/edit_profile_parent/edit_profile_parent.dart';
 import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children.dart';
 import 'package:b2s_parent/src/app/pages/user/settings/user_settings.dart';
+import 'package:b2s_parent/src/app/pages/user/tickets/tickes_children.dart';
 import 'package:flutter/material.dart';
 
 import 'core/app_setting.dart';
@@ -50,12 +54,16 @@ class Routes {
     MessageUserPage.routeName: (context) =>
         MessageUserPage(userId: ModalRoute.of(context).settings.arguments),
     NotificationPage.routeName: (context) => NotificationPage(),
-    PopupEditProfileChildren.routeName: (context) =>
-        PopupEditProfileChildren(ModalRoute.of(context).settings.arguments),
+//    PopupEditProfileChildren.routeName: (context) => PopupEditProfileChildren(ModalRoute.of(context).settings.arguments),
+    EditProfileChildren.routeName: (context) => EditProfileChildren(ModalRoute.of(context).settings.arguments),
     UserSettingsPage.routeName: (context) => UserSettingsPage(),
     ProfileChildrenPage.routeName: (context) => ProfileChildrenPage(
           children: ModalRoute.of(context).settings.arguments,
-        )
+        ),
+    EditProfileParent.routeName: (context) => EditProfileParent(ModalRoute.of(context).settings.arguments),
+    TicketsChildren.routeName: (context)=> TicketsChildren(arguments: ModalRoute.of(context).settings.arguments,),
+    ProfileMessageUserPage.routeName: (context) => ProfileMessageUserPage(userModel:ModalRoute.of(context).settings.arguments),
+    ContactsPage.routeName:(context) => ContactsPage(),
   };
 }
 
