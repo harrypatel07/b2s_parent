@@ -7,6 +7,7 @@ import 'package:b2s_parent/src/app/pages/user/settings/user_settings.dart';
 import 'package:b2s_parent/src/app/pages/user/tickets/tickes_children.dart';
 import 'package:b2s_parent/src/app/pages/user/user_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
+import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -358,59 +359,6 @@ class _UserPageState extends State<UserPage>
       );
     }
 
-    void _popupConfirm() {
-      var alertStyle = AlertStyle(
-        animationType: AnimationType.fromTop,
-        isCloseButton: false,
-        isOverlayTapDismiss: true,
-        descStyle: TextStyle(fontWeight: FontWeight.bold),
-        animationDuration: Duration(milliseconds: 400),
-        alertBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-          side: BorderSide(
-            color: Colors.grey,
-          ),
-        ),
-        titleStyle: TextStyle(
-          color: Colors.red,
-        ),
-      );
-      new Alert(
-        context: context,
-        type: AlertType.info,
-        style: alertStyle,
-        title: "THÔNG BÁO",
-        desc: "Xác nhận đăng xuất ?.",
-        buttons: [
-          DialogButton(
-            child: Text(
-              "Không",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            gradient: LinearGradient(colors: [Colors.green, Colors.teal]),
-            onPressed: () => Navigator.pop(context),
-            width: 120,
-          ),
-          DialogButton(
-            child: Text(
-              "Có",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            gradient: LinearGradient(colors: [
-              Color.fromRGBO(255, 69, 0, 1.0),
-              Color.fromRGBO(255, 165, 0, 1.0),
-              Color.fromRGBO(255, 215, 0, 1.0),
-            ]),
-            onPressed: () => {
-              viewModel.parent.clearLocal(),
-              Navigator.pushNamed(context, LoginPage.routeName),
-            },
-            width: 120,
-          )
-        ],
-      ).show();
-    }
-
     Widget _buildLogOutTitle(IconData icon, Color color, String title) {
       return new Column(
         children: <Widget>[
@@ -435,7 +383,17 @@ class _UserPageState extends State<UserPage>
               ),
               trailing: Icon(LineIcons.chevron_circle_right),
               onTap: () {
-                _popupConfirm();
+                popupConfirm(
+                    context: context,
+                    title: 'THÔNG BÁO',
+                    desc: 'Xác nhận đăng xuất ?',
+                    yes: 'Có',
+                    no: 'Không',
+                    onTap: () {
+                      Navigator.pop(context);
+                      viewModel.parent.clearLocal();
+                      Navigator.pushReplacementNamed(context, LoginPage.routeName);
+                    });
               }),
         ],
       );

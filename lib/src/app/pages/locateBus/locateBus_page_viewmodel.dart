@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/service/index.dart';
+import 'package:b2s_parent/src/app/widgets/icon_marker_custom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -40,9 +41,9 @@ class LocateBusPageViewModel extends ViewModelBase {
   DocumentReference docRef;
   StreamSubscription streamCloud;
   LocateBusPageViewModel() {
-    childrenBus = ChildrenBusSession.list.singleWhere((item) =>
-        item.child.id == Children.getChildrenPrimary(Children.list).id);
-    //listenData(childrenBus.sessionID);
+//    childrenBus = ChildrenBusSession.list.singleWhere((item) =>
+//        item.child.id == Children.getChildrenPrimary(Children.list).id);
+//    listenData(childrenBus.sessionID);
   }
 
   @override
@@ -70,39 +71,68 @@ class LocateBusPageViewModel extends ViewModelBase {
     mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(myLoc.latitude, myLoc.longitude), zoom: 13.0)));
     myLocationEnabled = true;
-    childrenBus.status = StatusBus.list[0];
+//    childrenBus.status = StatusBus.list[0];
     this.updateState();
   }
 
   Future movingBus() async {
     markers.clear();
+//    final iconBus =
+//        await GoogleMapService.getMarkerIcon('assets/images/pin.png');
     final iconBus =
-        await GoogleMapService.getMarkerIcon('assets/images/pin.png');
+    await GoogleMapService.getMarkerIcon('assets/images/icon_bus.png');
     final iconSchool =
         await GoogleMapService.getMarkerIcon('assets/images/school.png');
     final iconChild =
         await GoogleMapService.getMarkerIcon('assets/images/pin_child.png');
-    //Create marker bus
-    markers[markerBus] = Marker(
-      markerId: markerBus,
-      position: routes[0],
-      icon: iconBus,
-    );
+    for(var item in childrenBus.listRouteBus){
+      if(item.isSchool)
+        markers[markerSchool] = Marker(
+          markerId: markerSchool,
+          position: LatLng(item.lat,item.lng),
+          icon: await iconMarkerCustom(icon: Icons.school),
+          infoWindow: InfoWindow(title: item.routeName)
+        );
+      else
+      markers[markerChild] = Marker(
+          markerId: markerChild,
+          position: LatLng(item.lat,item.lng),
+          icon: await iconMarkerCustom(icon: Icons.home,backgroundColor: Colors.green),
+          infoWindow: InfoWindow(title: item.routeName)
+      );
+    }
+    location.getLocation().then((data){
+      markers[markerBus] = Marker(
+          markerId: markerBus,
+          position: LatLng(data.latitude,data.longitude),
+          icon: iconBus,
+          infoWindow: InfoWindow(title: childrenBus.sessionID.toString())
+      );
+    });
 
-    //Create marker school
-    markers[markerSchool] = Marker(
-      markerId: markerSchool,
-      position: pinTo,
-      icon: iconSchool,
-      infoWindow: InfoWindow(title: "VStar School"),
-    );
 
-    //Create marker child
-    markers[markerChild] = Marker(
-      markerId: markerChild,
-      position: pinFrom,
-      icon: iconChild,
-    );
+
+//    Create marker bus
+//    markers[markerBus] = Marker(
+//      markerId: markerBus,
+//      position: await location.getLocation(),
+//      icon: iconBus,
+//    );
+//
+//    //Create marker school
+//    markers[markerSchool] = Marker(
+//      markerId: markerSchool,
+//      position: pinTo,
+//      icon: iconSchool,
+//      infoWindow: InfoWindow(title: "VStar School"),
+//    );
+//
+//    //Create marker child
+//    markers[markerChild] = Marker(
+//      markerId: markerChild,
+//      position: pinFrom,
+//      icon: iconChild,
+//    );
 
     this.updateState();
     //Draw polyline
@@ -111,14 +141,14 @@ class LocateBusPageViewModel extends ViewModelBase {
     routes.addAll(step);
 
     polyline.clear();
-    polyline[selectedPolyline] = Polyline(
-      polylineId: selectedPolyline,
-      visible: true,
-      color: Colors.blue.withOpacity(0.5),
-      width: 5,
-      zIndex: 2,
-      points: routes,
-    );
+//    polyline[selectedPolyline] = Polyline(
+//      polylineId: selectedPolyline,
+//      visible: true,
+//      color: Colors.blue.withOpacity(0.5),
+//      width: 5,
+//      zIndex: 2,
+//      points: routes,
+//    );
     var index = 0;
     this.updateState();
 
@@ -223,5 +253,14 @@ class LocateBusPageViewModel extends ViewModelBase {
       //   print(pos.latitude);
       // });
     }
+  }
+  createMarker(){
+//    for(var item in childrenBus.listRouteBus){
+//      markers[markerChild] = Marker(
+//        markerId: markerChild,
+//        position: LatLng(item.lat,item.lng),
+//        icon: iconChild;
+//      );
+//    }
   }
 }

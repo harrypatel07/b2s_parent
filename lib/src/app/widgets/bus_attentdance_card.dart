@@ -1,8 +1,8 @@
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
+import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BusAttentdanceCard extends StatelessWidget {
@@ -23,7 +23,7 @@ class BusAttentdanceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget ____left() {
       return Container(
-        height: (isExten) ? 305 : 140,
+        height: (isExten) ? 345 : 140,
         width: 13,
         decoration: BoxDecoration(
           boxShadow: [
@@ -43,12 +43,17 @@ class BusAttentdanceCard extends StatelessWidget {
 
     Widget ____right() {
       Widget _____userImage() {
-        return Container(
-          padding: const EdgeInsets.all(10.0),
-          child: CircleAvatar(
-            radius: 24.0,
-            backgroundImage: MemoryImage(childrenBusSession.child.photo),
-            backgroundColor: Colors.transparent,
+        return InkWell(
+          onTap: (){
+            Navigator.pushNamed(context, ProfileChildrenPage.routeName,arguments: childrenBusSession.child);
+          },
+          child: Container(
+            padding: const EdgeInsets.all(10.0),
+            child: CircleAvatar(
+              radius: 24.0,
+              backgroundImage: MemoryImage(childrenBusSession.child.photo),
+              backgroundColor: Colors.transparent,
+            ),
           ),
         );
       }
@@ -155,39 +160,31 @@ class BusAttentdanceCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                        padding: const EdgeInsets.only(right: 12),
-                        child: FlatButton.icon(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(18.0),
-
-                          ),
-                          color: ThemePrimary.primaryColor,
-                          label: Text(
-                            'Nghỉ',
-                            style: TextStyle(color: Colors.black38),
-                          ),
-                          onPressed: () {
-                            print('Leave button onTap');
-                          },
-                          icon: Icon(
-                            FontAwesomeIcons.home,
-                            color: Colors.red,
-                            size: 20,
-                          ),
-                        )),
-                    Expanded(
-                      child: Container(
-                        child: Text(
-                          "Nghỉ",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: TextStyle(
-                              fontSize: 11,
-                              color: Colors.black38,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    )
+                        padding: const EdgeInsets.only(right: 20),
+                        child:
+                         !isExten?InkWell(
+                            onTap: onTapLeave,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(18.0),
+                                color: ThemePrimary.primaryColor
+                              ),
+                              width: 80,
+                              height: 35,
+//                            color: Colors.amber,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Icon(Icons.home, color: Colors.red,),
+                                  Text('Nghỉ',style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.black38,
+                                      fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                          ):SizedBox()
+                    ),
                   ],
                 ),
               ),
@@ -353,6 +350,8 @@ class BusAttentdanceCard extends StatelessWidget {
                     hr,
                     row1('Trường:', childrenBusSession.child.schoolName.toString(), 70),
                     hr,
+                    row1('Lớp', childrenBusSession.child.classes.toString(), 40),
+                    hr,
                     row1('Biển số xe:', childrenBusSession.sessionID.toString(), 40),
                     hr,
                     rowIcon('Tài xế:', childrenBusSession.driver.name.toString(),
@@ -375,7 +374,7 @@ class BusAttentdanceCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(18.0),
         ),
         child: Container(
-            height: (isExten) ? 305 : 140,
+            height: (isExten) ? 345 : 140,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: Colors.white,

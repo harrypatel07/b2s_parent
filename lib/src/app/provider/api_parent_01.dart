@@ -216,7 +216,7 @@ class Api1 extends ApiMaster {
     });
   }
 
-  ///Update picking transport info
+  ///Update thông tin khách hàng
   ///
   ///Success - Trả về true
   ///
@@ -225,7 +225,7 @@ class Api1 extends ApiMaster {
     await this.authorization();
     body = new Map();
     body["model"] = "picking.transport.info";
-    body["ids"] = json.encode([picking.id]);
+    body["ids"] = json.encode([int.parse(picking.id.toString())]);
     body["values"] = json.encode(picking.toJson());
     return http
         .put('${this.api}/write', headers: this.headers, body: body)

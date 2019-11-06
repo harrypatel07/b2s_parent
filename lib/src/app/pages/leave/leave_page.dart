@@ -4,6 +4,7 @@ import 'package:b2s_parent/src/app/helper/dateUtils.dart';
 import 'package:b2s_parent/src/app/models/month_module.dart';
 import 'package:b2s_parent/src/app/pages/leave/leave_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/widgets/item_date.dart';
+import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -306,44 +307,6 @@ class _LeavePageState extends State<LeavePage> {
     ),
   );
 
-  void _popupConfirm() {
-      new Alert(
-      context: context,
-      type: AlertType.info,
-      style: alertStyle,
-      title: "THÔNG BÁO",
-      desc: "Xác nhận thay đổi thông tin ?.",
-      buttons: [
-        DialogButton(
-          child: Text(
-            "Không",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          gradient: LinearGradient(colors: [Colors.green, Colors.teal]),
-          onPressed: () => Navigator.pop(context),
-          width: 120,
-        ),
-        DialogButton(
-          child: Text(
-            "Có",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          gradient: LinearGradient(colors: [
-            Color.fromRGBO(255, 69, 0, 1.0),
-            Color.fromRGBO(255, 165, 0, 1.0),
-            Color.fromRGBO(255, 215, 0, 1.0),
-          ]),
-          onPressed: () =>
-          {
-            viewModel.onSend(),
-            print("onSend list leave of primary child"),
-            Navigator.pop(context),
-          },
-          width: 120,
-        )
-      ],
-    ).show();
-  }
   Widget _appBar() {
     return new AppBar(
       title: _appBarTitle(),
@@ -355,7 +318,17 @@ class _LeavePageState extends State<LeavePage> {
           ),
           tooltip: 'Show Snackbar',
           onPressed: () {
-            _popupConfirm();
+            popupConfirm(
+                context: context,
+                title: 'THÔNG BÁO',
+                desc: 'Xác nhận thay đổi thông tin ?',
+                yes: 'Có',
+                no: 'Không',
+                onTap: () {
+                  viewModel.onSend();
+                  print("onSend list leave of primary child");
+                  Navigator.pop(context);
+                });
             print('open popup');
           },
         ),

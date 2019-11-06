@@ -7,6 +7,7 @@ import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/bus_attentdance_card.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:b2s_parent/src/app/models/category.dart';
+import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -104,6 +105,20 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
               viewModel.listOnTap(viewModel.listChildren[index]);
             },
             onTapCall: () {},
+            onTapLeave: () {
+              popupConfirm(
+                context: context,
+                title: 'THÔNG BÁO',
+                desc: 'Xác nhận thay đổi trạng thái ?',
+                yes: 'Có',
+                no: 'Không',
+                onTap: () {
+                  viewModel.onTapLeave(index);
+                  Navigator.pop(context);
+                  print('onTap leave');
+                },
+              );
+            },
           );
       return Container(
         padding: EdgeInsets.only(left: 15, right: 15, bottom: 10),
@@ -184,6 +199,26 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
     super.initState();
   }
 
+  Widget _body() {
+    return RefreshIndicator(
+        onRefresh: () async {
+          viewModel.loadData();
+        },
+        child: viewModel.isDataLoading
+            ? LoadingSpinner.loadingView(
+                context: viewModel.context, loading: viewModel.isDataLoading)
+            : ListView(
+                children: <Widget>[
+                  // Align(
+                  //     alignment: Alignment.topLeft,
+                  //     child: appBarIconSideMenu(context)),
+                  SizedBox(height: 30),
+                  _categoryList(),
+                  _buildListChildren(),
+                ],
+              ));
+  }
+
   @override
   Widget build(BuildContext context) {
     viewModel = ViewModelProvider.of(context);
@@ -192,19 +227,11 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
         title: new Text("Bus2School"),
         leading: appBarIconSideMenu(context),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(bottom: 30),
-        child: Column(
-          children: <Widget>[
-            // Align(
-            //     alignment: Alignment.topLeft,
-            //     child: appBarIconSideMenu(context)),
-            SizedBox(height: 30),
-            _categoryList(),
-            _buildListChildren(),
-          ],
-        ),
-      ),
+      body: _body()
+//      SingleChildScrollView(
+//        padding: EdgeInsets.only(bottom: 30),
+//        child: _body(),
+//      ),
     );
   }
 }

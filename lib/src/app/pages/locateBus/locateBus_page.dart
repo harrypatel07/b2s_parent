@@ -94,11 +94,7 @@ class _LocateBusPageState extends State<LocateBusPage> {
         children: <Widget>[
           BusAttentdanceCard(
             isExten: true,
-              childrenBusSession: viewModel.childrenBus,
-              onTapCard: () {
-                //  viewModel.listOnTap(viewModel.listChildren[index]);
-              },
-              onTapCall: () {}),
+              childrenBusSession: viewModel.childrenBus,),
           Positioned(
             left: MediaQuery.of(context).size.width / 2 - 15,
             top: 5,
@@ -194,7 +190,7 @@ class _LocateBusPageState extends State<LocateBusPage> {
   Widget build(BuildContext context) {
     // TabsPageViewModel tabsPageViewModel = ViewModelProvider.of(context);
     // viewModel = tabsPageViewModel.locateBusPageViewModel;
-    _panelHeightOpen = MediaQuery.of(context).size.height * 3 / 7 - 15;
+    _panelHeightOpen = MediaQuery.of(context).size.height * 3 / 7 +30;
     return StatefulWrapper(
       onInit: () {},
       child: ViewModelProvider(
