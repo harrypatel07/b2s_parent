@@ -1,7 +1,8 @@
 library dropdownfield;
 
-
+import 'package:b2s_parent/src/app/service/common-service.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
+import 'package:b2s_parent/src/app/widgets/ts24_utils_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -59,8 +60,6 @@ class DropDownField extends FormField<String> {
   final bool strict;
   final int itemsVisibleInDropdown;
 
-
-
   /// Controls the text being edited.
   ///
   /// If null, this widget will create its own [TextEditingController] and
@@ -72,7 +71,7 @@ class DropDownField extends FormField<String> {
       this.value,
       this.required: false,
       this.icon,
-        this.errorText,
+      this.errorText,
       this.hintText,
       this.hintStyle: const TextStyle(
           fontWeight: FontWeight.normal, color: Colors.grey, fontSize: 18.0),
@@ -102,8 +101,12 @@ class DropDownField extends FormField<String> {
                 icon: icon,
                 errorText: errorText,
                 suffixIcon: IconButton(
-                    icon: Icon(state._showdropdown?Icons.arrow_drop_up:Icons.arrow_drop_down,
-                        size: 30.0, color: Colors.black54),
+                    icon: Icon(
+                        state._showdropdown
+                            ? Icons.arrow_drop_up
+                            : Icons.arrow_drop_down,
+                        size: 30.0,
+                        color: Colors.black54),
                     onPressed: () {
                       SystemChannels.textInput.invokeMethod('TextInput.hide');
                       state.setState(() {
@@ -151,81 +154,100 @@ class DropDownField extends FormField<String> {
                       ),
                     ),
                     IconButton(
-                      icon: Icon(Icons.close,size: 20,),
+                      icon: Icon(
+                        Icons.close,
+                        size: 20,
+                      ),
                       onPressed: () {
                         if (!enabled) return;
-                          state._showdropdown = false;
-                          print(state._showdropdown.toString());
-                          state._isSearching = true;
-                          state.clearValue();
-                          state.changeController();
+                        state._showdropdown = false;
+                        print(state._showdropdown.toString());
+                        state._isSearching = true;
+                        state.clearValue();
+                        state.changeController();
                       },
                     )
                   ],
                 ),
                 !state._showdropdown
                     ? Transform.scale(
-                  scale: 1.0 - state._animationValue,
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    margin: EdgeInsets.only(right: 50),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(0.0, 15.0),
-                              blurRadius: 15.0),
-                        ]),
-                    alignment: Alignment.topCenter,
-                    height: itemsVisibleInDropdown *
-                        55.0*state._animationValue, //limit to default 3 items in dropdownlist view and then remaining scrolls
-                    width: MediaQuery.of(state.context).size.width,
-                    child: ListView(
-                      cacheExtent: 0.0,
-                      scrollDirection: Axis.vertical,
-                      controller: _scrollController,
-                      padding: EdgeInsets.only(left: 0.0),
-                      children: items.isNotEmpty
-                          ? ListTile.divideTiles(
-                          context: state.context,
-                          tiles: state._getChildren(items))
-                          .toList()
-                          : List(),
-                    ),
-                  ),
-                )
+                        scale: 1.0 - state._animationValue,
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                            margin: EdgeInsets.only(right: 50),
+                            decoration:
+                                BoxDecoration(color: Colors.white, boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black12,
+                                  offset: Offset(0.0, 15.0),
+                                  blurRadius: 15.0),
+                            ]),
+                            alignment: Alignment.topCenter,
+                            height: itemsVisibleInDropdown *
+                                55.0 *
+                                state
+                                    ._animationValue, //limit to default 3 items in dropdownlist view and then remaining scrolls
+                            width: MediaQuery.of(state.context).size.width,
+                            child: items.isNotEmpty
+                                ? ListView(
+                                    cacheExtent: 0.0,
+                                    scrollDirection: Axis.vertical,
+                                    controller: _scrollController,
+                                    padding: EdgeInsets.only(left: 0.0),
+                                    children: items.isNotEmpty
+                                        ? ListTile.divideTiles(
+                                                context: state.context,
+                                                tiles:
+                                                    state._getChildren(items))
+                                            .toList()
+                                        : List(),
+                                  )
+                                : Center(
+                                    child: LoadingSpinner.loadingView(
+                                      context: state.context,
+                                      loading: items.isEmpty,
+                                    ),
+                                  )),
+                      )
                     : Transform.scale(
-                  scale: state._animationValue,
-                  alignment: Alignment.topLeft,
-                  child: Container(
+                        scale: state._animationValue,
+                        alignment: Alignment.topLeft,
+                        child: Container(
 //                    margin: EdgeInsets.only(right: 50),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(0.0, 15.0),
-                              blurRadius: 15.0),
-                        ]),
-                    alignment: Alignment.topCenter,
-                    height: itemsVisibleInDropdown *
-                        55.0*state._animationValue, //limit to default 3 items in dropdownlist view and then remaining scrolls
-                    width: MediaQuery.of(state.context).size.width,
-                    child: ListView(
-                      cacheExtent: 0.0,
-                      scrollDirection: Axis.vertical,
-                      controller: _scrollController,
-                      padding: EdgeInsets.only(left: 0.0),
-                      children: items.isNotEmpty
-                          ? ListTile.divideTiles(
-                          context: state.context,
-                          tiles: state._getChildren(items))
-                          .toList()
-                          : List(),
-                    ),
-                  ),
-                ),
+                            decoration:
+                                BoxDecoration(color: Colors.white, boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black12,
+                                  offset: Offset(0.0, 15.0),
+                                  blurRadius: 15.0),
+                            ]),
+                            alignment: Alignment.topCenter,
+                            height: itemsVisibleInDropdown *
+                                55.0 *
+                                state
+                                    ._animationValue, //limit to default 3 items in dropdownlist view and then remaining scrolls
+                            width: MediaQuery.of(state.context).size.width,
+                            child: items.isNotEmpty
+                                ? ListView(
+                                    cacheExtent: 0.0,
+                                    scrollDirection: Axis.vertical,
+                                    controller: _scrollController,
+                                    padding: EdgeInsets.only(left: 0.0),
+                                    children: items.isNotEmpty
+                                        ? ListTile.divideTiles(
+                                                context: state.context,
+                                                tiles:
+                                                    state._getChildren(items))
+                                            .toList()
+                                        : List(),
+                                  )
+                                : Center(
+                                    child: LoadingSpinner.loadingView(
+                                      context: state.context,
+                                      loading: items.isEmpty,
+                                    ),
+                                  )),
+                      ),
               ],
             );
           },
@@ -235,7 +257,8 @@ class DropDownField extends FormField<String> {
   DropDownFieldState createState() => DropDownFieldState();
 }
 
-class DropDownFieldState extends FormFieldState<String> with SingleTickerProviderStateMixin{
+class DropDownFieldState extends FormFieldState<String>
+    with SingleTickerProviderStateMixin {
   TextEditingController _controller;
   bool _showdropdown = false;
   bool _isSearching = true;
@@ -258,13 +281,16 @@ class DropDownFieldState extends FormFieldState<String> with SingleTickerProvide
       _effectiveController.text = '';
     });
   }
-  void changeController(){
+
+  void changeController() {
     setState(() {
-      if(_showdropdown)
+      if (_showdropdown)
         _controllerA.forward();
-      else _controllerA.reverse();
+      else
+        _controllerA.reverse();
     });
   }
+
   @override
   void didUpdateWidget(DropDownField oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -302,16 +328,17 @@ class DropDownFieldState extends FormFieldState<String> with SingleTickerProvide
     _searchText = _effectiveController.text;
     _controllerA = AnimationController(
         duration: const Duration(milliseconds: 200), vsync: this);
-    _curvedAnimation = CurvedAnimation(parent: _controllerA,curve: Curves.easeIn);
-    _animation = Tween(begin: 0.0, end: 1.0).animate(_curvedAnimation)..addListener((){
-      _animationValue = _animation.value;
-    });
-    _controllerA.addListener((){
+    _curvedAnimation =
+        CurvedAnimation(parent: _controllerA, curve: Curves.easeIn);
+    _animation = Tween(begin: 0.0, end: 1.0).animate(_curvedAnimation)
+      ..addListener(() {
+        _animationValue = _animation.value;
+      });
+    _controllerA.addListener(() {
       setState(() {
         _animationValue = _animation.value;
       });
     });
-
   }
 
   @override
@@ -324,11 +351,12 @@ class DropDownFieldState extends FormFieldState<String> with SingleTickerProvide
 
   List<ListTile> _getChildren(List<dynamic> items) {
     List<ListTile> childItems = List();
-    for(var item in items)
-      childItems.add(_getListTile(item));
+    for (var item in items) childItems.add(_getListTile(item));
     for (var item in items) {
       if (_searchText.isNotEmpty) {
-        if (item.displayName.toUpperCase().contains(_searchText.toUpperCase())) {
+        if (Common.sanitizing(item.displayName
+            .toUpperCase())
+            .contains(Common.sanitizing(_searchText.toUpperCase()))) {
           ListTile title = _getListTile(item);
           childItems.removeAt(items.indexOf(item));
           childItems.insert(0, title);
@@ -388,9 +416,9 @@ class DropDownFieldState extends FormFieldState<String> with SingleTickerProvide
     }
   }
 }
+
 class ItemDropDownField {
   int id;
   String displayName;
   ItemDropDownField({this.id, this.displayName});
 }
-

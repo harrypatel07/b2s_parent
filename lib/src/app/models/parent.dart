@@ -71,9 +71,11 @@ class Parent {
   fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    List photoUint8 = json['photo'];
-    photoUint8 = photoUint8.cast<int>();
-    photo = Uint8List.fromList(photoUint8);
+    if (json['photo'] is List) {
+      List photoUint8 = json['photo'];
+      photoUint8 = photoUint8.cast<int>();
+      photo = Uint8List.fromList(photoUint8);
+    } else if (!(json['photo'] is bool)) photo = json['photo'];
     email = json['email'];
     phone = json['phone'];
     gender = json['gender'];

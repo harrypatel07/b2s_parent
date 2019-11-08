@@ -171,7 +171,7 @@ class _LeavePageState extends State<LeavePage> {
         ),
         Spacer(),
         Container(
-          color: Colors.amber,
+          color: Colors.grey[200],
           height: 250,
           child: Column(
             children: <Widget>[
@@ -190,28 +190,7 @@ class _LeavePageState extends State<LeavePage> {
                     Container(
                       margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
                       child: Align(
-                        child: Text("Holyday"),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      width: 30.0,
-                      height: 30.0,
-                      decoration: new BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      child: Align(
-                        child: Text("Available"),
+                        child: Text("Ngày nghỉ"),
                       ),
                     ),
                   ],
@@ -232,7 +211,7 @@ class _LeavePageState extends State<LeavePage> {
                     Container(
                       margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
                       child: Align(
-                        child: Text("Passed"),
+                        child: Text("Ngày đã qua"),
                       ),
                     ),
                   ],
@@ -253,7 +232,7 @@ class _LeavePageState extends State<LeavePage> {
                     Container(
                       margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
                       child: Align(
-                        child: Text("Selected"),
+                        child: Text("Ngày đã chọn"),
                       ),
                     ),
                   ],

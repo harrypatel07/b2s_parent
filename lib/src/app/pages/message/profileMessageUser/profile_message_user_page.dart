@@ -3,6 +3,7 @@ import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/profileMessageUser.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -11,7 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 class ProfileMessageUserPage extends StatefulWidget {
   static const String routeName = "/profileMessageUser";
   final ProfileMessageUserModel userModel;
-  const ProfileMessageUserPage({Key key,this.userModel}) : super(key: key);
+  const ProfileMessageUserPage({Key key, this.userModel}) : super(key: key);
   @override
   _ProfileMessageUserPageState createState() => _ProfileMessageUserPageState();
 }
@@ -22,9 +23,9 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-
     final deviceWidth = MediaQuery.of(context).size.width;
 
     final cancelBtn = Positioned(
@@ -48,22 +49,28 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
       children: <Widget>[
         Hero(
             tag: widget.userModel.peerId.toString(),
-            child:
-            Container(
-              height: 250,
-              child: Image(
-                fit: BoxFit.cover,
-                width: deviceWidth,
-                image: MemoryImage(widget.userModel.avatarUrl),
-              ),
-            )
-    ),
+            child: Container(
+                height: 250,
+                child: CachedNetworkImage(
+                  imageUrl: widget.userModel.avatarUrl,
+                  imageBuilder: (context, imageProvider) => Image(
+                    fit: BoxFit.cover,
+                    width: deviceWidth,
+                    image: imageProvider,
+                  ),
+                )
+                // Image(
+                //   fit: BoxFit.cover,
+                //   width: deviceWidth,
+                //   image: MemoryImage(widget.userModel.avatarUrl),
+                // ),
+                )),
         cancelBtn,
       ],
     );
 
     final userName = Container(
-      width: deviceWidth,
+        width: deviceWidth,
         padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
         child: Row(
           children: <Widget>[
@@ -97,11 +104,12 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
         ),
       ),
     );
-    Widget rowTitle(String title){
+    Widget rowTitle(String title) {
       return Container(
-        padding: EdgeInsets.only(top:10,bottom: 10,left: 15.0,right: 15.0),
+        padding: EdgeInsets.only(top: 10, bottom: 10, left: 15.0, right: 15.0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12)),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(12), topRight: Radius.circular(12)),
           color: Colors.amber,
         ),
         height: 40,
@@ -114,7 +122,7 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
                 child: Text(
                   title,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -122,10 +130,12 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
         ),
       );
     }
-    Widget row2(String title1,String content1,String title2,String content2,bool type) {
+
+    Widget row2(String title1, String content1, String title2, String content2,
+        bool type) {
       return Container(
         color: Colors.white,
-        padding: EdgeInsets.only(left: 15.0,right: 15.0,top: 15,bottom: 15),
+        padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 15),
         child: Column(
           children: <Widget>[
             Row(
@@ -139,8 +149,12 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
                   child: Row(
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(top: 3,right: 3,bottom: 3),
-                        child: Icon(type?Icons.home:Icons.school,color: type?Colors.orange:Colors.green,size: 20,),
+                        margin: EdgeInsets.only(top: 3, right: 3, bottom: 3),
+                        child: Icon(
+                          type ? Icons.home : Icons.school,
+                          color: type ? Colors.orange : Colors.green,
+                          size: 20,
+                        ),
                       ),
                       Container(
                         alignment: Alignment.centerLeft,
@@ -160,7 +174,8 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
                     child: Text(
                       content1,
                       textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
                 )
@@ -177,8 +192,12 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
                   child: Row(
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(top: 3,right: 3,bottom: 3),
-                        child: Icon(type?Icons.school:Icons.home,color: type?Colors.green:Colors.orange,size: 20,),
+                        margin: EdgeInsets.only(top: 3, right: 3, bottom: 3),
+                        child: Icon(
+                          type ? Icons.school : Icons.home,
+                          color: type ? Colors.green : Colors.orange,
+                          size: 20,
+                        ),
                       ),
                       Container(
                         alignment: Alignment.centerLeft,
@@ -198,7 +217,8 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
                     child: Text(
                       content2,
                       textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
                 )
@@ -208,16 +228,17 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
         ),
       );
     }
-    Widget row1(String title,String content) {
+
+    Widget row1(String title, String content) {
       return Container(
         color: Colors.white,
-        padding: EdgeInsets.only(left: 15.0,right: 15.0),
+        padding: EdgeInsets.only(left: 15.0, right: 15.0),
         child: Row(
           children: <Widget>[
             Expanded(
               flex: 3,
               child: Container(
-                padding: EdgeInsets.only(top: 10,bottom: 10),
+                padding: EdgeInsets.only(top: 10, bottom: 10),
                 alignment: Alignment.centerLeft,
                 child: Text(
                   title,
@@ -229,12 +250,12 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
             Expanded(
               flex: 7,
               child: Container(
-                padding: EdgeInsets.only(top: 10,bottom: 10,left: 5),
+                padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
                 alignment: Alignment.centerLeft,
                 child: Text(
                   content,
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
             )
@@ -242,16 +263,17 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
         ),
       );
     }
-    Widget rowIcon(String title,String content,String phoneNumber) {
+
+    Widget rowIcon(String title, String content, String phoneNumber) {
       return Container(
         color: Colors.white,
-        padding: EdgeInsets.only(left: 15.0,right: 15.0),
+        padding: EdgeInsets.only(left: 15.0, right: 15.0),
         child: Row(
           children: <Widget>[
             Expanded(
               flex: 3,
               child: Container(
-                padding: EdgeInsets.only(top: 10,bottom: 10),
+                padding: EdgeInsets.only(top: 10, bottom: 10),
                 alignment: Alignment.centerLeft,
                 child: Text(
                   title,
@@ -264,22 +286,23 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
               flex: 7,
               child: Row(
                 children: <Widget>[
-                 Expanded(
-                   flex: 10,
-                   child:  Container(
-                     padding: EdgeInsets.only(top: 10,bottom: 10,left: 5),
-                     alignment: Alignment.centerLeft,
-                     child: Text(
-                       content,
-                       textAlign: TextAlign.left,
-                       style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
-                     ),
-                   ),
-                 ),
+                  Expanded(
+                    flex: 10,
+                    child: Container(
+                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        content,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
                   Expanded(
                     flex: 2,
                     child: InkWell(
-                      onTap: (){
+                      onTap: () {
                         launch("tel://$phoneNumber");
                       },
                       child: Container(
@@ -287,7 +310,10 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
                         //color: Colors.amber,
                         child: Align(
                           alignment: Alignment.center,
-                          child: Icon(Icons.call,color: Colors.amber,),
+                          child: Icon(
+                            Icons.call,
+                            color: Colors.amber,
+                          ),
                         ),
                       ),
                     ),
@@ -295,13 +321,18 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
                   Expanded(
                     flex: 2,
                     child: InkWell(
-                      onTap: (){launch("sms://$phoneNumber");},
+                      onTap: () {
+                        launch("sms://$phoneNumber");
+                      },
                       child: Container(
-                       // color: Colors.red,
+                        // color: Colors.red,
                         margin: EdgeInsets.only(left: 2),
                         child: Align(
                           alignment: Alignment.center,
-                          child: Icon(Icons.message,color: Colors.lightBlue,),
+                          child: Icon(
+                            Icons.message,
+                            color: Colors.lightBlue,
+                          ),
                         ),
                       ),
                     ),
@@ -313,7 +344,8 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
         ),
       );
     }
-    childrenInfo(ProfileMessageUserModel userModel){
+
+    childrenInfo(ProfileMessageUserModel userModel) {
       return Padding(
         padding: EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
         child: Material(
@@ -336,21 +368,23 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
                   hr,
                   row1('Địa chỉ :', userModel.address),
                   hr,
-                  rowIcon('Số điện thoại :',userModel.phone, userModel.phone),
+                  rowIcon('Số điện thoại :', userModel.phone, userModel.phone),
                   hr,
                   row1('Email :', userModel.email),
-                  Container(height: 1, margin: EdgeInsets.only(bottom: 10),)
+                  Container(
+                    height: 1,
+                    margin: EdgeInsets.only(bottom: 10),
+                  )
                 ],
               ),
             ),
           ),
         ),
       );
-     }
+    }
 
     return Scaffold(
-      body:
-      SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

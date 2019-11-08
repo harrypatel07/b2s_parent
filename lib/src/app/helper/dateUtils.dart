@@ -27,7 +27,7 @@ List<MonthModule> getDateInMonth(List<MonthModule> listDateShow,
   for (int i = listDateShow.length - 1; i >= 0; i--) {
     DateTime day = new DateTime(year, month, listDateShow[i].date.day);
     if (day.month == month) {
-      if ((day.weekday == DateTime.saturday || day.weekday == DateTime.sunday) && day.isAfter(DateTime.now())) {
+      if ((/*day.weekday == DateTime.saturday ||*/ day.weekday == DateTime.sunday) && day.isAfter(DateTime.now())) {
         if (!containsDayInList(listDateTemp, day))
           listDateTemp.add(day);
       }
@@ -42,7 +42,7 @@ List<MonthModule> getDateInMonth(List<MonthModule> listDateShow,
       } else {
         listDateShow[i].typeDraw = EMPTY_SCHEDULE;
         listDateShow[i].color = Colors.green;
-        if ((dayOfWeek.weekday == DateTime.saturday ||
+        if ((/*day.weekday == DateTime.saturday ||*/
             dayOfWeek.weekday == DateTime.sunday) && dayOfWeek.isAfter(DateTime.now())) {
           listDateShow[i].typeDraw = FILL_CIRCLE;
           listDateShow[i].color = Colors.red;
@@ -59,7 +59,7 @@ List<MonthModule> getDateInMonth(List<MonthModule> listDateShow,
       } else {
         listDateShow[i].typeDraw = EMPTY_SCHEDULE;
         listDateShow[i].color = Colors.green;
-        if ((dayOfWeek.weekday == DateTime.saturday ||
+        if ((/*day.weekday == DateTime.saturday ||*/
             dayOfWeek.weekday == DateTime.sunday) && dayOfWeek.isAfter(DateTime.now())) {
           listDateShow[i].typeDraw = FILL_CIRCLE;
           listDateShow[i].color = Colors.red;
@@ -85,7 +85,7 @@ List<MonthModule> getDateInMonth(List<MonthModule> listDateShow,
       } else {
         listDateShow[i].typeDraw = EMPTY_SCHEDULE;
         listDateShow[i].color = Colors.green;
-        if ((dayOfWeek.weekday == DateTime.saturday ||
+        if ((/*day.weekday == DateTime.saturday ||*/
             dayOfWeek.weekday == DateTime.sunday) && dayOfWeek.isAfter(DateTime.now())) {
           listDateShow[i].typeDraw = FILL_CIRCLE;
           listDateShow[i].color = Colors.red;
@@ -94,14 +94,14 @@ List<MonthModule> getDateInMonth(List<MonthModule> listDateShow,
     } else {
       listDateShow[i].typeDraw = EMPTY_SCHEDULE;
       listDateShow[i].color = Colors.green;
-      if ((dayOfWeek.weekday == DateTime.saturday ||
+      if ((/*day.weekday == DateTime.saturday ||*/
           dayOfWeek.weekday == DateTime.sunday) && dayOfWeek.isAfter(DateTime.now())) {
         listDateShow[i].typeDraw = FILL_CIRCLE;
         listDateShow[i].color = Colors.red;
       }
     }
     if (dayOfWeek.month == month) {
-      if ((dayOfWeek.weekday == DateTime.saturday ||
+      if ((/*day.weekday == DateTime.saturday ||*/
           dayOfWeek.weekday == DateTime.sunday) && dayOfWeek.isAfter(DateTime.now())) {
         listDateShow[i].color = Colors.red;
       }
@@ -123,43 +123,43 @@ bool containsDayInList(List<DateTime> lst, DateTime dateTime) {
 }
 
 String getPageViewTitle(int month, int year) {
-  String _month = "January";
+  String _month = "Tháng 1 /";
   switch (month) {
     case 1:
-      _month = "January";
+      _month = "Tháng 1 /";
       break;
     case 2:
-      _month = "February";
+      _month = "Tháng 2 /";
       break;
     case 3:
-      _month = "March";
+      _month = "Tháng 3 /";
       break;
     case 4:
-      _month = "April";
+      _month = "Tháng 4 /";
       break;
     case 5:
-      _month = "May";
+      _month = "Tháng 5 /";
       break;
     case 6:
-      _month = "June";
+      _month = "Tháng 6 /";
       break;
     case 7:
-      _month = "July";
+      _month = "Tháng 7 /";
       break;
     case 8:
-      _month = "August";
+      _month = "Tháng 8 /";
       break;
     case 9:
-      _month = "September";
+      _month = "Tháng 9 /";
       break;
     case 10:
-      _month = "October";
+      _month = "Tháng 10 /";
       break;
     case 11:
-      _month = "November";
+      _month = "Tháng 11 /";
       break;
     case 12:
-      _month = "December";
+      _month = "Tháng 12 /";
       break;
   }
   return _month + " " + year.toString();

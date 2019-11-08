@@ -24,6 +24,7 @@ class ApiMaster {
   String clienSecret = client_secret;
   String username;
   String password;
+  String sessionId;
   GrandType grandType = GrandType.client_credentials;
   GrandType grandTypeTemp = GrandType.client_credentials;
   Map<String, String> headers = {
@@ -284,5 +285,43 @@ class ApiMaster {
         }
       });
     });
+  }
+
+  Future<OdooClient> authorizationOdoo() async {
+    var client = new OdooClient(domainApi);
+    // Synchronize way
+    final version = await client.connect();
+    print(version);
+    return client.getDatabases().then((List databases) {
+      // deal with database list
+      return client
+          .authenticate(admin_id, admin_password, databases[0])
+          .then((AuthenticateCallback auth) {
+        print(auth.getSessionId());
+        return client;
+      });
+    });
+  }
+
+  Future<void> demoOdoo() async {
+    var client = await this.authorizationOdoo();
+    body = new Map();
+    body["vehicle_id"] = 3;
+    body["driver_id"] = 15;
+    body["date"] = "2019-11-06";
+
+    client.callController("/handle_picking_info_request", body).then((onValue) {
+      var result = onValue.getResult();
+      print(result);
+    });
+  }
+
+  //Get session ID
+  void updateCookie(http.Response response) {
+    String rawCookie = response.headers['set-cookie'];
+    if (rawCookie != null) {
+      int index = rawCookie.indexOf(';');
+      sessionId = (index == -1) ? rawCookie : rawCookie.substring(0, index);
+    }
   }
 }

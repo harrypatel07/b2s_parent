@@ -5,6 +5,7 @@ import 'package:b2s_parent/src/app/pages/message/ContactsPage/contacts_page.dart
 import 'package:b2s_parent/src/app/pages/message/messageUser/message_user_page.dart';
 import 'package:b2s_parent/src/app/pages/message/message_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/listview_Animator.dart';
@@ -74,20 +75,19 @@ class _MessagePageState extends State<MessagePage> {
               },
               child: Hero(
                 tag: chatting.peerId,
-                child:
-                    // CachedNetworkImage(
-                    //   imageUrl: _model.avatarUrl,
-                    //   imageBuilder: (context, imageProvider) => CircleAvatar(
-                    //     radius: 24.0,
-                    //     backgroundImage: imageProvider,
-                    //     backgroundColor: Colors.transparent,
-                    //   ),
-                    // ),
-                    CircleAvatar(
-                  radius: 24.0,
-                  backgroundImage: MemoryImage(chatting.avatarUrl),
-                  backgroundColor: Colors.transparent,
+                child: CachedNetworkImage(
+                  imageUrl: chatting.avatarUrl,
+                  imageBuilder: (context, imageProvider) => CircleAvatar(
+                    radius: 24.0,
+                    backgroundImage: imageProvider,
+                    backgroundColor: Colors.transparent,
+                  ),
                 ),
+                //     CircleAvatar(
+                //   radius: 24.0,
+                //   backgroundImage: MemoryImage(chatting.avatarUrl),
+                //   backgroundColor: Colors.transparent,
+                // ),
               ),
             ),
             title: Row(

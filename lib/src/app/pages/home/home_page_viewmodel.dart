@@ -50,11 +50,12 @@ class HomePageViewModel extends ViewModelBase {
   }
 
   listOnTap(ChildrenBusSession data) {
-    tabsPageViewModel = ViewModelProvider.of(context);
-    tabsPageViewModel.locateBusPageViewModel.childrenBus = data;
-    tabsPageViewModel.locateBusPageViewModel.listenData(data.sessionID);
-    Navigator.pushNamed(context, LocateBusPage.routeName,
-        arguments: LocateBusArgument(data));
+    // tabsPageViewModel = ViewModelProvider.of(context);
+    // tabsPageViewModel.locateBusPageViewModel.childrenBus = data;
+    // tabsPageViewModel.locateBusPageViewModel.listenData(data.sessionID);
+    // Navigator.pushNamed(context, LocateBusPage.routeName,
+    //     arguments: LocateBusArgument(data));
+    api.getListChildrenBusSessionV2();
   }
 
   loadData() {
@@ -64,12 +65,13 @@ class HomePageViewModel extends ViewModelBase {
       isDataLoading = false;
       this.updateState();
     });
+    this.updateState();
   }
 
   onTapLeave(int index) {
     listChildren[index].status = StatusBus.list[3];
     updateChildren(listChildren[index]);
-    loadData();
+//    loadData();
     this.updateState();
   }
 

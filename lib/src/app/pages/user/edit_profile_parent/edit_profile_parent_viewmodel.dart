@@ -24,8 +24,7 @@ class EditProfileParentViewModel extends ViewModelBase {
   TextEditingController get addressEditingController =>
       _addressEditingController;
   TextEditingController _genderEditingController = new TextEditingController();
-  TextEditingController get genderEditingController =>
-      _genderEditingController;
+  TextEditingController get genderEditingController => _genderEditingController;
   List<ItemDropDownField> listGender = List();
   Uint8List imagePicker;
   String errorName;
@@ -61,17 +60,19 @@ class EditProfileParentViewModel extends ViewModelBase {
       this.updateState();
     return true;
   }
-  bool isValidPhone(){
+
+  bool isValidPhone() {
     _errorPhone = null;
     var resultPhone = Validator.validatePhone(_phoneEditingController.text);
-    if(resultPhone != null){
+    if (resultPhone != null) {
       _errorPhone = resultPhone;
       this.updateState();
       return false;
-    }else
+    } else
       this.updateState();
     return true;
   }
+
   bool isValidName() {
     errorName = null;
     var resultName = Validator.validateName(_nameEditingController.text);
@@ -106,10 +107,7 @@ class EditProfileParentViewModel extends ViewModelBase {
   }
 
   bool isValidInfo() {
-    if (isValidName() &&
-        isValidPhone() &&
-        isValidEmail() &&
-        isValidAddress()) {
+    if (isValidName() && isValidPhone() && isValidEmail() && isValidAddress()) {
       this.updateState();
       return true;
     }
@@ -117,19 +115,22 @@ class EditProfileParentViewModel extends ViewModelBase {
   }
 
   updateParent(Parent parent) {
-    if(parent.name != _nameEditingController.text)
+    if (parent.name != _nameEditingController.text)
       parent.name = _nameEditingController.text;
-    if(parent.contactAddress != _addressEditingController.text)
+    if (parent.contactAddress != _addressEditingController.text)
       parent.contactAddress = _addressEditingController.text;
-    if(parent.phone != _phoneEditingController.text)
+    if (parent.phone != _phoneEditingController.text)
       parent.phone = _phoneEditingController.text;
-    if(parent.email != _emailEditingController.text)
+    if (parent.email != _emailEditingController.text)
       parent.email = _emailEditingController.text;
+    if (gender != null) {
       parent.genderId = gender.id;
       parent.photo = imagePicker;
+      parent.gender = gender.displayName;
+    }
   }
 
-  Future<bool> saveParent(Parent parent) async{
+  Future<bool> saveParent(Parent parent) async {
     print("save profile Parent");
     //this.updateState();
     if (isValidInfo()) {
@@ -138,7 +139,7 @@ class EditProfileParentViewModel extends ViewModelBase {
           Parent _parent = Parent();
           updateParent(_parent);
           bool result = await updateParentSever(_parent);
-          if(result){
+          if (result) {
             parent = _parent;
             return true;
           }
@@ -147,16 +148,19 @@ class EditProfileParentViewModel extends ViewModelBase {
     }
     return false;
   }
-  Future<bool> updateParentSever(Parent parent) async{
+
+  Future<bool> updateParentSever(Parent parent) async {
     ResPartner resPartner = ResPartner.fromParent(parent);
-    bool result =  await api.updateCustomer(resPartner);
-    if(result){
+    bool result = await api.updateCustomer(resPartner);
+    if (result) {
+      parent.photo =
+          '$domainApi/web/image?model=res.partner&field=image&id=${parent.id}&${api.sessionId}';
       api.getParentInfo(parent.id);
-      parent.gender = gender.displayName;
       return true;
     }
     return false;
   }
+
   onTapPickMaps() async {
     LocationResult result = await LocationPicker.pickLocation(
       context,
@@ -166,14 +170,15 @@ class EditProfileParentViewModel extends ViewModelBase {
     _addressEditingController.text = result.address;
     this.updateState();
   }
+
   Future<void> retrieveLostData() async {
     final LostDataResponse response = await ImagePicker.retrieveLostData();
     if (response.isEmpty) {
       return;
     }
     if (response.file == null) {
-        imageFile = response.file;
-        this.updateState();
+      imageFile = response.file;
+      this.updateState();
     }
   }
 
@@ -188,6 +193,7 @@ class EditProfileParentViewModel extends ViewModelBase {
       pickImageError = e;
     }
   }
+
   getListGender() {
     api.getTitleCustomer().then((lst) {
       lst.forEach((item) {
@@ -198,6 +204,7 @@ class EditProfileParentViewModel extends ViewModelBase {
       this.updateState();
     });
   }
+
   ItemDropDownField getGenderFromID(int id) {
     for (int i = 0; i < listGender.length; i++)
       if (listGender[i].id == id) return listGender[i];

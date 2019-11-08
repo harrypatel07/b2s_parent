@@ -21,6 +21,7 @@ class BusAttentdanceCard extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    bool isEnableButtonLeave = (childrenBusSession.status.statusID != StatusBus.list[2].statusID && childrenBusSession.status.statusID != StatusBus.list[3].statusID);
     Widget ____left() {
       return Container(
         height: (isExten) ? 345 : 140,
@@ -44,16 +45,25 @@ class BusAttentdanceCard extends StatelessWidget {
     Widget ____right() {
       Widget _____userImage() {
         return InkWell(
-          onTap: (){
-            Navigator.pushNamed(context, ProfileChildrenPage.routeName,arguments: childrenBusSession.child);
+          onTap: () {
+            Navigator.pushNamed(context, ProfileChildrenPage.routeName,
+                arguments: childrenBusSession.child);
           },
           child: Container(
             padding: const EdgeInsets.all(10.0),
-            child: CircleAvatar(
-              radius: 24.0,
-              backgroundImage: MemoryImage(childrenBusSession.child.photo),
-              backgroundColor: Colors.transparent,
+            child: CachedNetworkImage(
+              imageUrl: childrenBusSession.child.photo,
+              imageBuilder: (context, imageProvider) => CircleAvatar(
+                radius: 35.0,
+                backgroundImage: imageProvider,
+                backgroundColor: Colors.transparent,
+              ),
             ),
+            // CircleAvatar(
+            //   radius: 24.0,
+            //   backgroundImage: MemoryImage(childrenBusSession.child.photo),
+            //   backgroundColor: Colors.transparent,
+            // ),
           ),
         );
       }
@@ -118,75 +128,60 @@ class BusAttentdanceCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              (isExten)
-                  ? Container()
-                  : Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {
-                          launch("tel://${childrenBusSession.driver.phone}");
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              padding: const EdgeInsets.only(right: 12),
-                              alignment: Alignment.centerLeft,
-                              child: Icon(
-                                Icons.call,
-                                color: ThemePrimary.primaryColor,
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                child: Text(
-                                  "Gọi\ndriver",
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 11,
-                                      color: Colors.black38,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            )
+              Container(
+                padding: EdgeInsets.only(right: 10),
+                color: Colors.transparent,
+                child: InkWell(
+                    onTap: () {
+                      launch("tel://${childrenBusSession.driver.phone}");
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black26,
+                                offset: Offset(0.0, 5.0),
+                                blurRadius: 5.0),
                           ],
-                        ),
-                      ),
-                    ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child:
-                         !isExten?InkWell(
-                            onTap: onTapLeave,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(18.0),
-                                color: ThemePrimary.primaryColor
-                              ),
-                              width: 80,
-                              height: 35,
+                          borderRadius: BorderRadius.circular(18.0),
+                          color: ThemePrimary.primaryColor),
+                      width: 80,
+                      height: 35,
 //                            color: Colors.amber,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  Icon(Icons.home, color: Colors.red,),
-                                  Text('Nghỉ',style: TextStyle(
-                                      fontSize: 11,
-                                      color: Colors.black38,
-                                      fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            ),
-                          ):SizedBox()
-                    ),
-                  ],
-                ),
+                      child: Text('Gọi tài xế',
+                          style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
+                    )),
+              ),
+              SizedBox(height: 15,),
+              Container(
+                padding: EdgeInsets.only(right: 10),
+                color: Colors.transparent,
+                child: InkWell(
+                    onTap: isEnableButtonLeave ?  onTapLeave : null,
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black26,
+                                offset: Offset(0.0, 5.0),
+                                blurRadius: 5.0),
+                          ],
+                          borderRadius: BorderRadius.circular(18.0),
+                          color: isEnableButtonLeave? Colors.red:Colors.grey[400]),
+                      width: 80,
+                      height: 35,
+//                            color: Colors.amber,
+                      child: Text('Xin nghỉ',
+                          style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
+                    )),
               ),
             ],
           ),
@@ -317,7 +312,9 @@ class BusAttentdanceCard extends StatelessWidget {
       }
 
       return Container(
-        width: MediaQuery.of(context).size.width - 43,
+        width: isExten
+            ? MediaQuery.of(context).size.width - 13
+            : MediaQuery.of(context).size.width - 43,
 //        height: 265,
         color: Colors.transparent,
         child: Column(
@@ -338,7 +335,7 @@ class BusAttentdanceCard extends StatelessWidget {
               child: Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    childrenBusSession.child.name,
+                    childrenBusSession.child.name.toString(),
                     style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
                     overflow: TextOverflow.ellipsis,
                   )),
@@ -348,13 +345,18 @@ class BusAttentdanceCard extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     hr,
-                    row1('Trường:', childrenBusSession.child.schoolName.toString(), 70),
+                    row1('Trường:',
+                        childrenBusSession.child.schoolName.toString(), 70),
                     hr,
-                    row1('Lớp', childrenBusSession.child.classes.toString(), 40),
+                    row1(
+                        'Lớp', childrenBusSession.child.classes.toString(), 40),
                     hr,
-                    row1('Biển số xe:', childrenBusSession.sessionID.toString(), 40),
+                    row1('Biển số xe:', childrenBusSession.vehicleId.toString(),
+                        40),
                     hr,
-                    rowIcon('Tài xế:', childrenBusSession.driver.name.toString(),
+                    rowIcon(
+                        'Tài xế:',
+                        childrenBusSession.driver.name.toString(),
                         childrenBusSession.driver.phone.toString()),
                   ],
                 ),

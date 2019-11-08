@@ -5,6 +5,7 @@ import 'package:b2s_parent/src/app/pages/message/messageUser/message_user_page.d
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/chat_bubble.dart';
 import 'package:b2s_parent/src/app/models/chat.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MessageDetailPage extends StatefulWidget {
@@ -36,33 +37,34 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
             arguments: widget.chatting.peerId),
         child: Hero(
           tag: viewModel.chat.name,
-          child: Container(
-            margin: EdgeInsets.only(right: 8.0, bottom: 10.0),
-            height: 50.0,
-            width: 50.0,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: MemoryImage(viewModel.chat.avatarUrl),
-                fit: BoxFit.cover,
+          child:
+              // Container(
+              //   margin: EdgeInsets.only(right: 8.0, bottom: 10.0),
+              //   height: 50.0,
+              //   width: 50.0,
+              //   decoration: BoxDecoration(
+              //     image: DecorationImage(
+              //       image: MemoryImage(viewModel.chat.avatarUrl),
+              //       fit: BoxFit.cover,
+              //     ),
+              //     shape: BoxShape.circle,
+              //   ),
+              // ),
+              CachedNetworkImage(
+            imageUrl: viewModel.chat.avatarUrl,
+            imageBuilder: (context, imageProvider) => Container(
+              margin: EdgeInsets.only(right: 8.0, bottom: 10.0),
+              height: 50.0,
+              width: 50.0,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
+                shape: BoxShape.circle,
               ),
-              shape: BoxShape.circle,
             ),
           ),
-          //  CachedNetworkImage(
-          //   imageUrl: viewModel.chat.avatarUrl,
-          //   imageBuilder: (context, imageProvider) => Container(
-          //     margin: EdgeInsets.only(right: 8.0, bottom: 10.0),
-          //     height: 50.0,
-          //     width: 50.0,
-          //     decoration: BoxDecoration(
-          //       image: DecorationImage(
-          //         image: imageProvider,
-          //         fit: BoxFit.cover,
-          //       ),
-          //       shape: BoxShape.circle,
-          //     ),
-          //   ),
-          // ),
         ));
     final userName = Text(
       viewModel.chat.name,

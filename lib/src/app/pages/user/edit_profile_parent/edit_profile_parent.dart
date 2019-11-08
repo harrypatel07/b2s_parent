@@ -24,7 +24,7 @@ class _EditProfileParentState extends State<EditProfileParent> {
   void initState() {
     // TODO: implement initState
     viewModel.parent = widget.parent;
-    viewModel.imagePicker = widget.parent.photo;
+    //viewModel.imagePicker = widget.parent.photo;
     if (widget.parent != null) {
       viewModel.nameEditingController.text = widget.parent.name;
       viewModel.phoneEditingController.text = widget.parent.phone;
@@ -41,10 +41,20 @@ class _EditProfileParentState extends State<EditProfileParent> {
     viewModel.context = context;
     Widget _avatar() {
       Widget _initImage() {
+        // return Image(
+        //   image: viewModel.parent == null
+        //       ? AssetImage('assets/images/user.png')
+        //       : MemoryImage(viewModel.imagePicker),
+        //   fit: BoxFit.cover,
+        // );
         return Image(
-          image: viewModel.parent == null
+          image: (viewModel.parent == null && viewModel.imagePicker == null)
               ? AssetImage('assets/images/user.png')
-              : MemoryImage(viewModel.imagePicker),
+              : (viewModel.parent != null && viewModel.imagePicker == null
+                  ? (viewModel.parent.photo == null
+                      ? AssetImage('assets/images/user.png')
+                      : NetworkImage(viewModel.parent.photo))
+                  : MemoryImage(viewModel.imagePicker)),
           fit: BoxFit.cover,
         );
       }

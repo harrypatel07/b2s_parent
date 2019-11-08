@@ -36,22 +36,7 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
     viewModel = EditProfileChildrenViewModel();
     viewModel.children = this.arguments.children;
     viewModel.parent = this.arguments.parent;
-    if (viewModel.children != null)
-      viewModel.imagePicker = viewModel.children.photo;
-    if (viewModel.children != null) {
-      viewModel.nameEditingController.text = viewModel.children.name;
-      viewModel.ageEditingController.text = viewModel.children.age.toString();
-      viewModel.schoolNameEditingController.text =
-          viewModel.children.schoolName;
-      viewModel.addressEditingController.text = viewModel.children.location;
-      viewModel.genderEditingController.text = viewModel.children.gender;
-      viewModel.emailEditingController.text =
-          viewModel.children.email ?? viewModel.parent.email;
-      viewModel.classesEditingController.text =
-          viewModel.children.classes.toString();
-      viewModel.phoneEditingController.text =
-          viewModel.children.phone.toString();
-    }
+    viewModel.initData();
     super.initState();
   }
 
@@ -64,7 +49,11 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
         return Image(
           image: (viewModel.children == null && viewModel.imagePicker == null)
               ? AssetImage('assets/images/user.png')
-              : MemoryImage(viewModel.imagePicker),
+              : (viewModel.children != null && viewModel.imagePicker == null
+                  ? (viewModel.children.photo == null
+                      ? AssetImage('assets/images/user.png')
+                      : NetworkImage(viewModel.children.photo))
+                  : MemoryImage(viewModel.imagePicker)),
           fit: BoxFit.cover,
         );
       }
@@ -179,6 +168,7 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
                         controller: viewModel.nameEditingController,
                         style: TextStyle(fontSize: 18, color: Colors.black),
                         decoration: InputDecoration(
+                          labelStyle: TextStyle(color: ThemePrimary.primaryColor),
                           labelText: 'Họ và tên',
                           hintText:
                               children != null ? children.name : "Nhập tên...",
@@ -199,10 +189,55 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
               child: Row(
                 children: <Widget>[
                   Flexible(
+                    flex:8,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: TextFormField(
+                        enabled: false,
+                        controller: viewModel.birthDayEditingController,
+                        style: TextStyle(fontSize: 18, color: Colors.black),
+                        decoration: InputDecoration(
+                          labelStyle: TextStyle(color: ThemePrimary.primaryColor),
+                          labelText: 'Ngày sinh',
+                          hintText: 'Chọn ngày sinh',
+                        ),
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: InkWell(
+                        onTap: (){
+                          viewModel.pickBirthDay();
+                        },
+                        child: Container(
+                          width: 35,
+                          height: 35,
+                          decoration: BoxDecoration(
+                            color: ThemePrimary.primaryColor,
+                            shape: BoxShape.circle
+                          ),
+                          child: Icon(Icons.date_range,color: Colors.white,),
+                        ),
+                      )
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15.0),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                children: <Widget>[
+                  Flexible(
                     child: DropDownField(
                       controller: viewModel.genderEditingController,
                       itemsVisibleInDropdown: 2,
                       value: viewModel.gender,
+                      labelStyle: TextStyle(color: ThemePrimary.primaryColor),
                       labelText: 'Giới tính',
                       items: viewModel.listGender,
                       errorText: viewModel.errorGender,
@@ -217,36 +252,10 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
             ),
             SizedBox(height: 15.0),
             Container(
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                children: <Widget>[
-                  Flexible(
-                    flex: 3,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: TextFormField(
-                        controller: viewModel.phoneEditingController,
-                        style: TextStyle(fontSize: 18, color: Colors.black),
-                        decoration: InputDecoration(
-                          labelText: 'Số điện thoại',
-                          hintText: children != null
-                              ? children.phone.toString()
-                              : "Nhập số điện thoại",
-                          errorText: viewModel.errorPhone,
-                        ),
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 15.0),
-            Container(
                 width: MediaQuery.of(context).size.width,
                 child: DropDownField(
                   controller: viewModel.schoolNameEditingController,
+                  labelStyle: TextStyle(color: ThemePrimary.primaryColor),
                   value: viewModel.school,
                   labelText: 'Trường học',
                   items: viewModel.listSchool,
@@ -263,12 +272,41 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
               child: Row(
                 children: <Widget>[
                   Flexible(
+                    flex: 3,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: TextFormField(
+                        controller: viewModel.phoneEditingController,
+                        style: TextStyle(fontSize: 18, color: Colors.black),
+                        decoration: InputDecoration(
+                          labelStyle: TextStyle(color: ThemePrimary.primaryColor),
+                          labelText: 'Số điện thoại',
+                          hintText: children != null
+                              ? children.phone.toString()
+                              : "Nhập số điện thoại",
+                          errorText: viewModel.errorPhone,
+                        ),
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15.0),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                children: <Widget>[
+                  Flexible(
                     child: Align(
                       alignment: Alignment.center,
                       child: TextFormField(
                         controller: viewModel.classesEditingController,
                         style: TextStyle(fontSize: 18, color: Colors.black),
                         decoration: InputDecoration(
+                          labelStyle: TextStyle(color: ThemePrimary.primaryColor),
                           labelText: 'Lớp',
                           hintText: "Nhập lớp...",
                         ),
@@ -292,6 +330,7 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
                       child: TextFormField(
                         controller: viewModel.emailEditingController,
                         decoration: InputDecoration(
+                            labelStyle: TextStyle(color: ThemePrimary.primaryColor),
                             labelText: 'Email',
                             hintText: "Nhập email...",
                             errorText: viewModel.errorEmail),
@@ -315,6 +354,7 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
                       child: TextFormField(
                         controller: viewModel.addressEditingController,
                         decoration: InputDecoration(
+                            labelStyle: TextStyle(color: ThemePrimary.primaryColor),
                             labelText: 'Địa chỉ',
                             hintText: children != null
                                 ? children.location
@@ -368,7 +408,6 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
               return Stack(
                 children: <Widget>[
                   SingleChildScrollView(
-                    reverse: true,
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -396,12 +435,7 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: <Color>[
-                                  Colors.deepOrange,
-                                  Colors.yellow
-                                ],
-                              ),
+                              color: ThemePrimary.primaryColor,
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey[500],
@@ -413,24 +447,8 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                                onTap: () async {
-                                  LoadingDialog.showLoadingDialog(
-                                      context, 'Đang xử lý...');
-                                  viewModel
-                                      .saveChildren(viewModel.children)
-                                      .then((v) {
-                                    if (v==1) {
-                                      LoadingDialog.hideLoadingDialog(context);
-                                      Navigator.pop(
-                                          context, viewModel.listChildren);
-                                    } else if(v==-1) {
-                                      LoadingDialog.hideLoadingDialog(context);
-                                      Navigator.pop(
-                                          context, viewModel.listChildren);
-                                    }else{
-                                      LoadingDialog.hideLoadingDialog(context);
-                                    }
-                                  });
+                                onTap: () {
+                                  viewModel.onTapSave();
                                 },
                                 child: Center(
                                   child: Text('LƯU'),

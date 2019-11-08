@@ -18,6 +18,7 @@ class ChildrenBusSession {
   dynamic schoolName;
   dynamic notification;
   dynamic vehicleId;
+  dynamic type; // 0 là đi, 1 là về.
   ChildrenBusSession.fromPickingTransportInfo(
       {PickingTransportInfo pti,
       Children objChildren,
@@ -27,7 +28,7 @@ class ChildrenBusSession {
     //Kiểm tra chuyến đi hay chuyền về
     var _type = 0;
     if (pti.deliveryId is List) {
-      if (pti.deliveryId[1].toString().contains("OUT")) _type = 1;
+      if (pti.deliveryId[1].toString().contains("IN")) _type = 1;
     }
     if (objChildren != null) {
       child = objChildren;

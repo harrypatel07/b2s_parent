@@ -2,6 +2,7 @@ import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -20,12 +21,13 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
   @override
   void initState() {
     // TODO: implement initState
-    busSession = ChildrenBusSession.list[0];//ChildrenBusSession.list.singleWhere((bus) => bus.child.id == widget.children.id);
+    busSession = ChildrenBusSession.list[
+        0]; //ChildrenBusSession.list.singleWhere((bus) => bus.child.id == widget.children.id);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-
     final deviceWidth = MediaQuery.of(context).size.width;
 
     final cancelBtn = Positioned(
@@ -47,7 +49,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
     );
     final qrCode = Positioned(
       bottom: 0,
-      left: deviceWidth/2-80,
+      left: deviceWidth / 2 - 80,
       child: QrImage(
         backgroundColor: Colors.white,
         data: widget.children.name,
@@ -59,35 +61,34 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
       children: <Widget>[
         Hero(
             tag: widget.children.photo,
-            child:
-            Container(
+            child: Container(
               height: 400,
               child: Column(
-              children: <Widget>[
-                Flexible(
-                  flex: 8,
-                  child: Image(
-                    fit: BoxFit.cover,
-                    width: deviceWidth,
-                    height: 350,
-                    image: MemoryImage(widget.children.photo),
-                  )
-                ),
-                Flexible(
-                  flex: 2,
-                    child: SizedBox(
-                    ))
-              ],
+                children: <Widget>[
+                  Flexible(
+                    flex: 8,
+                    child: CachedNetworkImage(
+                      imageUrl: widget.children.photo,
+                      imageBuilder: (context, imageProvider) => Image(
+                        fit: BoxFit.cover,
+                        width: deviceWidth,
+                        height: 350,
+                        // image: MemoryImage(widget.children.photo),
+                        image: imageProvider,
+                      ),
+                    ),
+                  ),
+                  Flexible(flex: 2, child: SizedBox())
+                ],
               ),
-            )
-    ),
+            )),
         cancelBtn,
         qrCode
       ],
     );
 
     final userName = Container(
-      width: deviceWidth,
+        width: deviceWidth,
         padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
         child: Row(
           children: <Widget>[
@@ -148,11 +149,12 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
         ),
       ),
     );
-    Widget rowTitle(String title){
+    Widget rowTitle(String title) {
       return Container(
-        padding: EdgeInsets.only(top:10,bottom: 10,left: 15.0,right: 15.0),
+        padding: EdgeInsets.only(top: 10, bottom: 10, left: 15.0, right: 15.0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12)),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(12), topRight: Radius.circular(12)),
           color: Colors.amber,
         ),
         height: 40,
@@ -165,7 +167,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                 child: Text(
                   title,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -173,10 +175,12 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
         ),
       );
     }
-    Widget row2(String title1,String content1,String title2,String content2,bool type) {
+
+    Widget row2(String title1, String content1, String title2, String content2,
+        bool type) {
       return Container(
         color: Colors.white,
-        padding: EdgeInsets.only(left: 15.0,right: 15.0,top: 15,bottom: 15),
+        padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 15),
         child: Column(
           children: <Widget>[
             Row(
@@ -190,8 +194,12 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                   child: Row(
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(top: 3,right: 3,bottom: 3),
-                        child: Icon(type?Icons.home:Icons.school,color: type?Colors.orange:Colors.green,size: 20,),
+                        margin: EdgeInsets.only(top: 3, right: 3, bottom: 3),
+                        child: Icon(
+                          type ? Icons.home : Icons.school,
+                          color: type ? Colors.orange : Colors.green,
+                          size: 20,
+                        ),
                       ),
                       Container(
                         alignment: Alignment.centerLeft,
@@ -211,7 +219,8 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                     child: Text(
                       content1,
                       textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
                 )
@@ -228,8 +237,12 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                   child: Row(
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(top: 3,right: 3,bottom: 3),
-                        child: Icon(type?Icons.school:Icons.home,color: type?Colors.green:Colors.orange,size: 20,),
+                        margin: EdgeInsets.only(top: 3, right: 3, bottom: 3),
+                        child: Icon(
+                          type ? Icons.school : Icons.home,
+                          color: type ? Colors.green : Colors.orange,
+                          size: 20,
+                        ),
                       ),
                       Container(
                         alignment: Alignment.centerLeft,
@@ -249,7 +262,8 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                     child: Text(
                       content2,
                       textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
                 )
@@ -259,16 +273,17 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
         ),
       );
     }
-    Widget row1(String title,String content) {
+
+    Widget row1(String title, String content) {
       return Container(
         color: Colors.white,
-        padding: EdgeInsets.only(left: 15.0,right: 15.0),
+        padding: EdgeInsets.only(left: 15.0, right: 15.0),
         child: Row(
           children: <Widget>[
             Expanded(
               flex: 3,
               child: Container(
-                padding: EdgeInsets.only(top: 10,bottom: 10),
+                padding: EdgeInsets.only(top: 10, bottom: 10),
                 alignment: Alignment.centerLeft,
                 child: Text(
                   title,
@@ -280,12 +295,12 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
             Expanded(
               flex: 7,
               child: Container(
-                padding: EdgeInsets.only(top: 10,bottom: 10,left: 5),
+                padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
                 alignment: Alignment.centerLeft,
                 child: Text(
                   content,
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
             )
@@ -293,16 +308,17 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
         ),
       );
     }
-    Widget rowIcon(String title,String content,String phoneNumber) {
+
+    Widget rowIcon(String title, String content, String phoneNumber) {
       return Container(
         color: Colors.white,
-        padding: EdgeInsets.only(left: 15.0,right: 15.0),
+        padding: EdgeInsets.only(left: 15.0, right: 15.0),
         child: Row(
           children: <Widget>[
             Expanded(
               flex: 3,
               child: Container(
-                padding: EdgeInsets.only(top: 10,bottom: 10),
+                padding: EdgeInsets.only(top: 10, bottom: 10),
                 alignment: Alignment.centerLeft,
                 child: Text(
                   title,
@@ -315,22 +331,23 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
               flex: 7,
               child: Row(
                 children: <Widget>[
-                 Expanded(
-                   flex: 10,
-                   child:  Container(
-                     padding: EdgeInsets.only(top: 10,bottom: 10,left: 5),
-                     alignment: Alignment.centerLeft,
-                     child: Text(
-                       content,
-                       textAlign: TextAlign.left,
-                       style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
-                     ),
-                   ),
-                 ),
+                  Expanded(
+                    flex: 10,
+                    child: Container(
+                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        content,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
                   Expanded(
                     flex: 2,
                     child: InkWell(
-                      onTap: (){
+                      onTap: () {
                         launch("tel://$phoneNumber");
                       },
                       child: Container(
@@ -338,7 +355,10 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                         //color: Colors.amber,
                         child: Align(
                           alignment: Alignment.center,
-                          child: Icon(Icons.call,color: Colors.amber,),
+                          child: Icon(
+                            Icons.call,
+                            color: Colors.amber,
+                          ),
                         ),
                       ),
                     ),
@@ -346,13 +366,18 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                   Expanded(
                     flex: 2,
                     child: InkWell(
-                      onTap: (){launch("sms://$phoneNumber");},
+                      onTap: () {
+                        launch("sms://$phoneNumber");
+                      },
                       child: Container(
-                       // color: Colors.red,
+                        // color: Colors.red,
                         margin: EdgeInsets.only(left: 2),
                         child: Align(
                           alignment: Alignment.center,
-                          child: Icon(Icons.message,color: Colors.lightBlue,),
+                          child: Icon(
+                            Icons.message,
+                            color: Colors.lightBlue,
+                          ),
                         ),
                       ),
                     ),
@@ -364,7 +389,8 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
         ),
       );
     }
-    childrenInfo(Children children){
+
+    childrenInfo(Children children) {
       return Padding(
         padding: EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
         child: Material(
@@ -396,14 +422,17 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                   row1('Email :', children.email),
                   hr,
                   row1('Phụ huynh :', Parent().name),
-                  Container(height: 1, margin: EdgeInsets.only(bottom: 10),)
+                  Container(
+                    height: 1,
+                    margin: EdgeInsets.only(bottom: 10),
+                  )
                 ],
               ),
             ),
           ),
         ),
       );
-     }
+    }
 
     final busInfo = Padding(
       padding: EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
@@ -423,18 +452,22 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
             child: Column(
               children: <Widget>[
                 rowTitle('THÔNG TIN XE BUS'),
-                row1('Biển số xe :', busSession.sessionID),
+                row1('Biển số xe :', busSession.vehicleId.toString()),
                 hr,
-                rowIcon('Tài xế :',busSession.driver.name, busSession.driver.phone),
+                rowIcon('Tài xế :', busSession.driver.name,
+                    busSession.driver.phone),
                 hr,
-                rowIcon('QL đưa đón :','Dương Tuyết Mai', '0983932940'),
+                rowIcon('QL đưa đón :', 'Dương Tuyết Mai', '0983932940'),
                 hr,
-                rowIcon('QL tại trường :','Âu Dương Phong', '0983932940'),
+                rowIcon('QL tại trường :', 'Âu Dương Phong', '0983932940'),
                 hr,
-                row2('Giờ đón :','7h30','Đến trường :','8h',true),
+                row2('Giờ đón :', '7h30', 'Đến trường :', '8h', true),
                 hr,
-                row2('Giờ về :','17h30','Về nhà :','18h',false),
-                Container(height: 1, margin: EdgeInsets.only(bottom: 10),)
+                row2('Giờ về :', '17h30', 'Về nhà :', '18h', false),
+                Container(
+                  height: 1,
+                  margin: EdgeInsets.only(bottom: 10),
+                )
               ],
             ),
           ),
@@ -442,8 +475,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
       ),
     );
     return Scaffold(
-      body:
-      SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

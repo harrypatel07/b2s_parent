@@ -65,7 +65,7 @@ class _TabsPageState extends State<TabsPage> {
                 index: viewModel.currentTabIndex,
                 children: tabs,
               ),
-              drawer: SideMenuPage(),
+              // drawer: SideMenuPage(),
               // bottomNavigationBar: BottomNavigationBar(
               //   onTap: viewModel.onTapped,
               //   currentIndex: viewModel.currentTabIndex,

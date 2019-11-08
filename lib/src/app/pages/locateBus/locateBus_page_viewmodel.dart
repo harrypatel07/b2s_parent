@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
+import 'package:b2s_parent/src/app/models/picking-transport-info.dart';
 import 'package:b2s_parent/src/app/service/index.dart';
 import 'package:b2s_parent/src/app/widgets/icon_marker_custom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -262,5 +264,15 @@ class LocateBusPageViewModel extends ViewModelBase {
 //        icon: iconChild;
 //      );
 //    }
+  }
+  onTapLeave(){
+    childrenBus.status = StatusBus.list[3];
+    updateChildren(childrenBus);
+//    loadData();
+    this.updateState();
+  }
+  updateChildren(ChildrenBusSession session) async{
+    var picking = PickingTransportInfo.fromChildrenBusSession(session);
+    await api.updatePickingTransportInfo(picking);
   }
 }

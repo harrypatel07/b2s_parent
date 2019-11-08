@@ -55,6 +55,7 @@ class Api1 extends ApiMaster {
         .get('${this.api}/search_read/res.partner?$params',
             headers: this.headers)
         .then((http.Response response) async {
+      this.updateCookie(response);
       if (response.statusCode == 200) {
         List list = json.decode(response.body);
         if (list.length > 0)
@@ -84,7 +85,7 @@ class Api1 extends ApiMaster {
     body["domain"] = [
       ['id', '=', id],
     ];
-    body["fields"] = ['id', 'name', 'image', 'title', 'phone'];
+    body["fields"] = ['id', 'name', 'title', 'phone'];
     var params = convertSerialize(body);
     List<ResPartner> listResult = new List();
     Driver driver;
@@ -106,11 +107,65 @@ class Api1 extends ApiMaster {
   }
 
   ///Lấy thông tin khách hàng
-  Future<ResPartner> getCustomerInfo(String id) async {
+  Future<ResPartner> getCustomerInfo(dynamic id) async {
     await this.authorization();
     body = new Map();
     body["domain"] = [
       ['id', '=', id],
+    ];
+    body["fields"] = [
+      "company_id",
+      "company_name",
+      "company_type",
+      "contact_address",
+      "contract_ids",
+      "contracts_count",
+      "country_id",
+      "create_date",
+      "create_uid",
+      "credit",
+      "credit_limit",
+      "currency_id",
+      "customer",
+      "date",
+      "debit",
+      "debit_limit",
+      "display_name",
+      "email",
+      "email_formatted",
+      "employee",
+      "id",
+      "im_status",
+      "is_company",
+      "is_published",
+      "is_seo_optimized",
+      "journal_item_count",
+      "lang",
+      "mobile",
+      "name",
+      "parent_id",
+      "parent_name",
+      "partner_gid",
+      "partner_share",
+      "phone",
+      "state_id",
+      "street",
+      "street2",
+      "supplier",
+      "team_id",
+      "title",
+      "total_invoiced",
+      "trust",
+      "type",
+      "user_id",
+      "user_ids",
+      "vat",
+      "vehicle_count",
+      "vehicle_ids",
+      "x_class",
+      "x_company_type",
+      "x_date_of_birth",
+      "x_school",
     ];
     var params = convertSerialize(body);
     List<ResPartner> listResult = new List();
@@ -118,13 +173,17 @@ class Api1 extends ApiMaster {
         .get('${this.api}/search_read/res.partner?$params',
             headers: this.headers)
         .then((http.Response response) async {
+      //this.updateCookie(response);
       if (response.statusCode == 200) {
         List list = json.decode(response.body);
+        print(list);
         if (list.length > 0)
           listResult = list.map((item) => ResPartner.fromJson(item)).toList();
       }
       return listResult[0];
     }).catchError((error) {
+      print("getCustomerInfoError");
+      print(error);
       return null;
     });
   }
@@ -175,9 +234,95 @@ class Api1 extends ApiMaster {
   ///Lấy danh sách contact for user to chat
   Future<List<ResPartner>> getListContact() async {
     await this.authorization();
+    body = new Map();
+    body["fields"] = [
+      "additional_info",
+      "bank_account_count",
+      "bank_ids",
+      "barcode",
+      "calendar_last_notif_ack",
+      "category_id",
+      "channel_ids",
+      "child_ids",
+      "city",
+      "color",
+      "comment",
+      "commercial_company_name",
+      "commercial_partner_id",
+      "company_id",
+      "company_name",
+      "company_type",
+      "contact_address",
+      "contract_ids",
+      "contracts_count",
+      "country_id",
+      "create_date",
+      "create_uid",
+      "credit",
+      "credit_limit",
+      "currency_id",
+      "customer",
+      "date",
+      "debit",
+      "debit_limit",
+      "display_name",
+      "email",
+      "email_formatted",
+      "employee",
+      "event_count",
+      "function",
+      "has_unreconciled_entries",
+      "id",
+      "im_status",
+      "industry_id",
+      "is_blacklisted",
+      "is_company",
+      "is_published",
+      "is_seo_optimized",
+      "journal_item_count",
+      "lang",
+      "last_time_entries_checked",
+      "last_website_so_id",
+      "meeting_count",
+      "meeting_ids",
+      "mobile",
+      "name",
+      "opportunity_count",
+      "opportunity_ids",
+      "parent_id",
+      "parent_name",
+      "partner_gid",
+      "partner_share",
+      "payment_token_count",
+      "payment_token_ids",
+      "phone",
+      "state_id",
+      "street",
+      "street2",
+      "supplier",
+      "team_id",
+      "title",
+      "total_invoiced",
+      "trust",
+      "type",
+      "tz",
+      "tz_offset",
+      "user_id",
+      "user_ids",
+      "vat",
+      "vehicle_count",
+      "vehicle_ids",
+      "x_class",
+      "x_company_type",
+      "x_date_of_birth",
+      "x_school",
+      "zip"
+    ];
+    var params = convertSerialize(body);
     List<ResPartner> listResult = List();
     return http
-        .get('${this.api}/search_read/res.partner', headers: this.headers)
+        .get('${this.api}/search_read/res.partner?$params',
+            headers: this.headers)
         .then((http.Response response) async {
       if (response.statusCode == 200) {
         List list = json.decode(response.body);
@@ -204,6 +349,7 @@ class Api1 extends ApiMaster {
     return http
         .put('${this.api}/write', headers: this.headers, body: body)
         .then((http.Response response) {
+      this.updateCookie(response);
       var result = false;
       if (response.statusCode == 200) {
         print(response.body);
@@ -239,6 +385,29 @@ class Api1 extends ApiMaster {
         result = false;
       }
       return result;
+    });
+  }
+
+  ///Update ngày nghỉ phép theo id Children
+  ///idChildren
+  ///listDate sắp xếp từ nhỏ đến lớn , định dạng yyyy-mm-dd
+  Future<bool> updateLeaveByIdChildren(
+      int idChildren, List<String> listDate) async {
+    await this.authorization();
+    var listId =
+        await getListIdPickingByIdChildrenAndListDate(idChildren, listDate);
+    if (listId.length == 0) return true;
+
+    body = new Map();
+    body["model"] = "picking.transport.info";
+    body["method"] = "picking_hold";
+    body["args"] = '["value"]';
+    var client = await this.authorizationOdoo();
+    return client.callKW(
+        "picking.transport.info", "picking_cancel", [listId]).then((onValue) {
+      var error = onValue.getError();
+      if (error == null) return true;
+      return false;
     });
   }
 
@@ -333,6 +502,7 @@ class Api1 extends ApiMaster {
         .get('${this.api}/search_read/picking.transport.info?$params',
             headers: this.headers)
         .then((http.Response response) async {
+      this.updateCookie(response);
       if (response.statusCode == 200) {
         List list = json.decode(response.body);
         if (list.length > 0) {
@@ -385,6 +555,28 @@ class Api1 extends ApiMaster {
       }
       return listResult;
     }).catchError((error) {
+      return listResult;
+    });
+  }
+
+  ///Lấy session chuyến đi trong ngày của các children
+  Future<List<ChildrenBusSession>> getListChildrenBusSessionV2() async {
+    var client = await this.authorizationOdoo();
+    Parent parent = Parent();
+    List<int> listChildrenId =
+        parent.listChildren.map((item) => item.id).toList();
+    var date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    body = new Map();
+    body["partner_ids"] = listChildrenId;
+    body["date"] = '2019-11-20';
+    List<ChildrenBusSession> listResult = new List();
+    return client
+        .callController("/handle_customer_picking_list", body)
+        .then((onValue) {
+      var result = onValue.getResult();
+      if (result['code'] != null) return listResult;
+
+      print(result);
       return listResult;
     });
   }
@@ -461,6 +653,84 @@ class Api1 extends ApiMaster {
       return listResult[0];
     }).catchError((error) {
       return null;
+    });
+  }
+
+  ///Lấy danh sách ngày nghỉ học theo id children
+  Future<List<String>> getListLeaveByIdChildren(int idChildren) async {
+    await this.authorization();
+    body = new Map();
+    body["domain"] = [
+      ['saleorder_id.partner_id', '=', idChildren],
+      ['state', '=', 'cancel']
+    ];
+    body["fields"] = ['transport_date'];
+    var params = convertSerialize(body);
+    List<String> listResult = new List();
+    return http
+        .get('${this.api}/search_read/picking.transport.info?$params',
+            headers: this.headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 200) {
+        List list = json.decode(response.body);
+        if (list.length > 0)
+          listResult = list.map((item) {
+            String date = item['transport_date'];
+            date = DateFormat('yyyy-MM-dd').format(DateTime.parse(date));
+            return date;
+          }).toList();
+      }
+      return listResult;
+    }).catchError((error) {
+      return listResult;
+    });
+  }
+
+  ///Lấy id picking theo id children và list date
+  Future<List<int>> getListIdPickingByIdChildrenAndListDate(
+      int idChildren, List<String> listDate) async {
+    await this.authorization();
+    body = new Map();
+    var domain = List<dynamic>();
+    domain.add(['saleorder_id.partner_id', '=', idChildren]);
+    domain.add(['state', '!=', 'res']);
+    if (listDate.length != 0 && listDate.length == 1) {
+      var dateFrom =
+          DateFormat('yyyy-MM-dd').format(DateTime.parse(listDate[0]));
+      var dateTo = DateFormat('yyyy-MM-dd')
+          .format(DateTime.parse(listDate[0]).add(Duration(days: 1)));
+      domain.add(['transport_date', '>=', dateFrom]);
+      domain.add(['transport_date', '<', dateTo]);
+    } else {
+      for (var i = 0; i < listDate.length; i++) {
+        var dateFrom =
+            DateFormat('yyyy-MM-dd').format(DateTime.parse(listDate[i]));
+        var dateTo = DateFormat('yyyy-MM-dd')
+            .format(DateTime.parse(listDate[i]).add(Duration(days: 1)));
+        domain.add(['transport_date', '>=', dateFrom]);
+        if (i != listDate.length - 1) {
+          domain.add('|');
+        }
+        domain.add(['transport_date', '<', dateTo]);
+      }
+    }
+    body["domain"] = domain;
+    body["fields"] = ['transport_date'];
+    var params = convertSerialize(body);
+    List<int> listResult = new List();
+    return http
+        .get('${this.api}/search_read/picking.transport.info?$params',
+            headers: this.headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 200) {
+        List list = json.decode(response.body);
+        if (list.length > 0)
+          listResult =
+              list.map((item) => int.parse(item['id'].toString())).toList();
+      }
+      return listResult;
+    }).catchError((error) {
+      return listResult;
     });
   }
 }

@@ -3,6 +3,7 @@ import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/widgets/bus_attentdance_card.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
+import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
 import 'package:b2s_parent/src/app/widgets/ts24_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -94,6 +95,20 @@ class _LocateBusPageState extends State<LocateBusPage> {
         children: <Widget>[
           BusAttentdanceCard(
             isExten: true,
+              onTapLeave: (){
+                popupConfirm(
+                  context: context,
+                  title: 'THÔNG BÁO',
+                  desc: 'Xác nhận thay đổi trạng thái ?',
+                  yes: 'Có',
+                  no: 'Không',
+                  onTap: () {
+                    viewModel.onTapLeave();
+                    Navigator.pop(context);
+                    print('onTap leave');
+                  },
+                );
+              },
               childrenBusSession: viewModel.childrenBus,),
           Positioned(
             left: MediaQuery.of(context).size.width / 2 - 15,

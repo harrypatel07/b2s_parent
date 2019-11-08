@@ -4,6 +4,7 @@ import 'package:b2s_parent/src/app/models/chat.dart';
 import 'package:b2s_parent/src/app/pages/message/ContactsPage/contacts_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/widgets/listview_Animator.dart';
 import 'package:b2s_parent/src/app/widgets/ts24_utils_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ContactsPage extends StatefulWidget {
@@ -23,7 +24,7 @@ class _ContactsPageState extends State<ContactsPage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget buildContactsRow(Contacts contacts){
+    Widget buildContactsRow(Contacts contacts) {
       return Column(
         children: <Widget>[
           Divider(
@@ -33,19 +34,27 @@ class _ContactsPageState extends State<ContactsPage> {
             onTap: () {
               viewModel.onItemContactsClick(contacts);
             },
-            leading: CircleAvatar(
-              radius: 24.0,
-              backgroundImage: MemoryImage(contacts.avatarUrl),
-              backgroundColor: Colors.transparent,
+            leading: CachedNetworkImage(
+              imageUrl: contacts.avatarUrl,
+              imageBuilder: (context, imageProvider) => CircleAvatar(
+                radius: 24.0,
+                backgroundImage: imageProvider,
+                backgroundColor: Colors.transparent,
+              ),
             ),
+            // CircleAvatar(
+            //   radius: 24.0,
+            //   backgroundImage: MemoryImage(contacts.avatarUrl),
+            //   backgroundColor: Colors.transparent,
+            // ),
             title: Row(
               children: <Widget>[
                 Expanded(
                   child: Text(contacts.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 20)),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
                 ),
                 // SizedBox(
                 //   width: 16.0,
@@ -60,6 +69,7 @@ class _ContactsPageState extends State<ContactsPage> {
         ],
       );
     }
+
     Widget _body() {
       return RefreshIndicator(
         onRefresh: () async {
@@ -67,24 +77,25 @@ class _ContactsPageState extends State<ContactsPage> {
         },
         child: (viewModel.contactsLoading)
             ? LoadingSpinner.loadingView(
-            context: viewModel.context,
-            loading: (viewModel.contactsLoading))
+                context: viewModel.context,
+                loading: (viewModel.contactsLoading))
             : ListView.builder(
-          //padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-          itemCount: viewModel.listContactsSearchResult.length,
-          itemBuilder: (context, index) {
-            var _model = viewModel.listContactsSearchResult[index];
-            return WidgetANimator(buildContactsRow(_model));
-          },
-        ),
+                //padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                itemCount: viewModel.listContactsSearchResult.length,
+                itemBuilder: (context, index) {
+                  var _model = viewModel.listContactsSearchResult[index];
+                  return WidgetANimator(buildContactsRow(_model));
+                },
+              ),
       );
     }
+
     viewModel.context = context;
     return ViewModelProvider(
       viewmodel: viewModel,
       child: StreamBuilder<Object>(
         stream: viewModel.stream,
-        builder: (context,snapshot){
+        builder: (context, snapshot) {
           return Scaffold(
             appBar: SearchBar(
               iconified: false,
@@ -99,7 +110,7 @@ class _ContactsPageState extends State<ContactsPage> {
               onQueryChanged: (query) => viewModel.onQueryChanged(query),
               onQuerySubmitted: (query) => viewModel.onQuerySubmitted(query),
             ),
-            body:  _body(),
+            body: _body(),
           );
         },
       ),

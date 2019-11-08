@@ -1,10 +1,10 @@
-import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/service/common-service.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/bus_attentdance_card.dart';
+import 'package:b2s_parent/src/app/widgets/bus_attentdance_card_shimmer.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:b2s_parent/src/app/models/category.dart';
 import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
@@ -121,51 +121,78 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
             },
           );
       return Container(
-        padding: EdgeInsets.only(left: 15, right: 15, bottom: 10),
-        child: viewModel.listChildren.length == 0
-            ? Container()
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          FontAwesomeIcons.busAlt,
-                          color: ThemePrimary.primaryColor,
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Text(
-                            "Chuyến đi trong ngày",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
+          padding: EdgeInsets.only(left: 15, right: 15, bottom: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(top: 20),
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      FontAwesomeIcons.busAlt,
+                      color: ThemePrimary.primaryColor,
                     ),
-                  ),
-                  ...viewModel.listChildren
-                      .asMap()
-                      .map((index, item) {
-                        return MapEntry(
-                            index,
-                            index == 0
-                                ? Column(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      ___card(index)
-                                    ],
-                                  )
-                                : ___card(index));
-                      })
-                      .values
-                      .toList()
-                ],
+                    Container(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Text(
+                        "Chuyến đi trong ngày",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-      );
+              viewModel.isDataLoading //(viewModel.listChildren.length == 0
+                  ? Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 20,
+                        ),
+                        BusAttentdanceCardShimmer(),
+                        BusAttentdanceCardShimmer(),
+                      ],
+                    )
+                  : (viewModel.listChildren.length != 0)
+                      ? Column(
+                          children: <Widget>[
+                            ...viewModel.listChildren
+                                .asMap()
+                                .map((index, item) {
+                                  return MapEntry(
+                                      index,
+                                      index == 0
+                                          ? Column(
+                                              children: <Widget>[
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                ___card(index)
+                                              ],
+                                            )
+                                          : ___card(index));
+                                })
+                                .values
+                                .toList()
+                          ],
+                        )
+                      : Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 250,
+                          margin: EdgeInsets.only(top: 20),
+                          child: Center(
+                              child: Text(
+                                "Không có dữ liệu để hiển thị.",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18.0,
+                                  color: Colors.grey.withOpacity(0.6),
+                                ),
+                                textAlign: TextAlign.center,
+                              )),
+                        ),
+            ],
+          ));
     }
 
     return Container(
@@ -201,37 +228,35 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
 
   Widget _body() {
     return RefreshIndicator(
-        onRefresh: () async {
-          viewModel.loadData();
-        },
-        child: viewModel.isDataLoading
-            ? LoadingSpinner.loadingView(
-                context: viewModel.context, loading: viewModel.isDataLoading)
-            : ListView(
-                children: <Widget>[
-                  // Align(
-                  //     alignment: Alignment.topLeft,
-                  //     child: appBarIconSideMenu(context)),
-                  SizedBox(height: 30),
-                  _categoryList(),
-                  _buildListChildren(),
-                ],
-              ));
+      onRefresh: () async {
+        viewModel.loadData();
+      },
+      child: ListView(
+        children: <Widget>[
+          // Align(
+          //     alignment: Alignment.topLeft,
+          //     child: appBarIconSideMenu(context)),
+          SizedBox(height: 30),
+          _categoryList(),
+          _buildListChildren(),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     viewModel = ViewModelProvider.of(context);
     return Scaffold(
-      appBar: new TS24AppBar(
-        title: new Text("Bus2School"),
-        leading: appBarIconSideMenu(context),
-      ),
-      body: _body()
+        appBar: new TS24AppBar(
+          title: new Text("Bus2School"),
+          leading: appBarIconSideMenu(context),
+        ),
+        body: _body()
 //      SingleChildScrollView(
 //        padding: EdgeInsets.only(bottom: 30),
 //        child: _body(),
 //      ),
-    );
+        );
   }
 }

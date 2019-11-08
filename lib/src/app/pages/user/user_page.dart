@@ -8,6 +8,7 @@ import 'package:b2s_parent/src/app/pages/user/tickets/tickes_children.dart';
 import 'package:b2s_parent/src/app/pages/user/user_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -76,20 +77,21 @@ class _UserPageState extends State<UserPage>
                           },
                           child: Hero(
                             tag: children.photo,
-                            child: CircleAvatar(
-                              radius: 20.0,
-                              backgroundImage: MemoryImage(children.photo),
-                              backgroundColor: Colors.transparent,
+                            child:
+                                //  CircleAvatar(
+                                //   radius: 20.0,
+                                //   backgroundImage: MemoryImage(children.photo),
+                                //   backgroundColor: Colors.transparent,
+                                // ),
+                                new CachedNetworkImage(
+                              imageUrl: children.photo,
+                              imageBuilder: (context, imageProvider) =>
+                                  CircleAvatar(
+                                radius: 20.0,
+                                backgroundImage: imageProvider,
+                                backgroundColor: Colors.transparent,
+                              ),
                             ),
-                            // new CachedNetworkImage(
-                            //   imageUrl: children.photo,
-                            //   imageBuilder: (context, imageProvider) =>
-                            //       CircleAvatar(
-                            //     radius: 20.0,
-                            //     backgroundImage: imageProvider,
-                            //     backgroundColor: Colors.transparent,
-                            //   ),
-                            // ),
                           ),
                         ),
                         new Flexible(
@@ -146,13 +148,18 @@ class _UserPageState extends State<UserPage>
       height: 1,
       color: Colors.grey.shade200,
     );
-    final userImage = Container(
-      height: 100.0,
-      width: 100.0,
-      decoration: BoxDecoration(
-        color: Colors.red,
-        image: DecorationImage(image: MemoryImage(viewModel.parent.photo)),
-        shape: BoxShape.circle,
+    final userImage = CachedNetworkImage(
+      imageUrl: viewModel.parent.photo,
+      imageBuilder: (context, imageProvider) => Container(
+        height: 100.0,
+        width: 100.0,
+        decoration: BoxDecoration(
+          // color: Colors.red,
+          image: DecorationImage(image: imageProvider,
+              // MemoryImage(viewModel.parent.photo)
+             fit: BoxFit.cover  ),
+          shape: BoxShape.circle,
+        ),
       ),
     );
 
@@ -177,7 +184,7 @@ class _UserPageState extends State<UserPage>
     final userInfo = Stack(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0,top: 20.0),
           child: Material(
             elevation: 5.0,
             borderRadius: BorderRadius.circular(8.0),
@@ -187,7 +194,7 @@ class _UserPageState extends State<UserPage>
                 viewModel.onTapParent();
               },
               child: Container(
-                height: 220.0,
+                height: 150.0,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
@@ -197,7 +204,7 @@ class _UserPageState extends State<UserPage>
                   color: Colors.white,
                 ),
                 child: Container(
-                  padding: const EdgeInsets.only(left: 20.0, bottom: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0, bottom: 20.0,top: 20),
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     child: Row(
@@ -392,7 +399,8 @@ class _UserPageState extends State<UserPage>
                     onTap: () {
                       Navigator.pop(context);
                       viewModel.parent.clearLocal();
-                      Navigator.pushReplacementNamed(context, LoginPage.routeName);
+                      Navigator.pushReplacementNamed(
+                          context, LoginPage.routeName);
                     });
               }),
         ],
@@ -446,15 +454,15 @@ class _UserPageState extends State<UserPage>
                           Stack(
                             children: <Widget>[
                               Container(
-                                height: 350.0,
+                                height: 250.0,
                               ),
                               Container(
-                                height: 250.0,
+                                height: 150.0,
                                 decoration: BoxDecoration(
                                     gradient: ThemePrimary.primaryGradient),
                               ),
                               Positioned(
-                                  top: 100, right: 0, left: 0, child: userInfo)
+                                  top: 50, right: 0, left: 0, child: userInfo)
                             ],
                           ),
                           secondCard(),
