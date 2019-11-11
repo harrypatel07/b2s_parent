@@ -21,7 +21,9 @@ class BusAttentdanceCard extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    bool isEnableButtonLeave = (childrenBusSession.status.statusID != StatusBus.list[2].statusID && childrenBusSession.status.statusID != StatusBus.list[3].statusID);
+    bool isEnableButtonLeave =
+        (childrenBusSession.status.statusID != StatusBus.list[2].statusID &&
+            childrenBusSession.status.statusID != StatusBus.list[3].statusID);
     Widget ____left() {
       return Container(
         height: (isExten) ? 345 : 140,
@@ -156,12 +158,14 @@ class BusAttentdanceCard extends StatelessWidget {
                               fontWeight: FontWeight.bold)),
                     )),
               ),
-              SizedBox(height: 15,),
+              SizedBox(
+                height: 15,
+              ),
               Container(
                 padding: EdgeInsets.only(right: 10),
                 color: Colors.transparent,
                 child: InkWell(
-                    onTap: isEnableButtonLeave ?  onTapLeave : null,
+                    onTap: isEnableButtonLeave ? onTapLeave : null,
                     child: Container(
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
@@ -172,7 +176,9 @@ class BusAttentdanceCard extends StatelessWidget {
                                 blurRadius: 5.0),
                           ],
                           borderRadius: BorderRadius.circular(18.0),
-                          color: isEnableButtonLeave? Colors.red:Colors.grey[400]),
+                          color: isEnableButtonLeave
+                              ? Colors.red
+                              : Colors.grey[400]),
                       width: 80,
                       height: 35,
 //                            color: Colors.amber,
@@ -351,8 +357,8 @@ class BusAttentdanceCard extends StatelessWidget {
                     row1(
                         'Lớp', childrenBusSession.child.classes.toString(), 40),
                     hr,
-                    row1('Biển số xe:', childrenBusSession.vehicleId.toString(),
-                        40),
+                    row1('Biển số xe:',
+                        childrenBusSession.vehicleName.toString(), 40),
                     hr,
                     rowIcon(
                         'Tài xế:',

@@ -50,17 +50,17 @@ class HomePageViewModel extends ViewModelBase {
   }
 
   listOnTap(ChildrenBusSession data) {
-    // tabsPageViewModel = ViewModelProvider.of(context);
-    // tabsPageViewModel.locateBusPageViewModel.childrenBus = data;
-    // tabsPageViewModel.locateBusPageViewModel.listenData(data.sessionID);
-    // Navigator.pushNamed(context, LocateBusPage.routeName,
-    //     arguments: LocateBusArgument(data));
-    api.getListChildrenBusSessionV2();
+     tabsPageViewModel = ViewModelProvider.of(context);
+     tabsPageViewModel.locateBusPageViewModel.childrenBus = data;
+     tabsPageViewModel.locateBusPageViewModel.listenData(data.sessionID);
+     Navigator.pushNamed(context, LocateBusPage.routeName,
+         arguments: LocateBusArgument(data));
+//    api.getListChildrenBusSessionV2();
   }
 
   loadData() {
     isDataLoading = true;
-    api.getListChildrenBusSession().then((data) {
+    api.getListChildrenBusSessionV2().then((data) {
       listChildren = data;
       isDataLoading = false;
       this.updateState();

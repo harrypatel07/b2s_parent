@@ -630,6 +630,7 @@ class ResPartner {
     xSchool = children.schoolId;
     xClass = children.classes;
     xDateOfBirth = children.birthday;
+    street = children.location;
   }
 
   ResPartner.fromParent(Parent parent) {
@@ -759,7 +760,7 @@ class ResPartner {
     // data['signup_url'] = this.signupUrl;
     // data['signup_valid'] = this.signupValid;
     // data['state_id'] = this.stateId;
-    // data['street'] = this.street;
+    data['street'] = this.street;
     // data['street2'] = this.street2;
     // data['supplier'] = this.supplier;
     // data['team_id'] = this.teamId;

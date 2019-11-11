@@ -568,15 +568,59 @@ class Api1 extends ApiMaster {
     var date = DateFormat('yyyy-MM-dd').format(DateTime.now());
     body = new Map();
     body["partner_ids"] = listChildrenId;
-    body["date"] = '2019-11-20';
+    body["date"] = date;
     List<ChildrenBusSession> listResult = new List();
     return client
         .callController("/handle_customer_picking_list", body)
         .then((onValue) {
       var result = onValue.getResult();
       if (result['code'] != null) return listResult;
+      List data = result["data"];
+      for (var i = 0; i < data.length; i++) {
+        var partner = data[i]["obj_partner"]["partner"];
+        Children children = Children.fromJsonController(partner);
 
-      print(result);
+        var _driver = data[i]["obj_partner"]["driver"];
+        Driver driver = Driver.fromJsonController(_driver);
+
+        List<RouteBus> listRouteBus = [];
+
+        var _picking = data[i]["obj_partner"]["picking"];
+        //Tạo list Route Bus
+        var _routeBusFrom =
+            data[i]["obj_partner"]["picking_routes"]["source_location"];
+        RouteBus routeBusFrom = RouteBus();
+        routeBusFrom.id = _routeBusFrom["id"];
+        routeBusFrom.routeName = _routeBusFrom["name"];
+        routeBusFrom.date = date;
+        routeBusFrom.time = _routeBusFrom["time"];
+        routeBusFrom.lat = double.parse(_routeBusFrom["lat"].toString());
+        routeBusFrom.lng = double.parse(_routeBusFrom["lng"].toString());
+        routeBusFrom.isSchool = _routeBusFrom["is_school"];
+        routeBusFrom.type =
+            _picking["delivery_id"]["type"] == "outgoing" ? 0 : 1;
+        listRouteBus.add(routeBusFrom);
+
+        var _routeBusTo =
+            data[i]["obj_partner"]["picking_routes"]["destination_location"];
+        RouteBus routeBusTo = RouteBus();
+        routeBusTo.id = _routeBusTo["id"];
+        routeBusTo.routeName = _routeBusTo["name"];
+        routeBusTo.date = date;
+        routeBusTo.time = _routeBusTo["time"];
+        routeBusTo.lat = double.parse(_routeBusTo["lat"].toString());
+        routeBusTo.lng = double.parse(_routeBusTo["lng"].toString());
+        routeBusTo.isSchool = _routeBusTo["is_school"];
+        routeBusTo.type = _picking["delivery_id"]["type"] == "outgoing" ? 0 : 1;
+        listRouteBus.add(routeBusTo);
+        listResult.add(ChildrenBusSession.fromJsonController(
+            picking: _picking,
+            objChildren: children,
+            objDriver: driver,
+            objListRouteBus: listRouteBus));
+      }
+
+      print(listResult);
       return listResult;
     });
   }

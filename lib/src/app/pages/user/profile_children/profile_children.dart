@@ -452,7 +452,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
             child: Column(
               children: <Widget>[
                 rowTitle('THÔNG TIN XE BUS'),
-                row1('Biển số xe :', busSession.vehicleId.toString()),
+                row1('Biển số xe :', busSession.vehicleName.toString()),
                 hr,
                 rowIcon('Tài xế :', busSession.driver.name,
                     busSession.driver.phone),

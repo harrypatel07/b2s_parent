@@ -18,7 +18,54 @@ class ChildrenBusSession {
   dynamic schoolName;
   dynamic notification;
   dynamic vehicleId;
+  dynamic vehicleName;
   dynamic type; // 0 là đi, 1 là về.
+
+  ChildrenBusSession.fromJsonController(
+      {Map<dynamic, dynamic> picking,
+      Children objChildren,
+      Driver objDriver,
+      List<RouteBus> objListRouteBus}) {
+    sessionID = picking["id"].toString();
+    //Kiểm tra chuyến đi hay chuyền về
+    var _type = 0;
+    if (picking["delivery_id"]["type"] == "incoming") _type = 1;
+    this.type = _type;
+    if (objChildren != null) {
+      child = objChildren;
+      schoolName = child.schoolName;
+    }
+    if (objDriver != null) driver = objDriver;
+    notification = "";
+
+    PickingTransportInfo_State.values.forEach((value) {
+      if (Common.getValueEnum(value) == picking["state"])
+        switch (value) {
+          case PickingTransportInfo_State.draft:
+            status = StatusBus.list[0];
+            break;
+          case PickingTransportInfo_State.halt:
+            status = StatusBus.list[1];
+
+            break;
+          case PickingTransportInfo_State.done:
+            if (_type == 0)
+              status = StatusBus.list[2];
+            else
+              status = StatusBus.list[4];
+            break;
+          case PickingTransportInfo_State.cancel:
+            status = StatusBus.list[3];
+            break;
+          default:
+        }
+    });
+    if (picking["vehicle"]["name"] != null)
+      vehicleName = picking["vehicle"]["name"].toString().split('/').last;
+    vehicleId = picking["vehicle"]["id"];
+    listRouteBus = objListRouteBus;
+  }
+
   ChildrenBusSession.fromPickingTransportInfo(
       {PickingTransportInfo pti,
       Children objChildren,
@@ -30,6 +77,7 @@ class ChildrenBusSession {
     if (pti.deliveryId is List) {
       if (pti.deliveryId[1].toString().contains("IN")) _type = 1;
     }
+    this.type = _type;
     if (objChildren != null) {
       child = objChildren;
       schoolName = child.schoolName;
@@ -60,7 +108,8 @@ class ChildrenBusSession {
         }
     });
     if (pti.vehicleId is List) {
-      vehicleId = pti.vehicleId[1].toString().split('/').last;
+      vehicleName = pti.vehicleId[1].toString().split('/').last;
+      vehicleId = pti.vehicleId[0];
     }
     listRouteBus = objListRouteBus;
   }
@@ -95,7 +144,9 @@ class ChildrenBusSession {
       this.driver,
       this.status,
       this.schoolName,
-      this.notification}); //
+      this.notification,
+      this.vehicleId,
+      this.vehicleName}); //
   static List<ChildrenBusSession> list = [
     ChildrenBusSession(
         sessionID: "S01",
@@ -177,6 +228,7 @@ class RouteBus {
     status = json['status'];
     lat = json['lat'];
     lng = json['lng'];
+    isSchool = json['isSchool'];
   }
 
   Map<String, dynamic> toJson() {
@@ -189,6 +241,7 @@ class RouteBus {
     data["status"] = this.status;
     data["lat"] = this.lat;
     data["lng"] = this.lng;
+    data["isSchool"] = this.isSchool;
     return data;
   }
 

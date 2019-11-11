@@ -7,9 +7,16 @@ class Driver {
   dynamic gender;
   dynamic genderId;
   dynamic phone;
+  dynamic email;
+  Driver({this.id, this.name, this.photo, this.gender, this.phone, this.email});
 
-  Driver({this.id, this.name, this.photo, this.gender, this.phone});
-
+  Driver.fromJsonController(Map<dynamic, dynamic> _driver) {
+    this.id = _driver["id"];
+    this.name = _driver["name"];
+    this.phone = _driver["phone"];
+    this.email = _driver["email"];
+    this.photo = _driver["image"];
+  }
   Driver.fromResPartner(ResPartner resPartner) {
     id = resPartner.id;
     name = resPartner.name;
@@ -19,6 +26,7 @@ class Driver {
       genderId = resPartner.title[0];
     }
     phone = resPartner.phone;
+    email = resPartner.email;
   }
 
   Driver.fromJson(Map<dynamic, dynamic> json) {
@@ -28,6 +36,7 @@ class Driver {
     gender = json['gender'];
     genderId = json['genderId'];
     phone = json['phone'];
+    email = json['email'];
   }
 
   Map<String, dynamic> toJson() {
@@ -38,6 +47,7 @@ class Driver {
     data["gender"] = this.gender;
     data["genderId"] = this.genderId;
     data["phone"] = this.phone;
+    data["email"] = this.email;
     return data;
   }
 
