@@ -397,11 +397,6 @@ class Api1 extends ApiMaster {
     var listId =
         await getListIdPickingByIdChildrenAndListDate(idChildren, listDate);
     if (listId.length == 0) return true;
-
-    body = new Map();
-    body["model"] = "picking.transport.info";
-    body["method"] = "picking_hold";
-    body["args"] = '["value"]';
     var client = await this.authorizationOdoo();
     return client.callKW(
         "picking.transport.info", "picking_cancel", [listId]).then((onValue) {

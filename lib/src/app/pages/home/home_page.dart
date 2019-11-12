@@ -1,4 +1,6 @@
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
+import 'package:b2s_parent/src/app/helper/constant.dart';
+import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/service/common-service.dart';
@@ -63,7 +65,7 @@ class HomeBodyWidget extends StatefulWidget {
 class _HomeBodyWidgetState extends State<HomeBodyWidget> {
   HomePageViewModel viewModel;
 
-  Widget _buildListChildren() {
+  Widget _buildListChildren(String title,List<ChildrenBusSession> listChildren,int type) {
     Widget __background() => Container(
           height: 150,
           width: MediaQuery.of(context).size.width,
@@ -98,11 +100,16 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
         );
 
     Widget __listChildren() {
+      List<MaterialColor> colorL = [Colors.grey,Colors.lime];
+      List<MaterialColor> colorR = [Colors.grey,Colors.orange];
       Widget ___card(int index) => BusAttentdanceCard(
             isExten: false,
-            childrenBusSession: viewModel.listChildren[index],
+            colorText: Colors.grey[800],
+            colorLeft: (type == TYPE_DEPART)?colorL[0]:colorL[1],
+            colorRight:(type == TYPE_DEPART)?colorR[0]:colorR[1],
+            childrenBusSession: listChildren[index],
             onTapCard: () {
-              viewModel.listOnTap(viewModel.listChildren[index]);
+              viewModel.listOnTap(listChildren[index]);
             },
             onTapCall: () {},
             onTapLeave: () {
@@ -113,7 +120,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
                 yes: 'Có',
                 no: 'Không',
                 onTap: () {
-                  viewModel.onTapLeave(index);
+                  viewModel.onTapLeave(index,type);
                   Navigator.pop(context);
                   print('onTap leave');
                 },
@@ -136,7 +143,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
                     Container(
                       padding: EdgeInsets.only(left: 10),
                       child: Text(
-                        "Chuyến đi trong ngày",
+                        title,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -153,10 +160,10 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
                         BusAttentdanceCardShimmer(),
                       ],
                     )
-                  : (viewModel.listChildren.length != 0)
+                  : (listChildren.length != 0)
                       ? Column(
                           children: <Widget>[
-                            ...viewModel.listChildren
+                            ...listChildren
                                 .asMap()
                                 .map((index, item) {
                                   return MapEntry(
@@ -210,7 +217,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
         crossAxisSpacing: 10,
         mainAxisSpacing: 12,
       ),
-      padding: EdgeInsets.only(left: 28, right: 28),
+      padding: EdgeInsets.only(left: 28, right: 28,bottom: 20),
       itemCount: Category.categories.length,
       itemBuilder: (context, index) => BusCategoryCard(
         Category.categories[index],
@@ -238,7 +245,8 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
           //     child: appBarIconSideMenu(context)),
           SizedBox(height: 30),
           _categoryList(),
-          _buildListChildren(),
+          _buildListChildren("Chuyến đi trong ngày",viewModel.listChildrenDepart,TYPE_DEPART),
+          _buildListChildren("Chuyến về trong ngày",viewModel.listChildrenArrive,TYPE_ARRIVE),
         ],
       ),
     );

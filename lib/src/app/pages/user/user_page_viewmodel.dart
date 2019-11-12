@@ -52,7 +52,7 @@ class UserPageViewModel extends ViewModelBase {
     });
   }
   onTapChildren(Children children) async{
-    await Navigator.pushNamed(context, EditProfileChildren.routeName,arguments: ProfileChildrenArgs(parent:parent,children: children)).then((r){
+    await Navigator.pushNamed(context, EditProfileChildren.routeName,arguments: ProfileChildrenArgs(parent:parent,childId: children.id)).then((r){
       if(r!=null) {
         listChildren = r;
         this.updateState();

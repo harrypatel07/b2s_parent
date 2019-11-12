@@ -11,7 +11,6 @@ import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class UserPage extends StatefulWidget {
   static const String routeName = "/user";

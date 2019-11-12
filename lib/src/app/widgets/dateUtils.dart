@@ -4,8 +4,15 @@ import 'package:flutter/material.dart';
 
 List<MonthModule> getDateInMonth(List<MonthModule> listDateShow,
     List<DateTime> listDate, int year, int month) {
+  final colorSelected = Colors.orange;
+  final colorPassed = Colors.grey;
+  final colorHoliday = Colors.red;
+  final colorText = Colors.white;
+  final colorTextEmpty = Colors.black;
   List<DateTime> listDateTemp = new List();
-  listDateTemp = listDate;
+  listDate.forEach((date){
+    listDateTemp.add(date);
+  });
   DateTime endDate = new DateTime(year, month + 1, 0);
   int totalDate = endDate.day;
   DateTime startDate = new DateTime(year, month, 1);
@@ -38,76 +45,93 @@ List<MonthModule> getDateInMonth(List<MonthModule> listDateShow,
     if (i == 0) {
       if (containsDayInList(listDateTemp, listDateShow[i + 1].date)) {
         listDateShow[i].typeDraw = LEFT_HALF_SCHEDULE;
-        listDateShow[i].color = Colors.green;
+        listDateShow[i].color = colorSelected;
+        listDateShow[i].colorText = colorText;
       } else {
         listDateShow[i].typeDraw = EMPTY_SCHEDULE;
-        listDateShow[i].color = Colors.green;
+        listDateShow[i].color = colorSelected;
+        listDateShow[i].colorText = colorTextEmpty;
         if ((/*day.weekday == DateTime.saturday ||*/
             dayOfWeek.weekday == DateTime.sunday) && dayOfWeek.isAfter(DateTime.now())) {
           listDateShow[i].typeDraw = FILL_CIRCLE;
-          listDateShow[i].color = Colors.red;
+          listDateShow[i].color = colorHoliday;
+          listDateShow[i].colorText = colorText;
         }
       }
     } else if (i == listDateShow.length - 1) {
       if (containsDayInList(listDateTemp, listDateShow[i - 1].date) &&
           containsDayInList(listDateTemp, listDateShow[i].date)) {
         listDateShow[i].typeDraw = RIGHT_HALF_SCHEDULE;
-        listDateShow[i].color = Colors.green;
+        listDateShow[i].color = colorSelected;
+        listDateShow[i].colorText = colorText;
       } else if (containsDayInList(listDateTemp, listDateShow[i].date)) {
         listDateShow[i].typeDraw = FILL_CIRCLE;
-        listDateShow[i].color = Colors.green;
+        listDateShow[i].color = colorSelected;
+        listDateShow[i].colorText = colorText;
       } else {
         listDateShow[i].typeDraw = EMPTY_SCHEDULE;
-        listDateShow[i].color = Colors.green;
+        listDateShow[i].color = colorSelected;
+        listDateShow[i].colorText = colorTextEmpty;
         if ((/*day.weekday == DateTime.saturday ||*/
             dayOfWeek.weekday == DateTime.sunday) && dayOfWeek.isAfter(DateTime.now())) {
           listDateShow[i].typeDraw = FILL_CIRCLE;
-          listDateShow[i].color = Colors.red;
+          listDateShow[i].color = colorHoliday;
+          listDateShow[i].colorText = colorText;
         }
       }
     } else if (containsDayInList(listDateTemp, listDateShow[i].date)) {
       if (!(containsDayInList(listDateTemp, listDateShow[i - 1].date)) &&
           !(containsDayInList(listDateTemp, listDateShow[i + 1].date))) {
         listDateShow[i].typeDraw = FILL_CIRCLE;
-        listDateShow[i].color = Colors.green;
+        listDateShow[i].color = colorSelected;
+        listDateShow[i].colorText = colorText;
       } else if (containsDayInList(listDateTemp, listDateShow[i - 1].date) &&
           containsDayInList(listDateTemp, listDateShow[i + 1].date)) {
         listDateShow[i].typeDraw = FULL_SCHEDULE;
-        listDateShow[i].color = Colors.green;
+        listDateShow[i].color = colorSelected;
+        listDateShow[i].colorText = colorText;
       } else if (!containsDayInList(listDateTemp, listDateShow[i - 1].date) &&
           containsDayInList(listDateTemp, listDateShow[i + 1].date)) {
         listDateShow[i].typeDraw = LEFT_HALF_SCHEDULE;
-        listDateShow[i].color = Colors.green;
+        listDateShow[i].color = colorSelected;
+        listDateShow[i].colorText = colorText;
       } else if (containsDayInList(listDateTemp, listDateShow[i - 1].date) &&
           !containsDayInList(listDateTemp, listDateShow[i + 1].date)) {
         listDateShow[i].typeDraw = RIGHT_HALF_SCHEDULE;
-        listDateShow[i].color = Colors.green;
+        listDateShow[i].color = colorSelected;
+        listDateShow[i].colorText = colorText;
       } else {
         listDateShow[i].typeDraw = EMPTY_SCHEDULE;
-        listDateShow[i].color = Colors.green;
+        listDateShow[i].color = colorSelected;
+        listDateShow[i].colorText = colorTextEmpty;
         if ((/*day.weekday == DateTime.saturday ||*/
             dayOfWeek.weekday == DateTime.sunday) && dayOfWeek.isAfter(DateTime.now())) {
           listDateShow[i].typeDraw = FILL_CIRCLE;
-          listDateShow[i].color = Colors.red;
+          listDateShow[i].color = colorHoliday;
+          listDateShow[i].colorText = colorText;
         }
       }
     } else {
       listDateShow[i].typeDraw = EMPTY_SCHEDULE;
-      listDateShow[i].color = Colors.green;
+      listDateShow[i].color = colorSelected;
+      listDateShow[i].colorText = colorTextEmpty;
       if ((/*day.weekday == DateTime.saturday ||*/
           dayOfWeek.weekday == DateTime.sunday) && dayOfWeek.isAfter(DateTime.now())) {
         listDateShow[i].typeDraw = FILL_CIRCLE;
-        listDateShow[i].color = Colors.red;
+        listDateShow[i].color = colorHoliday;
+        listDateShow[i].colorText = colorText;
       }
     }
     if (dayOfWeek.month == month) {
       if ((/*day.weekday == DateTime.saturday ||*/
           dayOfWeek.weekday == DateTime.sunday) && dayOfWeek.isAfter(DateTime.now())) {
-        listDateShow[i].color = Colors.red;
+        listDateShow[i].color = colorHoliday;
+        listDateShow[i].colorText = colorText;
       }
       if (dayOfWeek.isBefore(DateTime.now())) {
         listDateShow[i].typeDraw = GREY_DAY;
-        listDateShow[i].color = Colors.grey;
+        listDateShow[i].color = colorPassed;
+        listDateShow[i].colorText = colorText;
       }
     }
   }

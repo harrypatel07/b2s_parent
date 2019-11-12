@@ -18,10 +18,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class EditProfileChildrenViewModel extends ViewModelBase {
-  List<Children> listChildren;
   List<ItemDropDownField> listGender = List();
   List<ItemDropDownField> listSchool = List();
   Parent parent;
+  int childId;
   Children children;
   Uint8List imageDefault;
   TextEditingController _emailEditingController = new TextEditingController();
@@ -72,10 +72,9 @@ class EditProfileChildrenViewModel extends ViewModelBase {
   dynamic pickImageError;
   String retrieveDataError;
   LocationResult locationResult;
+  DateTime birthDay;
   EditProfileChildrenViewModel() {
     createEvent();
-    Parent parent = Parent();
-    listChildren = parent.listChildren;
     rootBundle.load('assets/images/user.png').then((bytes) {
       imageDefault = bytes.buffer.asUint8List();
     });
@@ -95,6 +94,9 @@ class EditProfileChildrenViewModel extends ViewModelBase {
     getListSchool();
     // if (viewModel.children != null)
     //   viewModel.imagePicker = viewModel.children.photo;
+    if (this.childId != -1)
+      children =
+          parent.listChildren.singleWhere((child) => child.id == this.childId);
     if (children != null) {
       _nameEditingController.text = children.name;
       _ageEditingController.text = children.age.toString();
@@ -104,7 +106,7 @@ class EditProfileChildrenViewModel extends ViewModelBase {
       _emailEditingController.text = children.email ?? parent.email;
       _classesEditingController.text = children.classes.toString();
       _phoneEditingController.text = children.phone.toString();
-      _birthDayEditingController.text = children.birthday != null
+      _birthDayEditingController.text = (children.birthday != false)
           ? DateFormat('dd/MM/yyyy')
               .format(DateTime.parse(children.birthday.toString()))
           : '';
@@ -247,7 +249,7 @@ class EditProfileChildrenViewModel extends ViewModelBase {
   // }
 
   addChildren(Children children) {
-    listChildren.add(children);
+    parent.listChildren.add(children);
   }
 
   Future<int> insertChildrenSever(Children children) async {
@@ -295,7 +297,9 @@ class EditProfileChildrenViewModel extends ViewModelBase {
           children.classes = _classesEditingController.text;
           children.email = _emailEditingController.text;
           children.phone = _phoneEditingController.text;
-          children.birthday = _birthDayEditingController.text;
+          //DateTime dateTime = DateTime.parse('9/9/1999');
+          if (birthDay != null)
+            children.birthday = DateFormat('yyyy-MM-dd').format(birthDay);
           if (gender != null) {
             children.genderId = gender.id;
             children.gender = gender.displayName;
@@ -309,12 +313,12 @@ class EditProfileChildrenViewModel extends ViewModelBase {
             children.lat = locationResult.latLng.latitude;
             children.lng = locationResult.latLng.longitude;
             // update list children
-            var _childrenUpdate =
-                listChildren.singleWhere((item) => item.id == this.children.id);
-            if (_childrenUpdate != null) _childrenUpdate = this.children;
+//            var _childrenUpdate =
+//                parent.listChildren.singleWhere((item) => item.id == this.children.id);
+//            if (_childrenUpdate != null) _childrenUpdate = this.children;
 
             if (imagePicker != null) children.photo = imagePicker;
-            print(_childrenUpdate.photo);
+//            print(_childrenUpdate.photo);
           }
           bool result = await updateChildrenSever(children);
           if (result)
@@ -332,7 +336,7 @@ class EditProfileChildrenViewModel extends ViewModelBase {
             classes: _classesEditingController.text,
             photo: imagePicker,
             location: _addressEditingController.text,
-            birthday: _birthDayEditingController.text);
+            birthday: DateFormat('yyyy-MM-dd').format(birthDay));
         if (gender.id != null) children.genderId = gender.id;
         if (school.id != null) children.schoolId = school.id;
         if (locationResult != null) {
@@ -345,7 +349,7 @@ class EditProfileChildrenViewModel extends ViewModelBase {
           // if (children.photo == null) children.photo = imageDefault;
           children.photo =
               "$domainApi/web/image?model=res.partner&field=image&id=${children.id}&${api.sessionId}";
-          listChildren.add(children);
+          parent.listChildren.add(children);
           return 1;
         }
         return -1;
@@ -360,10 +364,10 @@ class EditProfileChildrenViewModel extends ViewModelBase {
     this.saveChildren().then((v) {
       if (v == 1) {
         LoadingDialog.hideLoadingDialog(context);
-        Navigator.pop(context, listChildren);
+        Navigator.pop(context, parent.listChildren);
       } else if (v == -1) {
         LoadingDialog.hideLoadingDialog(context);
-        Navigator.pop(context, listChildren);
+        Navigator.pop(context, parent.listChildren);
       } else {
         LoadingDialog.hideLoadingDialog(context);
       }
@@ -460,13 +464,13 @@ class EditProfileChildrenViewModel extends ViewModelBase {
             itemStyle: TextStyle(
               color: Colors.orange,
               fontWeight: FontWeight.bold,
-              shadows: [
-                Shadow(
-                  blurRadius: 1.0,
-                  color: Colors.black12,
-                  offset: Offset(1.0, 1.0),
-                ),
-              ],
+              // shadows: [
+              //   Shadow(
+              //     blurRadius: 1.0,
+              //     color: Colors.black12,
+              //     offset: Offset(1.0, 1.0),
+              //   ),
+              // ],
             ),
             doneStyle: TextStyle(
                 color: Colors.orange,
@@ -475,8 +479,10 @@ class EditProfileChildrenViewModel extends ViewModelBase {
       print('change $date in time zone ' +
           date.timeZoneOffset.inHours.toString());
     }, onConfirm: (date) {
-      _birthDayEditingController.text = DateFormat('dd/MM/yyyy').format(date);
+      birthDay = date;
+      _birthDayEditingController.text =
+          DateFormat('dd/MM/yyyy').format(birthDay);
       this.updateState();
-    }, currentTime: DateTime(1999, 9, 9), locale: LocaleType.vi);
+    }, currentTime: DateTime.now(), locale: LocaleType.vi);
   }
 }

@@ -5,7 +5,6 @@ import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/pages/user/edit_profile_children/edit_profile_children_viewmodel.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/drop_down_field.dart';
-import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,9 +20,9 @@ class EditProfileChildren extends StatefulWidget {
 }
 
 class ProfileChildrenArgs {
-  final Children children;
+  final int childId;
   final Parent parent;
-  ProfileChildrenArgs({this.children, this.parent});
+  ProfileChildrenArgs({this.childId, this.parent});
 }
 
 class _EditProfileChildrenState extends State<EditProfileChildren> {
@@ -34,8 +33,9 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
   void initState() {
     // TODO: implement initState
     viewModel = EditProfileChildrenViewModel();
-    viewModel.children = this.arguments.children;
+    viewModel.childId = this.arguments.childId??-1;
     viewModel.parent = this.arguments.parent;
+//    viewModel.listChildren = this.arguments.parent.listChildren;
     viewModel.initData();
     super.initState();
   }

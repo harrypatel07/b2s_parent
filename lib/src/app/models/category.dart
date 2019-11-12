@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class Category {
   const Category({@required this.name, @required this.color, this.routeName});
 
-  final Color color;
+  final MaterialColor color;
   final String name;
   final String routeName;
 

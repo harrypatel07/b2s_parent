@@ -1,4 +1,5 @@
 import 'package:b2s_parent/src/app/models/category.dart';
+import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -56,18 +57,46 @@ class BusCategoryCard extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
-        width: itemWidth * 0.82,
+        width: itemWidth*0.95,
         height: 11,
         decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: category.color,
-              offset: Offset(0, 3),
-              blurRadius: 23,
-            ),
-          ],
+//          boxShadow: [
+//            BoxShadow(
+//                color: category.color.withAlpha(30),
+//                offset: Offset(3, 3),
+//                blurRadius: 10.0),
+//            BoxShadow(
+//                color: category.color.withAlpha(30),
+//                offset: Offset(-3, -3),
+//                blurRadius: 10.0),
+//            BoxShadow(
+//                color: category.color.withAlpha(30),
+//                offset: Offset(-3, 3),
+//                blurRadius: 10.0),
+//            BoxShadow(
+//                color: category.color.withAlpha(30),
+//                offset: Offset(3, -3),
+//                blurRadius: 10.0),
+////                  BoxShadow(
+////                    color: Colors.orange[100],
+////                    blurRadius: 10.0, // has the effect of softening the shadow
+////                    spreadRadius: 1.0, // has the effect of extending the shadow
+////                    offset: Offset(
+////                      10.0, // horizontal, move right 10
+////                      10.0, // vertical, move down 10
+////                    ),
+////                  )
+//          ],
         ),
-      ),
+//        decoration: BoxDecoration(
+//          boxShadow: [
+//            BoxShadow(
+//              color: category.color,
+//              offset: Offset(0, 3),
+//              blurRadius: 23,
+//            ),
+//          ],
+        ),
     );
   }
 

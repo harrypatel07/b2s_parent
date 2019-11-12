@@ -47,6 +47,11 @@ class Children {
     this.phone = partner["phone"];
     this.name = partner["name"];
     this.birthday = partner["date_of_birth"];
+    if (this.birthday != null) if (!(this.birthday is bool)) {
+      var date = DateTime.parse(this.birthday);
+      var dateNow = DateTime.now();
+      this.age = dateNow.year - date.year;
+    }
     this.email = partner["email"];
     this.photo = partner["image"];
     this.classes = partner["class"];
@@ -73,7 +78,12 @@ class Children {
     paidTicket = false;
     if (resPartner.parentId is List) parentId = resPartner.parentId[0];
     this.primary = primary;
-    birthday = resPartner.xDateOfBirth;
+    birthday = resPartner.wkDob;
+    if (this.birthday != null) if (!(this.birthday is bool)) {
+      var date = DateTime.parse(this.birthday);
+      var dateNow = DateTime.now();
+      this.age = dateNow.year - date.year;
+    }
   }
 
   Children.fromJson(Map<dynamic, dynamic> json) {

@@ -1,9 +1,12 @@
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/helper/constant.dart';
-import 'package:b2s_parent/src/app/helper/dateUtils.dart';
+import 'package:b2s_parent/src/app/widgets/dateUtils.dart';
+import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/month_module.dart';
 import 'package:b2s_parent/src/app/pages/leave/leave_page_viewmodel.dart';
+import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/item_date.dart';
+import 'package:b2s_parent/src/app/widgets/listview_Animator.dart';
 import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +14,23 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 
 class LeavePage extends StatefulWidget {
   static const String routeName = "/leave";
+  final List<Children> listChildren;
+  const LeavePage({Key key, this.listChildren}) : super(key: key);
   @override
   _LeavePageState createState() => _LeavePageState();
 }
 
 class _LeavePageState extends State<LeavePage> {
   PageController controller;
+  LeavePageViewModel viewModel = LeavePageViewModel();
+  @override
+  void initState() {
+    viewModel.listChildren = widget.listChildren;
+    viewModel.onLoad(widget.listChildren[0].id);
+    viewModel.childPrimary = widget.listChildren[0];
+    super.initState();
+  }
+
   Widget _page(int position, int year, int month) {
     return Column(
       children: <Widget>[
@@ -27,6 +41,7 @@ class _LeavePageState extends State<LeavePage> {
           height: 40,
           color: Colors.amber.shade100,
           child: GridView.count(
+              physics: new NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
               crossAxisCount: 7,
               children: <String>[
@@ -55,6 +70,7 @@ class _LeavePageState extends State<LeavePage> {
         Flexible(
           child: Container(
               child: GridView.count(
+                  physics: new NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.all(10),
                   crossAxisCount: 7,
                   mainAxisSpacing: 8,
@@ -91,6 +107,7 @@ class _LeavePageState extends State<LeavePage> {
                           Center(
                               child: Text(
                             month.date.day.toString(),
+                            style: TextStyle(color: month.colorText),
                           ))
                         ],
                       )),
@@ -104,167 +121,298 @@ class _LeavePageState extends State<LeavePage> {
   Widget _buildBody() {
     controller = new PageController(initialPage: 0);
     //MediaQuery.of(context).size.width;
-    return Column(
-      children: <Widget>[
-        Container(
-          height: 50,
-          width: MediaQuery.of(context).size.width,
-          color: Colors.amber,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              InkWell(
-                onTap: () {
-                  controller.previousPage(
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.linear);
-                },
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  child: viewModel.pagePosition == 1
-                      ? Icon(Icons.arrow_back_ios)
-                      : Container(
-                          width: 24,
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: 50,
+            width: MediaQuery.of(context).size.width,
+            color: Colors.amber,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    controller.previousPage(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.linear);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(5),
+                    child: viewModel.pagePosition == 1
+                        ? Icon(Icons.arrow_back_ios)
+                        : Container(
+                            width: 24,
+                          ),
+                  ),
+                ),
+                Spacer(),
+                Container(
+                  alignment: Alignment.center,
+                  width: 150,
+                  child: Text(
+                    viewModel.pageViewTitle,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+                Spacer(),
+                InkWell(
+                  onTap: () {
+                    controller.nextPage(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.linear);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(5),
+                    child: viewModel.pagePosition == 0
+                        ? Icon(Icons.arrow_forward_ios)
+                        : Container(
+                            width: 24,
+                          ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            height: MediaQuery.of(context).size.width *3/4,
+            child: PageView(
+              onPageChanged: viewModel.onPageViewChange,
+              controller: controller,
+              children: <Widget>[
+                _page(0, viewModel.dateDefault.year,
+                    viewModel.dateDefault.month),
+                _page(1, viewModel.dayOfNextMonth.year,
+                    viewModel.dayOfNextMonth.month),
+              ],
+              scrollDirection: Axis.horizontal,
+            ),
+          ),
+//        Spacer(),
+          Container(
+            color: Colors.grey[200],
+            child: Column(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        width: 30.0,
+                        height: 30.0,
+                        decoration: new BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
                         ),
-                ),
-              ),
-              Spacer(),
-              Container(
-                alignment: Alignment.center,
-                width: 150,
-                child: Text(
-                  viewModel.pageViewTitle,
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
-              Spacer(),
-              InkWell(
-                onTap: () {
-                  controller.nextPage(
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.linear);
-                },
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  child: viewModel.pagePosition == 0
-                      ? Icon(Icons.arrow_forward_ios)
-                      : Container(
-                          width: 24,
+                      ),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        child: Align(
+                          child: Text("Ngày nghỉ"),
                         ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          height: 300,
-          child: PageView(
-            onPageChanged: viewModel.onPageViewChange,
-            controller: controller,
-            children: <Widget>[
-              _page(0, viewModel.dateDefault.year, viewModel.dateDefault.month),
-              _page(1, viewModel.dayOfNextMonth.year,
-                  viewModel.dayOfNextMonth.month),
-            ],
-            scrollDirection: Axis.horizontal,
-          ),
-        ),
-        Spacer(),
-        Container(
-          color: Colors.grey[200],
-          height: 250,
-          child: Column(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      width: 30.0,
-                      height: 30.0,
-                      decoration: new BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
+                Container(
+                  margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        width: 30.0,
+                        height: 30.0,
+                        decoration: new BoxDecoration(
+                          color: Colors.grey,
+                          shape: BoxShape.circle,
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      child: Align(
-                        child: Text("Ngày nghỉ"),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        child: Align(
+                          child: Text("Ngày đã qua"),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      width: 30.0,
-                      height: 30.0,
-                      decoration: new BoxDecoration(
-                        color: Colors.grey,
-                        shape: BoxShape.circle,
+                Container(
+                  margin: EdgeInsets.fromLTRB(20, 20, 20, 30),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        width: 30.0,
+                        height: 30.0,
+                        decoration: new BoxDecoration(
+                          color: Colors.green,
+                          shape: BoxShape.circle,
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      child: Align(
-                        child: Text("Ngày đã qua"),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        child: Align(
+                          child: Text("Ngày đã chọn"),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      width: 30.0,
-                      height: 30.0,
-                      decoration: new BoxDecoration(
-                        color: Colors.green,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      child: Align(
-                        child: Text("Ngày đã chọn"),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        )
-      ],
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
   Widget _appBarTitle() {
-    return Container(
-      child: new Row(
-        children: <Widget>[
-          new CachedNetworkImage(
-            imageUrl: viewModel.childPrimary.photo,
-            imageBuilder: (context, imageProvider) => CircleAvatar(
-              radius: 20.0,
-              backgroundImage: imageProvider,
-              backgroundColor: Colors.transparent,
+    Widget __card(Children _child) {
+      return InkWell(
+        onTap: () {
+          print('on tap item child');
+          Navigator.pop(context, _child.id);
+        },
+        child: Container(
+          width: 200,
+          height: 50,
+          decoration: BoxDecoration(
+              color: _child.id == viewModel.childPrimary.id
+                  ? ThemePrimary.primaryColor
+                  : Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(0.0, 2.0),
+                    blurRadius: 2.0),
+//              BoxShadow(
+//                  color: Colors.black12,
+//                  offset: Offset(0.0, -2.0),
+//                  blurRadius: 2.0),
+              ]),
+          margin: EdgeInsets.all(5.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+            child: Container(
+//            color: Colors.grey[500],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Flexible(
+                    flex: 1,
+                    child: CachedNetworkImage(
+                      imageUrl: _child.photo,
+                      imageBuilder: (context, imageProvider) => CircleAvatar(
+                        radius: 20.0,
+                        backgroundImage: imageProvider,
+                        backgroundColor: Colors.transparent,
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 2,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        _child.name.toString(),
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
-          new Container(
-            margin: EdgeInsets.only(left: 10),
-            child: new Text(
-              viewModel.childPrimary.name,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+        ),
+      );
+    }
+
+    List<Widget> _listCard = viewModel.listChildren
+        .asMap()
+        .map((index, child) {
+          return MapEntry(
+            index,
+            WidgetANimator(__card(child)),
+          );
+        })
+        .values
+        .toList();
+    return InkWell(
+      onTap: () {
+        showGeneralDialog(
+                transitionBuilder: (context, a1, a2, widget) {
+                  return Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Stack(
+                        children: <Widget>[
+                          Positioned(
+                            top: 30,
+                            right: 0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: ThemePrimary.primaryColor,
+                                  borderRadius: BorderRadius.circular(0.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black26,
+                                        offset: Offset(0.0, 5.0),
+                                        blurRadius: 2.0),
+//                                BoxShadow(
+//                                    color: Colors.black12,
+//                                    offset: Offset(0.0, -10.0),
+//                                    blurRadius: 10.0),
+                                  ]),
+//                          color: Colors.white,
+                              child: Column(
+                                children: _listCard,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                transitionDuration: Duration(milliseconds: 10),
+                barrierDismissible: true,
+                barrierLabel: '',
+                context: context,
+                pageBuilder: (context, animation1, animation2) {})
+            .then((childrenId) {
+          if (childrenId != null) viewModel.onChangeChildren(childrenId);
+        });
+      },
+      child: Container(
+        child: new Row(
+          children: <Widget>[
+            new CachedNetworkImage(
+              imageUrl: viewModel.childPrimary.photo,
+              imageBuilder: (context, imageProvider) => CircleAvatar(
+                radius: 20.0,
+                backgroundImage: imageProvider,
+                backgroundColor: Colors.transparent,
+              ),
             ),
-          ),
-        ],
+            new Container(
+              margin: EdgeInsets.only(left: 10),
+              child: new Text(
+                viewModel.childPrimary.name,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -315,8 +463,6 @@ class _LeavePageState extends State<LeavePage> {
     );
   }
 
-  LeavePageViewModel viewModel = LeavePageViewModel();
-  @override
   Widget build(BuildContext context) {
     viewModel.context = context;
     return ViewModelProvider(

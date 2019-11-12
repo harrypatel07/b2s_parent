@@ -148,154 +148,159 @@ class ResPartner {
   dynamic zip;
   dynamic xClass;
   dynamic xSchool;
-  dynamic xDateOfBirth;
+  dynamic wkDob;
+  dynamic xPosx;
+  dynamic xPosy;
 
-  ResPartner(
-      {this.sLastUpdate,
-      this.active,
-      this.activityDateDeadline,
-      this.activityIds,
-      this.activityState,
-      this.activitySummary,
-      this.activityTypeId,
-      this.activityUserId,
-      this.additionalInfo,
-      this.bankAccountCount,
-      this.bankIds,
-      this.barcode,
-      this.calendarLastNotifAck,
-      this.categoryId,
-      this.channelIds,
-      this.childIds,
-      this.city,
-      this.color,
-      this.comment,
-      this.commercialCompanyName,
-      this.commercialPartnerId,
-      this.companyId,
-      this.companyName,
-      this.companyType,
-      this.contactAddress,
-      this.contractIds,
-      this.contractsCount,
-      this.countryId,
-      this.createDate,
-      this.createUid,
-      this.credit,
-      this.creditLimit,
-      this.currencyId,
-      this.customer,
-      this.date,
-      this.debit,
-      this.debitLimit,
-      this.displayName,
-      this.email,
-      this.emailFormatted,
-      this.employee,
-      this.eventCount,
-      this.function,
-      this.hasUnreconciledEntries,
-      this.id,
-      this.imStatus,
-      this.image,
-      this.imageMedium,
-      this.imageSmall,
-      this.industryId,
-      this.invoiceIds,
-      this.invoiceWarn,
-      this.invoiceWarnMsg,
-      this.isBlacklisted,
-      this.isCompany,
-      this.isPublished,
-      this.isSeoOptimized,
-      this.journalItemCount,
-      this.lang,
-      this.lastTimeEntriesChecked,
-      this.lastWebsiteSoId,
-      this.meetingCount,
-      this.meetingIds,
-      this.messageAttachmentCount,
-      this.messageBounce,
-      this.messageChannelIds,
-      this.messageFollowerIds,
-      this.messageHasError,
-      this.messageHasErrorCounter,
-      this.messageIds,
-      this.messageIsFollower,
-      this.messageMainAttachmentId,
-      this.messageNeedaction,
-      this.messageNeedactionCounter,
-      this.messagePartnerIds,
-      this.messageUnread,
-      this.messageUnreadCounter,
-      this.mobile,
-      this.name,
-      this.opportunityCount,
-      this.opportunityIds,
-      this.parentId,
-      this.parentName,
-      this.partnerGid,
-      this.partnerShare,
-      this.paymentTokenCount,
-      this.paymentTokenIds,
-      this.phone,
-      this.pickingWarn,
-      this.pickingWarnMsg,
-      this.propertyAccountPayableId,
-      this.propertyAccountPositionId,
-      this.propertyAccountReceivableId,
-      this.propertyDeliveryCarrierId,
-      this.propertyPaymentTermId,
-      this.propertyProductPricelist,
-      this.propertyStockCustomer,
-      this.propertyStockSupplier,
-      this.propertySupplierPaymentTermId,
-      this.ref,
-      this.refCompanyIds,
-      this.saleOrderCount,
-      this.saleOrderIds,
-      this.saleWarn,
-      this.saleWarnMsg,
-      this.self,
-      this.signupExpiration,
-      this.signupToken,
-      this.signupType,
-      this.signupUrl,
-      this.signupValid,
-      this.stateId,
-      this.street,
-      this.street2,
-      this.supplier,
-      this.teamId,
-      this.title,
-      this.totalInvoiced,
-      this.trust,
-      this.type,
-      this.tz,
-      this.tzOffset,
-      this.userId,
-      this.userIds,
-      this.vat,
-      this.vehicleCount,
-      this.vehicleIds,
-      this.website,
-      this.websiteDescription,
-      this.websiteId,
-      this.websiteMessageIds,
-      this.websiteMetaDescription,
-      this.websiteMetaKeywords,
-      this.websiteMetaOgImg,
-      this.websiteMetaTitle,
-      this.websitePublished,
-      this.websiteShortDescription,
-      this.websiteUrl,
-      this.wishlistIds,
-      this.writeDate,
-      this.writeUid,
-      this.zip,
-      this.xClass,
-      this.xSchool,
-      this.xDateOfBirth});
+  ResPartner({
+    this.sLastUpdate,
+    this.active,
+    this.activityDateDeadline,
+    this.activityIds,
+    this.activityState,
+    this.activitySummary,
+    this.activityTypeId,
+    this.activityUserId,
+    this.additionalInfo,
+    this.bankAccountCount,
+    this.bankIds,
+    this.barcode,
+    this.calendarLastNotifAck,
+    this.categoryId,
+    this.channelIds,
+    this.childIds,
+    this.city,
+    this.color,
+    this.comment,
+    this.commercialCompanyName,
+    this.commercialPartnerId,
+    this.companyId,
+    this.companyName,
+    this.companyType,
+    this.contactAddress,
+    this.contractIds,
+    this.contractsCount,
+    this.countryId,
+    this.createDate,
+    this.createUid,
+    this.credit,
+    this.creditLimit,
+    this.currencyId,
+    this.customer,
+    this.date,
+    this.debit,
+    this.debitLimit,
+    this.displayName,
+    this.email,
+    this.emailFormatted,
+    this.employee,
+    this.eventCount,
+    this.function,
+    this.hasUnreconciledEntries,
+    this.id,
+    this.imStatus,
+    this.image,
+    this.imageMedium,
+    this.imageSmall,
+    this.industryId,
+    this.invoiceIds,
+    this.invoiceWarn,
+    this.invoiceWarnMsg,
+    this.isBlacklisted,
+    this.isCompany,
+    this.isPublished,
+    this.isSeoOptimized,
+    this.journalItemCount,
+    this.lang,
+    this.lastTimeEntriesChecked,
+    this.lastWebsiteSoId,
+    this.meetingCount,
+    this.meetingIds,
+    this.messageAttachmentCount,
+    this.messageBounce,
+    this.messageChannelIds,
+    this.messageFollowerIds,
+    this.messageHasError,
+    this.messageHasErrorCounter,
+    this.messageIds,
+    this.messageIsFollower,
+    this.messageMainAttachmentId,
+    this.messageNeedaction,
+    this.messageNeedactionCounter,
+    this.messagePartnerIds,
+    this.messageUnread,
+    this.messageUnreadCounter,
+    this.mobile,
+    this.name,
+    this.opportunityCount,
+    this.opportunityIds,
+    this.parentId,
+    this.parentName,
+    this.partnerGid,
+    this.partnerShare,
+    this.paymentTokenCount,
+    this.paymentTokenIds,
+    this.phone,
+    this.pickingWarn,
+    this.pickingWarnMsg,
+    this.propertyAccountPayableId,
+    this.propertyAccountPositionId,
+    this.propertyAccountReceivableId,
+    this.propertyDeliveryCarrierId,
+    this.propertyPaymentTermId,
+    this.propertyProductPricelist,
+    this.propertyStockCustomer,
+    this.propertyStockSupplier,
+    this.propertySupplierPaymentTermId,
+    this.ref,
+    this.refCompanyIds,
+    this.saleOrderCount,
+    this.saleOrderIds,
+    this.saleWarn,
+    this.saleWarnMsg,
+    this.self,
+    this.signupExpiration,
+    this.signupToken,
+    this.signupType,
+    this.signupUrl,
+    this.signupValid,
+    this.stateId,
+    this.street,
+    this.street2,
+    this.supplier,
+    this.teamId,
+    this.title,
+    this.totalInvoiced,
+    this.trust,
+    this.type,
+    this.tz,
+    this.tzOffset,
+    this.userId,
+    this.userIds,
+    this.vat,
+    this.vehicleCount,
+    this.vehicleIds,
+    this.website,
+    this.websiteDescription,
+    this.websiteId,
+    this.websiteMessageIds,
+    this.websiteMetaDescription,
+    this.websiteMetaKeywords,
+    this.websiteMetaOgImg,
+    this.websiteMetaTitle,
+    this.websitePublished,
+    this.websiteShortDescription,
+    this.websiteUrl,
+    this.wishlistIds,
+    this.writeDate,
+    this.writeUid,
+    this.zip,
+    this.xClass,
+    this.xSchool,
+    this.wkDob,
+    this.xPosx,
+    this.xPosy,
+  });
 
   ResPartner.fromJson(Map<String, dynamic> json) {
     sLastUpdate = json['__last_update'];
@@ -615,7 +620,9 @@ class ResPartner {
     zip = json['zip'];
     xClass = json['x_class'];
     xSchool = json['x_school'];
-    xDateOfBirth = json['x_date_of_birth'];
+    wkDob = json['wk_dob'];
+    xPosx = json['x_posx'];
+    xPosy = json['x_posy'];
   }
 
   ResPartner.fromChildren(Children children) {
@@ -629,8 +636,11 @@ class ResPartner {
     parentId = children.parentId;
     xSchool = children.schoolId;
     xClass = children.classes;
-    xDateOfBirth = children.birthday;
+    wkDob = children.birthday;
     street = children.location;
+    xPosx = children.lat;
+    xPosy = children.lng;
+    type = "other";
   }
 
   ResPartner.fromParent(Parent parent) {
@@ -641,6 +651,8 @@ class ResPartner {
     title = parent.genderId;
     email = parent.email;
     phone = parent.phone;
+    xPosx = parent.lat;
+    xPosy = parent.lng;
   }
 
   Map<String, dynamic> toJson() {
@@ -768,11 +780,11 @@ class ResPartner {
       data['title'] = this.title;
     if (this.xClass != null) data['x_class'] = this.xClass;
     if (this.xSchool != null) data['x_school'] = this.xSchool;
-    if (!(this.xDateOfBirth is bool)) if (this.xDateOfBirth != null)
-      data['x_date_of_birth'] = this.xDateOfBirth;
+    if (!(this.wkDob is bool)) if (this.wkDob != null)
+      data['wk_dob'] = this.wkDob;
     // data['total_invoiced'] = this.totalInvoiced;
     // data['trust'] = this.trust;
-    // data['type'] = this.type;
+    if (this.type != null) data['type'] = this.type;
     // data['tz'] = this.tz;
     // data['tz_offset'] = this.tzOffset;
     // data['user_id'] = this.userId;
@@ -795,6 +807,8 @@ class ResPartner {
     // data['write_date'] = this.writeDate;
     // data['write_uid'] = this.writeUid;
     // data['zip'] = this.zip;
+    if (this.xPosx != null) data['x_posx'] = this.xPosx;
+    if (this.xPosy != null) data['x_posy'] = this.xPosy;
     return data;
   }
 }

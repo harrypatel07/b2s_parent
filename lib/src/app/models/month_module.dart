@@ -6,6 +6,7 @@ class MonthModule {
   //1 left
   //2 full
   //3 right
+  Color _colorText = Colors.black;
   Color _color;
   bool _isSelected;
   int _typeDraw;
@@ -31,5 +32,10 @@ class MonthModule {
   Color get color => _color;
   set color(Color value) {
     _color = value;
+  }
+
+  Color get colorText => _colorText;
+  set colorText(Color value) {
+    _colorText = value;
   }
 }

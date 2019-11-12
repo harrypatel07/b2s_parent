@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page_viewmodel.dart';
@@ -35,6 +36,8 @@ class _LocateBusPageState extends State<LocateBusPage> {
   ScrollController _sc = ScrollController();
   PanelController _pc = PanelController();
   bool disableScroll = true;
+  GlobalKey _key = GlobalKey();
+  Size _size = Size(0, 0);
 
   @override
   void dispose() {
@@ -53,9 +56,19 @@ class _LocateBusPageState extends State<LocateBusPage> {
       //   });
       // }
     });
+
     viewModel.context = context;
     viewModel.childrenBus = widget.args.data;
     // viewModel.listenData(widget.args.data.sessionID);
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) =>    setState(() {
+        _getSize();
+    }));
+  }
+
+  _getSize() {
+    final RenderBox renderBox = _key.currentContext.findRenderObject();
+    _size = renderBox.size;
   }
 
   Widget _buildBody() {
@@ -91,25 +104,33 @@ class _LocateBusPageState extends State<LocateBusPage> {
 
   Widget _buildPanel() {
     Widget __childrenCard() {
+      List<MaterialColor> colorL = [Colors.grey, Colors.lime];
+      List<MaterialColor> colorR = [Colors.grey, Colors.orange];
       return Stack(
         children: <Widget>[
           BusAttentdanceCard(
+            key: _key,
+            colorLeft:
+                (viewModel.childrenBus.type == 0) ? colorL[0] : colorL[1],
+            colorRight:
+                (viewModel.childrenBus.type == 0) ? colorR[0] : colorR[1],
             isExten: true,
-              onTapLeave: (){
-                popupConfirm(
-                  context: context,
-                  title: 'THÔNG BÁO',
-                  desc: 'Xác nhận thay đổi trạng thái ?',
-                  yes: 'Có',
-                  no: 'Không',
-                  onTap: () {
-                    viewModel.onTapLeave();
-                    Navigator.pop(context);
-                    print('onTap leave');
-                  },
-                );
-              },
-              childrenBusSession: viewModel.childrenBus,),
+            onTapLeave: () {
+              popupConfirm(
+                context: context,
+                title: 'THÔNG BÁO',
+                desc: 'Xác nhận thay đổi trạng thái ?',
+                yes: 'Có',
+                no: 'Không',
+                onTap: () {
+                  viewModel.onTapLeave();
+                  Navigator.pop(context);
+                  print('onTap leave');
+                },
+              );
+            },
+            childrenBusSession: viewModel.childrenBus,
+          ),
           Positioned(
             left: MediaQuery.of(context).size.width / 2 - 15,
             top: 5,
@@ -161,27 +182,34 @@ class _LocateBusPageState extends State<LocateBusPage> {
           ],
         ));
   }
-  Widget _backButton(){
+
+  Widget _backButton() {
     return Positioned(
       top: 25,
       left: 0,
       child: InkWell(
-        onTap: (){
+        onTap: () {
           Navigator.of(context).pop();
         },
         child: Container(
           padding: EdgeInsets.only(right: 10),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(bottomRight: Radius.circular(25),topRight: Radius.circular(25)),
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(25),
+                topRight: Radius.circular(25)),
             color: Colors.black38,
           ),
           width: 70,
           height: 50,
-          child: Icon(Icons.arrow_back,color: Colors.white,),
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
         ),
       ),
     );
   }
+
   Widget _buildIconLocation() {
     return Positioned(
       right: 20.0,
@@ -205,7 +233,7 @@ class _LocateBusPageState extends State<LocateBusPage> {
   Widget build(BuildContext context) {
     // TabsPageViewModel tabsPageViewModel = ViewModelProvider.of(context);
     // viewModel = tabsPageViewModel.locateBusPageViewModel;
-    _panelHeightOpen = MediaQuery.of(context).size.height * 3 / 7 +30;
+    _panelHeightOpen = _size.height;
     return StatefulWrapper(
       onInit: () {},
       child: ViewModelProvider(

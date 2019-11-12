@@ -47,7 +47,7 @@ class Routes {
     LocateBusPage.routeName: (context) =>
         LocateBusPage(ModalRoute.of(context).settings.arguments),
     BusAttendancePage.routeName: (context) => BusAttendancePage(),
-    LeavePage.routeName: (context) => LeavePage(),
+    LeavePage.routeName: (context) => LeavePage(listChildren: ModalRoute.of(context).settings.arguments),
     MessagePage.routeName: (context) => MessagePage(),
     MessageDetailPage.routeName: (context) =>
         MessageDetailPage(chatting: ModalRoute.of(context).settings.arguments),

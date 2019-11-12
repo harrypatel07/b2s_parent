@@ -10,6 +10,9 @@ class BusAttentdanceCard extends StatelessWidget {
   final Function onTapCard;
   final Function onTapCall;
   final Function onTapLeave;
+  final MaterialColor colorRight;
+  final MaterialColor colorLeft;
+  final Color colorText;
   final bool isExten;
   const BusAttentdanceCard(
       {Key key,
@@ -17,6 +20,9 @@ class BusAttentdanceCard extends StatelessWidget {
       this.onTapCard,
       this.onTapCall,
       this.onTapLeave,
+      this.colorRight = Colors.grey,
+        this.colorLeft = Colors.grey,
+        this.colorText =Colors.black,
       this.isExten})
       : super(key: key);
   @override
@@ -83,7 +89,7 @@ class BusAttentdanceCard extends StatelessWidget {
                     childrenBusSession.schoolName,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.black38),
+                        fontWeight: FontWeight.bold, color: colorText),
                   ),
                 ),
                 Padding(
@@ -94,6 +100,7 @@ class BusAttentdanceCard extends StatelessWidget {
                     maxLines: 2,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      color: colorText
                     ),
                   ),
                 ),
@@ -114,6 +121,7 @@ class BusAttentdanceCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
+                          color: colorText
                         )),
                   ],
                 ),
@@ -201,7 +209,7 @@ class BusAttentdanceCard extends StatelessWidget {
       Widget row1(String title, String content, double height) {
         return Container(
           height: height,
-          color: Colors.white,
+          color: Colors.transparent,
           padding: EdgeInsets.only(left: 15.0, right: 15.0),
           child: Row(
             children: <Widget>[
@@ -213,7 +221,7 @@ class BusAttentdanceCard extends StatelessWidget {
                   child: Text(
                     title,
                     textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16,color: colorText),
                   ),
                 ),
               ),
@@ -225,7 +233,7 @@ class BusAttentdanceCard extends StatelessWidget {
                   child: Text(
                     content,
                     textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: colorText),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),
@@ -238,7 +246,7 @@ class BusAttentdanceCard extends StatelessWidget {
 
       Widget rowIcon(String title, String content, String phoneNumber) {
         return Container(
-          color: Colors.white,
+          color: Colors.transparent,
           padding: EdgeInsets.only(left: 15.0, right: 15.0),
           child: Row(
             children: <Widget>[
@@ -250,7 +258,7 @@ class BusAttentdanceCard extends StatelessWidget {
                   child: Text(
                     title,
                     textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16,color: colorText),
                   ),
                 ),
               ),
@@ -267,7 +275,8 @@ class BusAttentdanceCard extends StatelessWidget {
                           content,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 16, fontWeight: FontWeight.bold,color: colorText),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),
@@ -342,7 +351,7 @@ class BusAttentdanceCard extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   child: Text(
                     childrenBusSession.child.name.toString(),
-                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16,color: colorText),
                     overflow: TextOverflow.ellipsis,
                   )),
             ),
@@ -381,27 +390,94 @@ class BusAttentdanceCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18.0),
         ),
-        child: Container(
-            height: (isExten) ? 345 : 140,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: Column(
-              children: <Widget>[
-                Container(
-//                  height: 275,
-                  child: Row(
-                    children: <Widget>[
-                      ____left(),
-                      ____right(),
-                    ],
-                  ),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              height: (isExten) ? 345 : 140,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: colorRight[100],
+                      offset: Offset(1.5, 1.5),
+                      blurRadius: 5.0),
+                  BoxShadow(
+                      color: colorRight[100],
+                      offset: Offset(-1.5, -1.5),
+                      blurRadius: 5.0),
+                  BoxShadow(
+                      color: colorRight[100],
+                      offset: Offset(-1.5, 1.5),
+                      blurRadius: 5.0),
+                  BoxShadow(
+                      color: colorRight[100],
+                      offset: Offset(1.5, -1.5),
+                      blurRadius: 5.0),
+//                  BoxShadow(
+//                    color: Colors.orange[100],
+//                    blurRadius: 10.0, // has the effect of softening the shadow
+//                    spreadRadius: 1.0, // has the effect of extending the shadow
+//                    offset: Offset(
+//                      10.0, // horizontal, move right 10
+//                      10.0, // vertical, move down 10
+//                    ),
+//                  )
+                ],
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [colorLeft[200], colorRight[300]],
                 ),
+//                color: Colors.deepPurpleAccent,
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Stack(
+                children: <Widget>[
+                  Positioned(
+                    top: isExten ? -75 : 10,
+                    right: -230,
+                    child: Container(
+                      margin: EdgeInsets.only(right: 5),
+                      height: isExten ? 600 : 300,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [colorLeft[100], colorRight[600]],
+                        ),
+//                color: Colors.deepPurpleAccent,
+//                    borderRadius: BorderRadius.circular(18),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Container(
+                height: (isExten) ? 345 : 140,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+//                  height: 275,
+                      child: Row(
+                        children: <Widget>[
+                          ____left(),
+                          ____right(),
+                        ],
+                      ),
+                    ),
 //                hr,
-              ],
-            )),
+                  ],
+                )),
+          ],
+        ),
       ),
     );
   }
