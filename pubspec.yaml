@@ -64,6 +64,7 @@ dependencies:
   image: ^2.1.5
   shimmer: ^1.0.1
   flutter_datetime_picker: ^1.2.8
+  onesignal_flutter: ^2.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

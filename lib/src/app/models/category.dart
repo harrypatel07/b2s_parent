@@ -1,15 +1,14 @@
-import 'package:b2s_parent/src/app/pages/busAttendance/bus_attendance_page.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page.dart';
 import 'package:b2s_parent/src/app/pages/leave/leave_page.dart';
-import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page.dart';
 import 'package:b2s_parent/src/app/pages/message/message_page.dart';
 import 'package:b2s_parent/src/app/pages/notification/notification_page.dart';
+import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:flutter/material.dart';
 
 class Category {
   const Category({@required this.name, @required this.color, this.routeName});
 
-  final MaterialColor color;
+  final Color color;
   final String name;
   final String routeName;
 
@@ -26,22 +25,22 @@ class Category {
     // ),
     Category(
       name: "Nghỉ học",
-      color: Colors.purple,
+      color: Color(0xFFdea118),
       routeName: LeavePage.routeName,
     ),
     Category(
       name: "Tin nhắn",
-      color: Colors.brown,
+      color: Color(0xFFdea118),
       routeName: MessagePage.routeName,
     ),
     Category(
       name: "Lịch sử chuyến",
-      color: Colors.blue,
+      color: Color(0xFFdea118),
       routeName: HistoryPage.routeName,
     ),
     Category(
         name: "Thông báo",
-        color: Colors.yellow,
+        color: Color(0xFFdea118),
         routeName: NotificationPage.routeName),
   ];
 }

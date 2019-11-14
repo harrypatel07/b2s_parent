@@ -1,5 +1,4 @@
 import 'package:b2s_parent/src/app/models/category.dart';
-import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,8 +20,8 @@ class BusCategoryCard extends StatelessWidget {
         child: Text(
           category.name,
           style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
+            fontSize: 15,
+            fontWeight: FontWeight.w900,
             color: Colors.white,
           ),
         ),
@@ -57,7 +56,7 @@ class BusCategoryCard extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
-        width: itemWidth*0.95,
+        width: itemWidth * 0.95,
         height: 11,
         decoration: BoxDecoration(
 //          boxShadow: [
@@ -87,7 +86,7 @@ class BusCategoryCard extends StatelessWidget {
 ////                    ),
 ////                  )
 //          ],
-        ),
+            ),
 //        decoration: BoxDecoration(
 //          boxShadow: [
 //            BoxShadow(
@@ -96,7 +95,7 @@ class BusCategoryCard extends StatelessWidget {
 //              blurRadius: 23,
 //            ),
 //          ],
-        ),
+      ),
     );
   }
 

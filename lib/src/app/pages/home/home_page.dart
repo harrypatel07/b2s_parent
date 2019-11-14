@@ -65,7 +65,8 @@ class HomeBodyWidget extends StatefulWidget {
 class _HomeBodyWidgetState extends State<HomeBodyWidget> {
   HomePageViewModel viewModel;
 
-  Widget _buildListChildren(String title,List<ChildrenBusSession> listChildren,int type) {
+  Widget _buildListChildren(
+      String title, List<ChildrenBusSession> listChildren, int type) {
     Widget __background() => Container(
           height: 150,
           width: MediaQuery.of(context).size.width,
@@ -100,13 +101,13 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
         );
 
     Widget __listChildren() {
-      List<MaterialColor> colorL = [Colors.grey,Colors.lime];
-      List<MaterialColor> colorR = [Colors.grey,Colors.orange];
+      List<MaterialColor> colorL = [Colors.grey, Colors.lime];
+      List<MaterialColor> colorR = [Colors.grey, Colors.orange];
       Widget ___card(int index) => BusAttentdanceCard(
             isExten: false,
             colorText: Colors.grey[800],
-            colorLeft: (type == TYPE_DEPART)?colorL[0]:colorL[1],
-            colorRight:(type == TYPE_DEPART)?colorR[0]:colorR[1],
+            colorLeft: (type == TYPE_DEPART) ? colorL[0] : colorL[1],
+            colorRight: (type == TYPE_DEPART) ? colorR[0] : colorR[1],
             childrenBusSession: listChildren[index],
             onTapCard: () {
               viewModel.listOnTap(listChildren[index]);
@@ -120,7 +121,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
                 yes: 'Có',
                 no: 'Không',
                 onTap: () {
-                  viewModel.onTapLeave(index,type);
+                  viewModel.onTapLeave(index, type);
                   Navigator.pop(context);
                   print('onTap leave');
                 },
@@ -189,14 +190,14 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
                           margin: EdgeInsets.only(top: 20),
                           child: Center(
                               child: Text(
-                                "Không có dữ liệu để hiển thị.",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18.0,
-                                  color: Colors.grey.withOpacity(0.6),
-                                ),
-                                textAlign: TextAlign.center,
-                              )),
+                            "Không có dữ liệu để hiển thị.",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18.0,
+                              color: Colors.grey.withOpacity(0.6),
+                            ),
+                            textAlign: TextAlign.center,
+                          )),
                         ),
             ],
           ));
@@ -217,7 +218,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
         crossAxisSpacing: 10,
         mainAxisSpacing: 12,
       ),
-      padding: EdgeInsets.only(left: 28, right: 28,bottom: 20),
+      padding: EdgeInsets.only(left: 28, right: 28, bottom: 20),
       itemCount: Category.categories.length,
       itemBuilder: (context, index) => BusCategoryCard(
         Category.categories[index],
@@ -245,8 +246,10 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
           //     child: appBarIconSideMenu(context)),
           SizedBox(height: 30),
           _categoryList(),
-          _buildListChildren("Chuyến đi trong ngày",viewModel.listChildrenDepart,TYPE_DEPART),
-          _buildListChildren("Chuyến về trong ngày",viewModel.listChildrenArrive,TYPE_ARRIVE),
+          _buildListChildren("Chuyến đi trong ngày",
+              viewModel.listChildrenDepart, TYPE_DEPART),
+          _buildListChildren("Chuyến về trong ngày",
+              viewModel.listChildrenArrive, TYPE_ARRIVE),
         ],
       ),
     );
@@ -258,7 +261,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
     return Scaffold(
         appBar: new TS24AppBar(
           title: new Text("Bus2School"),
-          leading: appBarIconSideMenu(context),
+          //leading: appBarIconSideMenu(context),
         ),
         body: _body()
 //      SingleChildScrollView(

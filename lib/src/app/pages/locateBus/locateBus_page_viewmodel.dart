@@ -12,8 +12,6 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
-import '../../models/children.dart';
-
 class LocateBusPageViewModel extends ViewModelBase {
   bool showGoolgeMap = true;
   bool showSpinner = false;
@@ -82,37 +80,33 @@ class LocateBusPageViewModel extends ViewModelBase {
 //    final iconBus =
 //        await GoogleMapService.getMarkerIcon('assets/images/pin.png');
     final iconBus =
-    await GoogleMapService.getMarkerIcon('assets/images/icon_bus.png');
+        await GoogleMapService.getMarkerIcon('assets/images/icon_bus.png');
     final iconSchool =
         await GoogleMapService.getMarkerIcon('assets/images/school.png');
     final iconChild =
         await GoogleMapService.getMarkerIcon('assets/images/pin_child.png');
-    for(var item in childrenBus.listRouteBus){
-      if(item.isSchool)
+    for (var item in childrenBus.listRouteBus) {
+      if (item.isSchool)
         markers[markerSchool] = Marker(
-          markerId: markerSchool,
-          position: LatLng(item.lat,item.lng),
-          icon: await iconMarkerCustom(icon: Icons.school),
-          infoWindow: InfoWindow(title: item.routeName)
-        );
+            markerId: markerSchool,
+            position: LatLng(item.lat, item.lng),
+            icon: await iconMarkerCustom(icon: Icons.school),
+            infoWindow: InfoWindow(title: item.routeName));
       else
-      markers[markerChild] = Marker(
-          markerId: markerChild,
-          position: LatLng(item.lat,item.lng),
-          icon: await iconMarkerCustom(icon: Icons.home,backgroundColor: Colors.green),
-          infoWindow: InfoWindow(title: item.routeName)
-      );
+        markers[markerChild] = Marker(
+            markerId: markerChild,
+            position: LatLng(item.lat, item.lng),
+            icon: await iconMarkerCustom(
+                icon: Icons.home, backgroundColor: Colors.green),
+            infoWindow: InfoWindow(title: item.routeName));
     }
-    location.getLocation().then((data){
+    location.getLocation().then((data) {
       markers[markerBus] = Marker(
           markerId: markerBus,
-          position: LatLng(data.latitude,data.longitude),
+          position: LatLng(data.latitude, data.longitude),
           icon: iconBus,
-          infoWindow: InfoWindow(title: childrenBus.sessionID.toString())
-      );
+          infoWindow: InfoWindow(title: childrenBus.sessionID.toString()));
     });
-
-
 
 //    Create marker bus
 //    markers[markerBus] = Marker(
@@ -256,7 +250,8 @@ class LocateBusPageViewModel extends ViewModelBase {
       // });
     }
   }
-  createMarker(){
+
+  createMarker() {
 //    for(var item in childrenBus.listRouteBus){
 //      markers[markerChild] = Marker(
 //        markerId: markerChild,
@@ -265,13 +260,14 @@ class LocateBusPageViewModel extends ViewModelBase {
 //      );
 //    }
   }
-  onTapLeave(){
+  onTapLeave() {
     childrenBus.status = StatusBus.list[3];
     updateChildren(childrenBus);
 //    loadData();
     this.updateState();
   }
-  updateChildren(ChildrenBusSession session) async{
+
+  updateChildren(ChildrenBusSession session) async {
     var picking = PickingTransportInfo.fromChildrenBusSession(session);
     await api.updatePickingTransportInfo(picking);
   }

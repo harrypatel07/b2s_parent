@@ -47,7 +47,8 @@ class Routes {
     LocateBusPage.routeName: (context) =>
         LocateBusPage(ModalRoute.of(context).settings.arguments),
     BusAttendancePage.routeName: (context) => BusAttendancePage(),
-    LeavePage.routeName: (context) => LeavePage(listChildren: ModalRoute.of(context).settings.arguments),
+    LeavePage.routeName: (context) =>
+        LeavePage(listChildren: ModalRoute.of(context).settings.arguments),
     MessagePage.routeName: (context) => MessagePage(),
     MessageDetailPage.routeName: (context) =>
         MessageDetailPage(chatting: ModalRoute.of(context).settings.arguments),
@@ -55,15 +56,20 @@ class Routes {
         MessageUserPage(userId: ModalRoute.of(context).settings.arguments),
     NotificationPage.routeName: (context) => NotificationPage(),
 //    PopupEditProfileChildren.routeName: (context) => PopupEditProfileChildren(ModalRoute.of(context).settings.arguments),
-    EditProfileChildren.routeName: (context) => EditProfileChildren(ModalRoute.of(context).settings.arguments),
+    EditProfileChildren.routeName: (context) =>
+        EditProfileChildren(ModalRoute.of(context).settings.arguments),
     UserSettingsPage.routeName: (context) => UserSettingsPage(),
     ProfileChildrenPage.routeName: (context) => ProfileChildrenPage(
           children: ModalRoute.of(context).settings.arguments,
         ),
-    EditProfileParent.routeName: (context) => EditProfileParent(ModalRoute.of(context).settings.arguments),
-    TicketsChildren.routeName: (context)=> TicketsChildren(arguments: ModalRoute.of(context).settings.arguments,),
-    ProfileMessageUserPage.routeName: (context) => ProfileMessageUserPage(userModel:ModalRoute.of(context).settings.arguments),
-    ContactsPage.routeName:(context) => ContactsPage(),
+    EditProfileParent.routeName: (context) =>
+        EditProfileParent(ModalRoute.of(context).settings.arguments),
+    TicketsChildren.routeName: (context) => TicketsChildren(
+          arguments: ModalRoute.of(context).settings.arguments,
+        ),
+    ProfileMessageUserPage.routeName: (context) => ProfileMessageUserPage(
+        userModel: ModalRoute.of(context).settings.arguments),
+    ContactsPage.routeName: (context) => ContactsPage(),
   };
 }
 
