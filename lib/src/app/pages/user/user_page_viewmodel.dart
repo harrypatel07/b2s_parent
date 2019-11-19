@@ -4,6 +4,7 @@ import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/res-partner.dart';
 import 'package:b2s_parent/src/app/models/sale-order-line.dart';
+import 'package:b2s_parent/src/app/models/sale-order.dart';
 import 'package:b2s_parent/src/app/pages/user/edit_profile_children/edit_profile_children.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -14,17 +15,11 @@ class UserPageViewModel extends ViewModelBase {
   bool isShowChildrenManager;
   Parent parent;
   List<Children> listChildren;
-  List<Children> listChildrenTickets;
-  List<SaleOrderLine> listSaleOrderLine;
 
   UserPageViewModel() {
     isShowChildrenManager = false;
     parent = new Parent();
     listChildren = parent.listChildren;
-    listChildrenTickets = Children.getListChildrenPaidTicket(listChildren);
-    api.getTicketOfListChildren().then((tickets){
-      listSaleOrderLine = tickets;
-    });
 
     //demo update insert children
     // api.getTitleCustomer().then((value) {

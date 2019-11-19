@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/models/attendant.dart';
 import 'package:b2s_parent/src/app/models/picking-route.dart';
 import 'package:b2s_parent/src/app/models/picking-transport-info.dart';
 import 'package:b2s_parent/src/app/models/route-location.dart';
@@ -14,6 +15,7 @@ class ChildrenBusSession {
   Children child;
   List<RouteBus> listRouteBus;
   Driver driver;
+  Attendant attendant;
   StatusBus status;
   dynamic schoolName;
   dynamic notification;
@@ -25,6 +27,7 @@ class ChildrenBusSession {
       {Map<dynamic, dynamic> picking,
       Children objChildren,
       Driver objDriver,
+      Attendant objAttendant,
       List<RouteBus> objListRouteBus}) {
     sessionID = picking["id"].toString();
     //Kiểm tra chuyến đi hay chuyền về
@@ -36,6 +39,7 @@ class ChildrenBusSession {
       schoolName = child.schoolName;
     }
     if (objDriver != null) driver = objDriver;
+    if (objAttendant != null) attendant = objAttendant;
     notification = "";
 
     PickingTransportInfo_State.values.forEach((value) {

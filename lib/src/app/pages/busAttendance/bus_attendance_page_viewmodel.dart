@@ -13,8 +13,9 @@ class BusAttendancePageViewModel extends ViewModelBase {
 
   listenData() {
     if (streamCloud != null) streamCloud.cancel();
-    streamCloud =
-        cloudService.busSession.listenAllChildrenBusSession().listen((onData) {
+    streamCloud = cloudService.childrenBusSession
+        .listenAllChildrenBusSession()
+        .listen((onData) {
       onData.documentChanges.forEach((item) {
         var childrenUpdate = listChildren.singleWhere((_item) =>
             _item.sessionID == item.document.data["sessionID"].toString());
@@ -27,14 +28,16 @@ class BusAttendancePageViewModel extends ViewModelBase {
   listOnTap(ChildrenBusSession data) {
     Navigator.pop(context, RoutePopArgument(BusAttendancePage.routeName, data));
   }
-  onTapLeave(Children children){
-    listChildren.forEach((session){
-      if(session.child.id == children.id) {
+
+  onTapLeave(Children children) {
+    listChildren.forEach((session) {
+      if (session.child.id == children.id) {
         session.status = StatusBus.list[3];
         this.updateState();
       }
     });
   }
+
   @override
   void dispose() {
     streamCloud.cancel();

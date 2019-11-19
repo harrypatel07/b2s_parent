@@ -1,11 +1,11 @@
-import 'dart:convert';
+import 'dart:async';
 
 import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
-import 'package:b2s_parent/src/app/helper/constant.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/models/menu.dart';
+import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/picking-transport-info.dart';
 import 'package:b2s_parent/src/app/pages/busAttendance/bus_attendance_page.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page.dart';
@@ -22,12 +22,18 @@ class HomePageViewModel extends ViewModelBase {
   TabsPageViewModel tabsPageViewModel;
   BuildContext context;
   bool isDataLoading = true;
-  List<ChildrenBusSession> listChildrenDepart = [];
-  List<ChildrenBusSession> listChildrenArrive = [];
-
+  List<RouteBus> listRouteBus = List();
+  List<ChildrenBusSession> listChildren = [];
+  StreamSubscription streamCloud;
   HomePageViewModel() {
-    if (listChildrenDepart.length == 0 || listChildrenArrive.length == 0) loadData();
+    if (listChildren.length == 0) loadData();
   }
+  @override
+  dispose() {
+    if (streamCloud != null) streamCloud.cancel();
+    super.dispose();
+  }
+
   void categoryOnPress(Category category) {
     tabsPageViewModel = ViewModelProvider.of(context);
     Category.categories.asMap().forEach((index, cat) async {
@@ -42,8 +48,10 @@ class HomePageViewModel extends ViewModelBase {
           }
         } else {
           if (category.routeName == LeavePage.routeName) {
-            List<Children> _list = getListChildren();
-            Navigator.pushNamed(context, category.routeName, arguments: _list);
+            List<Children> listChildrenPaidTicket =
+                Children.getListChildrenPaidTicket(Parent().listChildren);
+            Navigator.pushNamed(context, category.routeName,
+                arguments: listChildrenPaidTicket);
           } else {
             final result = await Navigator.pushNamed(
               context,
@@ -57,51 +65,39 @@ class HomePageViewModel extends ViewModelBase {
       }
     });
   }
-  List<Children> getListChildren(){
-    List<Children> _list = List();
-    this.listChildrenDepart.forEach((session){
-      if(!_list.contains(session.child))
-        _list.add(session.child);
-    });
-    this.listChildrenArrive.forEach((session){
-      if(!_list.contains(session.child))
-        _list.add(session.child);
-    });
-    return _list;
-  }
+
   listOnTap(ChildrenBusSession data) {
-     tabsPageViewModel = ViewModelProvider.of(context);
-     tabsPageViewModel.locateBusPageViewModel.childrenBus = data;
-     tabsPageViewModel.locateBusPageViewModel.listenData(data.sessionID);
-     Navigator.pushNamed(context, LocateBusPage.routeName,
-         arguments: LocateBusArgument(data));
+    //  tabsPageViewModel = ViewModelProvider.of(context);
+    //  tabsPageViewModel.locateBusPageViewModel.childrenBus = data;
+    //  tabsPageViewModel.locateBusPageViewModel.listenData(data.sessionID);
+    Navigator.pushNamed(context, LocateBusPage.routeName,
+        arguments: LocateBusArgument(data));
 //    api.getListChildrenBusSessionV2();
   }
 
   loadData() {
     isDataLoading = true;
-    listChildrenArrive = List();
-    listChildrenDepart = List();
     api.getListChildrenBusSessionV2().then((data) {
-      data.forEach((item){
-        if(item.type == 0)
-          listChildrenDepart.add(item);
-        else listChildrenArrive.add(item);
-      });
+      listChildren = data;
       isDataLoading = false;
+      //tạo busSession trên firestore
+      if (data.length > 0)
+        cloudService.busSession
+            .createListBusSessionFromChildrenBusSession(data)
+            .then((_) {
+          listenData();
+        });
       this.updateState();
     });
     this.updateState();
   }
 
-  onTapLeave(int index,int type) {
-    if(type == TYPE_DEPART) {
-      listChildrenDepart[index].status = StatusBus.list[3];
-      updateChildren(listChildrenDepart[index]);
-    }else if(type == TYPE_ARRIVE){
-      listChildrenArrive[index].status = StatusBus.list[3];
-      updateChildren(listChildrenArrive[index]);
-    }
+  onTapLeave(ChildrenBusSession childrenBusSession) {
+    childrenBusSession.status = StatusBus.list[3];
+    updateChildren(childrenBusSession);
+    //update bus session treen firestore
+    cloudService.busSession
+        .updateBusSessionFromChildrenBusSession(childrenBusSession);
 //    loadData();
     this.updateState();
   }
@@ -110,6 +106,14 @@ class HomePageViewModel extends ViewModelBase {
     var picking = PickingTransportInfo.fromChildrenBusSession(session);
     api.updatePickingTransportInfo(picking).then((result) {
       print('Update children ' + result.toString());
+    });
+  }
+
+  listenData() async {
+    if (streamCloud != null) streamCloud.cancel();
+    streamCloud = await cloudService.busSession
+        .listenBusSessionForChildren(listChildren, () {
+      this.updateState();
     });
   }
 }

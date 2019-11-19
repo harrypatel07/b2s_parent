@@ -34,9 +34,9 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
 
     Widget userImage() => InkWell(
         onTap: () => Navigator.pushNamed(context, MessageUserPage.routeName,
-            arguments: widget.chatting.peerId),
+            arguments: int.parse(widget.chatting.peerId)),
         child: Hero(
-          tag: viewModel.chat.name,
+          tag: widget.chatting.datetime,
           child:
               // Container(
               //   margin: EdgeInsets.only(right: 8.0, bottom: 10.0),

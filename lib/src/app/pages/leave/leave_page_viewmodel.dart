@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 
 class LeavePageViewModel extends ViewModelBase {
   List<DateTime> listDate;
+  List<DateTime> listDateGetFromSever;
   List<MonthModule> listDateShowPresent;
   List<MonthModule> listDateShowNext;
   DateTime dateDefault;
@@ -38,11 +39,14 @@ class LeavePageViewModel extends ViewModelBase {
   }
   onLoad(int childrenId){
     listDate = List();
+    listDateGetFromSever = List();
     api.getListLeaveByIdChildren(childrenId).then((listStrDate){
       listStrDate.forEach((strDate){
         DateTime date = DateTime.parse(strDate);
-        if(date.isAfter(DateTime.now()))
-          listDate.add(date);
+        if(date.isAfter(DateTime.now())) {
+          listDateGetFromSever.add(date);
+          listDate.add(new DateTime(date.year,date.month,date.day));
+        }
       });
       this.updateState();
     });

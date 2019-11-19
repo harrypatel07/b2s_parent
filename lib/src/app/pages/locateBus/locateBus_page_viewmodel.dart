@@ -43,12 +43,11 @@ class LocateBusPageViewModel extends ViewModelBase {
   LocateBusPageViewModel() {
 //    childrenBus = ChildrenBusSession.list.singleWhere((item) =>
 //        item.child.id == Children.getChildrenPrimary(Children.list).id);
-//    listenData(childrenBus.sessionID);
   }
 
   @override
   dispose() {
-    streamCloud.cancel();
+    if (streamCloud != null) streamCloud.cancel();
     super.dispose();
   }
 
@@ -79,8 +78,9 @@ class LocateBusPageViewModel extends ViewModelBase {
     markers.clear();
 //    final iconBus =
 //        await GoogleMapService.getMarkerIcon('assets/images/pin.png');
-    final iconBus =
-        await GoogleMapService.getMarkerIcon('assets/images/icon_bus.png');
+    final iconBus = await GoogleMapService.getMarkerIcon(
+        'assets/images/icon_bus.png',
+        width: 50);
     final iconSchool =
         await GoogleMapService.getMarkerIcon('assets/images/school.png');
     final iconChild =
@@ -172,12 +172,10 @@ class LocateBusPageViewModel extends ViewModelBase {
     // });
   }
 
-  listenData(sessionID) {
+  listenData() async {
     if (streamCloud != null) streamCloud.cancel();
-    streamCloud = cloudService.busSession
-        .listenChildrenBusSession(childrenBus.sessionID)
-        .listen((onData) {
-      childrenBus.fromJson(onData.data);
+    streamCloud = await cloudService.busSession
+        .listenBusSessionForChildren([childrenBus], () {
       this.updateState();
     });
   }

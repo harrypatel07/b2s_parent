@@ -74,7 +74,7 @@ class _MessagePageState extends State<MessagePage> {
                 viewModel.onTapProfileMessageUser(int.parse(chatting.peerId));
               },
               child: Hero(
-                tag: chatting.peerId,
+                tag: chatting.datetime,
                 child: CachedNetworkImage(
                   imageUrl: chatting.avatarUrl,
                   imageBuilder: (context, imageProvider) => CircleAvatar(

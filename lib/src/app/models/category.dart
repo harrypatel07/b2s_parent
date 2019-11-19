@@ -2,7 +2,6 @@ import 'package:b2s_parent/src/app/pages/history/history_page.dart';
 import 'package:b2s_parent/src/app/pages/leave/leave_page.dart';
 import 'package:b2s_parent/src/app/pages/message/message_page.dart';
 import 'package:b2s_parent/src/app/pages/notification/notification_page.dart';
-import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:flutter/material.dart';
 
 class Category {

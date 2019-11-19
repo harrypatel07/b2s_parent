@@ -1,4 +1,3 @@
-import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page_viewmodel.dart';
@@ -59,11 +58,11 @@ class _LocateBusPageState extends State<LocateBusPage> {
 
     viewModel.context = context;
     viewModel.childrenBus = widget.args.data;
+    viewModel.listenData();
     // viewModel.listenData(widget.args.data.sessionID);
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) =>    setState(() {
-        _getSize();
-    }));
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
+          _getSize();
+        }));
   }
 
   _getSize() {

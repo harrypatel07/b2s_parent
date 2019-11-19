@@ -4,7 +4,7 @@ import 'package:b2s_parent/src/app/pages/login/login_page.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children.dart';
 import 'package:b2s_parent/src/app/pages/user/settings/user_settings.dart';
-import 'package:b2s_parent/src/app/pages/user/tickets/tickes_children.dart';
+import 'package:b2s_parent/src/app/pages/user/tickets/tickets_children.dart';
 import 'package:b2s_parent/src/app/pages/user/user_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
@@ -355,10 +355,7 @@ class _UserPageState extends State<UserPage>
               ),
               trailing: Icon(LineIcons.chevron_circle_right),
               onTap: () {
-                Navigator.pushNamed(context, TicketsChildren.routeName,
-                    arguments: ProfileTicketArgs(
-                        listChildrenTickets: viewModel.listChildrenTickets,
-                        listSaleOrderLine: viewModel.listSaleOrderLine));
+                Navigator.pushNamed(context, TicketsChildrenPage.routeName);
                 print("Tab tickets");
               }),
         ],

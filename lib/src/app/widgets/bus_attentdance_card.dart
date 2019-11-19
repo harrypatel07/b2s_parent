@@ -1,5 +1,4 @@
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
-import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +9,7 @@ class BusAttentdanceCard extends StatelessWidget {
   final Function onTapCard;
   final Function onTapCall;
   final Function onTapLeave;
+  final Function onTapProfileChildren;
   final MaterialColor colorRight;
   final MaterialColor colorLeft;
   final Color colorText;
@@ -20,6 +20,7 @@ class BusAttentdanceCard extends StatelessWidget {
       this.onTapCard,
       this.onTapCall,
       this.onTapLeave,
+      this.onTapProfileChildren,
       this.colorRight = Colors.grey,
         this.colorLeft = Colors.grey,
         this.colorText =Colors.black,
@@ -53,10 +54,7 @@ class BusAttentdanceCard extends StatelessWidget {
     Widget ____right() {
       Widget _____userImage() {
         return InkWell(
-          onTap: () {
-            Navigator.pushNamed(context, ProfileChildrenPage.routeName,
-                arguments: childrenBusSession.child);
-          },
+          onTap: onTapProfileChildren,
           child: Container(
             padding: const EdgeInsets.all(10.0),
             child: CachedNetworkImage(
@@ -293,7 +291,7 @@ class BusAttentdanceCard extends StatelessWidget {
                             alignment: Alignment.center,
                             child: Icon(
                               Icons.call,
-                              color: Colors.amber,
+                              color: ThemePrimary.primaryColor,
                             ),
                           ),
                         ),
@@ -312,7 +310,7 @@ class BusAttentdanceCard extends StatelessWidget {
                             alignment: Alignment.center,
                             child: Icon(
                               Icons.message,
-                              color: Colors.lightBlue,
+                              color: ThemePrimary.primaryColor,
                             ),
                           ),
                         ),
@@ -385,6 +383,7 @@ class BusAttentdanceCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(18.0),
       onTap: onTapCard,
       child: Card(
+        color: Colors.transparent,
         margin: EdgeInsets.only(bottom: 15),
         // elevation: 5,
         shape: RoundedRectangleBorder(
@@ -431,29 +430,29 @@ class BusAttentdanceCard extends StatelessWidget {
 //                color: Colors.deepPurpleAccent,
                 borderRadius: BorderRadius.circular(18),
               ),
-              child: Stack(
-                children: <Widget>[
-                  Positioned(
-                    top: isExten ? -75 : 10,
-                    right: -230,
-                    child: Container(
-                      margin: EdgeInsets.only(right: 5),
-                      height: isExten ? 600 : 300,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [colorLeft[100], colorRight[600]],
-                        ),
-//                color: Colors.deepPurpleAccent,
-//                    borderRadius: BorderRadius.circular(18),
-                      ),
-                    ),
-                  )
-                ],
-              ),
+//              child: Stack(
+//                children: <Widget>[
+//                  Positioned(
+//                    top: isExten ? -75 : 10,
+//                    right: -230,
+//                    child: Container(
+//                      margin: EdgeInsets.only(right: 5),
+//                      height: isExten ? 600 : 300,
+//                      width: MediaQuery.of(context).size.width,
+//                      decoration: BoxDecoration(
+//                        shape: BoxShape.circle,
+//                        gradient: LinearGradient(
+//                          begin: Alignment.topLeft,
+//                          end: Alignment.bottomRight,
+//                          colors: [colorLeft[100], colorRight[600]],
+//                        ),
+////                color: Colors.deepPurpleAccent,
+////                    borderRadius: BorderRadius.circular(18),
+//                      ),
+//                    ),
+//                  )
+//                ],
+//              ),
             ),
             Container(
                 height: (isExten) ? 345 : 140,

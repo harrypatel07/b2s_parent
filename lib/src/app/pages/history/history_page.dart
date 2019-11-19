@@ -14,7 +14,7 @@ class _HistoryPageState extends State<HistoryPage> {
     return new Scaffold(
       appBar: new TS24AppBar(
         title: new Text("Trips"),
-        leading: appBarIconSideMenu(context),
+        // leading: appBarIconSideMenu(context),
       ),
       backgroundColor: ThemePrimary.history_page_backgroundcolor,
       body: _buildBody(),

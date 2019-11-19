@@ -1,13 +1,21 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:b2s_parent/src/app/models/busSession.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/models/message.dart';
 import 'package:b2s_parent/src/app/service/encrypt-service.dart';
 import 'package:b2s_parent/src/app/service/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crypto/crypto.dart';
+import 'package:async/async.dart';
 
 class CloudFiresStoreService {
   //final Geoflutterfire _geo = Geoflutterfire();
   final CollectionChat chat = CollectionChat();
   final CollectionBusSession busSession = CollectionBusSession();
+  final CollectionChildrenBusSession childrenBusSession =
+      CollectionChildrenBusSession();
   static final CloudFiresStoreService _singleton =
       new CloudFiresStoreService._internal();
 
@@ -106,7 +114,7 @@ class CollectionChat extends InterfaceFireStore {
   }
 }
 
-class CollectionBusSession extends InterfaceFireStore {
+class CollectionChildrenBusSession extends InterfaceFireStore {
   final _collectionName = "childrenBusSession";
   syncColectionChildrenBusSession() {
     if (_docRef == null)
@@ -144,5 +152,85 @@ class CollectionBusSession extends InterfaceFireStore {
 
   Stream<QuerySnapshot> listenAllChildrenBusSession() {
     return _firestore.collection(_collectionName).snapshots();
+  }
+}
+
+class CollectionBusSession extends InterfaceFireStore {
+  final _collectionName = "bus_session";
+
+  Future<StreamSubscription> listenBusSessionForChildren(
+      List<ChildrenBusSession> listChildrenBusSession,
+      [Function callBack]) async {
+    try {
+      List<BusSession> listBusSession = listChildrenBusSession
+          .map((item) => BusSession.fromChildrenBusSession(item))
+          .toList();
+      if (listBusSession.length > 0) {
+        List<Stream<DocumentSnapshot>> listStream = List();
+        //Tạo stream snapshot
+        for (var i = 0; i < listBusSession.length; i++) {
+          var item = listBusSession[i];
+          listStream.add(_firestore
+              .collection(_collectionName)
+              .document(item.id)
+              .snapshots());
+        }
+        var streamGroup = StreamGroup.merge(listStream).asBroadcastStream();
+        return streamGroup.listen((onData) {
+          listChildrenBusSession.forEach((item) {
+            var genId = md5
+                .convert(utf8.encode("${item.sessionID}${item.child.id}"))
+                .toString();
+            if (genId == onData.documentID) {
+              item.status = StatusBus.list[onData.data["statusId"]];
+            }
+          });
+          if (callBack is Function) {
+            callBack();
+          }
+        });
+      }
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<bool> createListBusSessionFromChildrenBusSession(
+      List<ChildrenBusSession> listChildrenBusSession) async {
+    try {
+      List<BusSession> listBusSession = listChildrenBusSession
+          .map((item) => BusSession.fromChildrenBusSession(item))
+          .toList();
+      if (listBusSession.length > 0) {
+        for (var item in listBusSession) {
+          await _firestore
+              .collection(_collectionName)
+              .document(item.id)
+              .setData(item.toJson())
+              .then((onValue) {})
+              .catchError((onError) {
+            print("Error adding document: " + onError);
+          });
+        }
+      }
+      return true;
+    } catch (ex) {
+      print(ex);
+      return false;
+    }
+  }
+
+  updateBusSessionFromChildrenBusSession(ChildrenBusSession childrenStatus) {
+    var busSession = BusSession.fromChildrenBusSession(childrenStatus);
+    _firestore
+        .collection(_collectionName)
+        .document(busSession.id)
+        .updateData(busSession.toJson())
+        .then((onValue) {})
+        .catchError((onError) {
+      print("Error adding document: " + onError);
+    });
   }
 }

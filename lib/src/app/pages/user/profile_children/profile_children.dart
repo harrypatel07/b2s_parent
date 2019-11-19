@@ -1,6 +1,8 @@
+import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
+import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children_viewmodel.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -10,19 +12,28 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ProfileChildrenPage extends StatefulWidget {
   static const String routeName = "/profileChildren";
-  final Children children;
-  const ProfileChildrenPage({Key key, this.children}) : super(key: key);
+  final ProfileChildrenPageArgs profileChildrenPageArgs;
+
+  const ProfileChildrenPage({Key key, this.profileChildrenPageArgs}) : super(key: key);
   @override
   _ProfileChildrenPageState createState() => _ProfileChildrenPageState();
 }
+class ProfileChildrenPageArgs{
+  final List<RouteBus> listRouteBus;
+  final ChildrenBusSession childrenBusSession;
 
+  ProfileChildrenPageArgs(this.listRouteBus,this.childrenBusSession);
+}
 class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
-  ChildrenBusSession busSession;
+  ProfileChildrenViewModel viewModel = ProfileChildrenViewModel();
+  int age = 0;
   @override
   void initState() {
     // TODO: implement initState
-    busSession = ChildrenBusSession.list[
-        0]; //ChildrenBusSession.list.singleWhere((bus) => bus.child.id == widget.children.id);
+    viewModel.listRouteBus = widget.profileChildrenPageArgs.listRouteBus;
+    viewModel.childrenBusSession = widget.profileChildrenPageArgs.childrenBusSession; //ChildrenBusSession.list.singleWhere((bus) => bus.child.id == widget.children.id);
+    age = DateTime.now().year - DateTime.parse(widget.profileChildrenPageArgs.childrenBusSession.child.birthday).year;
+    viewModel.onCreateTime();
     super.initState();
   }
 
@@ -52,7 +63,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
       left: deviceWidth / 2 - 80,
       child: QrImage(
         backgroundColor: Colors.white,
-        data: widget.children.name,
+        data: viewModel.childrenBusSession.child.name,
         version: QrVersions.auto,
         size: 160.0,
       ),
@@ -60,7 +71,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
     final userImage = Stack(
       children: <Widget>[
         Hero(
-            tag: widget.children.photo,
+            tag: viewModel.childrenBusSession.child.photo,
             child: Container(
               height: 400,
               child: Column(
@@ -68,7 +79,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                   Flexible(
                     flex: 8,
                     child: CachedNetworkImage(
-                      imageUrl: widget.children.photo,
+                      imageUrl: viewModel.childrenBusSession.child.photo,
                       imageBuilder: (context, imageProvider) => Image(
                         fit: BoxFit.cover,
                         width: deviceWidth,
@@ -96,7 +107,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
               flex: 9,
               child: Container(
                 child: Text(
-                  widget.children.name,
+                  viewModel.childrenBusSession.child.name,
                   style: TextStyle(
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
@@ -120,7 +131,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Text(
-                        widget.children.gender.toString(),
+                        viewModel.childrenBusSession.child.gender.toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -141,7 +152,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
     final userLocation = Container(
       padding: EdgeInsets.only(left: 20.0, right: 20.0),
       child: Text(
-        widget.children.location,
+        viewModel.childrenBusSession.child.location,
         style: TextStyle(
           fontSize: 18.0,
           fontWeight: FontWeight.bold,
@@ -357,7 +368,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                           alignment: Alignment.center,
                           child: Icon(
                             Icons.call,
-                            color: Colors.amber,
+                            color: ThemePrimary.primaryColor,
                           ),
                         ),
                       ),
@@ -376,7 +387,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                           alignment: Alignment.center,
                           child: Icon(
                             Icons.message,
-                            color: Colors.lightBlue,
+                            color: ThemePrimary.primaryColor,
                           ),
                         ),
                       ),
@@ -410,6 +421,8 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                 children: <Widget>[
                   rowTitle('THÔNG TIN HỌC SINH'),
                   row1('Họ và tên :', children.name),
+                  hr,
+                  row1('Tuổi :', age.toString()),
                   hr,
                   row1('Trường :', children.schoolName),
                   hr,
@@ -452,18 +465,18 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
             child: Column(
               children: <Widget>[
                 rowTitle('THÔNG TIN XE BUS'),
-                row1('Biển số xe :', busSession.vehicleName.toString()),
+                row1('Biển số xe :', viewModel.childrenBusSession.vehicleName.toString()),
                 hr,
-                rowIcon('Tài xế :', busSession.driver.name,
-                    busSession.driver.phone),
-                hr,
-                rowIcon('QL đưa đón :', 'Dương Tuyết Mai', '0983932940'),
-                hr,
-                rowIcon('QL tại trường :', 'Âu Dương Phong', '0983932940'),
-                hr,
-                row2('Giờ đón :', '7h30', 'Đến trường :', '8h', true),
-                hr,
-                row2('Giờ về :', '17h30', 'Về nhà :', '18h', false),
+                rowIcon('Tài xế :', viewModel.childrenBusSession.driver.name,
+                    viewModel.childrenBusSession.driver.phone),
+                if(viewModel.startDepart!=null)hr,
+//                rowIcon('QL đưa đón :', busSession., '0983932940'),
+//                hr,
+//                rowIcon('QL tại trường :', 'Âu Dương Phong', '0983932940'),
+//                hr,
+                if(viewModel.startDepart!=null)row2('Giờ đón :', viewModel.startDepart, 'Đến trường :', viewModel.endDepart, true),
+                if(viewModel.startDepart!=null)hr,
+                if(viewModel.startArrive!=null)row2('Giờ về :', viewModel.startArrive, 'Về nhà :', viewModel.endArrive, false),
                 Container(
                   height: 1,
                   margin: EdgeInsets.only(bottom: 10),
@@ -475,16 +488,24 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
       ),
     );
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            userImage,
-            userName,
-            userLocation,
-            childrenInfo(widget.children),
-            busInfo
-          ],
+      body: ViewModelProvider(
+        viewmodel: viewModel,
+        child: StreamBuilder(
+          stream: viewModel.stream,
+          builder: (context,snapshot){
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  userImage,
+                  userName,
+                  userLocation,
+                  childrenInfo(viewModel.childrenBusSession.child),
+                  if(viewModel.listRouteBus.length > 0)busInfo
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

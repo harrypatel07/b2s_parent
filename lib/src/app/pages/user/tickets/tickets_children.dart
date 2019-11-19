@@ -1,16 +1,24 @@
+import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/sale-order-line.dart';
+import 'package:b2s_parent/src/app/pages/user/tickets/tickets_children_viewmodel.dart';
 import 'package:b2s_parent/src/app/service/common-service.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class TicketsChildren extends StatelessWidget {
+class TicketsChildrenPage extends StatefulWidget {
   static const String routeName = "/ticketsChildren";
-  final ProfileTicketArgs arguments;
-  TicketsChildren({this.arguments});
+  const TicketsChildrenPage({Key key}) : super(key: key);
+  @override
+  _TicketsChildrenPageState createState() => _TicketsChildrenPageState();
+}
+
+class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
+  TicketChildrenViewModel viewModel = TicketChildrenViewModel();
   @override
   Widget build(BuildContext context) {
+    viewModel.context = context;
     Widget _itemTickets(
         BuildContext context, Children children, SaleOrderLine order) {
       int __timeUsed = DateTime.now()
@@ -70,21 +78,21 @@ class TicketsChildren extends StatelessWidget {
                 ),
                 Container(
                   height: 20,
-                  width: MediaQuery.of(context).size.width - 40,
+                  width: MediaQuery.of(context).size.width - 20,
                   child: Center(
                     child: Text(
                       order.companyId[1],
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w800,
-                          color: Colors.green),
+                          color: Colors.orange),
                     ),
                   ),
                 ),
                 Container(
                   height: 20,
-                  width: MediaQuery.of(context).size.width - 40,
-                  padding: EdgeInsets.only(left: 50, right: 50),
+                  width: MediaQuery.of(context).size.width - 20,
+                  padding: EdgeInsets.only(left: 20, right: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -101,8 +109,8 @@ class TicketsChildren extends StatelessWidget {
                 ),
                 Container(
                   height: 20,
-                  width: MediaQuery.of(context).size.width - 40,
-                  padding: EdgeInsets.only(left: 50, right: 50),
+                  width: MediaQuery.of(context).size.width - 20,
+                  padding: EdgeInsets.only(left: 20, right: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -119,8 +127,8 @@ class TicketsChildren extends StatelessWidget {
                 ),
                 Container(
                   height: 20,
-                  width: MediaQuery.of(context).size.width - 40,
-                  padding: EdgeInsets.only(left: 50, right: 50),
+                  width: MediaQuery.of(context).size.width - 20,
+                  padding: EdgeInsets.only(left: 20, right: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -139,8 +147,8 @@ class TicketsChildren extends StatelessWidget {
                 ),
                 Container(
                   height: 20,
-                  width: MediaQuery.of(context).size.width - 40,
-                  padding: EdgeInsets.only(left: 50, right: 50),
+                  width: MediaQuery.of(context).size.width - 20,
+                  padding: EdgeInsets.only(left: 20, right: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -157,8 +165,8 @@ class TicketsChildren extends StatelessWidget {
                 ),
                 Container(
                   height: 20,
-                  width: MediaQuery.of(context).size.width - 40,
-                  padding: EdgeInsets.only(left: 50, right: 50),
+                  width: MediaQuery.of(context).size.width - 20,
+                  padding: EdgeInsets.only(left: 20, right: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -202,36 +210,49 @@ class TicketsChildren extends StatelessWidget {
       );
     }
 
-    ;
     Widget _buildTicketsContent() {
       List<Widget> listChildrenItem = new List();
-      arguments.listChildrenTickets.forEach((children) {
-        arguments.listSaleOrderLine.forEach((sale) {
+      viewModel.listChildrenTickets.forEach((children) {
+        viewModel.listSaleOrderLine.forEach((sale) {
           if (children.id == sale.orderPartnerId[0])
             listChildrenItem.add(_itemTickets(context, children, sale));
         });
       });
       return Container(
         color: Colors.grey.shade300,
-        child: Column(
-          children: listChildrenItem,
-        ),
+        child: listChildrenItem.length > 0
+            ? Column(
+                children: listChildrenItem,
+              )
+            : Center(
+                child: Text('Không có thông tin hiển thị.'),
+              ),
       );
     }
 
-    return Scaffold(
-      appBar: TS24AppBar(
-        title: Text('Thông tin vé'),
-      ),
-      body: SingleChildScrollView(
-        child: _buildTicketsContent(),
+    return ViewModelProvider(
+      viewmodel: viewModel,
+      child: StreamBuilder(
+        stream: viewModel.stream,
+        builder: (context, snapshot) {
+          return Scaffold(
+              appBar: TS24AppBar(
+                title: Text('Thông tin vé'),
+              ),
+              body: RefreshIndicator(
+                  onRefresh: () async {
+                    viewModel.onLoad();
+                  },
+                  child: SingleChildScrollView(
+                    child: (viewModel.loading)
+                        ? Center(
+                            child: LoadingSpinner.loadingView(
+                                context: viewModel.context,
+                                loading: (viewModel.loading)))
+                        : _buildTicketsContent(),
+                  )));
+        },
       ),
     );
   }
-}
-
-class ProfileTicketArgs {
-  List<Children> listChildrenTickets;
-  List<SaleOrderLine> listSaleOrderLine;
-  ProfileTicketArgs({this.listChildrenTickets, this.listSaleOrderLine});
 }

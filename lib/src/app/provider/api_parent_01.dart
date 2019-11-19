@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:b2s_parent/src/app/core/app_setting.dart';
+import 'package:b2s_parent/src/app/models/attendant.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/models/driver.dart';
+import 'package:b2s_parent/src/app/models/fleet-vehicle.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/picking-route.dart';
 import 'package:b2s_parent/src/app/models/picking-transport-info.dart';
@@ -578,6 +580,9 @@ class Api1 extends ApiMaster {
         var _driver = data[i]["obj_partner"]["driver"];
         Driver driver = Driver.fromJsonController(_driver);
 
+        var _attendant = data[i]["obj_partner"]["picking_mananager"];
+        Attendant attendant = Attendant.fromJsonController(_attendant);
+
         List<RouteBus> listRouteBus = [];
 
         var _picking = data[i]["obj_partner"]["picking"];
@@ -612,6 +617,7 @@ class Api1 extends ApiMaster {
             picking: _picking,
             objChildren: children,
             objDriver: driver,
+            objAttendant: attendant,
             objListRouteBus: listRouteBus));
       }
 
@@ -770,6 +776,31 @@ class Api1 extends ApiMaster {
       return listResult;
     }).catchError((error) {
       return listResult;
+    });
+  }
+
+  ///Lấy tọa độ xe
+  Future<FleetVehicle> getCoordinateVehicleById(int vehicleId) async {
+    await this.authorization();
+    body = new Map();
+    body["domain"] = [
+      ['id', '=', vehicleId],
+    ];
+    body['fields'] = ['x_posx', 'x_posy', 'x_posz'];
+    var params = convertSerialize(body);
+    List<FleetVehicle> listResult = new List();
+    return http
+        .get('${this.api}/search_read/fleet.vehicle?$params',
+            headers: this.headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 200) {
+        List list = json.decode(response.body);
+        if (list.length > 0)
+          listResult = list.map((item) => FleetVehicle.fromJson(item)).toList();
+      }
+      return listResult[0];
+    }).catchError((error) {
+      return null;
     });
   }
 }

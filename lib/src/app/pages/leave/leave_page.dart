@@ -39,7 +39,7 @@ class _LeavePageState extends State<LeavePage> {
           padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
           width: double.infinity,
           height: 40,
-          color: Colors.amber.shade100,
+          color: Colors.grey[200],
           child: GridView.count(
               physics: new NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
@@ -79,7 +79,7 @@ class _LeavePageState extends State<LeavePage> {
                           position == 0
                               ? viewModel.listDateShowPresent
                               : viewModel.listDateShowNext,
-                          viewModel.listDate,
+                          viewModel.listDate,viewModel.listDateGetFromSever,
                           year,
                           month)
                       .map((MonthModule month) {
@@ -127,7 +127,7 @@ class _LeavePageState extends State<LeavePage> {
           Container(
             height: 50,
             width: MediaQuery.of(context).size.width,
-            color: Colors.amber,
+            color: Colors.grey[300],
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -191,66 +191,101 @@ class _LeavePageState extends State<LeavePage> {
 //        Spacer(),
           Container(
             color: Colors.grey[200],
-            child: Column(
+            child: Row(
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  child: Row(
+                Expanded(
+                  flex: 1,
+                  child: Column(
                     children: <Widget>[
                       Container(
-                        width: 30.0,
-                        height: 30.0,
-                        decoration: new BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.circle,
+                        margin: EdgeInsets.all(10),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: 20.0,
+                              height: 20.0,
+                              decoration: new BoxDecoration(
+                                color: Colors.red,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(10),
+                              child: Align(
+                                child: Text("Ngày nghỉ lễ",style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        child: Align(
-                          child: Text("Ngày nghỉ"),
+                        margin: EdgeInsets.all(10),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: 20.0,
+                              height: 20.0,
+                              decoration: new BoxDecoration(
+                                color: Colors.orange,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(10),
+                              child: Align(
+                                child: Text("Ngày nghỉ đã xin",style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  child: Row(
+                Expanded(
+                  flex: 1,
+                  child: Column(
                     children: <Widget>[
                       Container(
-                        width: 30.0,
-                        height: 30.0,
-                        decoration: new BoxDecoration(
-                          color: Colors.grey,
-                          shape: BoxShape.circle,
+                        margin: EdgeInsets.all(10),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: 20.0,
+                              height: 20.0,
+                              decoration: new BoxDecoration(
+                                color: Colors.green,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(10),
+                              child: Align(
+                                child: Text("Ngày đã chọn",style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        child: Align(
-                          child: Text("Ngày đã qua"),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(20, 20, 20, 30),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        width: 30.0,
-                        height: 30.0,
-                        decoration: new BoxDecoration(
-                          color: Colors.green,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        child: Align(
-                          child: Text("Ngày đã chọn"),
+                        margin: EdgeInsets.all(10),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: 20.0,
+                              height: 20.0,
+                              decoration: new BoxDecoration(
+                                color: Colors.grey,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(10),
+                              child: Align(
+                                child: Text("Ngày đã qua",style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -275,9 +310,7 @@ class _LeavePageState extends State<LeavePage> {
           width: 200,
           height: 50,
           decoration: BoxDecoration(
-              color: _child.id == viewModel.childPrimary.id
-                  ? ThemePrimary.primaryColor
-                  : Colors.white,
+              color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(5)),
               boxShadow: [
                 BoxShadow(
@@ -361,7 +394,7 @@ class _LeavePageState extends State<LeavePage> {
                             right: 0,
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: ThemePrimary.primaryColor,
+                                  color: Colors.grey[200],
                                   borderRadius: BorderRadius.circular(0.0),
                                   boxShadow: [
                                     BoxShadow(

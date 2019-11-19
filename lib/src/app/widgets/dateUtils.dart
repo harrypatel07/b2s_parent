@@ -3,12 +3,13 @@ import 'package:b2s_parent/src/app/models/month_module.dart';
 import 'package:flutter/material.dart';
 
 List<MonthModule> getDateInMonth(List<MonthModule> listDateShow,
-    List<DateTime> listDate, int year, int month) {
-  final colorSelected = Colors.orange;
+    List<DateTime> listDate,List<DateTime> listDateGetFromSever, int year, int month) {
+  final colorSelected = Colors.green;
   final colorPassed = Colors.grey;
   final colorHoliday = Colors.red;
   final colorText = Colors.white;
   final colorTextEmpty = Colors.black;
+  final colorSelectedFromSever = Colors.orange;
   List<DateTime> listDateTemp = new List();
   listDate.forEach((date){
     listDateTemp.add(date);
@@ -134,6 +135,9 @@ List<MonthModule> getDateInMonth(List<MonthModule> listDateShow,
         listDateShow[i].colorText = colorText;
       }
     }
+    //change color day get from sever
+    if(containsDayInList(listDateGetFromSever, listDateShow[i].date))
+      listDateShow[i].color = colorSelectedFromSever;
   }
   return listDateShow;
 }
