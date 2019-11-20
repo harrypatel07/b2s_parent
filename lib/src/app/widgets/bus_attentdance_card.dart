@@ -29,11 +29,10 @@ class BusAttentdanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isEnableButtonLeave =
-        (childrenBusSession.status.statusID != StatusBus.list[2].statusID &&
-            childrenBusSession.status.statusID != StatusBus.list[3].statusID);
+        (childrenBusSession.status.statusID == StatusBus.list[0].statusID);
     Widget ____left() {
       return Container(
-        height: (isExten) ? 345 : 140,
+        height: (isExten) ? 395 : 140,
         width: 13,
         decoration: BoxDecoration(
           boxShadow: [
@@ -130,6 +129,7 @@ class BusAttentdanceCard extends StatelessWidget {
       }
 
       Widget _____driverPhone() {
+        onTapDisable() {print('onTapDisable');}
         return Container(
           width: 100,
           padding: EdgeInsets.only(top: 10),
@@ -171,7 +171,7 @@ class BusAttentdanceCard extends StatelessWidget {
                 padding: EdgeInsets.only(right: 10),
                 color: Colors.transparent,
                 child: InkWell(
-                    onTap: isEnableButtonLeave ? onTapLeave : null,
+                    onTap: isEnableButtonLeave ? onTapLeave : onTapDisable,
                     child: Container(
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
@@ -278,7 +278,7 @@ class BusAttentdanceCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Expanded(
+                    if(phoneNumber != null)Expanded(
                       flex: 2,
                       child: InkWell(
                         onTap: () {
@@ -297,7 +297,7 @@ class BusAttentdanceCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Expanded(
+                    if(phoneNumber != null)Expanded(
                       flex: 2,
                       child: InkWell(
                         onTap: () {
@@ -368,6 +368,11 @@ class BusAttentdanceCard extends StatelessWidget {
                         childrenBusSession.vehicleName.toString(), 40),
                     hr,
                     rowIcon(
+                        'Quản lý đưa đón:',
+                        childrenBusSession.attendant.name.toString(),
+                        childrenBusSession.attendant.phone.toString()),
+                    hr,
+                    rowIcon(
                         'Tài xế:',
                         childrenBusSession.driver.name.toString(),
                         childrenBusSession.driver.phone.toString()),
@@ -392,7 +397,7 @@ class BusAttentdanceCard extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Container(
-              height: (isExten) ? 345 : 140,
+              height: (isExten) ? 395 : 140,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 boxShadow: [
@@ -455,7 +460,7 @@ class BusAttentdanceCard extends StatelessWidget {
 //              ),
             ),
             Container(
-                height: (isExten) ? 345 : 140,
+                height: (isExten) ? 395 : 140,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: Colors.transparent,

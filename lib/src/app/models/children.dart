@@ -17,6 +17,7 @@ class Children {
   dynamic email;
   dynamic parentId;
   dynamic paidTicket;
+  dynamic ticketCode;
   dynamic lat;
   dynamic lng;
   dynamic classes;
@@ -36,6 +37,7 @@ class Children {
       this.parentId,
       this.genderId,
       this.paidTicket,
+      this.ticketCode,
       this.location,
       this.lat,
       this.lng,
@@ -57,6 +59,7 @@ class Children {
     this.classes = partner["class"];
     this.genderId = partner["title"]["id"];
     this.gender = partner["title"]["name"];
+    this.paidTicket = true;
   }
 
   Children.fromResPartner(ResPartner resPartner, {bool primary}) {
@@ -106,6 +109,7 @@ class Children {
     email = json['email'];
     parentId = json['parentId'];
     paidTicket = json['paidTicket'];
+    ticketCode = json['ticketCode'];
     lat = json['lat'];
     lng = json['lng'];
     birthday = json['birthday'];
@@ -128,6 +132,7 @@ class Children {
     data["email"] = this.email;
     data["parentId"] = this.parentId;
     data["paidTicket"] = this.paidTicket;
+    data["ticketCode"] = this.ticketCode;
     data["lat"] = this.lat;
     data["lng"] = this.lng;
     data["birthday"] = this.birthday;

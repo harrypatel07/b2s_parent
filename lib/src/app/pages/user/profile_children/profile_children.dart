@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
@@ -6,6 +8,7 @@ import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children_
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'Dart:ui' as ui;
 import 'package:line_icons/line_icons.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,25 +17,32 @@ class ProfileChildrenPage extends StatefulWidget {
   static const String routeName = "/profileChildren";
   final ProfileChildrenPageArgs profileChildrenPageArgs;
 
-  const ProfileChildrenPage({Key key, this.profileChildrenPageArgs}) : super(key: key);
+  const ProfileChildrenPage({Key key, this.profileChildrenPageArgs})
+      : super(key: key);
   @override
   _ProfileChildrenPageState createState() => _ProfileChildrenPageState();
 }
-class ProfileChildrenPageArgs{
+
+class ProfileChildrenPageArgs {
   final List<RouteBus> listRouteBus;
   final ChildrenBusSession childrenBusSession;
-
-  ProfileChildrenPageArgs(this.listRouteBus,this.childrenBusSession);
+  final Children children;
+  ProfileChildrenPageArgs(
+      {this.listRouteBus, this.childrenBusSession, this.children});
 }
+
 class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
   ProfileChildrenViewModel viewModel = ProfileChildrenViewModel();
-  int age = 0;
   @override
   void initState() {
     // TODO: implement initState
-    viewModel.listRouteBus = widget.profileChildrenPageArgs.listRouteBus;
-    viewModel.childrenBusSession = widget.profileChildrenPageArgs.childrenBusSession; //ChildrenBusSession.list.singleWhere((bus) => bus.child.id == widget.children.id);
-    age = DateTime.now().year - DateTime.parse(widget.profileChildrenPageArgs.childrenBusSession.child.birthday).year;
+    if (widget.profileChildrenPageArgs.listRouteBus != null)
+      viewModel.listRouteBus = widget.profileChildrenPageArgs.listRouteBus;
+    if (widget.profileChildrenPageArgs.childrenBusSession != null)
+      viewModel.childrenBusSession = widget.profileChildrenPageArgs
+          .childrenBusSession; //ChildrenBusSession.list.singleWhere((bus) => bus.child.id == widget.children.id);
+    viewModel.children = widget.profileChildrenPageArgs.children;
+    viewModel.onCreateAge();
     viewModel.onCreateTime();
     super.initState();
   }
@@ -59,19 +69,55 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
       ),
     );
     final qrCode = Positioned(
-      bottom: 0,
-      left: deviceWidth / 2 - 80,
-      child: QrImage(
-        backgroundColor: Colors.white,
-        data: viewModel.childrenBusSession.child.name,
-        version: QrVersions.auto,
-        size: 160.0,
-      ),
-    );
+        bottom: 0,
+        left: deviceWidth / 2 - 80,
+        child: viewModel.children.paidTicket
+            ? QrImage(
+                backgroundColor: Colors.white,
+                data: viewModel.children.ticketCode.toString(),
+                version: QrVersions.auto,
+                size: 160.0,
+              )
+            : Stack(
+                children: <Widget>[
+                  QrImage(
+                    backgroundColor: Colors.white,
+                    data: viewModel.children.ticketCode.toString(),
+                    version: QrVersions.auto,
+                    size: 160.0,
+                  ),
+                  ClipRect(
+                      child: new BackdropFilter(
+                          filter:
+                              new ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                          child: new Container(
+                            width: 160.0,
+                            height: 160.0,
+                            decoration: new BoxDecoration(
+                                color: Colors.grey.shade200.withOpacity(0.1)),
+                          ))),
+                ],
+              )
+//    BackdropFilter(
+//      filter: ui.ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+//      child: new Container(
+//        width: 160,
+//        height: 160,
+//        child: QrImage(
+//          backgroundColor: Colors.white,
+//          data: viewModel.children.ticketCode.toString(),
+//          version: QrVersions.auto,
+//          size: 160.0,
+//        ),
+//        //you can change opacity with color here(I used black) for background.
+//        decoration: new BoxDecoration(color: Colors.black.withOpacity(0.2)),
+//      ),
+//    ),
+        );
     final userImage = Stack(
       children: <Widget>[
         Hero(
-            tag: viewModel.childrenBusSession.child.photo,
+            tag: viewModel.children.photo,
             child: Container(
               height: 400,
               child: Column(
@@ -79,7 +125,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                   Flexible(
                     flex: 8,
                     child: CachedNetworkImage(
-                      imageUrl: viewModel.childrenBusSession.child.photo,
+                      imageUrl: viewModel.children.photo,
                       imageBuilder: (context, imageProvider) => Image(
                         fit: BoxFit.cover,
                         width: deviceWidth,
@@ -107,7 +153,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
               flex: 9,
               child: Container(
                 child: Text(
-                  viewModel.childrenBusSession.child.name,
+                  viewModel.children.name,
                   style: TextStyle(
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
@@ -131,7 +177,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Text(
-                        viewModel.childrenBusSession.child.gender.toString(),
+                        viewModel.children.gender.toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -152,7 +198,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
     final userLocation = Container(
       padding: EdgeInsets.only(left: 20.0, right: 20.0),
       child: Text(
-        viewModel.childrenBusSession.child.location,
+        viewModel.children.location,
         style: TextStyle(
           fontSize: 18.0,
           fontWeight: FontWeight.bold,
@@ -355,44 +401,46 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    flex: 2,
-                    child: InkWell(
-                      onTap: () {
-                        launch("tel://$phoneNumber");
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(right: 2),
-                        //color: Colors.amber,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.call,
-                            color: ThemePrimary.primaryColor,
+                  if (phoneNumber != null)
+                    Expanded(
+                      flex: 2,
+                      child: InkWell(
+                        onTap: () {
+                          launch("tel://$phoneNumber");
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: 2),
+                          //color: Colors.amber,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.call,
+                              color: ThemePrimary.primaryColor,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: InkWell(
-                      onTap: () {
-                        launch("sms://$phoneNumber");
-                      },
-                      child: Container(
-                        // color: Colors.red,
-                        margin: EdgeInsets.only(left: 2),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.message,
-                            color: ThemePrimary.primaryColor,
+                  if (phoneNumber != null)
+                    Expanded(
+                      flex: 2,
+                      child: InkWell(
+                        onTap: () {
+                          launch("sms://$phoneNumber");
+                        },
+                        child: Container(
+                          // color: Colors.red,
+                          margin: EdgeInsets.only(left: 2),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.message,
+                              color: ThemePrimary.primaryColor,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  )
+                    )
                 ],
               ),
             ),
@@ -422,17 +470,22 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                   rowTitle('THÔNG TIN HỌC SINH'),
                   row1('Họ và tên :', children.name),
                   hr,
-                  row1('Tuổi :', age.toString()),
+                  row1('Tuổi :',
+                      children.age != null ? children.age.toString() : ''),
                   hr,
-                  row1('Trường :', children.schoolName),
+                  row1('Trường :',
+                      children.schoolName != null ? children.schoolName : ''),
                   hr,
-                  row1('Lớp :', children.classes),
+                  row1('Lớp :',
+                      children.classes != null ? children.classes : ''),
                   hr,
-                  row1('Địa chỉ :', children.location),
+                  row1('Địa chỉ :',
+                      children.location != null ? children.location : ''),
                   hr,
-                  row1('Số điện thoại :', children.phone),
+                  row1('Số điện thoại :',
+                      children.location != null ? children.phone : ''),
                   hr,
-                  row1('Email :', children.email),
+                  row1('Email :', children.email != null ? children.email : ''),
                   hr,
                   row1('Phụ huynh :', Parent().name),
                   Container(
@@ -462,27 +515,43 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
           ),
           constraints: BoxConstraints(minHeight: 100.0),
           child: Container(
-            child: Column(
-              children: <Widget>[
-                rowTitle('THÔNG TIN XE BUS'),
-                row1('Biển số xe :', viewModel.childrenBusSession.vehicleName.toString()),
-                hr,
-                rowIcon('Tài xế :', viewModel.childrenBusSession.driver.name,
-                    viewModel.childrenBusSession.driver.phone),
-                if(viewModel.startDepart!=null)hr,
-//                rowIcon('QL đưa đón :', busSession., '0983932940'),
-//                hr,
+            child: viewModel.childrenBusSession != null
+                ? Column(
+                    children: <Widget>[
+                      rowTitle('THÔNG TIN XE BUS'),
+                      row1('Biển số xe :',
+                          viewModel.childrenBusSession.vehicleName.toString()),
+                      hr,
+                      rowIcon(
+                          'Tài xế :',
+                          viewModel.childrenBusSession.driver.name,
+                          viewModel.childrenBusSession.driver.phone),
+                      if (viewModel.startDepart != null)
+                        hr,
+                      rowIcon(
+                          'QL đưa đón :',
+                          viewModel.childrenBusSession.attendant.name
+                              .toString(),
+                          viewModel.childrenBusSession.attendant.phone
+                              .toString()),
+                      hr,
 //                rowIcon('QL tại trường :', 'Âu Dương Phong', '0983932940'),
 //                hr,
-                if(viewModel.startDepart!=null)row2('Giờ đón :', viewModel.startDepart, 'Đến trường :', viewModel.endDepart, true),
-                if(viewModel.startDepart!=null)hr,
-                if(viewModel.startArrive!=null)row2('Giờ về :', viewModel.startArrive, 'Về nhà :', viewModel.endArrive, false),
-                Container(
-                  height: 1,
-                  margin: EdgeInsets.only(bottom: 10),
-                )
-              ],
-            ),
+                      if (viewModel.startDepart != null)
+                        row2('Giờ đón :', viewModel.startDepart, 'Đến trường :',
+                            viewModel.endDepart, true),
+                      if (viewModel.startArrive != null)
+                        hr,
+                      if (viewModel.startArrive != null)
+                        row2('Giờ về :', viewModel.startArrive, 'Về nhà :',
+                            viewModel.endArrive, false),
+                      Container(
+                        height: 1,
+                        margin: EdgeInsets.only(bottom: 10),
+                      )
+                    ],
+                  )
+                : Container(),
           ),
         ),
       ),
@@ -492,7 +561,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
         viewmodel: viewModel,
         child: StreamBuilder(
           stream: viewModel.stream,
-          builder: (context,snapshot){
+          builder: (context, snapshot) {
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -500,8 +569,8 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                   userImage,
                   userName,
                   userLocation,
-                  childrenInfo(viewModel.childrenBusSession.child),
-                  if(viewModel.listRouteBus.length > 0)busInfo
+                  childrenInfo(viewModel.children),
+                  if (viewModel.listRouteBus.length > 0) busInfo
                 ],
               ),
             );

@@ -101,7 +101,7 @@ class _LeavePageState extends State<LeavePage> {
                           child: Stack(
                         children: <Widget>[
                           CustomPaint(
-                              painter: Item_date(month,
+                              painter: ItemDateLeave(month,
                                   MediaQuery.of(context).size.width, false),
                               child: Text("")),
                           Center(
@@ -254,7 +254,7 @@ class _LeavePageState extends State<LeavePage> {
                               width: 20.0,
                               height: 20.0,
                               decoration: new BoxDecoration(
-                                color: Colors.green,
+                                color: Color(0xFF007658),
                                 shape: BoxShape.circle,
                               ),
                             ),

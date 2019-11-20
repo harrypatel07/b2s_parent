@@ -299,7 +299,7 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
                       ),
                     ),
                   ),
-                  Expanded(
+                  if(phoneNumber != null)Expanded(
                     flex: 2,
                     child: InkWell(
                       onTap: () {
@@ -318,7 +318,7 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
                       ),
                     ),
                   ),
-                  Expanded(
+                  if(phoneNumber != null)Expanded(
                     flex: 2,
                     child: InkWell(
                       onTap: () {
@@ -331,7 +331,7 @@ class _ProfileMessageUserPageState extends State<ProfileMessageUserPage> {
                           alignment: Alignment.center,
                           child: Icon(
                             Icons.message,
-                            color: Colors.lightBlue,
+                            color: ThemePrimary.primaryColor,
                           ),
                         ),
                       ),

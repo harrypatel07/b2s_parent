@@ -352,12 +352,7 @@ class _EditProfileParentState extends State<EditProfileParent> {
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: <Color>[
-                                  Colors.deepOrange,
-                                  Colors.yellow
-                                ],
-                              ),
+                            color: ThemePrimary.primaryColor,
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey[500],

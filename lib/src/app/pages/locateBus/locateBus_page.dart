@@ -85,7 +85,7 @@ class _LocateBusPageState extends State<LocateBusPage> {
         },
         initialCameraPosition: CameraPosition(
           target: viewModel.center,
-          zoom: 13.0,
+          zoom: 3.0,
         ),
       );
     }

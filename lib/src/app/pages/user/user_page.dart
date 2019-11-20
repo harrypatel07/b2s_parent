@@ -70,8 +70,7 @@ class _UserPageState extends State<UserPage>
                             print('on Tap avatar');
                             Navigator.pushNamed(
                               context,
-                              ProfileChildrenPage.routeName,
-                              arguments: children,
+                              ProfileChildrenPage.routeName,arguments : ProfileChildrenPageArgs(children: children),
                             );
                           },
                           child: Hero(
@@ -419,14 +418,14 @@ class _UserPageState extends State<UserPage>
             child: Column(
               children: <Widget>[
                 _buildChildrenTitle(
-                    Icons.person_pin, Colors.blue, "Quản lý thông tin trẻ"),
+                    Icons.person_pin, ThemePrimary.primaryColor, "Quản lý thông tin trẻ"),
                 hr,
-                _buildTicketTitle(Icons.person_pin, Colors.blue, "Quản lý vé"),
+                _buildTicketTitle(Icons.person_pin,ThemePrimary.primaryColor, "Quản lý vé"),
                 hr,
                 _buildIconTileSettings(
-                    LineIcons.cogs, Colors.grey.withOpacity(0.6), 'Settings'),
+                    LineIcons.cogs, ThemePrimary.primaryColor, 'Settings'),
                 hr,
-                _buildLogOutTitle(Icons.exit_to_app, Colors.blue, "Đăng xuất"),
+                _buildLogOutTitle(Icons.exit_to_app,ThemePrimary.primaryColor, "Đăng xuất"),
               ],
             ),
           ),

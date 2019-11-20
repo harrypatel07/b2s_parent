@@ -5,6 +5,8 @@ class ThemePrimary {
 
   static const gradientColor = Color(0xFFc49b29);
 
+  static const colorDriverApp = Color(0xFF007658);
+
   static const primaryFontFamily = "Quicksand";
 
   static const appBar_textTheme = TextTheme(

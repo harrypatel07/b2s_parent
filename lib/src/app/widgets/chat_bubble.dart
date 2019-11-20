@@ -65,7 +65,7 @@ class ChatBubble extends StatelessWidget {
               ),
               Container(
                 child: Text(
-                  '$date$time',
+                  '$date $time',
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 12.0,

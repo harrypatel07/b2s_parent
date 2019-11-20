@@ -145,8 +145,10 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
         onTapCall: () {},
         onTapProfileChildren: () {
           Navigator.pushNamed(context, ProfileChildrenPage.routeName,
-              arguments:
-                  ProfileChildrenPageArgs(_listRouteBus, childrenBusSession));
+              arguments: ProfileChildrenPageArgs(
+                  listRouteBus: _listRouteBus,
+                  childrenBusSession: childrenBusSession,
+                  children: childrenBusSession.child));
         },
         onTapLeave: () {
           popupConfirm(

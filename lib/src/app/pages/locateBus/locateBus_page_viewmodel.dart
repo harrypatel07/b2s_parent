@@ -5,6 +5,7 @@ import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/models/picking-transport-info.dart';
 import 'package:b2s_parent/src/app/service/index.dart';
+import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/icon_marker_custom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class LocateBusPageViewModel extends ViewModelBase {
   bool myLocationEnabled = false;
   //Completer<GoogleMapController> _mapController = Completer();
   GoogleMapController mapController;
-  LatLng center = const LatLng(10.777317, 106.677513);
+  LatLng center = const LatLng(10.777338, 106.677491);
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   final MarkerId markerBus = MarkerId("MarkerBus");
@@ -40,6 +41,7 @@ class LocateBusPageViewModel extends ViewModelBase {
   Geoflutterfire geo = Geoflutterfire();
   DocumentReference docRef;
   StreamSubscription streamCloud;
+  Timer timer;
   LocateBusPageViewModel() {
 //    childrenBus = ChildrenBusSession.list.singleWhere((item) =>
 //        item.child.id == Children.getChildrenPrimary(Children.list).id);
@@ -48,6 +50,7 @@ class LocateBusPageViewModel extends ViewModelBase {
   @override
   dispose() {
     if (streamCloud != null) streamCloud.cancel();
+    if (timer != null) timer.cancel();
     super.dispose();
   }
 
@@ -60,54 +63,57 @@ class LocateBusPageViewModel extends ViewModelBase {
     mapController.setMapStyle(_pathStyleMap);
 
     this.updateState();
-    animateMyLocation();
-    movingBus();
+    animateMyLocation(animate: false);
+    initMarkers();
   }
 
-  void animateMyLocation() async {
+  void animateMyLocation({bool animate = true}) async {
     var myLoc = await location.getLocation();
-    center = LatLng(myLoc.latitude, myLoc.longitude);
-    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(myLoc.latitude, myLoc.longitude), zoom: 13.0)));
+    if (animate) {
+      center = LatLng(myLoc.latitude, myLoc.longitude);
+      _animateCamera(LatLng(myLoc.latitude, myLoc.longitude));
+    }
     myLocationEnabled = true;
 //    childrenBus.status = StatusBus.list[0];
-    this.updateState();
+    // this.updateState();
   }
 
-  Future movingBus() async {
+  Future initMarkers() async {
     markers.clear();
-//    final iconBus =
-//        await GoogleMapService.getMarkerIcon('assets/images/pin.png');
     final iconBus = await GoogleMapService.getMarkerIcon(
-        'assets/images/icon_bus.png',
-        width: 50);
-    final iconSchool =
-        await GoogleMapService.getMarkerIcon('assets/images/school.png');
-    final iconChild =
-        await GoogleMapService.getMarkerIcon('assets/images/pin_child.png');
+        'assets/images/new_car.png',
+        width: 80);
+    final iconSchool = await iconMarkerCustom(
+        icon: Icons.school, backgroundColor: ThemePrimary.primaryColor);
+    final iconChild = await iconMarkerCustom(
+        icon: Icons.home, backgroundColor: ThemePrimary.colorDriverApp);
     for (var item in childrenBus.listRouteBus) {
       if (item.isSchool)
         markers[markerSchool] = Marker(
             markerId: markerSchool,
             position: LatLng(item.lat, item.lng),
-            icon: await iconMarkerCustom(icon: Icons.school),
+            icon: iconSchool,
             infoWindow: InfoWindow(title: item.routeName));
       else
         markers[markerChild] = Marker(
             markerId: markerChild,
             position: LatLng(item.lat, item.lng),
-            icon: await iconMarkerCustom(
-                icon: Icons.home, backgroundColor: Colors.green),
+            icon: iconChild,
             infoWindow: InfoWindow(title: item.routeName));
     }
-    location.getLocation().then((data) {
+    //tạo marker bus
+    api.getCoordinateVehicleById(childrenBus.vehicleId).then((data) {
       markers[markerBus] = Marker(
           markerId: markerBus,
-          position: LatLng(data.latitude, data.longitude),
+          position: LatLng(data.xPosx, data.xPosy),
           icon: iconBus,
-          infoWindow: InfoWindow(title: childrenBus.sessionID.toString()));
+          rotation: data.xPosz,
+          infoWindow: InfoWindow(title: childrenBus.vehicleName.toString()));
+      this.updateState();
+      _animateCamera(LatLng(data.xPosx, data.xPosy));
+      //tracking bus di chuyển
+      _trackingCoordBus();
     });
-
 //    Create marker bus
 //    markers[markerBus] = Marker(
 //      markerId: markerBus,
@@ -132,11 +138,11 @@ class LocateBusPageViewModel extends ViewModelBase {
 
     this.updateState();
     //Draw polyline
-    var step = await GoogleMapService.directionGetListStep(
-        LatLng(10.777433, 106.677502), LatLng(10.743524, 106.699328));
-    routes.addAll(step);
+    // var step = await GoogleMapService.directionGetListStep(
+    //     LatLng(10.777433, 106.677502), LatLng(10.743524, 106.699328));
+    // routes.addAll(step);
 
-    polyline.clear();
+    // polyline.clear();
 //    polyline[selectedPolyline] = Polyline(
 //      polylineId: selectedPolyline,
 //      visible: true,
@@ -145,8 +151,8 @@ class LocateBusPageViewModel extends ViewModelBase {
 //      zIndex: 2,
 //      points: routes,
 //    );
-    var index = 0;
-    this.updateState();
+    // var index = 0;
+    // this.updateState();
 
     // Timer.periodic(new Duration(seconds: 2), (timer) {
     //   index++;
@@ -268,5 +274,27 @@ class LocateBusPageViewModel extends ViewModelBase {
   updateChildren(ChildrenBusSession session) async {
     var picking = PickingTransportInfo.fromChildrenBusSession(session);
     await api.updatePickingTransportInfo(picking);
+  }
+
+  _animateCamera(LatLng latlng) {
+    if (mapController != null)
+      mapController.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(target: latlng, zoom: 14.0)));
+  }
+
+  _trackingCoordBus() {
+    if (timer != null) timer.cancel();
+    timer = Timer.periodic(new Duration(seconds: 3), (timer) {
+      if (childrenBus.status.statusID == 2 || childrenBus.status.statusID == 4)
+        timer.cancel();
+      api.getCoordinateVehicleById(childrenBus.vehicleId).then((data) {
+        final _marker = markers[markerBus];
+        markers[markerBus] = _marker.copyWith(
+            rotationParam: data.xPosz,
+            positionParam: LatLng(data.xPosx, data.xPosy));
+        this.updateState();
+        _animateCamera(LatLng(data.xPosx, data.xPosy));
+      });
+    });
   }
 }

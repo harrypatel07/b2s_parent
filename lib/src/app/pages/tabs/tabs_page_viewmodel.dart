@@ -40,8 +40,8 @@ class TabsPageViewModel extends ViewModelBase {
   GlobalKey<ScaffoldState> scaffoldTabbar = GlobalKey<ScaffoldState>();
   //Xử lý khi slide menu tap item
   onSlideMenuTapped(int index, {ChildrenBusSession data}) {
-    // currentTabIndex = index;
-    // fancyKey.currentState.setPage(index);
+    currentTabIndex = index;
+    fancyKey.currentState.setPage(index);
     // if (data != null) {
     //   locateBusPageViewModel.childrenBus = data;
     //   locateBusPageViewModel.listenData(data.sessionID);
