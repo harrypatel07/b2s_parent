@@ -8,6 +8,7 @@ class TicketPass extends StatefulWidget {
     this.height = 200,
     this.elevation = 1.0,
     this.shadowColor = Colors.black,
+
     this.curve = Curves.easeOut,
     this.animationDuration = const Duration(seconds: 1),
     this.alignment = Alignment.center,
@@ -78,15 +79,68 @@ class _TicketPassState extends State<TicketPass> {
   ];
 
   Widget _myWidget() {
-    return ClipPath(
-      clipper: TicketClipper(),
-      child: widget.child,
-    );
+      return ClipPath(
+        clipper: TicketClipper(),
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              widget.child,
+              Expanded(
+                child: Container(),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    switcher = !switcher;
+                  });
+                },
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: widget.titleHeight,
+                    decoration: BoxDecoration(
+                      color: widget.titleColor,
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 20),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: widget.ticketTitle,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return PhysicalShape(
+      clipper: TicketClipper(),
+      color: widget.color,
+      elevation: widget.elevation,
+      shadowColor: widget.shadowColor,
+      child: AnimatedContainer(
+        duration: widget.animationDuration,
+        curve: widget.curve,
+        width: widget.width,
+        height:widget.height,
+        child: _myWidget(),
+      ),
+    );
   }
 }
 
@@ -95,7 +149,7 @@ class TicketClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     final Path path = Path();
 
-    path.lineTo(0.0, 55);
+    path.lineTo(0.0, size.height/2 - 20);
     path.relativeArcToPoint(const Offset(0, 40),
         radius: const Radius.circular(10.0), largeArc: true);
     path.lineTo(0.0, size.height - 10);
@@ -103,9 +157,9 @@ class TicketClipper extends CustomClipper<Path> {
     path.lineTo(size.width - 10.0, size.height);
     path.quadraticBezierTo(
         size.width, size.height, size.width, size.height - 10);
-    path.lineTo(size.width, 95);
-    path.arcToPoint(Offset(size.width, 55),
-        radius: const Radius.circular(10.0), clockwise: true);
+    path.lineTo(size.width, size.height/2 + 20);
+    path.arcToPoint(Offset(size.width, size.height/2-20 ),
+        radius: const Radius.circular(10.0), largeArc: true);
     path.lineTo(size.width, 10.0);
     path.quadraticBezierTo(size.width, 0.0, size.width - 10.0, 0.0);
     path.lineTo(10.0, 0.0);
@@ -116,31 +170,3 @@ class TicketClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }
-
-//class ExtendedClipper extends CustomClipper<Path> {
-//  @override
-//  Path getClip(Size size) {
-//    final Path path = Path();
-//
-//    path.lineTo(0.0, size.height/2);
-//    path.relativeArcToPoint(const Offset(0, 40),
-//        radius: const Radius.circular(10.0), largeArc: true);
-//    path.lineTo(0.0, size.height - 10);
-//    path.quadraticBezierTo(0.0, size.height, 10.0, size.height);
-//    path.lineTo(size.width - 10.0, size.height/2);
-//    path.quadraticBezierTo(
-//        size.width, size.height, size.width, size.height - 10);
-//    path.lineTo(size.width, 95);
-//    path.arcToPoint(Offset(size.width, 55),
-//        radius: const Radius.circular(10.0), clockwise: true);
-//    path.lineTo(size.width, 10.0);
-//    path.quadraticBezierTo(size.width, 0.0, size.width - 10.0, 0.0);
-//    path.lineTo(10.0, 0.0);
-//    path.quadraticBezierTo(0.0, 0.0, 0.0, 10.0);
-//
-//    return path;
-//  }
-//
-//  @override
-//  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
-//}

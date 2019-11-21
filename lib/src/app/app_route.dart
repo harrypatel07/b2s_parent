@@ -17,6 +17,7 @@ import 'package:b2s_parent/src/app/pages/user/edit_profile_parent/edit_profile_p
 import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children.dart';
 import 'package:b2s_parent/src/app/pages/user/settings/user_settings.dart';
 import 'package:b2s_parent/src/app/pages/user/tickets/tickets_children.dart';
+import 'package:b2s_parent/src/app/pages/user/tickets_detail/ticket_detail_page.dart';
 import 'package:flutter/material.dart';
 
 import 'core/app_setting.dart';
@@ -68,6 +69,7 @@ class Routes {
     ProfileMessageUserPage.routeName: (context) => ProfileMessageUserPage(
         userModel: ModalRoute.of(context).settings.arguments),
     ContactsPage.routeName: (context) => ContactsPage(),
+    TicketsDetailPage.routeName: (context) => TicketsDetailPage(args:ModalRoute.of(context).settings.arguments)
   };
 }
 

@@ -8,7 +8,6 @@ import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children_
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'Dart:ui' as ui;
 import 'package:line_icons/line_icons.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -42,7 +41,6 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
       viewModel.childrenBusSession = widget.profileChildrenPageArgs
           .childrenBusSession; //ChildrenBusSession.list.singleWhere((bus) => bus.child.id == widget.children.id);
     viewModel.children = widget.profileChildrenPageArgs.children;
-    viewModel.onCreateAge();
     viewModel.onCreateTime();
     super.initState();
   }

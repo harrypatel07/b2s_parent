@@ -11,11 +11,6 @@ class ProfileChildrenViewModel extends ViewModelBase {
   String startArrive;
   String endArrive;
   ProfileChildrenViewModel() {}
-  ///age children
-  onCreateAge(){
-    if(children.birthday != null)
-      children.age = DateTime.now().year - DateTime.parse(children.birthday.toString()).year;
-  }
   ///Tạo thời gian đón, đến trường, về ,đến nhà
   onCreateTime() {
     if (listRouteBus.length <= 0) return;
