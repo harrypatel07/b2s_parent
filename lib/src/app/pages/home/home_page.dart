@@ -123,8 +123,6 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
     }
 
     Widget __card(ChildrenBusSession childrenBusSession) {
-      List<MaterialColor> colorL = [Colors.grey, Colors.lime];
-      List<MaterialColor> colorR = [Colors.grey, Colors.orange];
       List<RouteBus> _listRouteBus = List();
       viewModel.listChildren.forEach((item) {
         if (item.child.id == childrenBusSession.child.id) {
@@ -136,8 +134,8 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
       return BusAttentdanceCard(
         isExten: false,
         colorText: Colors.grey[800],
-        colorLeft: colorL[childrenBusSession.type],
-        colorRight: colorR[childrenBusSession.type],
+        colorLeft: Colors.grey,
+        colorRight: Colors.grey,
         childrenBusSession: childrenBusSession,
         onTapCard: () {
           viewModel.listOnTap(childrenBusSession);
@@ -228,7 +226,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
                     margin: EdgeInsets.only(top: 20),
                     child: Center(
                         child: Text(
-                      "Không có dữ liệu để hiển thị.",
+                      "Không có chuyến đi trong ngày.",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 18.0,

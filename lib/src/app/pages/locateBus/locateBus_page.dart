@@ -103,16 +103,12 @@ class _LocateBusPageState extends State<LocateBusPage> {
 
   Widget _buildPanel() {
     Widget __childrenCard() {
-      List<MaterialColor> colorL = [Colors.grey, Colors.lime];
-      List<MaterialColor> colorR = [Colors.grey, Colors.orange];
       return Stack(
         children: <Widget>[
           BusAttentdanceCard(
             key: _key,
-            colorLeft:
-                (viewModel.childrenBus.type == 0) ? colorL[0] : colorL[1],
-            colorRight:
-                (viewModel.childrenBus.type == 0) ? colorR[0] : colorR[1],
+            colorLeft: Colors.grey,
+            colorRight: Colors.grey,
             isExten: true,
             onTapLeave: () {
               popupConfirm(
@@ -127,6 +123,12 @@ class _LocateBusPageState extends State<LocateBusPage> {
                   print('onTap leave');
                 },
               );
+            },
+            onTapChatDriver: (){
+                viewModel.onTapChatDriver();
+            },
+            onTapChatAttendant: (){
+              viewModel.onTapChatAttendant();
             },
             childrenBusSession: viewModel.childrenBus,
           ),
@@ -211,8 +213,8 @@ class _LocateBusPageState extends State<LocateBusPage> {
 
   Widget _buildIconLocation() {
     return Positioned(
-      right: 20.0,
-      bottom: _fabHeight,
+      right: 10.0,
+      bottom: _fabHeight - 10,
       child: SizedBox(
         width: 40,
         height: 40,

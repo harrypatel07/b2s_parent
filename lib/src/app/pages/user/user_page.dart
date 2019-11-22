@@ -423,7 +423,7 @@ class _UserPageState extends State<UserPage>
                 _buildTicketTitle(Icons.person_pin,ThemePrimary.primaryColor, "Quản lý vé"),
                 hr,
                 _buildIconTileSettings(
-                    LineIcons.cogs, ThemePrimary.primaryColor, 'Settings'),
+                    LineIcons.cogs, ThemePrimary.primaryColor, 'Cài đặt'),
                 hr,
                 _buildLogOutTitle(Icons.exit_to_app,ThemePrimary.primaryColor, "Đăng xuất"),
               ],

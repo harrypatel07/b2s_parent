@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
+import 'package:b2s_parent/src/app/models/chat.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/models/picking-transport-info.dart';
+import 'package:b2s_parent/src/app/pages/message/messageDetail/message_detail_page.dart';
 import 'package:b2s_parent/src/app/service/index.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/icon_marker_custom.dart';
@@ -270,7 +272,28 @@ class LocateBusPageViewModel extends ViewModelBase {
 //    loadData();
     this.updateState();
   }
-
+  onTapChatDriver(){
+    Chatting chatting = Chatting(
+        peerId: childrenBus.driver.id.toString(),
+        name: childrenBus.driver.name,
+        message: 'Hi',
+        listMessage: new List(),
+        avatarUrl: childrenBus.driver.phone,
+        datetime: DateTime.now().toIso8601String()
+    );
+    Navigator.pushNamed(context, MessageDetailPage.routeName, arguments: chatting,);
+  }
+  onTapChatAttendant(){
+    Chatting chatting = Chatting(
+        peerId: childrenBus.attendant.id.toString(),
+        name: childrenBus.attendant.name.toString(),
+        message: 'Hi',
+        listMessage: new List(),
+        avatarUrl: childrenBus.attendant.photo,
+        datetime: DateTime.now().toIso8601String()
+    );
+    Navigator.pushNamed(context, MessageDetailPage.routeName, arguments: chatting,);
+  }
   updateChildren(ChildrenBusSession session) async {
     var picking = PickingTransportInfo.fromChildrenBusSession(session);
     await api.updatePickingTransportInfo(picking);

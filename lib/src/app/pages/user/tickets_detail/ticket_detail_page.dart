@@ -265,7 +265,7 @@ class TicketsDetailPage extends StatelessWidget {
       return TS24AppBar(
         backgroundColorEnd: ThemePrimary.primaryColor,
         backgroundColorStart: ThemePrimary.primaryColor,
-        title: Text('Ticket Detail'),
+        title: Text('Thông tin vé chi tiết'),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () => Navigator.pop(context, false),

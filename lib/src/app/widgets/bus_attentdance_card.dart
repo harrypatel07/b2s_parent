@@ -2,13 +2,17 @@ import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:validators/sanitizers.dart';
 
 class BusAttentdanceCard extends StatelessWidget {
   final ChildrenBusSession childrenBusSession;
   final Function onTapCard;
   final Function onTapCall;
   final Function onTapLeave;
+  final Function onTapChatDriver;
+  final Function onTapChatAttendant;
   final Function onTapProfileChildren;
   final MaterialColor colorRight;
   final MaterialColor colorLeft;
@@ -20,10 +24,12 @@ class BusAttentdanceCard extends StatelessWidget {
       this.onTapCard,
       this.onTapCall,
       this.onTapLeave,
+        this.onTapChatDriver,
+        this.onTapChatAttendant,
       this.onTapProfileChildren,
       this.colorRight = Colors.grey,
-        this.colorLeft = Colors.grey,
-        this.colorText =Colors.black,
+      this.colorLeft = Colors.grey,
+      this.colorText = Colors.black,
       this.isExten})
       : super(key: key);
   @override
@@ -54,21 +60,44 @@ class BusAttentdanceCard extends StatelessWidget {
       Widget _____userImage() {
         return InkWell(
           onTap: onTapProfileChildren,
-          child: Container(
-            padding: const EdgeInsets.all(10.0),
-            child: CachedNetworkImage(
-              imageUrl: childrenBusSession.child.photo,
-              imageBuilder: (context, imageProvider) => CircleAvatar(
-                radius: 35.0,
-                backgroundImage: imageProvider,
-                backgroundColor: Colors.transparent,
-              ),
+          child: CachedNetworkImage(
+            imageUrl: childrenBusSession.child.photo,
+            imageBuilder: (context, imageProvider) => Stack(
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.all(10.0),
+                  child: CircleAvatar(
+                    radius: 35.0,
+                    backgroundImage: imageProvider,
+                    backgroundColor: Colors.transparent,
+                  )
+                  // CircleAvatar(
+                  //   radius: 24.0,
+                  //   backgroundImage: MemoryImage(childrenBusSession.child.photo),
+                  //   backgroundColor: Colors.transparent,
+                  // ),
+                ),
+                Positioned(
+                  bottom: 10,
+                  right: 10,
+                  child: Container(
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: childrenBusSession.type == 0
+                            ? ThemePrimary.primaryColor
+                            : ThemePrimary.colorDriverApp),
+//                  color: Colors.red,
+                    alignment: Alignment.center,
+                    child: Icon(
+                      childrenBusSession.type == 0 ? Icons.school : Icons.home,
+                      color: Colors.white,
+                      size: 17,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            // CircleAvatar(
-            //   radius: 24.0,
-            //   backgroundImage: MemoryImage(childrenBusSession.child.photo),
-            //   backgroundColor: Colors.transparent,
-            // ),
           ),
         );
       }
@@ -96,9 +125,7 @@ class BusAttentdanceCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: colorText
-                    ),
+                        fontWeight: FontWeight.bold, color: colorText),
                   ),
                 ),
                 Row(
@@ -117,9 +144,7 @@ class BusAttentdanceCard extends StatelessWidget {
                     Text(childrenBusSession.status.statusName,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: colorText
-                        )),
+                            fontWeight: FontWeight.bold, color: colorText)),
                   ],
                 ),
               ],
@@ -129,7 +154,10 @@ class BusAttentdanceCard extends StatelessWidget {
       }
 
       Widget _____driverPhone() {
-        onTapDisable() {print('onTapDisable');}
+        onTapDisable() {
+          print('onTapDisable');
+        }
+
         return Container(
           width: 100,
           padding: EdgeInsets.only(top: 10),
@@ -219,7 +247,7 @@ class BusAttentdanceCard extends StatelessWidget {
                   child: Text(
                     title,
                     textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 16,color: colorText),
+                    style: TextStyle(fontSize: 16, color: colorText),
                   ),
                 ),
               ),
@@ -231,7 +259,10 @@ class BusAttentdanceCard extends StatelessWidget {
                   child: Text(
                     content,
                     textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: colorText),
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: colorText),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),
@@ -242,7 +273,7 @@ class BusAttentdanceCard extends StatelessWidget {
         );
       }
 
-      Widget rowIcon(String title, String content, String phoneNumber) {
+      Widget rowIcon(String title, String content, String phoneNumber,Function onTap) {
         return Container(
           color: Colors.transparent,
           padding: EdgeInsets.only(left: 15.0, right: 15.0),
@@ -256,7 +287,7 @@ class BusAttentdanceCard extends StatelessWidget {
                   child: Text(
                     title,
                     textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 16,color: colorText),
+                    style: TextStyle(fontSize: 16, color: colorText),
                   ),
                 ),
               ),
@@ -265,7 +296,7 @@ class BusAttentdanceCard extends StatelessWidget {
                 child: Row(
                   children: <Widget>[
                     Expanded(
-                      flex: 10,
+                      flex: (phoneNumber != null && toBoolean(phoneNumber) != false)? 10 : 14,
                       child: Container(
                         padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
                         alignment: Alignment.centerLeft,
@@ -273,44 +304,66 @@ class BusAttentdanceCard extends StatelessWidget {
                           content,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold,color: colorText),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: colorText),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),
-                    if(phoneNumber != null)Expanded(
-                      flex: 2,
-                      child: InkWell(
-                        onTap: () {
-                          launch("tel://$phoneNumber");
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(right: 2),
+                    if (phoneNumber != null && toBoolean(phoneNumber) != false)
+                      Expanded(
+                        flex: 2,
+                        child: InkWell(
+                          onTap: () {
+                            launch("tel://$phoneNumber");
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 2),
 //color: Colors.amber,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Icon(
-                              Icons.call,
-                              color: ThemePrimary.primaryColor,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Icon(
+                                Icons.call,
+                                color: ThemePrimary.primaryColor,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    if(phoneNumber != null)Expanded(
+                    if (phoneNumber != null && toBoolean(phoneNumber) != false)
+                      Expanded(
+                        flex: 2,
+                        child: InkWell(
+                          onTap: () {
+                            launch("sms://$phoneNumber");
+                          },
+                          child: Container(
+// color: Colors.red,
+                            margin: EdgeInsets.only(left: 2),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Icon(
+                                Icons.message,
+                                color: ThemePrimary.primaryColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    Expanded(
                       flex: 2,
                       child: InkWell(
-                        onTap: () {
-                          launch("sms://$phoneNumber");
-                        },
+                        onTap: onTap,
                         child: Container(
 // color: Colors.red,
-                          margin: EdgeInsets.only(left: 2),
+                          margin: EdgeInsets.only(left: 4),
                           child: Align(
                             alignment: Alignment.center,
                             child: Icon(
-                              Icons.message,
+                              FontAwesomeIcons.facebookMessenger,
                               color: ThemePrimary.primaryColor,
+                              size: 20,
                             ),
                           ),
                         ),
@@ -349,7 +402,10 @@ class BusAttentdanceCard extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   child: Text(
                     childrenBusSession.child.name.toString(),
-                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16,color: colorText),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 16,
+                        color: colorText),
                     overflow: TextOverflow.ellipsis,
                   )),
             ),
@@ -370,12 +426,12 @@ class BusAttentdanceCard extends StatelessWidget {
                     rowIcon(
                         'Quản lý đưa đón:',
                         childrenBusSession.attendant.name.toString(),
-                        childrenBusSession.attendant.phone.toString()),
+                        childrenBusSession.attendant.phone.toString(),onTapChatAttendant),
                     hr,
                     rowIcon(
                         'Tài xế:',
                         childrenBusSession.driver.name.toString(),
-                        childrenBusSession.driver.phone.toString()),
+                        childrenBusSession.driver.phone.toString(),onTapChatDriver),
                   ],
                 ),
               ),

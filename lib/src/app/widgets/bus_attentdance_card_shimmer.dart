@@ -1,10 +1,5 @@
-import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
-import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children.dart';
-import 'package:b2s_parent/src/app/theme/theme_primary.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class BusAttentdanceCardShimmer extends StatefulWidget {
   const BusAttentdanceCardShimmer({Key key}) : super(key: key);
