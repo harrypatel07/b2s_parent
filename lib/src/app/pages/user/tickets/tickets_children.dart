@@ -18,10 +18,12 @@ class TicketsChildrenPage extends StatefulWidget {
 
 class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
   TicketChildrenViewModel viewModel = TicketChildrenViewModel();
+  final ticketHeight = 200.0;
   @override
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     viewModel.context = context;
@@ -37,26 +39,24 @@ class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
         color: Colors.black54,
       );
       final styleBold = TextStyle(
-        fontSize: 14,
-        color: Colors.black54,
-        fontWeight: FontWeight.bold
-      );
+          fontSize: 14, color: Colors.black54, fontWeight: FontWeight.bold);
       return InkWell(
-        onTap: (){
-          viewModel.onTapTicket(children,saleOrderLine);
+        onTap: () {
+          viewModel.onTapTicket(children, saleOrderLine);
         },
         child: Container(
-          padding: EdgeInsets.only(top: 10,bottom: 10),
+          padding: EdgeInsets.only(top: 10, bottom: 10),
           child: TicketPass(
             width: MediaQuery.of(context).size.width - 50,
-            height: 200,
+            height: ticketHeight,
             elevation: 0.0,
             titleColor: Colors.white,
             separatorColor: Colors.white,
             titleHeight: 0.0,
-
             alignment: Alignment.bottomCenter,
             child: Container(
+              width: MediaQuery.of(context).size.width - 50,
+              height: ticketHeight,
               child: Stack(
                 children: <Widget>[
                   Container(
@@ -76,19 +76,23 @@ class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
                                     children: <Widget>[
                                       CachedNetworkImage(
                                         imageUrl: children.photo,
-                                        imageBuilder: (context, imageProvider) =>
-                                            CircleAvatar(
-                                              radius: 20.0,
-                                              backgroundImage: imageProvider,
-                                              backgroundColor: Colors.transparent,
-                                            ),
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                CircleAvatar(
+                                          radius: 20.0,
+                                          backgroundImage: imageProvider,
+                                          backgroundColor: Colors.transparent,
+                                        ),
                                       ),
                                       new Flexible(
                                         child: new Container(
                                           margin: EdgeInsets.only(left: 10),
                                           child: new Text(
                                             children.name,
-                                            style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.black87),
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black87),
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
@@ -101,7 +105,7 @@ class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 5,bottom: 5),
+                          margin: EdgeInsets.only(top: 5, bottom: 5),
                           height: 20,
                           width: MediaQuery.of(context).size.width - 20,
                           child: Center(
@@ -115,7 +119,7 @@ class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 5,bottom: 5),
+                          margin: EdgeInsets.only(top: 5, bottom: 5),
                           height: 20,
                           width: MediaQuery.of(context).size.width - 20,
                           padding: EdgeInsets.only(left: 20, right: 20),
@@ -134,7 +138,7 @@ class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 5,bottom: 5),
+                          margin: EdgeInsets.only(top: 5, bottom: 5),
                           height: 20,
                           width: MediaQuery.of(context).size.width - 20,
                           padding: EdgeInsets.only(left: 20, right: 20),
@@ -153,7 +157,7 @@ class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 5,bottom: 5),
+                          margin: EdgeInsets.only(top: 5, bottom: 5),
                           height: 20,
                           width: MediaQuery.of(context).size.width - 20,
                           padding: EdgeInsets.only(left: 20, right: 20),
@@ -207,20 +211,19 @@ class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
             listChildrenItem.add(_itemTickets(context, children, sale));
         });
       });
+      double _deviceHeight = MediaQuery.of(context).size.height;
+      double _widgetHeight = listChildrenItem.length * (ticketHeight + 20);
+      double _height = _widgetHeight <= _deviceHeight - 20
+          ? _deviceHeight - 20
+          : _widgetHeight;
       return Container(
+        height: _height,
+        width: MediaQuery.of(context).size.width,
         color: Colors.grey.shade300,
         child: listChildrenItem.length > 0
             ? Column(
                 children: <Widget>[
                   ...listChildrenItem,
-                  if (listChildrenItem.length < 3)
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.25,
-                    ),
-                  if (listChildrenItem.length < 2)
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.5,
-                    ),
                 ],
               )
             : Container(

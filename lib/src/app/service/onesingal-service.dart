@@ -1,8 +1,8 @@
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class OneSignalService {
-  static setup(String appId) {
-    OneSignal.shared.init(appId, iOSSettings: {
+  static Future setup(String appId) async {
+    return OneSignal.shared.init(appId, iOSSettings: {
       OSiOSSettings.autoPrompt: false,
       OSiOSSettings.inAppLaunchUrl: true
     });
@@ -21,5 +21,9 @@ class OneSignalService {
         (OSNotificationOpenedResult notification) {
       callBack(notification);
     });
+  }
+
+  static sendTags(Map<String, dynamic> tags) {
+    OneSignal.shared.sendTags(tags);
   }
 }
