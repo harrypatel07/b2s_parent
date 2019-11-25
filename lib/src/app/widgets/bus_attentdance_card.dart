@@ -24,8 +24,8 @@ class BusAttentdanceCard extends StatelessWidget {
       this.onTapCard,
       this.onTapCall,
       this.onTapLeave,
-        this.onTapChatDriver,
-        this.onTapChatAttendant,
+      this.onTapChatDriver,
+      this.onTapChatAttendant,
       this.onTapProfileChildren,
       this.colorRight = Colors.grey,
       this.colorLeft = Colors.grey,
@@ -65,18 +65,18 @@ class BusAttentdanceCard extends StatelessWidget {
             imageBuilder: (context, imageProvider) => Stack(
               children: <Widget>[
                 Container(
-                  padding: const EdgeInsets.all(10.0),
-                  child: CircleAvatar(
-                    radius: 35.0,
-                    backgroundImage: imageProvider,
-                    backgroundColor: Colors.transparent,
-                  )
-                  // CircleAvatar(
-                  //   radius: 24.0,
-                  //   backgroundImage: MemoryImage(childrenBusSession.child.photo),
-                  //   backgroundColor: Colors.transparent,
-                  // ),
-                ),
+                    padding: const EdgeInsets.all(10.0),
+                    child: CircleAvatar(
+                      radius: 35.0,
+                      backgroundImage: imageProvider,
+                      backgroundColor: Colors.transparent,
+                    )
+                    // CircleAvatar(
+                    //   radius: 24.0,
+                    //   backgroundImage: MemoryImage(childrenBusSession.child.photo),
+                    //   backgroundColor: Colors.transparent,
+                    // ),
+                    ),
                 Positioned(
                   bottom: 10,
                   right: 10,
@@ -211,7 +211,7 @@ class BusAttentdanceCard extends StatelessWidget {
                           ],
                           borderRadius: BorderRadius.circular(18.0),
                           color: isEnableButtonLeave
-                              ? Colors.red
+                              ? ThemePrimary.colorDriverApp
                               : Colors.grey[400]),
                       width: 80,
                       height: 35,
@@ -273,7 +273,8 @@ class BusAttentdanceCard extends StatelessWidget {
         );
       }
 
-      Widget rowIcon(String title, String content, String phoneNumber,Function onTap) {
+      Widget rowIcon(
+          String title, String content, String phoneNumber, Function onTap) {
         return Container(
           color: Colors.transparent,
           padding: EdgeInsets.only(left: 15.0, right: 15.0),
@@ -296,7 +297,10 @@ class BusAttentdanceCard extends StatelessWidget {
                 child: Row(
                   children: <Widget>[
                     Expanded(
-                      flex: (phoneNumber != null && toBoolean(phoneNumber) != false)? 10 : 14,
+                      flex: (phoneNumber != null &&
+                              toBoolean(phoneNumber) != false)
+                          ? 10
+                          : 14,
                       child: Container(
                         padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
                         alignment: Alignment.centerLeft,
@@ -426,12 +430,14 @@ class BusAttentdanceCard extends StatelessWidget {
                     rowIcon(
                         'Quản lý đưa đón:',
                         childrenBusSession.attendant.name.toString(),
-                        childrenBusSession.attendant.phone.toString(),onTapChatAttendant),
+                        childrenBusSession.attendant.phone.toString(),
+                        onTapChatAttendant),
                     hr,
                     rowIcon(
                         'Tài xế:',
                         childrenBusSession.driver.name.toString(),
-                        childrenBusSession.driver.phone.toString(),onTapChatDriver),
+                        childrenBusSession.driver.phone.toString(),
+                        onTapChatDriver),
                   ],
                 ),
               ),

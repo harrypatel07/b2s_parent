@@ -73,6 +73,7 @@ class HomePageViewModel extends ViewModelBase {
     Navigator.pushNamed(context, LocateBusPage.routeName,
         arguments: LocateBusArgument(data));
 //    api.getListChildrenBusSessionV2();
+    api.getHistoryTrip(take: 20, skip: 0);
   }
 
   loadData() {

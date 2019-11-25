@@ -5,6 +5,7 @@ import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/models/driver.dart';
 import 'package:b2s_parent/src/app/models/fleet-vehicle.dart';
+import 'package:b2s_parent/src/app/models/historyTrip.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/picking-route.dart';
 import 'package:b2s_parent/src/app/models/picking-transport-info.dart';
@@ -13,6 +14,7 @@ import 'package:b2s_parent/src/app/models/res-partner.dart';
 import 'package:b2s_parent/src/app/models/route-location.dart';
 import 'package:b2s_parent/src/app/models/sale-order-line.dart';
 import 'package:b2s_parent/src/app/models/sale-order.dart';
+import 'package:b2s_parent/src/app/service/common-service.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
@@ -861,6 +863,76 @@ class Api1 extends ApiMaster {
       return listResult[0];
     }).catchError((error) {
       return null;
+    });
+  }
+
+  Future<List<HistoryTrip>> getHistoryTrip({int take, int skip}) async {
+    var client = await this.authorizationOdoo();
+    Parent parent = Parent();
+    List<int> listChildrenId =
+        parent.listChildren.map((item) => item.id).toList();
+    body = new Map();
+    body["partner_ids"] = listChildrenId;
+    body["take"] = take;
+    body["skip"] = skip;
+    List<HistoryTrip> listResult = new List();
+    return client
+        .callController("/get_customer_picking_history", body)
+        .then((onValue) {
+      var result = onValue.getResult();
+      if (result is List) if (result.length == 0) return listResult;
+      for (var i = 0; i < result.length; i++) {
+        HistoryTrip historyTrip = HistoryTrip();
+        var data = result[i]["obj_picking"];
+        var pickingIds = data["picking_ids"];
+        historyTrip.date = data["transport_date"];
+        historyTrip.trip = List();
+        for (var j = 0; j < pickingIds.length; j++) {
+          var pickingTransportInfo = pickingIds[j]["picking_transport_info"];
+          var pickingRoute = pickingTransportInfo["picking_route"];
+          var _trip = Trip();
+          _trip.id = pickingTransportInfo["id"];
+          _trip.startTime = pickingRoute["start_time"];
+          _trip.endTime = pickingRoute["end_time"];
+          _trip.realStartTime = pickingRoute["real_start_time"];
+          _trip.realEndTime = pickingRoute["real_end_time"];
+          _trip.gpsStart = pickingRoute["gps_tracking"];
+          _trip.gpsEnd = pickingRoute["gps_tracking_des"];
+          PickingTransportInfo_State.values.forEach((value) {
+            if (Common.getValueEnum(value) == pickingTransportInfo["state"])
+              switch (value) {
+                case PickingTransportInfo_State.draft:
+                  _trip.status = StatusBus.list[0];
+                  break;
+                case PickingTransportInfo_State.halt:
+                  _trip.status = StatusBus.list[1];
+
+                  break;
+                case PickingTransportInfo_State.done:
+                  if (_trip.type == 0)
+                    _trip.status = StatusBus.list[2];
+                  else
+                    _trip.status = StatusBus.list[4];
+                  break;
+                case PickingTransportInfo_State.cancel:
+                  _trip.status = StatusBus.list[3];
+                  break;
+                default:
+              }
+          });
+
+          _trip.children =
+              Children.fromJsonController(pickingIds[j]["partner_id"]);
+          _trip.driver = Driver.fromJsonController(pickingIds[j]["driver"]);
+          _trip.vechicleId = pickingIds[j]["vehicle"]["id"];
+          _trip.vehicleName = pickingIds[j]["vehicle"]["name"] != null
+              ? pickingIds[j]["vehicle"]["name"].toString().split('/').last
+              : "";
+          historyTrip.trip.add(_trip);
+        }
+        listResult.add(historyTrip);
+      }
+      return listResult;
     });
   }
 }
