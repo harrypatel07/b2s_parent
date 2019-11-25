@@ -23,7 +23,8 @@ class OneSignalService {
     });
   }
 
-  static sendTags(Map<String, dynamic> tags) {
-    OneSignal.shared.sendTags(tags);
+  static Future<Map<String, dynamic>> sendTags(
+      Map<String, dynamic> tags) async {
+    return OneSignal.shared.sendTags(tags);
   }
 }

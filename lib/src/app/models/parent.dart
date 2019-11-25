@@ -100,6 +100,21 @@ class Parent {
     return data;
   }
 
+  Map<String, dynamic> toJsonOneSignal() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    // data['photo'] = this.photo;
+    data['email'] = this.email;
+    data['phone'] = this.phone;
+    data['gender'] = this.gender;
+    data['genderId'] = this.genderId;
+    data['contactAddress'] = this.contactAddress;
+    data['listChildren'] =
+        this.listChildren.map((item) => item.toJson()).toList();
+    return data;
+  }
+
   Future<dynamic> saveLocal() async {
     return localStorage.setItem(Parent.aliasName, json.encode(this));
   }
