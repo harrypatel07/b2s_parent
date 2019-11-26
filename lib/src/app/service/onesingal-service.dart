@@ -5,6 +5,9 @@ class OneSignalService {
     return OneSignal.shared.init(appId, iOSSettings: {
       OSiOSSettings.autoPrompt: false,
       OSiOSSettings.inAppLaunchUrl: true
+    }).then((_) {
+      OneSignal.shared
+          .setInFocusDisplayType(OSNotificationDisplayType.notification);
     });
   }
 

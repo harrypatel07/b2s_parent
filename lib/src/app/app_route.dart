@@ -1,6 +1,7 @@
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/pages/busAttendance/bus_attendance_page.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page.dart';
+import 'package:b2s_parent/src/app/pages/historyDetail/history_detail_page.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page.dart';
 import 'package:b2s_parent/src/app/pages/leave/leave_page.dart';
 import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page.dart';
@@ -69,7 +70,8 @@ class Routes {
     ProfileMessageUserPage.routeName: (context) => ProfileMessageUserPage(
         userModel: ModalRoute.of(context).settings.arguments),
     ContactsPage.routeName: (context) => ContactsPage(),
-    TicketsDetailPage.routeName: (context) => TicketsDetailPage(args:ModalRoute.of(context).settings.arguments)
+    TicketsDetailPage.routeName: (context) => TicketsDetailPage(args:ModalRoute.of(context).settings.arguments),
+    HistoryDetailPage.routeName: (context) => HistoryDetailPage(historyInfo: ModalRoute.of(context).settings.arguments,),
   };
 }
 

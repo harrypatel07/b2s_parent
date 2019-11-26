@@ -103,7 +103,7 @@ class GoogleMapService {
   ///Hàm xác định xe đã gần tới trạm
   ///true <=> cách trạm <= distance
   ///false <=> cách trạm > distance
-  static bool isNearLocation(
+  static bool checkTwoPointCloserDistance(
       LatLng latLngCurrent, LatLng latLngStation, double distance) {
     double dLat =
         (latLngStation.latitude - latLngCurrent.latitude) * (math.pi / 180);

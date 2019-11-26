@@ -31,21 +31,31 @@ class MessagePageViewModel extends ViewModelBase {
   Future listenData() async {
     int checkDone = 0;
     if (streamCloud != null) streamCloud.cancel();
-    final _snap = await cloudService.chat.listenListMessageByUserId(parent.id.toString());
+    final _snap =
+        await cloudService.chat.listenListMessageByUserId(parent.id.toString());
     streamCloud = _snap.listen((onData) {
       if (onData.documents.length > 0) {
+        onData.documents.sort((a, b) {
+          var timeStampA = double.parse(a.data["timestamp"].toString());
+          var timeStampB = double.parse(b.data["timestamp"].toString());
+          if (timeStampA > timeStampB) return 0;
+          return 1;
+        });
+
         listChat = onData.documents
             .map((item) => Chatting.fromDocumentSnapShot(item))
             .toList();
-        var itemParent = listChat.firstWhere((item)=>int.parse(item.peerId) == parent.id);
-        if(itemParent != null) listChat.remove(itemParent);
+        var itemParent =
+            listChat.firstWhere((item) => int.parse(item.peerId) == parent.id);
+        if (itemParent != null) listChat.remove(itemParent);
         //get image listChat
         listChat.forEach((item) {
           api.getCustomerInfo(item.peerId).then((onValue) {
             item.name = onValue.displayName;
             item.avatarUrl = onValue.image;
-            listProfileMessageUser.add(ProfileMessageUserModel.fromDocumentSnapShot(onValue));
-            if(checkDone++==listChat.length-1){
+            listProfileMessageUser
+                .add(ProfileMessageUserModel.fromDocumentSnapShot(onValue));
+            if (checkDone++ == listChat.length - 1) {
               loadingDataMessage = false;
               this.updateState();
             }
@@ -63,10 +73,11 @@ class MessagePageViewModel extends ViewModelBase {
     );
   }
 
-  onTapProfileMessageUser(int peerId){
-    listProfileMessageUser.forEach((userModel){
-      if(userModel.peerId == peerId)
-        Navigator.pushNamed(context, ProfileMessageUserPage.routeName,arguments:userModel);
+  onTapProfileMessageUser(int peerId) {
+    listProfileMessageUser.forEach((userModel) {
+      if (userModel.peerId == peerId)
+        Navigator.pushNamed(context, ProfileMessageUserPage.routeName,
+            arguments: userModel);
     });
   }
 }

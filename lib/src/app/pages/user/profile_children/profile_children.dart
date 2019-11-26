@@ -8,9 +8,11 @@ import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children_
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:validators/sanitizers.dart';
 
 class ProfileChildrenPage extends StatefulWidget {
   static const String routeName = "/profileChildren";
@@ -234,14 +236,14 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
     Widget row2(String title1, String content1, String title2, String content2,
         bool type) {
       return Container(
-        color: Colors.white,
-        padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 15),
+        padding: EdgeInsets.only(left: 5.0, right: 5.0, top: 15, bottom: 15),
         child: Column(
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Expanded(
-                  flex: 3,
+                  flex: 1,
                   child: SizedBox(),
                 ),
                 Expanded(
@@ -270,7 +272,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                 Expanded(
                   flex: 5,
                   child: Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.center,
                     child: Text(
                       content1,
                       textAlign: TextAlign.left,
@@ -282,9 +284,10 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Expanded(
-                  flex: 3,
+                  flex: 1,
                   child: SizedBox(),
                 ),
                 Expanded(
@@ -313,7 +316,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                 Expanded(
                   flex: 5,
                   child: Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.center,
                     child: Text(
                       content2,
                       textAlign: TextAlign.left,
@@ -364,9 +367,10 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
       );
     }
 
-    Widget rowIcon(String title, String content, String phoneNumber) {
+    Widget rowIcon(
+        {String title, String content, String phoneNumber, Function onTap}) {
       return Container(
-        color: Colors.white,
+        color: Colors.transparent,
         padding: EdgeInsets.only(left: 15.0, right: 15.0),
         child: Row(
           children: <Widget>[
@@ -378,7 +382,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                 child: Text(
                   title,
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16,),
                 ),
               ),
             ),
@@ -387,7 +391,10 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    flex: 10,
+                    flex: (phoneNumber != null &&
+                        toBoolean(phoneNumber) != false)
+                        ? 10
+                        : 14,
                     child: Container(
                       padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
                       alignment: Alignment.centerLeft,
@@ -395,11 +402,13 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                         content,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
-                  if (phoneNumber != null)
+                  if (phoneNumber != null && toBoolean(phoneNumber) != false)
                     Expanded(
                       flex: 2,
                       child: InkWell(
@@ -408,7 +417,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: 2),
-                          //color: Colors.amber,
+//color: Colors.amber,
                           child: Align(
                             alignment: Alignment.center,
                             child: Icon(
@@ -419,7 +428,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                         ),
                       ),
                     ),
-                  if (phoneNumber != null)
+                  if (phoneNumber != null && toBoolean(phoneNumber) != false)
                     Expanded(
                       flex: 2,
                       child: InkWell(
@@ -427,7 +436,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                           launch("sms://$phoneNumber");
                         },
                         child: Container(
-                          // color: Colors.red,
+// color: Colors.red,
                           margin: EdgeInsets.only(left: 2),
                           child: Align(
                             alignment: Alignment.center,
@@ -438,7 +447,25 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                           ),
                         ),
                       ),
-                    )
+                    ),
+                  Expanded(
+                    flex: 2,
+                    child: InkWell(
+                      onTap: onTap,
+                      child: Container(
+// color: Colors.red,
+                        margin: EdgeInsets.only(left: 4),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Icon(
+                            FontAwesomeIcons.facebookMessenger,
+                            color: ThemePrimary.primaryColor,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -520,18 +547,24 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                       row1('Biển số xe :',
                           viewModel.childrenBusSession.vehicleName.toString()),
                       hr,
-                      rowIcon(
+                      rowIcon(title:
                           'Tài xế :',
-                          viewModel.childrenBusSession.driver.name,
-                          viewModel.childrenBusSession.driver.phone),
+                          content: viewModel.childrenBusSession.driver.name,
+                          phoneNumber:viewModel.childrenBusSession.driver.phone,
+                      onTap: (){
+                        viewModel.onTapChatDriver();
+                      }),
                       if (viewModel.startDepart != null)
                         hr,
-                      rowIcon(
+                      rowIcon(title:
                           'QL đưa đón :',
-                          viewModel.childrenBusSession.attendant.name
+                          content:viewModel.childrenBusSession.attendant.name
                               .toString(),
-                          viewModel.childrenBusSession.attendant.phone
-                              .toString()),
+                          phoneNumber:viewModel.childrenBusSession.attendant.phone
+                              .toString(),
+                      onTap: (){
+                        viewModel.onTapChatAttendant();
+                      }),
                       hr,
 //                rowIcon('QL tại trường :', 'Âu Dương Phong', '0983932940'),
 //                hr,
@@ -554,6 +587,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
         ),
       ),
     );
+    viewModel.context = context;
     return Scaffold(
       body: ViewModelProvider(
         viewmodel: viewModel,

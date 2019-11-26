@@ -20,14 +20,14 @@ class Menu {
   static List<Menu> tabMenu = <Menu>[
     Menu(
       index: 0,
-      title: "Home",
+      title: "Trang chủ",
       iconData: Icons.home,
       page: HomePage(),
       routeChildName: HomePage.routeName,
     ),
     Menu(
       index: 1,
-      title: "Trips",
+      title: "Lịch sử chuyến",
       iconData: FontAwesomeIcons.child,
       page: HistoryPage(),
       routeChildName: HistoryPage.routeName,
@@ -41,7 +41,7 @@ class Menu {
     // ),
     Menu(
       index: 2,
-      title: "User",
+      title: "Người dùng",
       iconData: Icons.person,
       page: UserPage(),
       routeChildName: UserPage.routeName,

@@ -918,6 +918,7 @@ class Api1 extends ApiMaster {
                   _trip.status = StatusBus.list[3];
                   break;
                 default:
+                  _trip.status = StatusBus.list[0];
               }
           });
 

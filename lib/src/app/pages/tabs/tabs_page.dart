@@ -1,7 +1,5 @@
-import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/menu.dart';
-import 'package:b2s_parent/src/app/pages/sidemenu/sidemenu_page.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';

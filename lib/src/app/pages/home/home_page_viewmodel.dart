@@ -33,7 +33,9 @@ class HomePageViewModel extends ViewModelBase {
     if (streamCloud != null) streamCloud.cancel();
     super.dispose();
   }
-
+  Children getChildrenFromParent(int childrenId){
+    return Parent().listChildren.firstWhere((children)=>children.id == childrenId);
+  }
   void categoryOnPress(Category category) {
     tabsPageViewModel = ViewModelProvider.of(context);
     Category.categories.asMap().forEach((index, cat) async {

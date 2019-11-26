@@ -146,7 +146,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
               arguments: ProfileChildrenPageArgs(
                   listRouteBus: _listRouteBus,
                   childrenBusSession: childrenBusSession,
-                  children: childrenBusSession.child));
+                  children: viewModel.getChildrenFromParent(childrenBusSession.child.id)));
         },
         onTapLeave: () {
           popupConfirm(

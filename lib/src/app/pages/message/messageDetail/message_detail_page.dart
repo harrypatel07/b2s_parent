@@ -155,14 +155,15 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.camera_alt,
-                    color: Colors.grey,
-                  ),
-                  iconSize: 32.0,
-                ),
+//                IconButton(
+//                  onPressed: () {},
+//                  icon: Icon(
+//                    Icons.camera_alt,
+//                    color: Colors.grey,
+//                  ),
+//                  iconSize: 32.0,
+//                ),
+                SizedBox(),
                 _textInput(),
                 IconButton(
                   onPressed: () {
