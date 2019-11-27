@@ -224,7 +224,8 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
                     width: MediaQuery.of(context).size.width,
                     height: 250,
                     margin: EdgeInsets.only(top: 20),
-                    child: Center(
+                    child: Align(
+                      alignment: Alignment.topCenter,
                         child: Text(
                       "Không có chuyến đi trong ngày.",
                       style: TextStyle(

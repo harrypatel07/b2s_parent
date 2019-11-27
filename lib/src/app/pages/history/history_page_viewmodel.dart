@@ -9,21 +9,46 @@ import 'package:flutter/cupertino.dart';
 
 class HistoryPageViewModel extends ViewModelBase {
   List<HistoryTrip> listHistoryTrip = List();
+  ScrollController controller;
   int take = 20;
   int skip = 0;
+  bool loadingMore = true;
   HistoryPageViewModel() {
+    controller = ScrollController();
+    controller.addListener(() {
+      if(controller.offset == controller.position.maxScrollExtent)
+        onLoadMore();
+    });
     onLoad();
   }
   onLoad() {
     loading = true;
+    take = 20;
+    skip = 0;
+    api.getHistoryTrip(take: take, skip: skip).then((data) {
+      if (data.length > 0) {
+        listHistoryTrip = List();
+        data.forEach((item) {
+          listHistoryTrip.add(item);
+        });
+        loading = false;
+        skip += take;
+        take += 20;
+        this.updateState();
+      }
+    });
+  }
+  onLoadMore() {
+    loadingMore = true;
     api.getHistoryTrip(take: take, skip: skip).then((data) {
       if (data.length > 0) {
         data.forEach((item) {
-          listHistoryTrip.insert(0, item);
+          listHistoryTrip.add(item);
         });
-        loading = false;
-        this.updateState();
+        loadingMore = false;
         skip += take;
+        take += 20;
+        this.updateState();
       }
     });
   }

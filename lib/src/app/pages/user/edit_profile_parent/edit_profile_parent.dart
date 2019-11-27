@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:validators/sanitizers.dart';
 
 class EditProfileParent extends StatefulWidget {
   static const String routeName = "/editProfileParent";
@@ -27,10 +28,10 @@ class _EditProfileParentState extends State<EditProfileParent> {
     //viewModel.imagePicker = widget.parent.photo;
     if (widget.parent != null) {
       viewModel.nameEditingController.text = widget.parent.name;
-      viewModel.phoneEditingController.text = widget.parent.phone;
-      viewModel.emailEditingController.text = widget.parent.email;
-      viewModel.addressEditingController.text = widget.parent.contactAddress;
-      viewModel.genderEditingController.text = widget.parent.gender.toString();
+      viewModel.phoneEditingController.text = toBoolean(widget.parent.phone.toString()) != false?widget.parent.phone:'';
+      viewModel.emailEditingController.text = toBoolean(widget.parent.email.toString()) != false?widget.parent.email:'';
+      viewModel.addressEditingController.text = widget.parent.contactAddress.toString();
+      viewModel.genderEditingController.text = (widget.parent.gender == null)?'':widget.parent.gender.toString();
     }
     super.initState();
   }

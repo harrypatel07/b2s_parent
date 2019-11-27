@@ -16,6 +16,7 @@ import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:validators/sanitizers.dart';
 
 class EditProfileChildrenViewModel extends ViewModelBase {
   List<ItemDropDownField> listGender = List();
@@ -102,10 +103,10 @@ class EditProfileChildrenViewModel extends ViewModelBase {
       _ageEditingController.text = children.age.toString();
       _schoolNameEditingController.text = children.schoolName;
       _addressEditingController.text = children.location;
-      _genderEditingController.text = children.gender;
+      _genderEditingController.text = (children.gender == null)?'':children.gender.toString();
       _emailEditingController.text = children.email ?? parent.email;
       _classesEditingController.text = children.classes.toString();
-      _phoneEditingController.text = children.phone.toString();
+      _phoneEditingController.text = toBoolean(children.phone.toString()) != false?children.phone:'';
       _birthDayEditingController.text = (children.birthday != false)
           ? DateFormat('dd/MM/yyyy')
               .format(DateTime.parse(children.birthday.toString()))

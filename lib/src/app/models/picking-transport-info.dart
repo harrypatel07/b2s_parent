@@ -120,7 +120,7 @@ class PickingTransportInfo {
 
   PickingTransportInfo.fromChildrenBusSession(ChildrenBusSession cbs) {
     id = cbs.sessionID;
-
+    note = cbs.note = "PH";
     switch (cbs.status.statusID) {
       // StatusBus(0, "Đang chờ", 0xFFFFD752),
       // StatusBus(1, "Đang trong chuyến", 0xFF8FD838),
@@ -320,7 +320,7 @@ class PickingTransportInfo {
     // data['message_unread_counter'] = this.messageUnreadCounter;
     // data['name'] = this.name;
     // data['no_of_parcel'] = this.noOfParcel;
-    // data['note'] = this.note;
+    if (this.note != null) data['note'] = this.note;
     // data['number_of_packages'] = this.numberOfPackages;
     // data['picking_route_ids'] = this.pickingRouteIds;
     // data['saleorder_id'] = this.saleorderId;

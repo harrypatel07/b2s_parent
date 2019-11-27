@@ -45,9 +45,7 @@ class MessagePageViewModel extends ViewModelBase {
         listChat = onData.documents
             .map((item) => Chatting.fromDocumentSnapShot(item))
             .toList();
-        var itemParent =
-            listChat.firstWhere((item) => int.parse(item.peerId) == parent.id);
-        if (itemParent != null) listChat.remove(itemParent);
+        listChat.removeWhere((item)=>int.parse(item.peerId) == parent.id);
         //get image listChat
         listChat.forEach((item) {
           api.getCustomerInfo(item.peerId).then((onValue) {

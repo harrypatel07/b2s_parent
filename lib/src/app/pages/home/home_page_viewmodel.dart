@@ -14,6 +14,7 @@ import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page.dart';
 
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/models/category.dart';
+import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:flutter/material.dart';
 
 import '../../app_route.dart';
@@ -33,9 +34,13 @@ class HomePageViewModel extends ViewModelBase {
     if (streamCloud != null) streamCloud.cancel();
     super.dispose();
   }
-  Children getChildrenFromParent(int childrenId){
-    return Parent().listChildren.firstWhere((children)=>children.id == childrenId);
+
+  Children getChildrenFromParent(int childrenId) {
+    return Parent()
+        .listChildren
+        .firstWhere((children) => children.id == childrenId);
   }
+
   void categoryOnPress(Category category) {
     tabsPageViewModel = ViewModelProvider.of(context);
     Category.categories.asMap().forEach((index, cat) async {
@@ -52,8 +57,13 @@ class HomePageViewModel extends ViewModelBase {
           if (category.routeName == LeavePage.routeName) {
             List<Children> listChildrenPaidTicket =
                 Children.getListChildrenPaidTicket(Parent().listChildren);
-            Navigator.pushNamed(context, category.routeName,
-                arguments: listChildrenPaidTicket);
+            if (listChildrenPaidTicket.length > 0)
+              Navigator.pushNamed(context, category.routeName,
+                  arguments: listChildrenPaidTicket);
+            else {
+              LoadingDialog.showMsgDialog(context,
+                  'Hãy đăng ký thông tin cho trẻ trước, sau đó có thể sử dụng chức năng này.');
+            }
           } else {
             final result = await Navigator.pushNamed(
               context,
@@ -72,10 +82,14 @@ class HomePageViewModel extends ViewModelBase {
     //  tabsPageViewModel = ViewModelProvider.of(context);
     //  tabsPageViewModel.locateBusPageViewModel.childrenBus = data;
     //  tabsPageViewModel.locateBusPageViewModel.listenData(data.sessionID);
-    Navigator.pushNamed(context, LocateBusPage.routeName,
-        arguments: LocateBusArgument(data));
+    if (data.status.statusID == 3) return;
+    if (data.status.statusID == 2 || data.status.statusID == 4)
+      LoadingDialog.showMsgDialog(context, 'Chuyến đi đã hoàn thành.');
+    else
+      Navigator.pushNamed(context, LocateBusPage.routeName,
+          arguments: LocateBusArgument(data));
 //    api.getListChildrenBusSessionV2();
-    api.getHistoryTrip(take: 20, skip: 0);
+    // api.getHistoryTrip(take: 20, skip: 0);
   }
 
   loadData() {

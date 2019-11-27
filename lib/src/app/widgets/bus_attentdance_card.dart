@@ -141,10 +141,15 @@ class BusAttentdanceCard extends StatelessWidget {
                     SizedBox(
                       width: 5,
                     ),
-                    Text(childrenBusSession.status.statusName,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: colorText)),
+                    Expanded(
+                      child: Text(
+                          childrenBusSession.status.statusID == 3
+                              ? "${childrenBusSession.status.statusName}(${childrenBusSession.note.toString()})"
+                              : childrenBusSession.status.statusName,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: colorText)),
+                    ),
                   ],
                 ),
               ],

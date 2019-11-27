@@ -19,6 +19,22 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPageState extends State<HistoryPage> {
   HistoryPageViewModel viewModel = HistoryPageViewModel();
+//  GlobalKey _key = GlobalKey();
+//  Offset _position = Offset(0.0,0.0);
+//  Size _size = Size(0,0);
+  @override
+  void initState() {
+//    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
+//      _getSizeAndPosition();
+//    }));
+    super.initState();
+  }
+
+//  _getSizeAndPosition() {
+//    final RenderBox renderBox = _key.currentContext.findRenderObject();
+//    _position = renderBox.localToGlobal(Offset.zero);
+//    _size = renderBox.size;
+//  }
   @override
   Widget build(BuildContext context) {
     viewModel.context = context;
@@ -79,7 +95,7 @@ class _HistoryPageState extends State<HistoryPage> {
       );
     }
 
-    Widget _buildSeparator({Color color}) {
+    Widget _buildSeparator({HistoryInfo historyInfo, Color color}) {
       if (color == null) color = Color(0XFF626368);
       return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
@@ -87,37 +103,62 @@ class _HistoryPageState extends State<HistoryPage> {
           final dashWidth = 3.0;
           final dashHeight = 0.5;
           final dashCount = (boxWidth / (2 * dashWidth)).floor();
-          return Row(
+          return Stack(
             children: <Widget>[
-              Expanded(
-                child: Flex(
-                  children: List.generate(dashCount, (_) {
-                    return SizedBox(
-                      width: dashWidth,
-                      height: dashHeight,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(color: color),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Flex(
+                      children: List.generate(dashCount, (_) {
+                        return SizedBox(
+                          width: dashWidth,
+                          height: dashHeight,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(color: color),
+                          ),
+                        );
+                      }),
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      direction: Axis.horizontal,
+                    ),
+                  ),
+                  Container(
+                      height: 35,
+                      width: 20,
+                      decoration: BoxDecoration(
+                          color: color.withAlpha(800),
+                          shape: BoxShape.circle,
+                          border: Border.all(color: color, width: 1.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                              color: color, shape: BoxShape.circle),
+                        ),
+                      ))
+                ],
+              ),
+              Positioned(
+                width: boxWidth - 20,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+//                  Expanded(flex: 1, child: Container()),
+                      Text(
+                        historyInfo.status.statusName,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Color(historyInfo.status.statusColor),
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
                       ),
-                    );
-                  }),
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  direction: Axis.horizontal,
+                    ],
+                  ),
                 ),
               ),
-              Container(
-                  height: 20,
-                  width: 20,
-                  decoration: BoxDecoration(
-                      color: color.withAlpha(800),
-                      shape: BoxShape.circle,
-                      border: Border.all(color: color, width: 1.0)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: DecoratedBox(
-                      decoration:
-                          BoxDecoration(color: color, shape: BoxShape.circle),
-                    ),
-                  ))
             ],
           );
         },
@@ -127,146 +168,127 @@ class _HistoryPageState extends State<HistoryPage> {
     /// type: 0 or 1.0 = đi, 1 = về
     Widget _buildRightSection(HistoryInfo historyInfo) {
       return InkWell(
-        onTap: (){
+        onTap: () {
           viewModel.onTapHistoryDetail(historyInfo);
         },
-        child: Stack(
-          children: <Widget>[
-            Card(
-              // decoration: BoxDecoration(
-              //   color: Colors.white,
-              //   borderRadius: BorderRadius.circular(4.0),
-              // ),
-              // padding: EdgeInsets.only(top: 0),
-              elevation: 2,
-              shape: BeveledRectangleBorder(
-                borderRadius: BorderRadius.circular(2.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
+        child: Card(
+          // decoration: BoxDecoration(
+          //   color: Colors.white,
+          //   borderRadius: BorderRadius.circular(4.0),
+          // ),
+          // padding: EdgeInsets.only(top: 0),
+          elevation: 2,
+          shape: BeveledRectangleBorder(
+            borderRadius: BorderRadius.circular(2.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: <Widget>[
+                Row(
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "ĐÓN",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black12,
-                          ),
-                        ),
-                        Expanded(flex: 6, child: Container()),
-                        Text(
-                          "TRẢ",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black12,
-                          ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          historyInfo.timePickup,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                          ),
-                        ),
-                        Expanded(flex: 6, child: Container()),
-                        Text(
-                          historyInfo.timeDrop,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                          ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(historyInfo.type == 0 ? "Nhà" : "Trường",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.black87,
-                            )),
-                        Expanded(
-                            flex: 6,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10, right: 10),
-                              child: _buildSeparator(
-                                  color:historyInfo!=null? historyInfo.status.statusID == 3
-                                      ? Colors.grey
-                                      : Color(historyInfo.status.statusColor):Color(historyInfo.status.statusColor)),
-                            )),
-                        Text(historyInfo.type == 0 ? "Trường" : "Nhà",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.black87,
-                            ))
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        CachedNetworkImage(
-                          imageUrl: historyInfo.children.photo,
-                          imageBuilder: (context, imageProvider) => CircleAvatar(
-                            radius: 15.0,
-                            backgroundImage: imageProvider,
-                            backgroundColor: Colors.transparent,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(historyInfo.children.name,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                              color: Colors.grey[500],
-                            )),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              width: MediaQuery.of(context).size.width*0.3,
-              top: 40,
-              left: 50,
-              child: Container(
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-//                  Expanded(flex: 1, child: Container()),
                     Text(
-                      historyInfo.status.statusName,
+                      "ĐÓN",
                       style: TextStyle(
                         fontSize: 12,
-                        color: Color(historyInfo.status.statusColor),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black12,
                       ),
-                      overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,),
+                    ),
+                    Expanded(flex: 6, child: Container()),
+                    Text(
+                      "TRẢ",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black12,
+                      ),
+                    )
                   ],
                 ),
-              ),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      historyInfo.timePickup,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    Expanded(flex: 6, child: Container()),
+                    Text(
+                      historyInfo.timeDrop,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Text(historyInfo.type == 0 ? "Nhà" : "Trường",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black87,
+                        )),
+                    Expanded(
+                        flex: 6,
+                        child: Container(
+//                          color: Colors.pinkAccent,
+                          height: 35,
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: _buildSeparator(
+                              historyInfo: historyInfo,
+                              color: historyInfo != null
+                                  ? historyInfo.status.statusID == 3
+                                      ? Colors.grey
+                                      : Color(historyInfo.status.statusColor)
+                                  : Color(historyInfo.status.statusColor)),
+                        )),
+                    Text(historyInfo.type == 0 ? "Trường" : "Nhà",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black87,
+                        ))
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    CachedNetworkImage(
+                      imageUrl: historyInfo.children.photo,
+                      imageBuilder: (context, imageProvider) => CircleAvatar(
+                        radius: 15.0,
+                        backgroundImage: imageProvider,
+                        backgroundColor: Colors.transparent,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(historyInfo.children.name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                          color: Colors.grey[500],
+                        )),
+                  ],
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       );
     }
 
     ///type: 0 or 1.0 = đi, 1 = về
-    Widget _listItem(HistoryTrip historyTrip,List<HistoryInfo> listHistoryInfo) {
+    Widget _listItem(
+        HistoryTrip historyTrip, List<HistoryInfo> listHistoryInfo) {
       return Container(
         padding: EdgeInsets.only(left: 10, right: 10),
         child: Row(
@@ -310,7 +332,7 @@ class _HistoryPageState extends State<HistoryPage> {
               ))
           .toList();
       return Container(
-        child: _listItem(historyTrip,__listHistoryInfo),
+        child: _listItem(historyTrip, __listHistoryInfo),
       );
     }
 
@@ -319,11 +341,30 @@ class _HistoryPageState extends State<HistoryPage> {
         viewModel.onLoad();
       },
       child: ListView(
-        reverse: true,
+        controller: viewModel.controller,
+        shrinkWrap: true,
         children: <Widget>[
-          SizedBox(height: 40,),
           ...viewModel.listHistoryTrip
               .map((historyTrip) => _listTrip(historyTrip)),
+          if (viewModel.loadingMore)
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 50,
+              color: Colors.transparent,
+              child:Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(ThemePrimary.primaryColor),
+                  ),
+                  SizedBox(width: 15,),
+                  Text('Đang tải dữ liệu ...',),
+                ],
+              ),
+            ),
+          SizedBox(
+            height: 40,
+          ),
         ],
       ),
     );

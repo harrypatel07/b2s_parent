@@ -22,7 +22,7 @@ class ChildrenBusSession {
   dynamic vehicleId;
   dynamic vehicleName;
   dynamic type; // 0 là đi, 1 là về.
-
+  dynamic note; // PH - TX - QLĐĐ
   ChildrenBusSession.fromJsonController(
       {Map<dynamic, dynamic> picking,
       Children objChildren,
@@ -41,7 +41,7 @@ class ChildrenBusSession {
     if (objDriver != null) driver = objDriver;
     if (objAttendant != null) attendant = objAttendant;
     notification = "";
-
+    note = picking["note"] is bool ? "" : picking["note"];
     PickingTransportInfo_State.values.forEach((value) {
       if (Common.getValueEnum(value) == picking["state"])
         switch (value) {
@@ -126,6 +126,7 @@ class ChildrenBusSession {
     status = StatusBus.fromJson(json['status']);
     schoolName = json['schoolName'];
     notification = json['notification'];
+    note = json['note'];
   }
 
   Map<dynamic, dynamic> toJson() {
@@ -138,6 +139,7 @@ class ChildrenBusSession {
     data['status'] = this.status.toJson();
     data['schoolName'] = this.schoolName;
     data['notification'] = this.notification;
+    data['note'] = this.note;
     return data;
   }
 
@@ -150,7 +152,9 @@ class ChildrenBusSession {
       this.schoolName,
       this.notification,
       this.vehicleId,
-      this.vehicleName}); //
+      this.vehicleName,
+      this.type,
+      this.note}); //
   static List<ChildrenBusSession> list = [
     ChildrenBusSession(
         sessionID: "S01",

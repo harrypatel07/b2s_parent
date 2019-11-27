@@ -297,7 +297,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
         ),
       );
     }
-    Widget _buildSeparator({Color color}) {
+    Widget _buildSeparator({HistoryInfo historyInfo, Color color}) {
       if (color == null) color = Color(0XFF626368);
       return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
@@ -305,37 +305,62 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
           final dashWidth = 3.0;
           final dashHeight = 0.5;
           final dashCount = (boxWidth / (2 * dashWidth)).floor();
-          return Row(
+          return Stack(
             children: <Widget>[
-              Expanded(
-                child: Flex(
-                  children: List.generate(dashCount, (_) {
-                    return SizedBox(
-                      width: dashWidth,
-                      height: dashHeight,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(color: color),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Flex(
+                      children: List.generate(dashCount, (_) {
+                        return SizedBox(
+                          width: dashWidth,
+                          height: dashHeight,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(color: color),
+                          ),
+                        );
+                      }),
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      direction: Axis.horizontal,
+                    ),
+                  ),
+                  Container(
+                      height: 35,
+                      width: 20,
+                      decoration: BoxDecoration(
+                          color: color.withAlpha(800),
+                          shape: BoxShape.circle,
+                          border: Border.all(color: color, width: 1.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                              color: color, shape: BoxShape.circle),
+                        ),
+                      ))
+                ],
+              ),
+              Positioned(
+                width: boxWidth - 20,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+//                  Expanded(flex: 1, child: Container()),
+                      Text(
+                        historyInfo.status.statusName,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Color(historyInfo.status.statusColor),
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
                       ),
-                    );
-                  }),
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  direction: Axis.horizontal,
+                    ],
+                  ),
                 ),
               ),
-              Container(
-                  height: 20,
-                  width: 20,
-                  decoration: BoxDecoration(
-                      color: color.withAlpha(800),
-                      shape: BoxShape.circle,
-                      border: Border.all(color: color, width: 1.0)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: DecoratedBox(
-                      decoration:
-                      BoxDecoration(color: color, shape: BoxShape.circle),
-                    ),
-                  ))
             ],
           );
         },
@@ -360,7 +385,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
             rowIcon(title:
             'Tài xế :',
                 content: widget.historyInfo.driver.name,
-                phoneNumber:widget.historyInfo.driver.phone,
+                phoneNumber:widget.historyInfo.driver.phone.toString(),
                 onTap: (){
                   viewModel.onTapChatDriver();
                 }),
@@ -399,129 +424,110 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
         builder: (context,snapshot){
           return Scaffold(
             appBar: TS24AppBar(title: Text('Lịch sử chi tiết chuyến'),),
-            body: Stack(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Text(
-                            "ĐÓN",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black12,
-                            ),
-                          ),
-                          Expanded(flex: 6, child: Container()),
-                          Text(
-                            "TRẢ",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black12,
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Text(
-                            widget.historyInfo.timePickup,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black54,
-                            ),
-                          ),
-                          Expanded(flex: 6, child: Container()),
-                          Text(
-                            widget.historyInfo.timeDrop,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black54,
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Text(widget.historyInfo.type == 0 ? "Nhà" : "Trường",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.black87,
-                              )),
-                          Expanded(
-                              flex: 6,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10, right: 10),
-                                child: _buildSeparator(
-                                    color: widget.historyInfo.status.statusID == 3
-                                        ? Colors.grey
-                                        : Color(widget.historyInfo.status.statusColor)),
-                              )),
-                          Text(widget.historyInfo.type == 0 ? "Trường" : "Nhà",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.black87,
-                              ))
-                        ],
-                      ),
-                      SizedBox(height: 5,),
-                      Row(
-                        children: <Widget>[
-                          CachedNetworkImage(
-                            imageUrl: widget.historyInfo.children.photo,
-                            imageBuilder: (context, imageProvider) => CircleAvatar(
-                              radius: 20.0,
-                              backgroundImage: imageProvider,
-                              backgroundColor: Colors.transparent,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(widget.historyInfo.children.name,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: Colors.grey[500],
-                              )),
-                        ],
-                      ),
-                      SizedBox(height: 20,),
-                      busInfo
-                    ],
-                  ),
-                ),
-                Positioned(
-                  width: MediaQuery.of(context).size.width*0.55,
-                  top: 40,
-                  left: 50,
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: <Widget>[
+                    Row(
                       children: <Widget>[
-//                  Expanded(flex: 1, child: Container()),
                         Text(
-                          widget.historyInfo.status.statusName,
+                          "ĐÓN",
                           style: TextStyle(
                             fontSize: 12,
-                            color: Color(widget.historyInfo.status.statusColor),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black12,
                           ),
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,),
+                        ),
+                        Expanded(flex: 6, child: Container()),
+                        Text(
+                          "TRẢ",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black12,
+                          ),
+                        )
                       ],
                     ),
-                  ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          viewModel.historyInfo.timePickup,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54,
+                          ),
+                        ),
+                        Expanded(flex: 6, child: Container()),
+                        Text(
+                          viewModel.historyInfo.timeDrop,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54,
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(viewModel.historyInfo.type == 0 ? "Nhà" : "Trường",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.black87,
+                            )),
+                        Expanded(
+                            flex: 6,
+                            child: Container(
+//                          color: Colors.pinkAccent,
+                              height: 35,
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.only(left: 10, right: 10),
+                              child: _buildSeparator(
+                                  historyInfo: viewModel.historyInfo,
+                                  color: viewModel.historyInfo != null
+                                      ? viewModel.historyInfo.status.statusID == 3
+                                      ? Colors.grey
+                                      : Color(viewModel.historyInfo.status.statusColor)
+                                      : Color(viewModel.historyInfo.status.statusColor)),
+                            )),
+                        Text(viewModel.historyInfo.type == 0 ? "Trường" : "Nhà",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.black87,
+                            ))
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        CachedNetworkImage(
+                          imageUrl: viewModel.historyInfo.children.photo,
+                          imageBuilder: (context, imageProvider) => CircleAvatar(
+                            radius: 15.0,
+                            backgroundImage: imageProvider,
+                            backgroundColor: Colors.transparent,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(viewModel.historyInfo.children.name,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: Colors.grey[500],
+                            )),
+                      ],
+                    ),
+                    SizedBox(height: 20,),
+                    busInfo
+                  ],
                 ),
-              ],
+              ),
             ),
           );
         },

@@ -184,6 +184,7 @@ class CollectionBusSession extends InterfaceFireStore {
             if (genId == onData.documentID) {
               item.status = StatusBus.list[onData.data["statusId"]];
               item.notification = onData.data["notification"];
+              if (onData.data["note"] != null) item.note = onData.data["note"];
             }
           });
           if (callBack is Function) {

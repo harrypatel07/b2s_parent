@@ -898,6 +898,7 @@ class Api1 extends ApiMaster {
           _trip.realEndTime = pickingRoute["real_end_time"];
           _trip.gpsStart = pickingRoute["gps_tracking"];
           _trip.gpsEnd = pickingRoute["gps_tracking_des"];
+          _trip.type = pickingTransportInfo["type"] == "outgoing" ? 0 : 1;
           PickingTransportInfo_State.values.forEach((value) {
             if (Common.getValueEnum(value) == pickingTransportInfo["state"])
               switch (value) {

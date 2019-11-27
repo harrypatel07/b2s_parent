@@ -8,12 +8,15 @@ class BusSession {
   String notification;
   int statusId;
   int childrenId;
-  BusSession({this.id, this.notification, this.statusId, this.childrenId});
+  String note;
+  BusSession(
+      {this.id, this.notification, this.statusId, this.childrenId, this.note});
 
   BusSession.fromChildrenBusSession(ChildrenBusSession childrenBusSession) {
     this.notification = childrenBusSession.notification;
     this.statusId = childrenBusSession.status.statusID;
     this.childrenId = childrenBusSession.child.id;
+    this.note = childrenBusSession.note;
     this.id = md5
         .convert(utf8.encode(
             "${childrenBusSession.sessionID}${childrenBusSession.child.id}"))
@@ -25,6 +28,7 @@ class BusSession {
     notification = json['notification'];
     childrenId = json['childrenId'];
     statusId = json['statusId'];
+    note = json['note'];
   }
 
   Map<String, dynamic> toJson() {
@@ -33,6 +37,7 @@ class BusSession {
     data['notification'] = this.notification;
     data['childrenId'] = this.childrenId;
     data['statusId'] = this.statusId;
+    data['note'] = this.note;
     return data;
   }
 }
