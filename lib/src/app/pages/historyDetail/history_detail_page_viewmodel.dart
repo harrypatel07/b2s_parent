@@ -2,22 +2,28 @@ import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/chat.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page.dart';
 import 'package:b2s_parent/src/app/pages/message/messageDetail/message_detail_page.dart';
+import 'package:b2s_parent/src/app/service/common-service.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class HistoryDetailPageViewModel extends ViewModelBase{
+class HistoryDetailPageViewModel extends ViewModelBase {
   HistoryInfo historyInfo;
-  HistoryDetailPageViewModel(){}
-  onTapChatDriver(){
+  HistoryDetailPageViewModel() {}
+  onTapChatDriver() {
     Chatting chatting = Chatting(
         peerId: historyInfo.driver.id.toString(),
         name: historyInfo.driver.name,
         message: 'Hi',
         listMessage: new List(),
         avatarUrl: historyInfo.driver.photo,
-        datetime: DateTime.now().toIso8601String()
+        datetime: DateTime.now().toIso8601String());
+    Navigator.pushNamed(
+      context,
+      MessageDetailPage.routeName,
+      arguments: chatting,
     );
-    Navigator.pushNamed(context, MessageDetailPage.routeName, arguments: chatting,);
   }
+
 //  onTapChatAttendant(){
 //    Chatting chatting = Chatting(
 //        peerId: childrenBusSession.attendant.id.toString(),
@@ -29,4 +35,31 @@ class HistoryDetailPageViewModel extends ViewModelBase{
 //    );
 //    Navigator.pushNamed(context, MessageDetailPage.routeName, arguments: chatting,);
 //  }
+  String getDifferenceTime(String timeEstimate, String timeReal) {
+    String result = '';
+    if (timeReal == '') return '';
+    DateFormat dateFormat = new DateFormat.Hm();
+    DateTime now = DateTime.now();
+    DateTime estimate =
+        dateFormat.parse(Common.removeMiliSecond(timeEstimate.toString()));
+    estimate = new DateTime(
+        now.year, now.month, now.day, estimate.hour, estimate.minute);
+    DateTime real =
+        dateFormat.parse(Common.removeMiliSecond(timeReal.toString()));
+    real = new DateTime(now.year, now.month, now.day, real.hour, real.minute);
+
+    String hour = '';
+    String minute = '';
+    int h = estimate.difference(real).inHours.abs();
+    hour = '${h}h';
+    int m = estimate.difference(real).inMinutes.abs() -
+        estimate.difference(real).inHours.abs() * 60;
+    minute = '${m}m';
+    if (h == 0 && m == 0) return '0h0m';
+    if (real.isBefore(estimate))
+      result = 'sớm $hour$minute';
+    else
+      result = 'trễ $hour$minute';
+    return result;
+  }
 }

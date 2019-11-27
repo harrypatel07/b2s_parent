@@ -1,6 +1,7 @@
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page.dart';
 import 'package:b2s_parent/src/app/pages/historyDetail/history_detail_page_viewmodel.dart';
+import 'package:b2s_parent/src/app/service/common-service.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -25,6 +26,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
     viewModel.historyInfo = widget.historyInfo;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     Widget rowTitle(String title) {
@@ -53,6 +55,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
         ),
       );
     }
+
     final hr = Container(
       height: 1,
       color: Colors.grey.shade300,
@@ -102,7 +105,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                       content1,
                       textAlign: TextAlign.left,
                       style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
                 )
@@ -146,7 +149,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                       content2,
                       textAlign: TextAlign.left,
                       style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
                 )
@@ -206,7 +209,9 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                 child: Text(
                   title,
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 16,),
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ),
@@ -215,10 +220,10 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    flex: (phoneNumber != null &&
-                        toBoolean(phoneNumber) != false)
-                        ? 10
-                        : 14,
+                    flex:
+                        (phoneNumber != null && toBoolean(phoneNumber) != false)
+                            ? 10
+                            : 14,
                     child: Container(
                       padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
                       alignment: Alignment.centerLeft,
@@ -226,8 +231,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                         content,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                            fontSize: 16, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -297,6 +301,154 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
         ),
       );
     }
+
+    Widget _tablePickDrop() {
+      return Container(
+//          color: Colors.pink,
+          padding: EdgeInsets.all(5),
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                    offset: Offset(0, 2),
+                    color: Color(0x20000000),
+                    blurRadius: 5),
+                BoxShadow(
+                    offset: Offset(2, 0),
+                    color: Color(0x20000000),
+                    blurRadius: 5),
+              ]),
+          child: Table(
+            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+//            border: TableBorder.all(width: 1.0, color: Colors.grey[300]),
+//            border: TableBorder.symmetric(inside: BorderSide.merge(a, b)),
+            border: TableBorder(
+                horizontalInside:
+                    BorderSide(width: 1.0, color: Colors.grey[300])),
+            children: [
+              TableRow(children: [
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: Text(
+                    'Thời gian',
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Center(
+                  child: Text(
+                    'Đón',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Center(
+                  child: Text(
+                    'Trả',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ]),
+              TableRow(children: [
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: Text(
+                    'Thời gian dự kiến',
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    viewModel.historyInfo.estimateTimePick != ''
+                        ? Common.removeMiliSecond(
+                            viewModel.historyInfo.estimateTimePick)
+                        : '',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Text(
+                  viewModel.historyInfo.estimateTimeDrop != ''
+                      ? Common.removeMiliSecond(
+                          viewModel.historyInfo.estimateTimeDrop)
+                      : '',
+                  textAlign: TextAlign.center,
+                ),
+              ]),
+              TableRow(children: [
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: Text(
+                    'Thời gian thực tế',
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Center(
+                  child: Text(
+                    viewModel.historyInfo.realTimePick != ''
+                        ? Common.removeMiliSecond(
+                            viewModel.historyInfo.realTimePick)
+                        : '',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Text(
+                  viewModel.historyInfo.realTimeDrop != ''
+                      ? Common.removeMiliSecond(
+                          viewModel.historyInfo.realTimeDrop)
+                      : '',
+                  textAlign: TextAlign.center,
+                ),
+              ]),
+              TableRow(children: [
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: Text(
+                    'Thời gian chênh lệch',
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Center(
+                  child: Text(
+                    viewModel.getDifferenceTime(viewModel.historyInfo.estimateTimePick,viewModel.historyInfo.realTimePick),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+
+                  ),
+                ),
+                Center(
+                  child: Text(
+                    viewModel.getDifferenceTime(viewModel.historyInfo.estimateTimeDrop,viewModel.historyInfo.realTimeDrop),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ])
+            ],
+          )
+//        GridView.count(
+//          physics: new NeverScrollableScrollPhysics(),
+//          padding: EdgeInsets.zero,
+//          crossAxisCount: 3,
+//          children: <Widget>[
+//            SizedBox(),
+//            Text('Đón',textAlign: TextAlign.center,),
+//            Text('Trả',textAlign: TextAlign.center,),
+//            Text('Thời gian dự kiến',textAlign: TextAlign.center,),
+//            Text(viewModel.historyInfo.estimateTimePick,textAlign: TextAlign.center,),
+//            Text(viewModel.historyInfo.estimateTimeDrop,textAlign: TextAlign.center,),
+//            Text('Thời gian thực tế',textAlign: TextAlign.center,),
+//            Text(viewModel.historyInfo.realTimePick,textAlign: TextAlign.center,),
+//            Text(viewModel.historyInfo.realTimeDrop,textAlign: TextAlign.center,),
+//            Text('Thời gian chênh lệch',textAlign: TextAlign.center,),
+//            Text('Sớm 30p',textAlign: TextAlign.center,),
+//            Text('Sớm 30p',textAlign: TextAlign.center,),
+//          ],
+//        ),
+          );
+    }
+
     Widget _buildSeparator({HistoryInfo historyInfo, Color color}) {
       if (color == null) color = Color(0XFF626368);
       return LayoutBuilder(
@@ -351,9 +503,9 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                       Text(
                         historyInfo.status.statusName,
                         style: TextStyle(
-                          fontSize: 12,
-                          color: Color(historyInfo.status.statusColor),
-                        ),
+                            fontSize: 12,
+                            color: Color(historyInfo.status.statusColor),
+                            fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                       ),
@@ -366,29 +518,38 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
         },
       );
     }
+
     final busInfo = Material(
       child: Container(
         color: Colors.transparent,
         child: widget.historyInfo != null
             ? Column(
-          children: <Widget>[
+                children: <Widget>[
 //              rowTitle('THÔNG TIN XE BUS'),
-            hr,
-            row1('Ngày:', widget.historyInfo.day.toString()+"/"+widget.historyInfo.month.toString()),
-            hr,
-            row1('Biển số xe :', widget.historyInfo.vehicleName.toString()),
-            hr,
-            row1('Nhà :', widget.historyInfo.children.location.toString()),
-            hr,
-            row1('Trường :', widget.historyInfo.children.schoolName.toString()),
-            hr,
-            rowIcon(title:
-            'Tài xế :',
-                content: widget.historyInfo.driver.name,
-                phoneNumber:widget.historyInfo.driver.phone.toString(),
-                onTap: (){
-                  viewModel.onTapChatDriver();
-                }),
+                  _tablePickDrop(),
+//                  hr,
+                  SizedBox(
+                    height: 10,
+                  ),
+                  row1(
+                      'Ngày:',
+                      widget.historyInfo.day.toString() +
+                          "/" +
+                          widget.historyInfo.month.toString()),
+                  hr,
+                  row1('Biển số xe :',
+                      widget.historyInfo.vehicleName.toString()),
+                  hr,
+                  row1('Trường :',
+                      widget.historyInfo.children.schoolName.toString()),
+                  hr,
+                  rowIcon(
+                      title: 'Tài xế :',
+                      content: widget.historyInfo.driver.name,
+                      phoneNumber: widget.historyInfo.driver.phone.toString(),
+                      onTap: () {
+                        viewModel.onTapChatDriver();
+                      }),
 //                if (viewModel.startDepart != null)
 //                  hr,
 //                rowIcon(title:
@@ -400,7 +561,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
 //                    onTap: (){
 //                      viewModel.onTapChatAttendant();
 //                    }),
-            hr,
+                  hr,
 //                rowIcon('QL tại trường :', 'Âu Dương Phong', '0983932940'),
 //                hr,
 //                if (viewModel.startDepart != null)
@@ -411,8 +572,8 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
 //                if (viewModel.startArrive != null)
 //                  row2('Giờ về :', viewModel.startArrive, 'Về nhà :',
 //                      viewModel.endArrive, false),
-          ],
-        )
+                ],
+              )
             : Container(),
       ),
     );
@@ -421,9 +582,11 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
       viewmodel: viewModel,
       child: StreamBuilder<Object>(
         stream: viewModel.stream,
-        builder: (context,snapshot){
+        builder: (context, snapshot) {
           return Scaffold(
-            appBar: TS24AppBar(title: Text('Lịch sử chi tiết chuyến'),),
+            appBar: TS24AppBar(
+              title: Text('Lịch sử chi tiết chuyến'),
+            ),
             body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -485,14 +648,18 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
 //                          color: Colors.pinkAccent,
                               height: 35,
                               alignment: Alignment.center,
-                              padding: const EdgeInsets.only(left: 10, right: 10),
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
                               child: _buildSeparator(
                                   historyInfo: viewModel.historyInfo,
                                   color: viewModel.historyInfo != null
-                                      ? viewModel.historyInfo.status.statusID == 3
-                                      ? Colors.grey
-                                      : Color(viewModel.historyInfo.status.statusColor)
-                                      : Color(viewModel.historyInfo.status.statusColor)),
+                                      ? viewModel.historyInfo.status.statusID ==
+                                              3
+                                          ? Colors.grey
+                                          : Color(viewModel
+                                              .historyInfo.status.statusColor)
+                                      : Color(viewModel
+                                          .historyInfo.status.statusColor)),
                             )),
                         Text(viewModel.historyInfo.type == 0 ? "Trường" : "Nhà",
                             style: TextStyle(
@@ -506,7 +673,8 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                       children: <Widget>[
                         CachedNetworkImage(
                           imageUrl: viewModel.historyInfo.children.photo,
-                          imageBuilder: (context, imageProvider) => CircleAvatar(
+                          imageBuilder: (context, imageProvider) =>
+                              CircleAvatar(
                             radius: 15.0,
                             backgroundImage: imageProvider,
                             backgroundColor: Colors.transparent,
@@ -523,7 +691,9 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                             )),
                       ],
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     busInfo
                   ],
                 ),

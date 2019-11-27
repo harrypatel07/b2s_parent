@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 class HistoryPageViewModel extends ViewModelBase {
   List<HistoryTrip> listHistoryTrip = List();
   ScrollController controller;
-  int take = 20;
+  int take = 10;
   int skip = 0;
   bool loadingMore = true;
   HistoryPageViewModel() {
@@ -23,7 +23,7 @@ class HistoryPageViewModel extends ViewModelBase {
   }
   onLoad() {
     loading = true;
-    take = 20;
+    take = 10;
     skip = 0;
     api.getHistoryTrip(take: take, skip: skip).then((data) {
       if (data.length > 0) {
@@ -33,7 +33,10 @@ class HistoryPageViewModel extends ViewModelBase {
         });
         loading = false;
         skip += take;
-        take += 20;
+        take += 10;
+        this.updateState();
+      }else{
+        loading = false;
         this.updateState();
       }
     });
@@ -47,7 +50,11 @@ class HistoryPageViewModel extends ViewModelBase {
         });
         loadingMore = false;
         skip += take;
-        take += 20;
+        take += 10;
+        this.updateState();
+      }
+      else {
+        loadingMore = false;
         this.updateState();
       }
     });

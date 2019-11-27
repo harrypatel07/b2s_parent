@@ -151,6 +151,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         style: TextStyle(
                           fontSize: 12,
                           color: Color(historyInfo.status.statusColor),
+                          fontWeight: FontWeight.bold
                         ),
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
@@ -329,6 +330,10 @@ class _HistoryPageState extends State<HistoryPage> {
                 driver: trip.driver,
                 vehicleName: trip.vehicleName,
                 children: viewModel.getChildrenFromParent(trip.children.id),
+                estimateTimePick: trip.startTime.toString(),
+                estimateTimeDrop: trip.endTime.toString(),
+                realTimePick: trip.realStartTime.toString(),
+                realTimeDrop: trip.realEndTime.toString()
               ))
           .toList();
       return Container(
@@ -384,6 +389,10 @@ class HistoryInfo {
   Driver driver;
   String vehicleName;
   Children children;
+  String estimateTimePick;
+  String estimateTimeDrop;
+  String realTimePick;
+  String realTimeDrop;
   HistoryInfo(
       {this.type,
       this.timePickup,
@@ -395,5 +404,9 @@ class HistoryInfo {
       this.status,
       this.driver,
       this.vehicleName,
-      this.children});
+      this.children,
+      this.estimateTimeDrop,
+      this.estimateTimePick,
+      this.realTimeDrop,
+      this.realTimePick});
 }
