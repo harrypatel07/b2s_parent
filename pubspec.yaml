@@ -65,7 +65,7 @@ dependencies:
   shimmer: ^1.0.1
   flutter_datetime_picker: ^1.2.8
   onesignal_flutter: ^2.1.0
-  ticket_pass_package: ^0.1.0
+  printing: ^2.1.8
 dev_dependencies:
   flutter_test:
     sdk: flutter
