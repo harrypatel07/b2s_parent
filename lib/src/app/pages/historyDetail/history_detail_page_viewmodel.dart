@@ -55,11 +55,11 @@ class HistoryDetailPageViewModel extends ViewModelBase {
     int m = estimate.difference(real).inMinutes.abs() -
         estimate.difference(real).inHours.abs() * 60;
     minute = '${m}m';
-    if (h == 0 && m == 0) return '0h0m';
+    if (h == 0 && m == 0) return '0h 0m';
     if (real.isBefore(estimate))
-      result = 'sớm $hour$minute';
+      result = 'sớm $hour $minute';
     else
-      result = 'trễ $hour$minute';
+      result = 'trễ $hour $minute';
     return result;
   }
 }

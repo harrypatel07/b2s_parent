@@ -334,6 +334,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                   child: Text(
                     'Thời gian',
                     textAlign: TextAlign.left,
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
                 Center(
@@ -354,7 +355,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: Text(
-                    'Thời gian dự kiến',
+                    'Dự kiến',
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -380,7 +381,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: Text(
-                    'Thời gian thực tế',
+                    'Thực tế',
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -389,7 +390,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                     viewModel.historyInfo.realTimePick != ''
                         ? Common.removeMiliSecond(
                             viewModel.historyInfo.realTimePick)
-                        : '',
+                        : Common.removeMiliSecond(viewModel.historyInfo.estimateTimePick),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -397,7 +398,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                   viewModel.historyInfo.realTimeDrop != ''
                       ? Common.removeMiliSecond(
                           viewModel.historyInfo.realTimeDrop)
-                      : '',
+                      : Common.removeMiliSecond(viewModel.historyInfo.estimateTimeDrop),
                   textAlign: TextAlign.center,
                 ),
               ]),
@@ -405,23 +406,23 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: Text(
-                    'Thời gian chênh lệch',
+                    'Chênh lệch',
                     textAlign: TextAlign.left,
                   ),
                 ),
                 Center(
                   child: Text(
-                    viewModel.getDifferenceTime(viewModel.historyInfo.estimateTimePick,viewModel.historyInfo.realTimePick),
+                    viewModel.getDifferenceTime(viewModel.historyInfo.estimateTimePick,viewModel.historyInfo.realTimePick != ''?viewModel.historyInfo.realTimePick:viewModel.historyInfo.estimateTimePick),
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.bold ,color: ThemePrimary.colorDriverApp),
 
                   ),
                 ),
                 Center(
                   child: Text(
-                    viewModel.getDifferenceTime(viewModel.historyInfo.estimateTimeDrop,viewModel.historyInfo.realTimeDrop),
+                    viewModel.getDifferenceTime(viewModel.historyInfo.estimateTimeDrop,viewModel.historyInfo.realTimeDrop != ''?viewModel.historyInfo.realTimeDrop:viewModel.historyInfo.estimateTimeDrop),
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.bold,color: ThemePrimary.colorDriverApp),
                   ),
                 ),
               ])

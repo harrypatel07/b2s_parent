@@ -45,15 +45,15 @@ class _UserPageState extends State<UserPage>
       BuildContext context, UserPageViewModel viewModel, Children children) {
     return new Column(
       children: <Widget>[
-        new Container(
-          //color: Colors.blue,
-          margin: EdgeInsets.only(right: 10),
-          child: Row(
-            children: <Widget>[
-              new Expanded(
-                flex: 6,
-                child: InkWell(
-                  onTap: () => viewModel.onTapChildren(children),
+        InkWell(
+          onTap:()=>viewModel.onTapChildren(children),
+          child: new Container(
+            //color: Colors.blue,
+            margin: EdgeInsets.only(right: 10),
+            child: Row(
+              children: <Widget>[
+                new Expanded(
+                  flex: 6,
                   child: new Container(
                     //margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                     padding: EdgeInsets.fromLTRB(20, 7.5, 0, 7.5),
@@ -106,11 +106,8 @@ class _UserPageState extends State<UserPage>
                     ),
                   ),
                 ),
-              ),
-              new Expanded(
-                flex: 1,
-                child: InkWell(
-//                  onTap: () => _popupChildrenManager(context, children),
+                new Expanded(
+                  flex: 1,
                   child: new Container(
                     height: 50,
                     //color: Colors.green,
@@ -125,8 +122,8 @@ class _UserPageState extends State<UserPage>
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         new Container(

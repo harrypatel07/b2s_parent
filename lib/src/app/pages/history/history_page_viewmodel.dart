@@ -16,7 +16,7 @@ class HistoryPageViewModel extends ViewModelBase {
   HistoryPageViewModel() {
     controller = ScrollController();
     controller.addListener(() {
-      if(controller.offset == controller.position.maxScrollExtent)
+      if (controller.offset == controller.position.maxScrollExtent)
         onLoadMore();
     });
     onLoad();
@@ -35,12 +35,13 @@ class HistoryPageViewModel extends ViewModelBase {
         skip += take;
         take += 10;
         this.updateState();
-      }else{
+      } else {
         loading = false;
         this.updateState();
       }
     });
   }
+
   onLoadMore() {
     loadingMore = true;
     api.getHistoryTrip(take: take, skip: skip).then((data) {
@@ -52,17 +53,22 @@ class HistoryPageViewModel extends ViewModelBase {
         skip += take;
         take += 10;
         this.updateState();
-      }
-      else {
+      } else {
         loadingMore = false;
         this.updateState();
       }
     });
   }
-  onTapHistoryDetail(HistoryInfo historyInfo){
-    Navigator.pushNamed(context, HistoryDetailPage.routeName,arguments: historyInfo);
+
+  onTapHistoryDetail(HistoryInfo historyInfo) {
+    if (historyInfo.status.statusID != 3)
+      Navigator.pushNamed(context, HistoryDetailPage.routeName,
+          arguments: historyInfo);
   }
-  Children getChildrenFromParent(int childrenId){
-    return Parent().listChildren.firstWhere((children)=>children.id == childrenId);
+
+  Children getChildrenFromParent(int childrenId) {
+    return Parent()
+        .listChildren
+        .firstWhere((children) => children.id == childrenId);
   }
 }
