@@ -4,7 +4,7 @@ class OneSignalService {
   static Future setup(String appId) async {
     print("/*---OneSignal.shared.init");
     return OneSignal.shared.init(appId, iOSSettings: {
-      OSiOSSettings.autoPrompt: true,
+      OSiOSSettings.autoPrompt: false,
       OSiOSSettings.inAppLaunchUrl: true
     }).then((_) {
       OneSignal.shared
@@ -29,7 +29,11 @@ class OneSignalService {
 
   static Future<Map<String, dynamic>> sendTags(
       Map<String, dynamic> tags) async {
-        print(tags);
+    print(tags);
     return OneSignal.shared.sendTags(tags);
+  }
+
+  static Future<bool> requestPermission() {
+    return OneSignal.shared.promptUserForPushNotificationPermission();
   }
 }
