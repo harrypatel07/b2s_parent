@@ -132,6 +132,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
         }
       });
       return BusAttentdanceCard(
+        tagHero: childrenBusSession.type.toString()+childrenBusSession.child.id.toString(),
         isExten: false,
         colorText: Colors.grey[800],
         colorLeft: Colors.grey,
@@ -146,6 +147,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
               arguments: ProfileChildrenPageArgs(
                   listRouteBus: _listRouteBus,
                   childrenBusSession: childrenBusSession,
+                  heroTag: childrenBusSession.type.toString()+childrenBusSession.child.id.toString(),
                   children: viewModel.getChildrenFromParent(childrenBusSession.child.id)));
         },
         onTapLeave: () {

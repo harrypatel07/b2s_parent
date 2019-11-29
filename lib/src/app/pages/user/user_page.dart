@@ -70,11 +70,11 @@ class _UserPageState extends State<UserPage>
                             print('on Tap avatar');
                             Navigator.pushNamed(
                               context,
-                              ProfileChildrenPage.routeName,arguments : ProfileChildrenPageArgs(children: children),
+                              ProfileChildrenPage.routeName,arguments : ProfileChildrenPageArgs(children: children,heroTag: children.id.toString()),
                             );
                           },
                           child: Hero(
-                            tag: children.photo,
+                            tag: children.id.toString(),
                             child:
                                 //  CircleAvatar(
                                 //   radius: 20.0,
@@ -417,7 +417,7 @@ class _UserPageState extends State<UserPage>
                 _buildChildrenTitle(
                     Icons.person_pin, ThemePrimary.primaryColor, "Quản lý thông tin trẻ"),
                 hr,
-                _buildTicketTitle(Icons.person_pin,ThemePrimary.primaryColor, "Quản lý vé"),
+                _buildTicketTitle(Icons.extension,ThemePrimary.primaryColor, "Quản lý vé"),
 //                hr,
 //                _buildIconTileSettings(
 //                    LineIcons.cogs, ThemePrimary.primaryColor, 'Cài đặt'),

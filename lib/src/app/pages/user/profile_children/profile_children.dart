@@ -28,8 +28,9 @@ class ProfileChildrenPageArgs {
   final List<RouteBus> listRouteBus;
   final ChildrenBusSession childrenBusSession;
   final Children children;
+  final String heroTag;
   ProfileChildrenPageArgs(
-      {this.listRouteBus, this.childrenBusSession, this.children});
+      {this.listRouteBus, this.childrenBusSession, this.children,this.heroTag});
 }
 
 class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
@@ -117,7 +118,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
     final userImage = Stack(
       children: <Widget>[
         Hero(
-            tag: viewModel.children.photo,
+            tag: widget.profileChildrenPageArgs.heroTag,
             child: Container(
               height: 400,
               child: Column(
@@ -254,7 +255,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                         margin: EdgeInsets.only(top: 3, right: 3, bottom: 3),
                         child: Icon(
                           type ? Icons.home : Icons.school,
-                          color: type ? Colors.orange : Colors.green,
+                          color: type ? ThemePrimary.primaryColor : ThemePrimary.colorDriverApp,
                           size: 20,
                         ),
                       ),
@@ -298,7 +299,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                         margin: EdgeInsets.only(top: 3, right: 3, bottom: 3),
                         child: Icon(
                           type ? Icons.school : Icons.home,
-                          color: type ? Colors.green : Colors.orange,
+                          color: type ? ThemePrimary.primaryColor : ThemePrimary.colorDriverApp,
                           size: 20,
                         ),
                       ),

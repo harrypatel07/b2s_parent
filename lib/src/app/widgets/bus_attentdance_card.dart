@@ -18,6 +18,7 @@ class BusAttentdanceCard extends StatelessWidget {
   final MaterialColor colorLeft;
   final Color colorText;
   final bool isExten;
+  final String tagHero;
   const BusAttentdanceCard(
       {Key key,
       this.childrenBusSession,
@@ -30,6 +31,7 @@ class BusAttentdanceCard extends StatelessWidget {
       this.colorRight = Colors.grey,
       this.colorLeft = Colors.grey,
       this.colorText = Colors.black,
+        this.tagHero,
       this.isExten})
       : super(key: key);
   @override
@@ -60,43 +62,46 @@ class BusAttentdanceCard extends StatelessWidget {
       Widget _____userImage() {
         return InkWell(
           onTap: onTapProfileChildren,
-          child: CachedNetworkImage(
-            imageUrl: childrenBusSession.child.photo,
-            imageBuilder: (context, imageProvider) => Stack(
-              children: <Widget>[
-                Container(
-                    padding: const EdgeInsets.all(10.0),
-                    child: CircleAvatar(
-                      radius: 35.0,
-                      backgroundImage: imageProvider,
-                      backgroundColor: Colors.transparent,
-                    )
-                    // CircleAvatar(
-                    //   radius: 24.0,
-                    //   backgroundImage: MemoryImage(childrenBusSession.child.photo),
-                    //   backgroundColor: Colors.transparent,
-                    // ),
-                    ),
-                Positioned(
-                  bottom: 10,
-                  right: 10,
-                  child: Container(
-                    padding: EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: childrenBusSession.type == 0
-                            ? ThemePrimary.primaryColor
-                            : ThemePrimary.colorDriverApp),
+          child: Hero(
+            tag: tagHero,
+            child: CachedNetworkImage(
+              imageUrl: childrenBusSession.child.photo,
+              imageBuilder: (context, imageProvider) => Stack(
+                children: <Widget>[
+                  Container(
+                      padding: const EdgeInsets.all(10.0),
+                      child: CircleAvatar(
+                        radius: 35.0,
+                        backgroundImage: imageProvider,
+                        backgroundColor: Colors.transparent,
+                      )
+                      // CircleAvatar(
+                      //   radius: 24.0,
+                      //   backgroundImage: MemoryImage(childrenBusSession.child.photo),
+                      //   backgroundColor: Colors.transparent,
+                      // ),
+                      ),
+                  Positioned(
+                    bottom: 10,
+                    right: 10,
+                    child: Container(
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: childrenBusSession.type == 0
+                              ? ThemePrimary.primaryColor
+                              : ThemePrimary.colorDriverApp),
 //                  color: Colors.red,
-                    alignment: Alignment.center,
-                    child: Icon(
-                      childrenBusSession.type == 0 ? Icons.school : Icons.home,
-                      color: Colors.white,
-                      size: 17,
+                      alignment: Alignment.center,
+                      child: Icon(
+                        childrenBusSession.type == 0 ? Icons.school : Icons.home,
+                        color: Colors.white,
+                        size: 17,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
@@ -456,7 +461,7 @@ class BusAttentdanceCard extends StatelessWidget {
       onTap: onTapCard,
       child: Card(
         color: Colors.transparent,
-        margin: EdgeInsets.only(bottom: 15),
+        margin: EdgeInsets.only(bottom: 8),
         // elevation: 5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18.0),

@@ -107,6 +107,9 @@ class _LocateBusPageState extends State<LocateBusPage> {
         children: <Widget>[
           BusAttentdanceCard(
             key: _key,
+            tagHero: (viewModel.childrenBus.type != null)
+                ? viewModel.childrenBus.type.toString()
+                : '' + viewModel.childrenBus.child.id.toString(),
             colorLeft: Colors.grey,
             colorRight: Colors.grey,
             isExten: true,
@@ -124,10 +127,10 @@ class _LocateBusPageState extends State<LocateBusPage> {
                 },
               );
             },
-            onTapChatDriver: (){
-                viewModel.onTapChatDriver();
+            onTapChatDriver: () {
+              viewModel.onTapChatDriver();
             },
-            onTapChatAttendant: (){
+            onTapChatAttendant: () {
               viewModel.onTapChatAttendant();
             },
             childrenBusSession: viewModel.childrenBus,
@@ -214,7 +217,7 @@ class _LocateBusPageState extends State<LocateBusPage> {
   Widget _buildIconLocation() {
     return Positioned(
       right: 10.0,
-      bottom: _fabHeight - 10,
+      top: 0,
       child: SizedBox(
         width: 40,
         height: 40,
@@ -243,43 +246,84 @@ class _LocateBusPageState extends State<LocateBusPage> {
             stream: viewModel.stream,
             builder: (context, snapshot) {
               return Material(
-                child: Stack(
-                  children: <Widget>[
-                    SlidingUpPanel(
-                      controller: _pc,
-                      parallaxEnabled: true,
-                      backdropEnabled: true,
-                      parallaxOffset: .5,
-                      maxHeight: _panelHeightOpen,
-                      minHeight: _panelHeightClosed,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(18.0),
-                          topRight: Radius.circular(18.0)),
-                      panel: _buildPanel(),
-                      onPanelOpened: () {
-                        setState(() {
-                          disableScroll = false;
-                        });
-                      },
-                      onPanelClosed: () {
-                        setState(() {
-                          disableScroll = true;
-                        });
-                      },
-                      onPanelSlide: (double pos) => setState(() {
-                        _fabHeight =
-                            pos * (_panelHeightOpen - _panelHeightClosed) +
-                                _initFabHeight;
-                      }),
-                      body: new Scaffold(
-                        body: _buildBody(),
-                        // body: Container()
+                child: SizedBox.expand(
+                  child: Stack(
+                    children: <Widget>[
+                      _buildBody(),
+                      DraggableScrollableSheet(
+                        minChildSize:
+                            140 / MediaQuery.of(context).size.height, // 0.1 times of available height, sheet can't go below this on dragging
+                        maxChildSize:
+                        435/ MediaQuery.of(context).size.height, // 0.7 times of available height, sheet can't go above this on dragging
+                        initialChildSize:
+                        140 / MediaQuery.of(context).size.height, // 0.1 times of available height, sheet start at this size when opened for first time
+                        builder: (BuildContext context,
+                            ScrollController controller) {
+                          return SingleChildScrollView(
+//                                dragStartBehavior: MyBehavior(),
+
+                            controller: controller,
+                            child: Stack(
+                                children: <Widget>[
+                                   Container(
+                                     color: Colors.transparent,
+                                     width: MediaQuery.of(context).size.width,
+                                     height: 435,
+                                   ),
+                                   Positioned(
+                                     bottom: 0,
+                                     right: 0,
+                                     left: 0,
+                                     child: _buildPanel(),
+                                   ),
+//                                  _buildPanel(),
+                                  _buildIconLocation(),
+                                ],
+                            ),
+                          );
+                        },
                       ),
-                    ),
-                    _buildIconLocation(),
-                    _backButton()
-                  ],
+                      _backButton()
+                    ],
+                  ),
                 ),
+//                Stack(
+//                  children: <Widget>[
+//                    SlidingUpPanel(
+//                      controller: _pc,
+//                      parallaxEnabled: true,
+//                      backdropEnabled: true,
+//                      parallaxOffset: .5,
+//                      maxHeight: _panelHeightOpen,
+//                      minHeight: _panelHeightClosed,
+//                      borderRadius: BorderRadius.only(
+//                          topLeft: Radius.circular(18.0),
+//                          topRight: Radius.circular(18.0)),
+//                      panel: _buildPanel(),
+//                      onPanelOpened: () {
+//                        setState(() {
+//                          disableScroll = false;
+//                        });
+//                      },
+//                      onPanelClosed: () {
+//                        setState(() {
+//                          disableScroll = true;
+//                        });
+//                      },
+//                      onPanelSlide: (double pos) => setState(() {
+//                        _fabHeight =
+//                            pos * (_panelHeightOpen - _panelHeightClosed) +
+//                                _initFabHeight;
+//                      }),
+//                      body: new Scaffold(
+//                        body: _buildBody(),
+//                        // body: Container()
+//                      ),
+//                    ),
+//                    _buildIconLocation(),
+//                    _backButton()
+//                  ],
+//                ),
               );
             }),
       ),

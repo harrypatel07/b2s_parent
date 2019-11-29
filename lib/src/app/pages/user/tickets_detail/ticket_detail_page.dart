@@ -303,7 +303,7 @@ class _TicketsDetailPageState extends State<TicketsDetailPage> {
     Future<void> _printScreen() async {
       final RenderRepaintBoundary boundary =
       previewContainer.currentContext.findRenderObject();
-      final ui.Image im = await boundary.toImage();
+      final ui.Image im = await boundary.toImage(pixelRatio: 3.0);
       final ByteData bytes =
       await im.toByteData(format: ui.ImageByteFormat.rawRgba);
       print('Print Screen ${im.width}x${im.height} ...');
@@ -331,13 +331,7 @@ class _TicketsDetailPageState extends State<TicketsDetailPage> {
     }
     Widget _appBar() {
       return TS24AppBar(
-        backgroundColorEnd: ThemePrimary.primaryColor,
-        backgroundColorStart: ThemePrimary.primaryColor,
         title: Text('Thông tin vé chi tiết'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context, false),
-        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.print),
