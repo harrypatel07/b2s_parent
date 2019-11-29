@@ -4,7 +4,7 @@ class OneSignalService {
   static Future setup(String appId) async {
     print("/*---OneSignal.shared.init");
     return OneSignal.shared.init(appId, iOSSettings: {
-      OSiOSSettings.autoPrompt: false,
+      OSiOSSettings.autoPrompt: true,
       OSiOSSettings.inAppLaunchUrl: true
     }).then((_) {
       OneSignal.shared

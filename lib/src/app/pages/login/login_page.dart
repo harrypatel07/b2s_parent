@@ -43,9 +43,9 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => () {
-          if (Platform.isIOS) OneSignalService.requestPermission();
-        });
+    // WidgetsBinding.instance.addPostFrameCallback((_) => () {
+    //       if (Platform.isIOS) OneSignalService.requestPermission();
+    //     });
   }
 
   Widget _background() => Column(
