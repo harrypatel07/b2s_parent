@@ -252,11 +252,11 @@ class _LocateBusPageState extends State<LocateBusPage> {
                       _buildBody(),
                       DraggableScrollableSheet(
                         minChildSize:
-                            140 / MediaQuery.of(context).size.height, // 0.1 times of available height, sheet can't go below this on dragging
+                            180 / MediaQuery.of(context).size.height, // 0.1 times of available height, sheet can't go below this on dragging
                         maxChildSize:
                         435/ MediaQuery.of(context).size.height, // 0.7 times of available height, sheet can't go above this on dragging
                         initialChildSize:
-                        140 / MediaQuery.of(context).size.height, // 0.1 times of available height, sheet start at this size when opened for first time
+                        180 / MediaQuery.of(context).size.height, // 0.1 times of available height, sheet start at this size when opened for first time
                         builder: (BuildContext context,
                             ScrollController controller) {
                           return SingleChildScrollView(
