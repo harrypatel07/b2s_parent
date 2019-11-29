@@ -107,11 +107,6 @@ class Parent {
     // data['photo'] = this.photo;
     data['email'] = this.email;
     data['phone'] = this.phone;
-    data['gender'] = this.gender;
-    data['genderId'] = this.genderId;
-    data['contactAddress'] = this.contactAddress;
-    data['listChildren'] =
-        this.listChildren.map((item) => item.toJson()).toList();
     return data;
   }
 

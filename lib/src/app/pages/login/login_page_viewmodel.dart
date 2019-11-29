@@ -94,6 +94,10 @@ class LoginPageViewModel extends ViewModelBase {
           await api.getTicketOfListChildren();
           //Gửi tags đến onesignal
           Parent _parent = Parent();
+          print("_parent.email");
+          print(_parent.email);
+          print("_parent.toJsonOneSignal()");
+          print(_parent.toJsonOneSignal());
           OneSignalService.sendTags(_parent.toJsonOneSignal());
         }
         LoadingDialog.hideLoadingDialog(context);
