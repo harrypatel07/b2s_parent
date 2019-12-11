@@ -1,9 +1,13 @@
 import 'dart:io';
+import 'package:b2s_parent/packages/flutter_form_builder/lib/src/fields/form_builder_dropdown.dart';
+import 'package:b2s_parent/packages/flutter_form_builder/lib/src/form_builder_validators.dart';
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/pages/user/edit_profile_parent/edit_profile_parent_viewmodel.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/drop_down_field.dart';
+import 'package:b2s_parent/src/app/widgets/ts24_button_widget.dart';
 import 'package:b2s_parent/src/app/widgets/ts24_utils_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,10 +32,22 @@ class _EditProfileParentState extends State<EditProfileParent> {
     //viewModel.imagePicker = widget.parent.photo;
     if (widget.parent != null) {
       viewModel.nameEditingController.text = widget.parent.name;
-      viewModel.phoneEditingController.text = toBoolean(widget.parent.phone.toString()) != false?widget.parent.phone:'';
-      viewModel.emailEditingController.text = toBoolean(widget.parent.email.toString()) != false?widget.parent.email:'';
-      viewModel.addressEditingController.text = widget.parent.contactAddress.toString();
-      viewModel.genderEditingController.text = (widget.parent.gender == null)?'':widget.parent.gender.toString();
+      viewModel.phoneEditingController.text =
+          toBoolean(widget.parent.phone.toString()) != false
+              ? widget.parent.phone
+              : '';
+      viewModel.emailEditingController.text =
+          toBoolean(widget.parent.email.toString()) != false
+              ? widget.parent.email
+              : '';
+      viewModel.addressEditingController.text =
+          widget.parent.contactAddress.toString();
+      viewModel.genderEditingController.text =
+          (widget.parent.gender == null) ? '' : widget.parent.gender.toString();
+      WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
+        viewModel.scrollController.animateTo(viewModel.scrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: 200), curve: Curves.easeOut);
+      }));
     }
     super.initState();
   }
@@ -135,23 +151,79 @@ class _EditProfileParentState extends State<EditProfileParent> {
       );
     }
 
-    final cancelBtn = Positioned(
-      top: 25.0,
-      left: 0.0,
-      child: Container(
-        height: 50.0,
-        width: 70.0,
-        decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          color: Colors.grey.withOpacity(0.5),
+    Widget _backButton() {
+      return Positioned(
+        top: 0,
+        left: 0,
+        child: SafeArea(
+          top: true,
+          bottom: false,
+          child: TS24Button(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(25),
+                  topRight: Radius.circular(25)),
+              color: Colors.black38,
+            ),
+            width: 70,
+            height: 50,
+            child: Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+            ),
+          ),
         ),
-        child: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-          iconSize: 20.0,
+      );
+    }
+
+    final __styleTextLabel = TextStyle(
+        color: Colors.orange[800], fontWeight: FontWeight.bold, fontSize: 16);
+    Widget _textFormFieldLoading(String text) {
+      return Container(
+        child: Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Container(
+                  height: 45,
+                ),
+                Text(
+                  text,
+                  style: __styleTextLabel,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                SizedBox(
+                  width: 15,
+                  height: 15,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        ThemePrimary.colorDriverApp),
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 1,
+              color: Colors.grey[350],
+            ),
+          ],
         ),
-      ),
-    );
+      );
+    }
+
     Widget _card(Parent parent) {
       return Container(
         margin: EdgeInsets.fromLTRB(25, 0, 25, 0),
@@ -169,15 +241,20 @@ class _EditProfileParentState extends State<EditProfileParent> {
                       child: TextFormField(
                         controller: viewModel.nameEditingController,
                         style: TextStyle(fontSize: 18, color: Colors.black),
+                        focusNode: viewModel.nameFocus,
                         decoration: InputDecoration(
-                          labelText: 'Họ và tên',
-                          hintText:
-                              parent != null ? parent.name : "Nhập tên...",
+                          labelText: translation.text("USER_PROFILE.FULL_NAME"),
+                          labelStyle: __styleTextLabel,
+                          hintText: parent != null
+                              ? parent.name
+                              : translation.text("USER_PROFILE.INPUT_NAME"),
                           errorText: viewModel.errorName,
                         ),
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
-                        onFieldSubmitted: (v) {},
+                        onFieldSubmitted: (v) {
+                          viewModel.fieldFocusChange(context, viewModel.nameFocus, viewModel.phoneFocus);
+                        },
                       ),
                     ),
                   ),
@@ -190,30 +267,28 @@ class _EditProfileParentState extends State<EditProfileParent> {
               child: Row(
                 children: <Widget>[
                   Flexible(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        children: <Widget>[
-                          Flexible(
-                            child: DropDownField(
-                              controller: viewModel.genderEditingController,
-                              itemsVisibleInDropdown: 3,
-                              value: viewModel.gender,
-                              labelText: 'Giới tính',
-                              items: viewModel.listGender,
-//                                setter: (dynamic value){
-//                                  viewModel.gender = value;
-//                                },
-                              onValueChanged: (v) {
-                                viewModel.gender = v;
-                                viewModel.genderEditingController.text =
-                                    v.displayName;
-                              },
+                    child: viewModel.loadingGender ||
+                            viewModel.listGender.length == 0
+                        ? _textFormFieldLoading(
+                            translation.text("USER_PROFILE.GENDER"))
+                        : FormBuilderDropdown(
+                            attribute: translation.text("USER_PROFILE.GENDER"),
+                            decoration: InputDecoration(
+                              labelText:
+                                  translation.text("USER_PROFILE.GENDER"),
+                              labelStyle: __styleTextLabel,
                             ),
+                            initialValue: viewModel.gender,
+                            validators: [FormBuilderValidators.required()],
+                            items: viewModel.listGender
+                                .map((gender) =>
+                                    DropdownMenuItem<ItemDropDownField>(
+                                      value: gender,
+                                      child: Text(gender.displayName),
+                                    ))
+                                .toList(),
+                            onChanged: (gender) => viewModel.gender = gender,
                           ),
-                        ],
-                      ),
-                    ),
                   ),
                 ],
               ),
@@ -230,15 +305,21 @@ class _EditProfileParentState extends State<EditProfileParent> {
                       child: TextFormField(
                         controller: viewModel.phoneEditingController,
                         style: TextStyle(fontSize: 18, color: Colors.black),
+                        focusNode: viewModel.phoneFocus,
                         decoration: InputDecoration(
-                          labelText: 'Số điện thoại',
+                          labelText:
+                              translation.text("USER_PROFILE.PHONE_NUMBER"),
                           hintText: parent != null
                               ? parent.phone.toString()
-                              : "Nhập số điện thoại",
+                              : translation.text("USER_PROFILE.INPUT_PHONE"),
+                          labelStyle: __styleTextLabel,
                           errorText: viewModel.errorPhone,
                         ),
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.number,
+                        onFieldSubmitted: (v){
+                          viewModel.fieldFocusChange(context, viewModel.phoneFocus, viewModel.mailFocus);
+                        },
                       ),
                     ),
                   ),
@@ -254,14 +335,20 @@ class _EditProfileParentState extends State<EditProfileParent> {
                     child: Align(
                       alignment: Alignment.center,
                       child: TextFormField(
+                        focusNode: viewModel.mailFocus,
                         controller: viewModel.emailEditingController,
                         decoration: InputDecoration(
-                            labelText: 'Email',
-                            hintText:
-                                parent != null ? parent.email : "Nhập email...",
+                            labelText: translation.text("USER_PROFILE.EMAIL"),
+                            labelStyle: __styleTextLabel,
+                            hintText: parent != null
+                                ? parent.email
+                                : translation.text("USER_PROFILE.INPUT_EMAIL"),
                             errorText: viewModel.errorEmail),
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.text,
+                        onFieldSubmitted: (v){
+                          viewModel.fieldFocusChange(context, viewModel.mailFocus, viewModel.addressFocus);
+                        },
                       ),
                     ),
                   ),
@@ -278,15 +365,20 @@ class _EditProfileParentState extends State<EditProfileParent> {
                     child: Align(
                       alignment: Alignment.center,
                       child: TextFormField(
+                        focusNode: viewModel.addressFocus,
                         controller: viewModel.addressEditingController,
                         decoration: InputDecoration(
-                            labelText: 'Địa chỉ',
-                            hintText: parent != null
-                                ? parent.contactAddress
-                                : "Địa chỉ...",
+                            labelText: translation.text("USER_PROFILE.ADDRESS"),
+                            labelStyle: __styleTextLabel,
+                            hintText:
+                                translation.text("USER_PROFILE.INPUT_ADDRESS"),
                             errorText: viewModel.errorAdress),
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.text,
+                        onFieldSubmitted: (v){
+                          viewModel.addressFocus.unfocus();
+                          viewModel.saveParent(viewModel.parent);
+                        },
                       ),
                     ),
                   ),
@@ -326,6 +418,8 @@ class _EditProfileParentState extends State<EditProfileParent> {
               return Stack(
                 children: <Widget>[
                   SingleChildScrollView(
+                    controller: viewModel.scrollController,
+                    reverse: true,
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -333,13 +427,13 @@ class _EditProfileParentState extends State<EditProfileParent> {
                           child: Stack(
                             children: <Widget>[
                               _avatar(),
-                              cancelBtn,
+                              _backButton(),
                             ],
                           ),
                         ),
                         _card(viewModel.parent),
                         SizedBox(
-                          height: 50,
+                          height: 70,
                         ),
                       ],
                     ),
@@ -353,7 +447,7 @@ class _EditProfileParentState extends State<EditProfileParent> {
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                            color: ThemePrimary.primaryColor,
+                              color: ThemePrimary.primaryColor,
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey[500],
@@ -366,8 +460,8 @@ class _EditProfileParentState extends State<EditProfileParent> {
                             color: Colors.transparent,
                             child: InkWell(
                                 onTap: () async {
-                                  LoadingDialog.showLoadingDialog(
-                                      context, 'Đang xử lý...');
+                                  LoadingDialog.showLoadingDialog(context,
+                                      translation.text("COMMON.IN_PROCESS"));
                                   viewModel
                                       .saveParent(viewModel.parent)
                                       .then((v) {
@@ -381,7 +475,15 @@ class _EditProfileParentState extends State<EditProfileParent> {
                                   });
                                 },
                                 child: Center(
-                                  child: Text("LƯU"),
+                                  child: Text(
+                                    translation
+                                        .text("COMMON.SAVE")
+                                        .toUpperCase(),
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.white),
+                                  ),
                                 )),
                           ),
                         ),

@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/helper/constant.dart';
 import 'package:b2s_parent/src/app/models/month_module.dart';
 import 'package:flutter/material.dart';
@@ -151,44 +152,44 @@ bool containsDayInList(List<DateTime> lst, DateTime dateTime) {
 }
 
 String getPageViewTitle(int month, int year) {
-  String _month = "Tháng 1 /";
+  String _month = translation.text("COMMON.MONTH_OF_YEAR.JANUARY");
   switch (month) {
     case 1:
-      _month = "Tháng 1 /";
+      _month = translation.text("COMMON.MONTH_OF_YEAR.JANUARY");
       break;
     case 2:
-      _month = "Tháng 2 /";
+      _month = translation.text("COMMON.MONTH_OF_YEAR.FEBRUARY");
       break;
     case 3:
-      _month = "Tháng 3 /";
+      _month = translation.text("COMMON.MONTH_OF_YEAR.MARCH");
       break;
     case 4:
-      _month = "Tháng 4 /";
+      _month = translation.text("COMMON.MONTH_OF_YEAR.APRIL");
       break;
     case 5:
-      _month = "Tháng 5 /";
+      _month = translation.text("COMMON.MONTH_OF_YEAR.MAY");
       break;
     case 6:
-      _month = "Tháng 6 /";
+      _month = translation.text("COMMON.MONTH_OF_YEAR.JUNE");
       break;
     case 7:
-      _month = "Tháng 7 /";
+      _month = translation.text("COMMON.MONTH_OF_YEAR.JULY");
       break;
     case 8:
-      _month = "Tháng 8 /";
+      _month = translation.text("COMMON.MONTH_OF_YEAR.AUGUST");
       break;
     case 9:
-      _month = "Tháng 9 /";
+      _month = translation.text("COMMON.MONTH_OF_YEAR.SEPTEMBER");
       break;
     case 10:
-      _month = "Tháng 10 /";
+      _month = translation.text("COMMON.MONTH_OF_YEAR.OCTOBER");
       break;
     case 11:
-      _month = "Tháng 11 /";
+      _month = translation.text("COMMON.MONTH_OF_YEAR.NOVEMBER");
       break;
     case 12:
-      _month = "Tháng 12 /";
+      _month = translation.text("COMMON.MONTH_OF_YEAR.DECEMBER");
       break;
   }
-  return _month + " " + year.toString();
+  return _month + " / " + year.toString();
 }

@@ -1,4 +1,5 @@
 import 'package:b2s_parent/packages/loader_search_bar/loader_search_bar.dart';
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/chat.dart';
 import 'package:b2s_parent/src/app/pages/message/ContactsPage/contacts_page_viewmodel.dart';
@@ -100,13 +101,13 @@ class _ContactsPageState extends State<ContactsPage> {
             appBar: SearchBar(
               iconified: false,
               defaultBar: AppBar(
-                title: new Text("Message"),
+                title: new Text(translation.text("MESSAGE_PAGE.TITLE")),
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back),
                   onPressed: () => Navigator.pop(context),
                 ),
               ),
-              searchHint: 'Tìm kiếm...',
+              searchHint: translation.text("MESSAGE_PAGE.FIND"),
               onQueryChanged: (query) => viewModel.onQueryChanged(query),
               onQuerySubmitted: (query) => viewModel.onQuerySubmitted(query),
             ),

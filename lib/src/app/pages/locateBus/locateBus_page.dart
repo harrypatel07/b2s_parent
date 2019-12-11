@@ -4,6 +4,7 @@ import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page_viewmodel.dart
 import 'package:b2s_parent/src/app/widgets/bus_attentdance_card.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
+import 'package:b2s_parent/src/app/widgets/ts24_button_widget.dart';
 import 'package:b2s_parent/src/app/widgets/ts24_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -189,14 +190,15 @@ class _LocateBusPageState extends State<LocateBusPage> {
 
   Widget _backButton() {
     return Positioned(
-      top: 25,
+      top: 0,
       left: 0,
-      child: InkWell(
-        onTap: () {
-          Navigator.of(context).pop();
-        },
-        child: Container(
-          padding: EdgeInsets.only(right: 10),
+      child: SafeArea(
+        top: true,
+        bottom: false,
+        child: TS24Button(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(25),
@@ -205,9 +207,12 @@ class _LocateBusPageState extends State<LocateBusPage> {
           ),
           width: 70,
           height: 50,
-          child: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.only(right: 10),
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
           ),
         ),
       ),

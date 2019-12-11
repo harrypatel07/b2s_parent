@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/helper/index.dart';
@@ -7,6 +8,7 @@ import 'package:b2s_parent/src/app/helper/utils.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/res-partner.dart';
+import 'package:b2s_parent/src/app/service/common-service.dart';
 import 'package:b2s_parent/src/app/widgets/drop_down_field.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +27,8 @@ class EditProfileChildrenViewModel extends ViewModelBase {
   int childId;
   Children children;
   Uint8List imageDefault;
+  bool loadingGender = true;
+  bool loadingSchool = true;
   TextEditingController _emailEditingController = new TextEditingController();
 
   TextEditingController get emailEditingController => _emailEditingController;
@@ -73,21 +77,37 @@ class EditProfileChildrenViewModel extends ViewModelBase {
   dynamic pickImageError;
   String retrieveDataError;
   LocationResult locationResult;
+  String errorBirthDay;
   DateTime birthDay;
+  ScrollController scrollController = new ScrollController();
+  final FocusNode nameFocus = FocusNode();
+  final FocusNode schoolFocus = FocusNode();
+  final FocusNode phoneFocus = FocusNode();
+  final FocusNode classFocus = FocusNode();
+  final FocusNode mailFocus = FocusNode();
+  final FocusNode addressFocus = FocusNode();
+  fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
+  }
+
   EditProfileChildrenViewModel() {
     createEvent();
-    rootBundle.load('assets/images/user.png').then((bytes) {
-      imageDefault = bytes.buffer.asUint8List();
-    });
+//    rootBundle.load('assets/images/user.png').then((bytes) {
+//      imageDefault = bytes.buffer.asUint8List();
+//    });
   }
   createEvent() {
     _nameEditingController.addListener(() => {isValidName()});
     _emailEditingController.addListener(() => {isValidEmail()});
     _ageEditingController.addListener(() => {isValidAge()});
-    _schoolNameEditingController.addListener(() => {isValidSchoolName()});
+    _schoolNameEditingController
+        .addListener(() => {checkValidSchoolNameInit()});
     _addressEditingController.addListener(() => {isValidAddress()});
-    _phoneEditingController.addListener(() => {isValidPhone()});
-    _genderEditingController.addListener(() => {isValidGender()});
+    _birthDayEditingController.addListener(()=>{isValidBirthDay()});
+//    _phoneEditingController.addListener(() => {isValidPhone()});
+//    _genderEditingController.addListener(() => {isValidGender()});
   }
 
   initData() {
@@ -103,10 +123,12 @@ class EditProfileChildrenViewModel extends ViewModelBase {
       _ageEditingController.text = children.age.toString();
       _schoolNameEditingController.text = children.schoolName;
       _addressEditingController.text = children.location;
-      _genderEditingController.text = (children.gender == null)?'':children.gender.toString();
+      _genderEditingController.text =
+          (children.gender == null) ? '' : children.gender.toString();
       _emailEditingController.text = children.email ?? parent.email;
       _classesEditingController.text = children.classes.toString();
-      _phoneEditingController.text = toBoolean(children.phone.toString()) != false?children.phone:'';
+      _phoneEditingController.text =
+          toBoolean(children.phone.toString()) != false ? children.phone : '';
       _birthDayEditingController.text = (children.birthday != false)
           ? DateFormat('dd/MM/yyyy')
               .format(DateTime.parse(children.birthday.toString()))
@@ -162,6 +184,18 @@ class EditProfileChildrenViewModel extends ViewModelBase {
     return true;
   }
 
+  bool isValidBirthDay(){
+    errorBirthDay = null;
+    var result = Validator.validateBirthDay(_birthDayEditingController.text);
+    if(result != null){
+      errorBirthDay = result;
+      this.updateState();
+      return false;
+    }else
+      this.updateState();
+    return true;
+  }
+
   bool isValidGender() {
     _errorGender = null;
     var result = Validator.validateGender(_genderEditingController.text);
@@ -174,17 +208,37 @@ class EditProfileChildrenViewModel extends ViewModelBase {
     return true;
   }
 
+  bool checkValidSchoolNameInit() {
+    _errorSchoolName = null;
+    if (_schoolNameEditingController.text.length < 1)
+      return true;
+    else
+      return isValidSchoolName();
+  }
+
   bool isValidSchoolName() {
     _errorSchoolName = null;
-    var result =
-        Validator.validateSchoolName(_schoolNameEditingController.text);
-    if (result != null) {
-      _errorSchoolName = result;
+//    if(_schoolNameEditingController.text == '')
+//      return true;
+    List<ItemDropDownField> listSearch = listSchool
+        .where((item) =>
+            Common.sanitizing(
+                _schoolNameEditingController.text.toLowerCase()) ==
+            Common.sanitizing(item.displayName.toLowerCase()))
+        .toList();
+    if (listSearch.length <= 0) {
+      _errorSchoolName = translation.text("COMMON.SCHOOL_INVALID");
       this.updateState();
       return false;
-    } else
+    } else {
+      _errorSchoolName = null;
+//    var result =
+//        Validator.validateSchoolName(_schoolNameEditingController.text);
+//    if (result != null) {
+//      _errorSchoolName = result;
       this.updateState();
-    return true;
+      return true;
+    }
   }
 
   bool isValidAddress() {
@@ -209,12 +263,7 @@ class EditProfileChildrenViewModel extends ViewModelBase {
   }
 
   bool isValidInfo() {
-    if (isValidName() &&
-        isValidGender() &&
-        isValidPhone() &&
-        isValidSchoolName() &&
-        isValidEmail() &&
-        isValidAddress()) {
+    if (isValidName() && isValidBirthDay() && isValidSchoolName()/*&& isValidGender() && isValidPhone()  && isValidEmail() */ && isValidAddress() ) {
       this.updateState();
       return true;
     }
@@ -296,7 +345,7 @@ class EditProfileChildrenViewModel extends ViewModelBase {
           children.parentId = parent.id;
           children.name = _nameEditingController.text;
           children.classes = _classesEditingController.text;
-          children.email = _emailEditingController.text;
+          children.email = parent.email;
           children.phone = _phoneEditingController.text;
           //DateTime dateTime = DateTime.parse('9/9/1999');
           if (birthDay != null)
@@ -318,13 +367,15 @@ class EditProfileChildrenViewModel extends ViewModelBase {
 //                parent.listChildren.singleWhere((item) => item.id == this.children.id);
 //            if (_childrenUpdate != null) _childrenUpdate = this.children;
 
-            if (imagePicker != null) children.photo = imagePicker;
 //            print(_childrenUpdate.photo);
           }
+          if (imagePicker != null) children.photo = imagePicker;
           bool result = await updateChildrenSever(children);
-          if (result)
+          if (result) {
+            children.photo =
+                "$domainApi/web/image?model=res.partner&field=image&id=${children.id}&${api.sessionId}";
             return 1;
-          else
+          } else
             return -1;
         }
       } else {
@@ -332,7 +383,7 @@ class EditProfileChildrenViewModel extends ViewModelBase {
             parentId: parent.id,
             name: _nameEditingController.text,
             schoolId: school.id,
-            email: _emailEditingController.text,
+            email: parent.email,
             phone: _phoneEditingController.text,
             classes: _classesEditingController.text,
             photo: imagePicker,
@@ -413,24 +464,54 @@ class EditProfileChildrenViewModel extends ViewModelBase {
     }
   }
 
-  getListGender() async {
+  onSelectedSchoolItem(String strSchool) {
+    school = listSchool.firstWhere((s) => s.displayName == strSchool);
+//    schoolNameEditingController.text = strSchool;
+    this.updateState();
+  }
+
+  List<String> sortListSchoolShow(List<String> list) {
+    if ((school != null || school.displayName != "") &&
+        _schoolNameEditingController.text == '') {
+      list.remove(school.displayName);
+      list.insert(0, school.displayName);
+    }
+    return list;
+  }
+
+  getListGender() {
+    loadingGender = true;
     api.getTitleCustomer().then((lst) {
       lst.forEach((item) {
         listGender
             .add(ItemDropDownField(id: item.id, displayName: item.displayName));
       });
-      if (children != null) gender = getGenderFromID(children.genderId);
+      if (children != null)
+        gender = getGenderFromID(children.genderId);
+      else
+        gender = listGender[0];
+      loadingGender = false;
       this.updateState();
     });
   }
 
   getListSchool() async {
+    loadingSchool = true;
     api.getListSchool().then((lst) {
       lst.forEach((item) {
         listSchool
             .add(ItemDropDownField(id: item.id, displayName: item.displayName));
       });
-      if (children != null) school = getSchoolFromID(children.schoolId);
+      if (children != null)
+        school = getSchoolFromID(children.schoolId);
+      else {
+        school = ItemDropDownField(id: 1, displayName: '');
+        _schoolNameEditingController.text = '';
+//          school = listSchool[0];
+//          _schoolNameEditingController.text = school.displayName;
+      }
+      loadingSchool = false;
+      checkValidSchoolNameInit();
       this.updateState();
     });
   }
@@ -455,7 +536,7 @@ class EditProfileChildrenViewModel extends ViewModelBase {
     }
   }
 
-  pickBirthDay() {
+  Future pickBirthDay() async {
     DatePicker.showDatePicker(context,
         showTitleActions: true,
         minTime: DateTime(1950, 1, 1),
@@ -483,7 +564,7 @@ class EditProfileChildrenViewModel extends ViewModelBase {
       birthDay = date;
       _birthDayEditingController.text =
           DateFormat('dd/MM/yyyy').format(birthDay);
-      this.updateState();
+//      this.updateState();
     }, currentTime: DateTime.now(), locale: LocaleType.vi);
   }
 }

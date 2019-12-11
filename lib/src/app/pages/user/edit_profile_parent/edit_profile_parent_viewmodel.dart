@@ -38,6 +38,18 @@ class EditProfileParentViewModel extends ViewModelBase {
   File imageFile;
   dynamic pickImageError;
   String retrieveDataError;
+  bool loadingGender = true;
+  ScrollController scrollController = ScrollController();
+  final FocusNode nameFocus = FocusNode();
+  final FocusNode phoneFocus = FocusNode();
+  final FocusNode mailFocus = FocusNode();
+  final FocusNode addressFocus = FocusNode();
+  fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
+  }
+
   EditProfileParentViewModel() {
     createEvent();
     getListGender();
@@ -125,9 +137,9 @@ class EditProfileParentViewModel extends ViewModelBase {
       parent.email = _emailEditingController.text;
     if (gender != null) {
       parent.genderId = gender.id;
-      parent.photo = imagePicker;
       parent.gender = gender.displayName;
     }
+    if (imagePicker != null) parent.photo = imagePicker;
   }
 
   Future<bool> saveParent(Parent parent) async {
@@ -195,12 +207,17 @@ class EditProfileParentViewModel extends ViewModelBase {
   }
 
   getListGender() {
+    loadingGender = true;
     api.getTitleCustomer().then((lst) {
       lst.forEach((item) {
         listGender
             .add(ItemDropDownField(id: item.id, displayName: item.displayName));
       });
-      gender = getGenderFromID(parent.genderId);
+      if (parent != null)
+        gender = getGenderFromID(parent.genderId);
+      else
+        gender = listGender[0];
+      loadingGender = false;
       this.updateState();
     });
   }

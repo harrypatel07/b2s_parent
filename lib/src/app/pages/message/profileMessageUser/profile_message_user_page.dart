@@ -1,7 +1,9 @@
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/models/chat.dart';
 import 'package:b2s_parent/src/app/models/profileMessageUser.dart';
 import 'package:b2s_parent/src/app/pages/message/messageDetail/message_detail_page.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
+import 'package:b2s_parent/src/app/widgets/ts24_button_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,23 +18,36 @@ class ProfileMessageUserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final deviceWidth = MediaQuery.of(context).size.width;
 
-    final cancelBtn = Positioned(
-      top: 50.0,
-      left: 20.0,
-      child: Container(
-        height: 35.0,
-        width: 35.0,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.grey.withOpacity(0.5),
+    Widget backButton() {
+      return Positioned(
+        top: 0,
+        left: 0,
+        child: SafeArea(
+          top: true,
+          bottom: false,
+          child: TS24Button(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(25),
+                  topRight: Radius.circular(25)),
+              color: Colors.black38,
+            ),
+            width: 70,
+            height: 50,
+            child: Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+            ),
+          ),
         ),
-        child: IconButton(
-          icon: Icon(LineIcons.close, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-          iconSize: 20.0,
-        ),
-      ),
-    );
+      );
+    }
     final userImage = Stack(
       children: <Widget>[
         Hero(
@@ -53,7 +68,7 @@ class ProfileMessageUserPage extends StatelessWidget {
               //   image: MemoryImage(widget.userModel.avatarUrl),
               // ),
             )),
-        cancelBtn,
+        backButton(),
       ],
     );
 
@@ -388,14 +403,14 @@ class ProfileMessageUserPage extends StatelessWidget {
             child: Container(
               child: Column(
                 children: <Widget>[
-                  rowTitle('THÔNG TIN NGƯỜI DÙNG'),
-                  row1('Họ và tên :', userModel.name),
+                  rowTitle(translation.text("USER_PROFILE.USER_TITLE").toUpperCase()),
+                  row1('${translation.text("USER_PROFILE.FULL_NAME")}:', userModel.name),
                   hr,
-                  row1('Địa chỉ :', userModel.address),
+                  row1('${translation.text("USER_PROFILE.ADDRESS")}:', userModel.address),
                   hr,
-                  rowIcon(title:'Số điện thoại :',content:userModel.phone,phoneNumber: userModel.phone,onTap: ()=>onTapChatDriver()),
+                  rowIcon(title:'${translation.text("USER_PROFILE.PHONE_NUMBER")}:',content:userModel.phone,phoneNumber: userModel.phone,onTap: ()=>onTapChatDriver()),
                   hr,
-                  row1('Email :', userModel.email),
+                  row1('${translation.text("USER_PROFILE.EMAIL")}:', userModel.email),
                   Container(
                     height: 1,
                     margin: EdgeInsets.only(bottom: 10),

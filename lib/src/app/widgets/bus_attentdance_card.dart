@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -31,7 +32,7 @@ class BusAttentdanceCard extends StatelessWidget {
       this.colorRight = Colors.grey,
       this.colorLeft = Colors.grey,
       this.colorText = Colors.black,
-        this.tagHero,
+      this.tagHero,
       this.isExten})
       : super(key: key);
   @override
@@ -94,7 +95,9 @@ class BusAttentdanceCard extends StatelessWidget {
 //                  color: Colors.red,
                       alignment: Alignment.center,
                       child: Icon(
-                        childrenBusSession.type == 0 ? Icons.school : Icons.home,
+                        childrenBusSession.type == 0
+                            ? Icons.school
+                            : Icons.home,
                         color: Colors.white,
                         size: 17,
                       ),
@@ -195,7 +198,8 @@ class BusAttentdanceCard extends StatelessWidget {
                       width: 80,
                       height: 35,
 //                            color: Colors.amber,
-                      child: Text('Gọi tài xế',
+                      child: Text(
+                          translation.text("BUS_ATTENDANCE_CARD.CALL_DRIVER"),
                           style: TextStyle(
                               fontSize: 11,
                               color: Colors.white,
@@ -226,7 +230,8 @@ class BusAttentdanceCard extends StatelessWidget {
                       width: 80,
                       height: 35,
 //                            color: Colors.amber,
-                      child: Text('Xin nghỉ',
+                      child: Text(
+                          translation.text("BUS_ATTENDANCE_CARD.REQUEST_LEAVE"),
                           style: TextStyle(
                               fontSize: 11,
                               color: Colors.white,
@@ -428,23 +433,23 @@ class BusAttentdanceCard extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     hr,
-                    row1('Trường:',
+                    row1(translation.text("BUS_ATTENDANCE_CARD.SCHOOL"),
                         childrenBusSession.child.schoolName.toString(), 70),
                     hr,
-                    row1(
-                        'Lớp', childrenBusSession.child.classes.toString(), 40),
+                    row1(translation.text("BUS_ATTENDANCE_CARD.CLASS"),
+                        childrenBusSession.child.classes.toString(), 40),
                     hr,
-                    row1('Biển số xe:',
+                    row1(translation.text("BUS_ATTENDANCE_CARD.BUS_ID"),
                         childrenBusSession.vehicleName.toString(), 40),
                     hr,
                     rowIcon(
-                        'Quản lý đưa đón:',
+                        translation.text("BUS_ATTENDANCE_CARD.ATTENDANCE"),
                         childrenBusSession.attendant.name.toString(),
                         childrenBusSession.attendant.phone.toString(),
                         onTapChatAttendant),
                     hr,
                     rowIcon(
-                        'Tài xế:',
+                        translation.text("BUS_ATTENDANCE_CARD.DRIVER"),
                         childrenBusSession.driver.name.toString(),
                         childrenBusSession.driver.phone.toString(),
                         onTapChatDriver),

@@ -5,6 +5,7 @@ import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/res-partner.dart';
 import 'package:b2s_parent/src/app/models/sale-order-line.dart';
 import 'package:b2s_parent/src/app/models/sale-order.dart';
+import 'package:b2s_parent/src/app/pages/payment/payment_page.dart';
 import 'package:b2s_parent/src/app/pages/user/edit_profile_children/edit_profile_children.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -69,5 +70,8 @@ class UserPageViewModel extends ViewModelBase {
   @override
   void dispose() {
     super.dispose();
+  }
+  onTapPayment(){
+    Navigator.pushNamed(context, PaymentPage.routeName);
   }
 }

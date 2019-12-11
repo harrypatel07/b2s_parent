@@ -1,8 +1,8 @@
 import 'dart:typed_data';
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/sale-order-line.dart';
 import 'package:b2s_parent/src/app/service/common-service.dart';
-import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:flutter/rendering.dart';
 import 'package:printing/printing.dart';
@@ -147,7 +147,7 @@ class _TicketsDetailPageState extends State<TicketsDetailPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            'Mã :',
+                            translation.text("TICKET_PAGE.CODE"),
                             style: style,
                           ),
                           Text(
@@ -166,7 +166,7 @@ class _TicketsDetailPageState extends State<TicketsDetailPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            'Loại :',
+                            translation.text("TICKET_PAGE.TYPE"),
                             style: style,
                           ),
                           Text(
@@ -185,7 +185,7 @@ class _TicketsDetailPageState extends State<TicketsDetailPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            'Đơn giá :',
+                            translation.text("TICKET_PAGE.PRICE"),
                             style: style,
                           ),
                           Text(
@@ -206,7 +206,7 @@ class _TicketsDetailPageState extends State<TicketsDetailPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            'Thời gian kích hoạt :',
+                            translation.text("TICKET_PAGE.ACTIVE_TIME"),
                             style: style,
                           ),
                           Text(
@@ -222,19 +222,19 @@ class _TicketsDetailPageState extends State<TicketsDetailPage> {
                       height: 20,
                       width: MediaQuery.of(context).size.width - 20,
                       padding: EdgeInsets.only(left: 20, right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Thời gian còn lại :',
-                            style: style,
-                          ),
-                          Text(
-                            __timeRemaining.toString() + " Ngày",
-                            style: styleBold,
-                          ),
-                        ],
-                      ),
+//                      child: Row(
+//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                        children: <Widget>[
+//                          Text(
+//                            'Thời gian còn lại :',
+//                            style: style,
+//                          ),
+//                          Text(
+//                            __timeRemaining.toString() + " Ngày",
+//                            style: styleBold,
+//                          ),
+//                        ],
+//                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 14, bottom: 5),
@@ -267,7 +267,7 @@ class _TicketsDetailPageState extends State<TicketsDetailPage> {
                   ),
                   child: Center(
                     child: Text(
-                      'HẾT HẠN',
+                      translation.text("TICKET_PAGE.OUT_DATE").toUpperCase(),
                       style: TextStyle(
                           color: Colors.red,
                           fontWeight: FontWeight.w900,
@@ -331,7 +331,7 @@ class _TicketsDetailPageState extends State<TicketsDetailPage> {
     }
     Widget _appBar() {
       return TS24AppBar(
-        title: Text('Thông tin vé chi tiết'),
+        title: Text(translation.text("TICKET_PAGE.TITLE_DETAIL")),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.print),

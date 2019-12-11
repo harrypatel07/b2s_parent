@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page.dart';
 import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page.dart';
@@ -20,14 +21,14 @@ class Menu {
   static List<Menu> tabMenu = <Menu>[
     Menu(
       index: 0,
-      title: "Trang chủ",
+      title: translation.text("HOME_PAGE.TITLE"),
       iconData: Icons.home,
       page: HomePage(),
       routeChildName: HomePage.routeName,
     ),
     Menu(
       index: 1,
-      title: "Lịch sử chuyến",
+      title: translation.text("HISTORY_TRIP_PAGE.TITLE"),
       iconData: FontAwesomeIcons.child,
       page: HistoryPage(),
       routeChildName: HistoryPage.routeName,
@@ -41,7 +42,7 @@ class Menu {
     // ),
     Menu(
       index: 2,
-      title: "Người dùng",
+      title: translation.text("USER_PAGE.TITLE"),
       iconData: Icons.person,
       page: UserPage(),
       routeChildName: UserPage.routeName,

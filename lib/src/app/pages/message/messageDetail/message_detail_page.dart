@@ -1,7 +1,6 @@
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/message.dart';
 import 'package:b2s_parent/src/app/pages/message/messageDetail/message_detail_viewmodel.dart';
-import 'package:b2s_parent/src/app/pages/message/messageUser/message_user_page.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/chat_bubble.dart';
 import 'package:b2s_parent/src/app/models/chat.dart';

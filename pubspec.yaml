@@ -66,6 +66,7 @@ dependencies:
   flutter_datetime_picker: ^1.2.8
   onesignal_flutter: ^2.1.0
   printing: ^2.1.8
+  flutter_typeahead: ^1.7.0
 dev_dependencies:
   flutter_launcher_icons: "^0.7.4"
   flutter_test:
@@ -132,6 +133,9 @@ flutter:
         - asset: assets/fonts/Quicksand-Medium.ttf
         - asset: assets/fonts/Quicksand-SemiBold.ttf
         - asset: assets/fonts/Quicksand-Bold.ttf
+    - family: Halter
+      fonts:
+        - asset: assets/fonts/halter.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

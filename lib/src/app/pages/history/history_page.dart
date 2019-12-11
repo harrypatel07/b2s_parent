@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
@@ -45,7 +46,7 @@ class _HistoryPageState extends State<HistoryPage> {
         builder: (context, snapshot) {
           return Scaffold(
             appBar: new TS24AppBar(
-              title: new Text("Lịch sử chuyến"),
+              title: new Text(translation.text("HISTORY_TRIP_PAGE.TITLE")),
               // leading: appBarIconSideMenu(context),
             ),
             backgroundColor: ThemePrimary.history_page_backgroundcolor,
@@ -149,10 +150,9 @@ class _HistoryPageState extends State<HistoryPage> {
                       Text(
                         historyInfo.status.statusName,
                         style: TextStyle(
-                          fontSize: 12,
-                          color: Color(historyInfo.status.statusColor),
-                          fontWeight: FontWeight.bold
-                        ),
+                            fontSize: 12,
+                            color: Color(historyInfo.status.statusColor),
+                            fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                       ),
@@ -189,7 +189,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 Row(
                   children: <Widget>[
                     Text(
-                      "ĐÓN",
+                      translation.text("HISTORY_TRIP_PAGE.PICK").toUpperCase(),
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -198,7 +198,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     ),
                     Expanded(flex: 6, child: Container()),
                     Text(
-                      "TRẢ",
+                      translation.text("HISTORY_TRIP_PAGE.DROP").toUpperCase(),
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -230,7 +230,10 @@ class _HistoryPageState extends State<HistoryPage> {
                 ),
                 Row(
                   children: <Widget>[
-                    Text(historyInfo.type == 0 ? "Nhà" : "Trường",
+                    Text(
+                        historyInfo.type == 0
+                            ? translation.text("HISTORY_TRIP_PAGE.HOME")
+                            : translation.text("HISTORY_TRIP_PAGE.SCHOOL"),
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
@@ -251,7 +254,10 @@ class _HistoryPageState extends State<HistoryPage> {
                                       : Color(historyInfo.status.statusColor)
                                   : Color(historyInfo.status.statusColor)),
                         )),
-                    Text(historyInfo.type == 0 ? "Trường" : "Nhà",
+                    Text(
+                        historyInfo.type == 0
+                            ? translation.text("HISTORY_TRIP_PAGE.SCHOOL")
+                            : translation.text("HISTORY_TRIP_PAGE.HOME"),
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
@@ -314,27 +320,26 @@ class _HistoryPageState extends State<HistoryPage> {
       var __date = DateTime.parse(historyTrip.date);
       var __listHistoryInfo = historyTrip.trip
           .map((trip) => HistoryInfo(
-                type: trip.type,
-                status: trip.status,
-                timePickup: Common.removeMiliSecond(
-                    trip.realStartTime.toString() == ''
-                        ? trip.startTime.toString()
-                        : trip.realStartTime.toString()),
-                timeDrop: Common.removeMiliSecond(
-                    trip.realEndTime.toString() == ''
-                        ? trip.endTime.toString()
-                        : trip.realStartTime.toString()),
-                day: __date.day.toString(),
-                dayName: Common.convertIntDayToStringDayOfWeek(__date.weekday),
-                month: DateFormat('MM/yyyy').format(__date),
-                driver: trip.driver,
-                vehicleName: trip.vehicleName,
-                children: viewModel.getChildrenFromParent(trip.children.id),
-                estimateTimePick: trip.startTime.toString(),
-                estimateTimeDrop: trip.endTime.toString(),
-                realTimePick: trip.realStartTime.toString(),
-                realTimeDrop: trip.realEndTime.toString()
-              ))
+              type: trip.type,
+              status: trip.status,
+              timePickup: Common.removeMiliSecond(
+                  trip.realStartTime.toString() == ''
+                      ? trip.startTime.toString()
+                      : trip.realStartTime.toString()),
+              timeDrop: Common.removeMiliSecond(
+                  trip.realEndTime.toString() == ''
+                      ? trip.endTime.toString()
+                      : trip.realStartTime.toString()),
+              day: __date.day.toString(),
+              dayName: Common.convertIntDayToStringDayOfWeek(__date.weekday),
+              month: DateFormat('MM/yyyy').format(__date),
+              driver: trip.driver,
+              vehicleName: trip.vehicleName,
+              children: viewModel.getChildrenFromParent(trip.children.id),
+              estimateTimePick: trip.startTime.toString(),
+              estimateTimeDrop: trip.endTime.toString(),
+              realTimePick: trip.realStartTime.toString(),
+              realTimeDrop: trip.realEndTime.toString()))
           .toList();
       return Container(
         child: _listItem(historyTrip, __listHistoryInfo),
@@ -342,37 +347,55 @@ class _HistoryPageState extends State<HistoryPage> {
     }
 
     return RefreshIndicator(
-      onRefresh: () async {
-        viewModel.onLoad();
-      },
-      child: ListView(
-        controller: viewModel.controller,
-        shrinkWrap: true,
-        children: <Widget>[
-          ...viewModel.listHistoryTrip
-              .map((historyTrip) => _listTrip(historyTrip)),
-          if (viewModel.loadingMore)
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 50,
-              color: Colors.transparent,
-              child:Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(ThemePrimary.primaryColor),
-                  ),
-                  SizedBox(width: 15,),
-                  Text('Đang tải dữ liệu ...',),
-                ],
-              ),
-            ),
-          SizedBox(
-            height: 40,
-          ),
-        ],
-      ),
-    );
+        onRefresh: () async {
+          viewModel.onLoad();
+        },
+        child: (viewModel.loading)
+            ? LoadingSpinner.loadingView(
+                context: viewModel.context, loading: (viewModel.loading))
+            : viewModel.listHistoryTrip.length > 0
+                ? ListView(
+                    controller: viewModel.controller,
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      ...viewModel.listHistoryTrip
+                          .map((historyTrip) => _listTrip(historyTrip)),
+                      if (viewModel.listHistoryTrip.length > 0 &&
+                          viewModel.loadingMore)
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 50,
+                          color: Colors.transparent,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    ThemePrimary.primaryColor),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                translation.text("COMMON.LOADING_DATA"),
+                              ),
+                            ],
+                          ),
+                        ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                    ],
+                  )
+                : SingleChildScrollView(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      alignment: Alignment.center,
+                      child:
+                          Text(translation.text("COMMON.DATA_HISTORY_EMPTY")),
+                    ),
+                  ));
   }
 }
 

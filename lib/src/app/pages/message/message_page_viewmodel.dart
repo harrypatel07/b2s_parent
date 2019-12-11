@@ -49,8 +49,8 @@ class MessagePageViewModel extends ViewModelBase {
         //get image listChat
         listChat.forEach((item) {
           api.getCustomerInfo(item.peerId).then((onValue) {
-            item.name = onValue.displayName;
-            item.avatarUrl = onValue.image;
+            item.name = onValue.displayName.toString();
+            item.avatarUrl = onValue.image.toString();
             listProfileMessageUser
                 .add(ProfileMessageUserModel.fromDocumentSnapShot(onValue));
             if (checkDone++ == listChat.length - 1) {

@@ -24,5 +24,168 @@
         "CONNECT_SERVER": "Không kết nối được máy chủ.Vui lòng kiểm tra lại thông tin domain.",
         "WRONG_LOGIN": "Kiểm tra lại tên đăng nhập hoặc mật khẩu.",
         "WRONG_DOMAIN": "Thông tin cấu hình domain chưa hợp lệ.Vui lòng kiểm tra lại."
+    },
+    "HOME_PAGE": {
+        "TITLE": "Trang chủ",
+        "CATEGORY": {
+            "LEAVE": "Nghỉ học",
+            "MESSAGE": "Tin nhắn",
+            "HISTORY_TRIP": "Lịch sử chuyến",
+            "TICKET_MANAGER": "Quản lý vé"
+        },
+        "TRIP_DEPART_DAY": "Chuyến đi trong ngày",
+        "TRIP_ARRIVE_DAY": "Chuyến về trong ngày"
+    },
+    "BUS_ATTENDANCE_CARD": {
+        "CALL_DRIVER": "Gọi tài xế",
+        "REQUEST_LEAVE": "Xin nghỉ",
+        "SCHOOL": "Trường:",
+        "CLASS": "Lớp:",
+        "BUS_ID": "Biển số xe:",
+        "ATTENDANCE": "Quản lý đưa đón:",
+        "DRIVER": "Tài xế:"
+    },
+    "STATUS_BUS": {
+        "WAITING": "Đang chờ",
+        "ON_TRIP": "Đang trong chuyến",
+        "AT_SCHOOL": "Đã đến trường",
+        "AT_HOME": "Đã về nhà",
+        "LEAVE": "Nghỉ học"
+    },
+    "LEAVE_PAGE": {
+        "TITLE": "Nghỉ học",
+        "HOLIDAY": "Ngày nghỉ lễ",
+        "SELECTED_DAYS": "Ngày đã chọn",
+        "ALLOWED_DAYS": "Ngày nghỉ đã xin",
+        "PASSED_DAYS" : "Ngày đã qua"
+    },
+    "POPUP_CONFIRM": {
+        "TITLE": "THÔNG BÁO",
+        "DESC_INFO": "Xác nhận thay đổi thông tin?",
+        "DESC_STATUS": "Xác nhận thay đổi trạng thái?",
+        "DESC_LOG_OUT": "Xác nhận đăng xuất?",
+        "YES": "Có",
+        "NO": "Không"
+    },
+    "MESSAGE_PAGE": {
+        "TITLE": "Tin nhắn",
+        "FIND": "Tìm kiếm..."
+    },
+    "HISTORY_TRIP_PAGE": {
+        "TITLE": "Lịch sử chuyến",
+        "TITLE_DETAIL": "Lịch sử chi tiết chuyến",
+        "PICK" : "Đón",
+        "DROP"  : "Trả",
+        "SCHOOL" : "Trường",
+        "HOME" : "Nhà",
+        "TIME" : "Thời gian",
+        "ESTIMATE" : "Dự kiến",
+        "REAL": "Thực tế",
+        "REPORT": "Chênh lệch",
+        "DAY": "Ngày:",
+        "BUS_ID": "Biển số xe:",
+        "DRIVER": "Tài xế:",
+        "EARLY": "sớm",
+        "LATE": "trễ"
+    },
+    "TICKET_PAGE": {
+        "TITLE": "Thông tin vé",
+        "TITLE_DETAIL": "Thông tin chi tiết vé",
+        "CODE": "Mã:",
+        "TYPE": "Loại:",
+        "PRICE": "Đơn giá:",
+        "ACTIVE_TIME": "Thời gian kích hoạt:",
+        "OUT_DATE": "Hết hạn"
+    },
+    "USER_PAGE": {
+        "TITLE": "Người dùng",
+        "CHILDREN_MANAGER": "Quản lý thông tin trẻ",
+        "TICKET_MANAGER": "Quản lý vé",
+        "PAYMENT": "Thanh toán",
+        "LOG_OUT": "Đăng xuất"
+    },
+    "COMMON": {
+        "DAY_OF_WEEK": {
+            "MONDAY": "Thứ 2",
+            "TUESDAY": "Thứ 3",
+            "WEDNESDAY": "Thứ 4",
+            "THURSDAY": "Thứ 5",
+            "FRIDAY": "Thứ 6",
+            "SATURDAY": "Thứ 7",
+            "SUNDAY": "Chủ nhật"
+        },
+        "MONTH_OF_YEAR": {
+            "JANUARY": "Tháng 1",
+            "FEBRUARY": "Tháng 2",
+            "MARCH": "Tháng 3",
+            "APRIL": "Tháng 4",
+            "MAY": "Tháng 5",
+            "JUNE": "Tháng 6",
+            "JULY": "Tháng 7",
+            "AUGUST": "Tháng 8",
+            "SEPTEMBER": "Tháng 9",
+            "OCTOBER": "Tháng 10",
+            "NOVEMBER": "Tháng 11",
+            "DECEMBER": "Tháng 12"
+        },
+        "LOADING_DATA": "Đang tải dữ liệu...",
+        "IN_PROCESS": "Đang xử lý...",
+        "SAVE": "Lưu",
+        "DATA_EMPTY": "Không có chuyến đi trong ngày",
+        "DATA_HISTORY_EMPTY": "Chưa có lịch sử chuyến",
+        "DATA_TICKET_EMPTY": "Không có thông tin vé để hiển thị",
+        "EMAIL_REQUITE": "Email không được trống",
+        "EMAIL_INVALID": "Email không hợp lệ",
+        "PASS_REQUITE": "Mật khẩu không được trống",
+        "PASS_REQUITE_LENGTH": "Mật khẩu phải có ít nhất 6 ký tự",
+        "PASS_INVALID": "Mật khẩu không hợp lệ",
+        "URL_REQUITE": "Url không được trống",
+        "URL_INVALID": "Url không hợp lệ",
+        "PHONE_REQUITE": "Sđt không được trống",
+        "PHONE_INVALID": "Sđt không hợp lệ",
+        "NAME_REQUITE": "Tên không được trống",
+        "NAME_INVALID": "Tên không hợp lệ",
+        "BIRTH_REQUITE": "Ngày sinh không được trống",
+        "BIRTH_INVALID": "Ngày sinh không hợp lệ",
+        "GENDER_REQUITE": "Giới tính không được trống",
+        "GENDER_INVALID": "Giới tính không đúng",
+        "SCHOOL_REQUITE": "Trường không được trống",
+        "SCHOOL_INVALID": "Tên trường không đúng",
+        "AGE_REQUITE": "Tuổi không được trống",
+        "AGE_INVALID": "Tuổi không hợp lệ",
+        "ADDRESS_REQUITE": "Địa chỉ không được trống",
+        "ADDRESS_INVALID": "Địa chỉ không đúng"
+    },
+    "USER_PROFILE": {
+        "CHILDREN_PROFILE": "Thông tin học sinh",
+        "FULL_NAME": "Họ và tên",
+        "AGE": "Tuổi",
+        "SCHOOL": "Trường",
+        "CLASS": "Lớp",
+        "ADDRESS": "Địa chỉ",
+        "PHONE_NUMBER": "Số điện thoại",
+        "EMAIL": "Email",
+        "PARENT": "Phụ huynh",
+        "INPUT_NAME": "Nhập tên...",
+        "BIRTH_DAY": "Ngày sinh",
+        "SELECT_DAY": "Chọn ngày sinh",
+        "GENDER": "Giới tính",
+        "INPUT_PHONE": "Nhập số điện thoại...",
+        "INPUT_CLASS": "Nhập lớp...",
+        "INPUT_EMAIL": "Nhập email...",
+        "INPUT_ADDRESS": "Nhập địa chỉ...",
+        "BUS_TITLE": "Thông tin xe bus",
+        "BUS_ID": "Biển số xe:",
+        "DRIVER": "Tài xế:",
+        "ATTENDANCE": "Quản lý đưa đón:",
+        "TIME_DEPART": "Giờ đón:",
+        "TIME_AT_SCHOOL": "Đến trường:",
+        "TIME_ARRIVE": "Giờ về:",
+        "TIME_AT_HOME": "Về nhà:",
+        "USER_TITLE": "Thông tin người dùng"
+    },
+    "PAYMENT_PAGE": {
+        "TITLE": "Thanh toán",
+        "ADD": "Thêm phương thức thanh toán"
     }
 }

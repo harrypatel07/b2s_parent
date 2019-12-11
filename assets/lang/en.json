@@ -7,22 +7,185 @@
         "SHOW": "Show",
         "HIDE": "Hide",
         "SIGN_IN": "Sign in",
-        "CHOOSE_TYPE": "Chọn loại hình sử dụng",
+        "CHOOSE_TYPE": "Select type using",
         "MANUAL": "Manual",
         "QR_CODE": "QR Code",
-        "SALE_TICKET": "Bán vé",
-        "CHECK_TICKET": "Soát vé"
+        "SALE_TICKET": "Sale ticket",
+        "CHECK_TICKET": "Check ticket"
     },
     "WAITING_MESSAGE": {
-        "PERMISSION_CONNECT": "Đang kiểm tra quyền truy cập...",
-        "AUTH_ACCOUNT": "Đang xác thực tài khoản",
-        "INFO_DOMAIN": "Đang lấy thông tin domain..."
+        "PERMISSION_CONNECT": "Checking access permission...",
+        "AUTH_ACCOUNT": "Validating account...",
+        "INFO_DOMAIN": "Getting domain information..."
     },
     "ERROR_MESSAGE": {
-        "PERMISSION_APP": "Bạn không có quyền truy cập vào ứng dụng này.",
-        "WRONG_CLIENT": "Vui lòng kiểm tra lại thông tin Client ID và Client Secret",
-        "CONNECT_SERVER": "Không kết nối được máy chủ.Vui lòng kiểm tra lại thông tin domain.",
-        "WRONG_LOGIN": "Kiểm tra lại tên đăng nhập hoặc mật khẩu.",
-        "WRONG_DOMAIN": "Thông tin cấu hình domain chưa hợp lệ.Vui lòng kiểm tra lại."
+        "PERMISSION_APP": "Permission deny.",
+        "WRONG_CLIENT": "Please recheck Client ID & Client Secret information",
+        "CONNECT_SERVER": "The connection to the sever failed. Please recheck domain information.",
+        "WRONG_LOGIN": "User or password incorrect.",
+        "WRONG_DOMAIN": "Domain configuration is invalid. Please try again late."
+    },
+    "HOME_PAGE": {
+        "TITLE": "Home",
+        "CATEGORY": {
+            "LEAVE": "Leave",
+            "MESSAGE": "Message",
+            "HISTORY_TRIP": "History trip",
+            "TICKET_MANAGER": "Ticket manager"
+        },
+        "TRIP_DEPART_DAY": "Day trip from home to school",
+        "TRIP_ARRIVE_DAY": "Day trip from school to home"
+    },
+    "BUS_ATTENDANCE_CARD": {
+        "CALL_DRIVER": "Call driver",
+        "REQUEST_LEAVE": "Leave request",
+        "SCHOOL": "School:",
+        "CLASS": "Class:",
+        "BUS_ID": "License plates:",
+        "ATTENDANCE": "Attendance:",
+        "DRIVER": "Driver:"
+    },
+    "STATUS_BUS": {
+        "WAITING": "Waiting",
+        "ON_TRIP": "On the trip",
+        "AT_SCHOOL": "At school",
+        "AT_HOME": "At home",
+        "LEAVE": "Leave"
+    },
+    "LEAVE_PAGE": {
+        "TITLE": "Leave",
+        "HOLIDAY": "Holiday",
+        "SELECTED_DAYS": "Selected days",
+        "ALLOWED_DAYS": "Leave requested days",
+        "PASSED_DAYS" : "Passed days"
+    },
+    "POPUP_CONFIRM": {
+        "TITLE": "NOTIFICATION",
+        "DESC_INFO": "Confirm information changes?",
+        "DESC_STATUS": "Confirm status changes?",
+        "DESC_LOG_OUT": "Confirm logout?",
+        "YES": "Yes",
+        "NO": "No"
+    },
+    "MESSAGE_PAGE": {
+        "TITLE": "Message",
+        "FIND": "Search..."
+    },
+    "HISTORY_TRIP_PAGE": {
+        "TITLE": "History trip",
+        "TITLE_DETAIL": "History trips details",
+        "PICK" : "Pick",
+        "DROP"  : "Drop",
+        "SCHOOL" : "School:",
+        "HOME" : "Home",
+        "TIME" : "Time",
+        "ESTIMATE" : "Estimate",
+        "REAL": "Real",
+        "REPORT": "Report",
+        "DAY": "Date:",
+        "BUS_ID": "License plates:",
+        "DRIVER": "Driver:",
+        "EARLY": "early",
+        "LATE": "late"
+    },
+    "TICKET_PAGE": {
+        "TITLE": "Ticket information",
+        "TITLE_DETAIL": "Ticket information details",
+        "CODE": "Code:",
+        "TYPE": "Type:",
+        "PRICE": "Price:",
+        "ACTIVE_TIME": "Active time:",
+        "OUT_DATE": "OUT DATE"
+    },
+    "USER_PAGE": {
+        "TITLE": "User",
+        "CHILDREN_MANAGER": "Children manager",
+        "TICKET_MANAGER": "Ticket manager",
+        "PAYMENT": "Payment",
+        "LOG_OUT": "Logout"
+    },
+    "COMMON": {
+        "DAY_OF_WEEK": {
+            "MONDAY": "Monday",
+            "TUESDAY": "Tuesday",
+            "WEDNESDAY": "Wednesday",
+            "THURSDAY": "Thursday",
+            "FRIDAY": "Friday",
+            "SATURDAY": "Saturday",
+            "SUNDAY": "Sunday"
+        },
+        "MONTH_OF_YEAR": {
+            "JANUARY": "January",
+            "FEBRUARY": "February",
+            "MARCH": "March",
+            "APRIL": "April",
+            "MAY": "May",
+            "JUNE": "June",
+            "JULY": "July",
+            "AUGUST": "August",
+            "SEPTEMBER": "September",
+            "OCTOBER": "October",
+            "NOVEMBER": "November",
+            "DECEMBER": "December"
+        },
+        "LOADING_DATA": "Loading data...",
+        "IN_PROCESS": "In process...",
+        "SAVE": "Save",
+        "DATA_EMPTY": "Data empty",
+        "DATA_HISTORY_EMPTY": "Data history trip is empty",
+        "DATA_TICKET_EMPTY": "Data empty",
+        "EMAIL_REQUITE": "Email requite",
+        "EMAIL_INVALID": "Email is invalid",
+        "PASS_REQUITE": "Password requite",
+        "PASS_REQUITE_LENGTH": "Password requite min 6 characters",
+        "PASS_INVALID": "Password is invalid",
+        "URL_REQUITE": "Url requite",
+        "URL_INVALID": "Url is invalid",
+        "PHONE_REQUITE": "Phone requite",
+        "PHONE_INVALID": "Phone is invalid",
+        "NAME_REQUITE": "Name requite",
+        "NAME_INVALID": "Name is invalid",
+        "BIRTH_REQUITE": "Birth day requite",
+        "BIRTH_INVALID": "Birth day is invalid",
+        "GENDER_REQUITE": "Gender requite",
+        "GENDER_INVALID": "Gender is invalid",
+        "SCHOOL_REQUITE": "School name requite",
+        "SCHOOL_INVALID": "School name is invalid",
+        "AGE_REQUITE": "Age requite",
+        "AGE_INVALID": "Age is invalid",
+        "ADDRESS_REQUITE": "Address requite",
+        "ADDRESS_INVALID": "Address is invalid"
+    },
+    "USER_PROFILE": {
+        "CHILDREN_PROFILE": "Children's information",
+        "FULL_NAME": "Full name",
+        "AGE": "Age",
+        "SCHOOL": "School",
+        "CLASS": "Class",
+        "ADDRESS": "Address",
+        "PHONE_NUMBER": "Phone number",
+        "EMAIL": "Email",
+        "PARENT": "Parent",
+        "INPUT_NAME": "Input name...",
+        "BIRTH_DAY": "Birthday",
+        "SELECT_DAY": "Select day",
+        "GENDER": "Gender",
+        "INPUT_PHONE": "Input phone number...",
+        "INPUT_CLASS": "Input class...",
+        "INPUT_EMAIL": "Input email...",
+        "INPUT_ADDRESS": "Input address...",
+        "BUS_TITLE": "Bus information",
+        "BUS_ID": "License plates:",
+        "DRIVER": "Driver:",
+        "ATTENDANCE": "Attendance:",
+        "TIME_DEPART": "Depart time:",
+        "TIME_AT_SCHOOL": "Time at school:",
+        "TIME_ARRIVE": "Arrive time:",
+        "TIME_AT_HOME": "Time at home:",
+        "USER_TITLE": "User information"
+    },
+    "PAYMENT_PAGE": {
+        "TITLE": "Payment",
+        "ADD": "Add method pay"
     }
 }

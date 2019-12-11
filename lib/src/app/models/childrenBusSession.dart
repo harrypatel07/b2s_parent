@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/models/attendant.dart';
 import 'package:b2s_parent/src/app/models/picking-route.dart';
 import 'package:b2s_parent/src/app/models/picking-transport-info.dart';
@@ -329,10 +330,10 @@ class StatusBus {
   }
 
   static List<StatusBus> list = [
-    StatusBus(0, "Đang chờ", 0xFFFFD752),
-    StatusBus(1, "Đang trong chuyến", 0xFF8FD838),
-    StatusBus(2, "Đã tới trường", 0xFF3DABEC),
-    StatusBus(3, "Nghỉ học", 0xFFE80F0F),
-    StatusBus(4, "Đã về nhà", 0xFF6F32A0),
+    StatusBus(0, translation.text("STATUS_BUS.WAITING"), 0xFFFFD752),
+    StatusBus(1, translation.text("STATUS_BUS.ON_TRIP"), 0xFF8FD838),
+    StatusBus(2, translation.text("STATUS_BUS.AT_SCHOOL"), 0xFF3DABEC),
+    StatusBus(3, translation.text("STATUS_BUS.LEAVE"), 0xFFE80F0F),
+    StatusBus(4, translation.text("STATUS_BUS.AT_HOME"), 0xFF6F32A0),
   ];
 }

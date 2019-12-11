@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/helper/constant.dart';
 import 'package:b2s_parent/src/app/widgets/dateUtils.dart';
@@ -212,7 +213,7 @@ class _LeavePageState extends State<LeavePage> {
                             Container(
                               margin: EdgeInsets.all(10),
                               child: Align(
-                                child: Text("Ngày nghỉ lễ",style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,),
+                                child: Text(translation.text("LEAVE_PAGE.HOLIDAY"),style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,),
                               ),
                             ),
                           ],
@@ -233,7 +234,7 @@ class _LeavePageState extends State<LeavePage> {
                             Container(
                               margin: EdgeInsets.all(10),
                               child: Align(
-                                child: Text("Ngày nghỉ đã xin",style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,),
+                                child: Text(translation.text("LEAVE_PAGE.ALLOWED_DAYS"),style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,),
                               ),
                             ),
                           ],
@@ -261,7 +262,7 @@ class _LeavePageState extends State<LeavePage> {
                             Container(
                               margin: EdgeInsets.all(10),
                               child: Align(
-                                child: Text("Ngày đã chọn",style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,),
+                                child: Text(translation.text("LEAVE_PAGE.SELECTED_DAYS"),style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,),
                               ),
                             ),
                           ],
@@ -282,7 +283,7 @@ class _LeavePageState extends State<LeavePage> {
                             Container(
                               margin: EdgeInsets.all(10),
                               child: Align(
-                                child: Text("Ngày đã qua",style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,),
+                                child: Text(translation.text("LEAVE_PAGE.PASSED_DAYS"),style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,),
                               ),
                             ),
                           ],
@@ -480,10 +481,10 @@ class _LeavePageState extends State<LeavePage> {
           onPressed: () {
             popupConfirm(
                 context: context,
-                title: 'THÔNG BÁO',
-                desc: 'Xác nhận thay đổi thông tin ?',
-                yes: 'Có',
-                no: 'Không',
+                title: translation.text("POPUP_CONFIRM.TITLE"),
+                desc: translation.text("POPUP_CONFIRM.DESC_INFO"),
+                yes: translation.text("POPUP_CONFIRM.YES"),
+                no: translation.text("POPUP_CONFIRM.NO"),
                 onTap: () {
                   viewModel.onSend();
                   print("onSend list leave of primary child");

@@ -1,9 +1,8 @@
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
-import 'package:b2s_parent/src/app/helper/constant.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
-import 'package:b2s_parent/src/app/pages/user/edit_profile_children/edit_profile_children.dart';
 import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children.dart';
 import 'package:b2s_parent/src/app/service/common-service.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
@@ -14,7 +13,6 @@ import 'package:b2s_parent/src/app/models/category.dart';
 import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage extends StatefulWidget {
@@ -122,7 +120,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
       );
     }
 
-    Widget __card(ChildrenBusSession childrenBusSession) {
+    Widget __card(ChildrenBusSession childrenBusSession,int index) {
       List<RouteBus> _listRouteBus = List();
       viewModel.listChildren.forEach((item) {
         if (item.child.id == childrenBusSession.child.id) {
@@ -132,7 +130,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
         }
       });
       return BusAttentdanceCard(
-        tagHero: childrenBusSession.type.toString()+childrenBusSession.child.id.toString(),
+        tagHero: childrenBusSession.type.toString()+childrenBusSession.child.id.toString()+index.toString(),
         isExten: false,
         colorText: Colors.grey[800],
         colorLeft: Colors.grey,
@@ -153,10 +151,10 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
         onTapLeave: () {
           popupConfirm(
             context: context,
-            title: 'THÔNG BÁO',
-            desc: 'Xác nhận thay đổi trạng thái ?',
-            yes: 'Có',
-            no: 'Không',
+            title: translation.text("POPUP_CONFIRM.TITLE"),
+            desc: translation.text("POPUP_CONFIRM.DESC_STATUS"),
+            yes: translation.text("POPUP_CONFIRM.YES"),
+            no: translation.text("POPUP_CONFIRM.NO"),
             onTap: () {
               viewModel.onTapLeave(childrenBusSession);
               Navigator.pop(context);
@@ -168,13 +166,15 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
     }
 
     Widget __listChildren() {
+      int index = 0;
       var listDepart = List();
       var listArrive = List();
       if (!viewModel.isDataLoading && viewModel.listChildren.length > 0) {
         viewModel.listChildren.forEach((children) {
           children.type == 0
-              ? listDepart.add(__card(children))
-              : listArrive.add(__card(children));
+              ? listDepart.add(__card(children,index))
+              : listArrive.add(__card(children,index));
+          index ++;
         });
       }
       return Container(
@@ -182,13 +182,13 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
         child: viewModel.isDataLoading
             ? Column(
                 children: <Widget>[
-                  __itemTitle('Chuyến đi trong ngày'),
+                  __itemTitle(translation.text("HOME_PAGE.TRIP_DEPART_DAY")),
                   SizedBox(
                     height: 20,
                   ),
                   BusAttentdanceCardShimmer(),
                   BusAttentdanceCardShimmer(),
-                  __itemTitle('Chuyến về trong ngày'),
+                  __itemTitle(translation.text("HOME_PAGE.TRIP_ARRIVE_DAY")),
                   SizedBox(
                     height: 20,
                   ),
@@ -203,7 +203,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
                       if (listDepart.length > 0)
                         Column(
                           children: <Widget>[
-                            __itemTitle('Chuyến đi trong ngày'),
+                            __itemTitle(translation.text("HOME_PAGE.TRIP_DEPART_DAY")),
                             SizedBox(
                               height: 20,
                             ),
@@ -213,7 +213,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
                       if (listArrive.length > 0)
                         Column(
                           children: <Widget>[
-                            __itemTitle('Chuyến về trong ngày'),
+                            __itemTitle(translation.text("HOME_PAGE.TRIP_ARRIVE_DAY")),
                             SizedBox(
                               height: 20,
                             ),
@@ -229,7 +229,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
                     child: Align(
                       alignment: Alignment.topCenter,
                         child: Text(
-                      "Không có chuyến đi trong ngày.",
+                      translation.text("COMMON.DATA_EMPTY"),
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 18.0,
@@ -285,6 +285,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
           SizedBox(height: 30),
           _categoryList(),
           _buildListChildren(),
+          SizedBox(height: 30),
 //          _buildListChildren("Chuyến về trong ngày",
 //              viewModel.listChildrenArrive, TYPE_ARRIVE),
         ],

@@ -67,17 +67,6 @@ class TicketPass extends StatefulWidget {
 
 class _TicketPassState extends State<TicketPass> {
   bool switcher = false;
-  List<String> sample = <String>[
-    'Sample 1',
-    'Sample 2',
-    'Sample 3',
-    'Sample 4',
-    'Sample 5',
-    'Sample 6',
-    'Sample 7',
-    'Sample 8'
-  ];
-
   Widget _myWidget() {
       return ClipPath(
         clipper: TicketClipper(),

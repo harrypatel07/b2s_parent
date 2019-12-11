@@ -1,11 +1,13 @@
 import 'dart:ui';
 
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children_viewmodel.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
+import 'package:b2s_parent/src/app/widgets/ts24_button_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -52,23 +54,36 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
   Widget build(BuildContext context) {
     final deviceWidth = MediaQuery.of(context).size.width;
 
-    final cancelBtn = Positioned(
-      top: 50.0,
-      left: 20.0,
-      child: Container(
-        height: 35.0,
-        width: 35.0,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.grey.withOpacity(0.5),
+    Widget backButton() {
+      return Positioned(
+        top: 0,
+        left: 0,
+        child: SafeArea(
+          top: true,
+          bottom: false,
+          child: TS24Button(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(25),
+                  topRight: Radius.circular(25)),
+              color: Colors.black38,
+            ),
+            width: 70,
+            height: 50,
+            child: Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+            ),
+          ),
         ),
-        child: IconButton(
-          icon: Icon(LineIcons.close, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-          iconSize: 20.0,
-        ),
-      ),
-    );
+      );
+    }
     final qrCode = Positioned(
         bottom: 0,
         left: deviceWidth / 2 - 80,
@@ -140,7 +155,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                 ],
               ),
             )),
-        cancelBtn,
+        backButton(),
         qrCode
       ],
     );
@@ -255,7 +270,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                         margin: EdgeInsets.only(top: 3, right: 3, bottom: 3),
                         child: Icon(
                           type ? Icons.home : Icons.school,
-                          color: type ? ThemePrimary.primaryColor : ThemePrimary.colorDriverApp,
+                          color: !type ? ThemePrimary.primaryColor : ThemePrimary.colorDriverApp,
                           size: 20,
                         ),
                       ),
@@ -493,27 +508,27 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
             child: Container(
               child: Column(
                 children: <Widget>[
-                  rowTitle('THÔNG TIN HỌC SINH'),
-                  row1('Họ và tên :', children.name),
+                  rowTitle(translation.text("USER_PROFILE.CHILDREN_PROFILE").toUpperCase()),
+                  row1('${translation.text("USER_PROFILE.FULL_NAME")}:', children.name),
                   hr,
-                  row1('Tuổi :',
+                  row1('${translation.text("USER_PROFILE.AGE")}:',
                       children.age != null ? children.age.toString() : ''),
                   hr,
-                  row1('Trường :',
+                  row1('${translation.text("USER_PROFILE.SCHOOL")}:',
                       children.schoolName != null ? children.schoolName : ''),
                   hr,
-                  row1('Lớp :',
+                  row1('${translation.text("USER_PROFILE.CLASS")}:',
                       children.classes != null ? children.classes : ''),
                   hr,
-                  row1('Địa chỉ :',
+                  row1('${translation.text("USER_PROFILE.ADDRESS")}:',
                       children.location != null ? children.location : ''),
                   hr,
-                  row1('Số điện thoại :',
+                  row1('${translation.text("USER_PROFILE.PHONE_NUMBER")}:',
                       children.location != null ? children.phone : ''),
                   hr,
-                  row1('Email :', children.email != null ? children.email : ''),
+                  row1('${translation.text("USER_PROFILE.EMAIL")}:', children.email != null ? children.email : ''),
                   hr,
-                  row1('Phụ huynh :', Parent().name),
+                  row1('${translation.text("USER_PROFILE.PARENT")}:', Parent().name),
                   Container(
                     height: 1,
                     margin: EdgeInsets.only(bottom: 10),
@@ -544,12 +559,12 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
             child: viewModel.childrenBusSession != null
                 ? Column(
                     children: <Widget>[
-                      rowTitle('THÔNG TIN XE BUS'),
-                      row1('Biển số xe :',
+                      rowTitle(translation.text("USER_PROFILE.BUS_TITLE").toUpperCase()),
+                      row1(translation.text("USER_PROFILE.BUS_ID"),
                           viewModel.childrenBusSession.vehicleName.toString()),
                       hr,
                       rowIcon(title:
-                          'Tài xế :',
+                          translation.text("USER_PROFILE.DRIVER"),
                           content: viewModel.childrenBusSession.driver.name,
                           phoneNumber:viewModel.childrenBusSession.driver.phone,
                       onTap: (){
@@ -558,7 +573,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                       if (viewModel.startDepart != null)
                         hr,
                       rowIcon(title:
-                          'QL đưa đón :',
+                          translation.text("USER_PROFILE.ATTENDANCE"),
                           content:viewModel.childrenBusSession.attendant.name
                               .toString(),
                           phoneNumber:viewModel.childrenBusSession.attendant.phone
@@ -570,12 +585,12 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
 //                rowIcon('QL tại trường :', 'Âu Dương Phong', '0983932940'),
 //                hr,
                       if (viewModel.startDepart != null)
-                        row2('Giờ đón :', viewModel.startDepart, 'Đến trường :',
+                        row2(translation.text("USER_PROFILE.TIME_DEPART"), viewModel.startDepart, translation.text("USER_PROFILE.TIME_AT_SCHOOL"),
                             viewModel.endDepart, true),
                       if (viewModel.startArrive != null)
                         hr,
                       if (viewModel.startArrive != null)
-                        row2('Giờ về :', viewModel.startArrive, 'Về nhà :',
+                        row2(translation.text("USER_PROFILE.TIME_ARRIVE"), viewModel.startArrive, translation.text("USER_PROFILE.TIME_AT_HOME"),
                             viewModel.endArrive, false),
                       Container(
                         height: 1,

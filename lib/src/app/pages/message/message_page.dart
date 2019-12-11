@@ -1,4 +1,5 @@
 import 'package:b2s_parent/packages/loader_search_bar/loader_search_bar.dart';
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/chat.dart';
 import 'package:b2s_parent/src/app/pages/message/ContactsPage/contacts_page.dart';
@@ -43,7 +44,7 @@ class _MessagePageState extends State<MessagePage> {
 //      ),
 //    );
     return TS24AppBar(
-      title: new Text("Message"),
+      title: new Text(translation.text("MESSAGE_PAGE.TITLE")),
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.add),

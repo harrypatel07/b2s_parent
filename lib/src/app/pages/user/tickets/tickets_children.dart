@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/sale-order-line.dart';
@@ -127,7 +128,7 @@ class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                'Mã :',
+                                translation.text("TICKET_PAGE.CODE"),
                                 style: style,
                               ),
                               Text(
@@ -146,7 +147,7 @@ class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                'Loại :',
+                                translation.text("TICKET_PAGE.TYPE"),
                                 style: style,
                               ),
                               Text(
@@ -165,7 +166,7 @@ class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                'Đơn giá :',
+                                translation.text("TICKET_PAGE.PRICE"),
                                 style: style,
                               ),
                               Text(
@@ -187,7 +188,7 @@ class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
                       color: Colors.black38,
                       child: Center(
                         child: Text(
-                          'HẾT HẠN',
+                          translation.text("TICKET_PAGE.OUT_DATE").toUpperCase(),
                           style: TextStyle(
                               color: Colors.red,
                               fontWeight: FontWeight.w900,
@@ -230,7 +231,7 @@ class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.9,
                 child: Center(
-                  child: Text('Không có thông tin hiển thị.'),
+                  child: Text(translation.text("COMMON.DATA_TICKET_EMPTY")),
                 ),
               ),
       );
@@ -243,7 +244,7 @@ class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
         builder: (context, snapshot) {
           return Scaffold(
               appBar: TS24AppBar(
-                title: Text('Thông tin vé'),
+                title: Text(translation.text("TICKET_PAGE.TITLE")),
               ),
               body: RefreshIndicator(
                   onRefresh: () async {

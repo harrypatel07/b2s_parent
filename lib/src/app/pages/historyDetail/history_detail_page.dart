@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page.dart';
 import 'package:b2s_parent/src/app/pages/historyDetail/history_detail_page_viewmodel.dart';
@@ -332,21 +333,21 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: Text(
-                    'Thời gian',
+                    translation.text("HISTORY_TRIP_PAGE.TIME"),
                     textAlign: TextAlign.left,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
                 Center(
                   child: Text(
-                    'Đón',
+                    translation.text("HISTORY_TRIP_PAGE.PICK"),
                     textAlign: TextAlign.center,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
                 Center(
                   child: Text(
-                    'Trả',
+                    translation.text("HISTORY_TRIP_PAGE.DROP"),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -355,7 +356,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: Text(
-                    'Dự kiến',
+                    translation.text("HISTORY_TRIP_PAGE.ESTIMATE"),
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -381,7 +382,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: Text(
-                    'Thực tế',
+                    translation.text("HISTORY_TRIP_PAGE.REAL"),
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -406,7 +407,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: Text(
-                    'Chênh lệch',
+                    translation.text("HISTORY_TRIP_PAGE.REPORT"),
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -533,19 +534,19 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                     height: 10,
                   ),
                   row1(
-                      'Ngày:',
+                      translation.text("HISTORY_TRIP_PAGE.DAY"),
                       widget.historyInfo.day.toString() +
                           "/" +
                           widget.historyInfo.month.toString()),
                   hr,
-                  row1('Biển số xe :',
+                  row1(translation.text("HISTORY_TRIP_PAGE.BUS_ID"),
                       widget.historyInfo.vehicleName.toString()),
                   hr,
-                  row1('Trường :',
+                  row1(translation.text("HISTORY_TRIP_PAGE.SCHOOL"),
                       widget.historyInfo.children.schoolName.toString()),
                   hr,
                   rowIcon(
-                      title: 'Tài xế :',
+                      title: translation.text("HISTORY_TRIP_PAGE.DRIVER"),
                       content: widget.historyInfo.driver.name,
                       phoneNumber: widget.historyInfo.driver.phone.toString(),
                       onTap: () {
@@ -586,7 +587,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
         builder: (context, snapshot) {
           return Scaffold(
             appBar: TS24AppBar(
-              title: Text('Lịch sử chi tiết chuyến'),
+              title: Text(translation.text("HISTORY_TRIP_PAGE.TITLE_DETAIL")),
             ),
             body: SingleChildScrollView(
               child: Padding(
@@ -596,7 +597,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                     Row(
                       children: <Widget>[
                         Text(
-                          "ĐÓN",
+                          translation.text("HISTORY_TRIP_PAGE.PICK").toUpperCase(),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
@@ -605,7 +606,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                         ),
                         Expanded(flex: 6, child: Container()),
                         Text(
-                          "TRẢ",
+                          translation.text("HISTORY_TRIP_PAGE.DROP").toUpperCase(),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
@@ -637,7 +638,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                     ),
                     Row(
                       children: <Widget>[
-                        Text(viewModel.historyInfo.type == 0 ? "Nhà" : "Trường",
+                        Text(viewModel.historyInfo.type == 0 ? translation.text("HISTORY_TRIP_PAGE.HOME") : translation.text("HISTORY_TRIP_PAGE.SCHOOL"),
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w800,
@@ -662,7 +663,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                                       : Color(viewModel
                                           .historyInfo.status.statusColor)),
                             )),
-                        Text(viewModel.historyInfo.type == 0 ? "Trường" : "Nhà",
+                        Text(viewModel.historyInfo.type == 0 ?  translation.text("HISTORY_TRIP_PAGE.SCHOOL") : translation.text("HISTORY_TRIP_PAGE.HOME"),
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w800,

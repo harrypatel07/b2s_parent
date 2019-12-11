@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/theme/sizeConfig.dart';
 
 import 'package:flutter/material.dart' hide Key;
@@ -51,25 +52,25 @@ class Common {
     if (day == null) day = DateTime.now();
     switch (day.weekday) {
       case 1:
-        result["week"] = 'Thứ 2';
+        result["week"] = translation.text("COMMON.DAY_OF_WEEK.MONDAY");
         break;
       case 2:
-        result["week"] = 'Thứ 3';
+        result["week"] = translation.text("COMMON.DAY_OF_WEEK.TUESDAY");
         break;
       case 3:
-        result["week"] = 'Thứ 4';
+        result["week"] = translation.text("COMMON.DAY_OF_WEEK.WEDNESDAY");
         break;
       case 4:
-        result["week"] = 'Thứ 5';
+        result["week"] = translation.text("COMMON.DAY_OF_WEEK.THURSDAY");
         break;
       case 5:
-        result["week"] = 'Thứ 6';
+        result["week"] = translation.text("COMMON.DAY_OF_WEEK.FRIDAY");
         break;
       case 6:
-        result["week"] = 'Thứ 7';
+        result["week"] = translation.text("COMMON.DAY_OF_WEEK.SATURDAY");
         break;
       case 7:
-        result["week"] = 'Chủ nhật';
+        result["week"] = translation.text("COMMON.DAY_OF_WEEK.SUNDAY");
         break;
       default:
         break;
@@ -81,25 +82,25 @@ class Common {
     String result ='';
     switch (weekday) {
       case 1:
-        result = 'Thứ 2';
+        result = translation.text("COMMON.DAY_OF_WEEK.MONDAY");
         break;
       case 2:
-        result = 'Thứ 3';
+        result = translation.text("COMMON.DAY_OF_WEEK.TUESDAY");
         break;
       case 3:
-        result = 'Thứ 4';
+        result = translation.text("COMMON.DAY_OF_WEEK.WEDNESDAY");
         break;
       case 4:
-        result = 'Thứ 5';
+        result = translation.text("COMMON.DAY_OF_WEEK.THURSDAY");
         break;
       case 5:
-        result = 'Thứ 6';
+        result = translation.text("COMMON.DAY_OF_WEEK.FRIDAY");
         break;
       case 6:
-        result = 'Thứ 7';
+        result = translation.text("COMMON.DAY_OF_WEEK.SATURDAY");
         break;
       case 7:
-        result = 'Chủ nhật';
+        result = translation.text("COMMON.DAY_OF_WEEK.SUNDAY");
         break;
       default:
         break;

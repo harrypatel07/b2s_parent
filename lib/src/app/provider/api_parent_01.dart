@@ -396,6 +396,10 @@ class Api1 extends ApiMaster {
     });
   }
 
+  getImageByIdPartner(String id) {
+    return "$domainApi/web/image?model=res.partner&field=image&id=$id&${api.sessionId}";
+  }
+
   ///Update thông tin khách hàng
   ///
   ///Success - Trả về true

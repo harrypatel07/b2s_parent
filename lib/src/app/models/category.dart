@@ -1,7 +1,7 @@
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page.dart';
 import 'package:b2s_parent/src/app/pages/leave/leave_page.dart';
 import 'package:b2s_parent/src/app/pages/message/message_page.dart';
-import 'package:b2s_parent/src/app/pages/notification/notification_page.dart';
 import 'package:b2s_parent/src/app/pages/user/tickets/tickets_children.dart';
 import 'package:flutter/material.dart';
 
@@ -24,22 +24,22 @@ class Category {
     //   routeName: LocateBusPage.routeName,
     // ),
     Category(
-      name: "Nghỉ học",
+      name: translation.text("HOME_PAGE.CATEGORY.LEAVE"),
       color: Color(0xFFdea118),
       routeName: LeavePage.routeName,
     ),
     Category(
-      name: "Tin nhắn",
+      name: translation.text("HOME_PAGE.CATEGORY.MESSAGE"),
       color: Color(0xFFdea118),
       routeName: MessagePage.routeName,
     ),
     Category(
-      name: "Lịch sử chuyến",
+      name: translation.text("HOME_PAGE.CATEGORY.HISTORY_TRIP"),
       color: Color(0xFFdea118),
       routeName: HistoryPage.routeName,
     ),
     Category(
-        name: "Quản lý vé",
+        name: translation.text("HOME_PAGE.CATEGORY.TICKET_MANAGER"),
         color: Color(0xFFdea118),
         routeName: TicketsChildrenPage.routeName),
   ];

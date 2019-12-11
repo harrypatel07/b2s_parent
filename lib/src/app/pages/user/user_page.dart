@@ -1,6 +1,8 @@
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/pages/login/login_page.dart';
+import 'package:b2s_parent/src/app/pages/payment/editPaymentPage/edit_payment_page.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children.dart';
 import 'package:b2s_parent/src/app/pages/user/settings/user_settings.dart';
@@ -46,7 +48,7 @@ class _UserPageState extends State<UserPage>
     return new Column(
       children: <Widget>[
         InkWell(
-          onTap:()=>viewModel.onTapChildren(children),
+          onTap: () => viewModel.onTapChildren(children),
           child: new Container(
             //color: Colors.blue,
             margin: EdgeInsets.only(right: 10),
@@ -70,7 +72,10 @@ class _UserPageState extends State<UserPage>
                             print('on Tap avatar');
                             Navigator.pushNamed(
                               context,
-                              ProfileChildrenPage.routeName,arguments : ProfileChildrenPageArgs(children: children,heroTag: children.id.toString()),
+                              ProfileChildrenPage.routeName,
+                              arguments: ProfileChildrenPageArgs(
+                                  children: children,
+                                  heroTag: children.id.toString()),
                             );
                           },
                           child: Hero(
@@ -150,9 +155,10 @@ class _UserPageState extends State<UserPage>
         width: 100.0,
         decoration: BoxDecoration(
           // color: Colors.red,
-          image: DecorationImage(image: imageProvider,
+          image: DecorationImage(
+              image: imageProvider,
               // MemoryImage(viewModel.parent.photo)
-             fit: BoxFit.cover  ),
+              fit: BoxFit.cover),
           shape: BoxShape.circle,
         ),
       ),
@@ -179,7 +185,7 @@ class _UserPageState extends State<UserPage>
     final userInfo = Stack(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0,top: 20.0),
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
           child: Material(
             elevation: 5.0,
             borderRadius: BorderRadius.circular(8.0),
@@ -199,7 +205,8 @@ class _UserPageState extends State<UserPage>
                   color: Colors.white,
                 ),
                 child: Container(
-                  padding: const EdgeInsets.only(left: 20.0, bottom: 20.0,top: 20),
+                  padding:
+                      const EdgeInsets.only(left: 20.0, bottom: 20.0, top: 20),
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     child: Row(
@@ -253,6 +260,31 @@ class _UserPageState extends State<UserPage>
             UserSettingsPage.routeName,
           ),
         },
+      );
+    }
+
+    Widget _buildIconTilePayment(IconData icon, Color color, String title) {
+      return new ListTile(
+        title: Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        leading: Container(
+          height: 30.0,
+          width: 30.0,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Center(
+            child: Icon(
+              icon,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        trailing: Icon(LineIcons.chevron_circle_right),
+        onTap: () => {viewModel.onTapPayment()},
       );
     }
 
@@ -384,10 +416,10 @@ class _UserPageState extends State<UserPage>
               onTap: () {
                 popupConfirm(
                     context: context,
-                    title: 'THÔNG BÁO',
-                    desc: 'Xác nhận đăng xuất ?',
-                    yes: 'Có',
-                    no: 'Không',
+                    title: translation.text("POPUP_CONFIRM.TITLE"),
+                    desc: translation.text("POPUP_CONFIRM.DESC_LOG_OUT"),
+                    yes: translation.text("POPUP_CONFIRM.YES"),
+                    no: translation.text("POPUP_CONFIRM.NO"),
                     onTap: () {
                       Navigator.pop(context);
                       viewModel.parent.clearLocal();
@@ -414,15 +446,20 @@ class _UserPageState extends State<UserPage>
             ),
             child: Column(
               children: <Widget>[
-                _buildChildrenTitle(
-                    Icons.person_pin, ThemePrimary.primaryColor, "Quản lý thông tin trẻ"),
+                _buildChildrenTitle(Icons.person_pin, ThemePrimary.primaryColor,
+                    translation.text("USER_PAGE.CHILDREN_MANAGER")),
                 hr,
-                _buildTicketTitle(Icons.extension,ThemePrimary.primaryColor, "Quản lý vé"),
+                _buildTicketTitle(Icons.extension, ThemePrimary.primaryColor,
+                    translation.text("USER_PAGE.TICKET_MANAGER")),
+                hr,
+                // _buildIconTilePayment(
+                //     LineIcons.paypal, ThemePrimary.primaryColor, translation.text("USER_PAGE.PAYMENT")),
 //                hr,
 //                _buildIconTileSettings(
 //                    LineIcons.cogs, ThemePrimary.primaryColor, 'Cài đặt'),
                 hr,
-                _buildLogOutTitle(Icons.exit_to_app,ThemePrimary.primaryColor, "Đăng xuất"),
+                _buildLogOutTitle(Icons.exit_to_app, ThemePrimary.primaryColor,
+                    translation.text("USER_PAGE.LOG_OUT")),
               ],
             ),
           ),

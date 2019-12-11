@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/chat.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page.dart';
@@ -51,15 +52,15 @@ class HistoryDetailPageViewModel extends ViewModelBase {
     String hour = '';
     String minute = '';
     int h = estimate.difference(real).inHours.abs();
-    hour = '${h}h';
+    if (h > 0) hour = '${h}h';
     int m = estimate.difference(real).inMinutes.abs() -
         estimate.difference(real).inHours.abs() * 60;
-    minute = '${m}m';
-    if (h == 0 && m == 0) return '0h 0m';
+    if (m > 0) minute = '${m}m';
+    if (h == 0 && m == 0) return '0m';
     if (real.isBefore(estimate))
-      result = 'sớm $hour $minute';
+      result = '${translation.text("HISTORY_TRIP_PAGE.EARLY")} $hour $minute';
     else
-      result = 'trễ $hour $minute';
+      result = '${translation.text("HISTORY_TRIP_PAGE.LATE")} $hour $minute';
     return result;
   }
 }

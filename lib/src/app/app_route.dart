@@ -12,6 +12,8 @@ import 'package:b2s_parent/src/app/pages/message/messageUser/message_user_page.d
 import 'package:b2s_parent/src/app/pages/message/message_page.dart';
 import 'package:b2s_parent/src/app/pages/message/profileMessageUser/profile_message_user_page.dart';
 import 'package:b2s_parent/src/app/pages/notification/notification_page.dart';
+import 'package:b2s_parent/src/app/pages/payment/editPaymentPage/edit_payment_page.dart';
+import 'package:b2s_parent/src/app/pages/payment/payment_page.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page.dart';
 import 'package:b2s_parent/src/app/pages/user/edit_profile_children/edit_profile_children.dart';
 import 'package:b2s_parent/src/app/pages/user/edit_profile_parent/edit_profile_parent.dart';
@@ -72,6 +74,8 @@ class Routes {
     ContactsPage.routeName: (context) => ContactsPage(),
     TicketsDetailPage.routeName: (context) => TicketsDetailPage(args:ModalRoute.of(context).settings.arguments),
     HistoryDetailPage.routeName: (context) => HistoryDetailPage(historyInfo: ModalRoute.of(context).settings.arguments,),
+    EditPaymentPage.routeName: (context) => EditPaymentPage(),
+    PaymentPage.routeName: (context) => PaymentPage(),
   };
 }
 
