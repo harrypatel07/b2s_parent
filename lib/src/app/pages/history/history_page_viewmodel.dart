@@ -12,28 +12,27 @@ class HistoryPageViewModel extends ViewModelBase {
   ScrollController controller;
   int take = 10;
   int skip = 0;
-  bool loadingMore = true;
+  bool loadingMore = false;
   HistoryPageViewModel() {
     controller = ScrollController();
     controller.addListener(() {
-      if (controller.offset == controller.position.maxScrollExtent)
-        onLoadMore();
+      if (controller.offset >= controller.position.maxScrollExtent &&
+          !controller.position.outOfRange) onLoadMore();
     });
     onLoad();
   }
   onLoad() {
     loading = true;
-    take = 10;
+    this.updateState();
+    listHistoryTrip = List();
     skip = 0;
     api.getHistoryTrip(take: take, skip: skip).then((data) {
       if (data.length > 0) {
-        listHistoryTrip = List();
         data.forEach((item) {
           listHistoryTrip.add(item);
+          skip += item.trip.length;
         });
         loading = false;
-        skip += take;
-        take += 10;
         this.updateState();
       } else {
         loading = false;
@@ -44,14 +43,14 @@ class HistoryPageViewModel extends ViewModelBase {
 
   onLoadMore() {
     loadingMore = true;
-    api.getHistoryTrip(take: take, skip: skip).then((data) {
+    this.updateState();
+    api.getHistoryTrip(take: take, skip: skip ).then((data) {
       if (data.length > 0) {
         data.forEach((item) {
           listHistoryTrip.add(item);
+          skip += item.trip.length;
         });
         loadingMore = false;
-        skip += take;
-        take += 10;
         this.updateState();
       } else {
         loadingMore = false;

@@ -356,6 +356,7 @@ class _HistoryPageState extends State<HistoryPage> {
             : viewModel.listHistoryTrip.length > 0
                 ? ListView(
                     controller: viewModel.controller,
+                    physics: const AlwaysScrollableScrollPhysics(),
                     shrinkWrap: true,
                     children: <Widget>[
                       ...viewModel.listHistoryTrip
@@ -385,12 +386,14 @@ class _HistoryPageState extends State<HistoryPage> {
                       SizedBox(
                         height: 40,
                       ),
+//                      if(!viewModel.controller.position.outOfRange)
+//                        SizedBox(height: MediaQuery.of(context).size.height*0.9,)
                     ],
                   )
                 : SingleChildScrollView(
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.8,
+                      height: MediaQuery.of(context).size.height * 0.9,
                       alignment: Alignment.center,
                       child:
                           Text(translation.text("COMMON.DATA_HISTORY_EMPTY")),
