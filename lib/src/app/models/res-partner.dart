@@ -151,7 +151,8 @@ class ResPartner {
   dynamic wkDob;
   dynamic xPosx;
   dynamic xPosy;
-
+  dynamic xQrCode;
+  dynamic xQrCodeImg;
   ResPartner({
     this.sLastUpdate,
     this.active,
@@ -300,6 +301,8 @@ class ResPartner {
     this.wkDob,
     this.xPosx,
     this.xPosy,
+    this.xQrCode,
+    this.xQrCodeImg,
   });
 
   ResPartner.fromJson(Map<String, dynamic> json) {
@@ -623,6 +626,7 @@ class ResPartner {
     wkDob = json['wk_dob'];
     xPosx = json['x_posx'];
     xPosy = json['x_posy'];
+    xQrCode = json['x_qr_code'];
   }
 
   ResPartner.fromChildren(Children children) {
@@ -634,13 +638,13 @@ class ResPartner {
     email = children.email;
     phone = children.phone;
     parentId = children.parentId;
-    xSchool = children.schoolId;
+    // xSchool = children.schoolId;
     xClass = children.classes;
     wkDob = children.birthday;
     street = children.location;
     xPosx = children.lat;
     xPosy = children.lng;
-    type = "other";
+    type = "contact";
   }
 
   ResPartner.fromParent(Parent parent) {
