@@ -12,7 +12,7 @@ class Attendant {
       {this.id, this.name, this.photo, this.gender, this.phone, this.email});
 
   Attendant.fromJsonController(Map<dynamic, dynamic> _attendant) {
-    this.id = _attendant["id"];
+    if(!(_attendant["id"] is bool)) this.id = _attendant["id"];
     this.name = _attendant["name"];
     this.phone = _attendant["phone"];
     this.email = _attendant["email"];

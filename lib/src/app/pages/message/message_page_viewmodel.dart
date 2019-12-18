@@ -45,7 +45,7 @@ class MessagePageViewModel extends ViewModelBase {
         listChat = onData.documents
             .map((item) => Chatting.fromDocumentSnapShot(item))
             .toList();
-        listChat.removeWhere((item)=>int.parse(item.peerId) == parent.id);
+        listChat.removeWhere((item) => int.parse(item.peerId) == parent.id);
         //get image listChat
         listChat.forEach((item) {
           api.getCustomerInfo(item.peerId).then((onValue) {
@@ -59,6 +59,9 @@ class MessagePageViewModel extends ViewModelBase {
             }
           });
         });
+      } else {
+        loadingDataMessage = false;
+        this.updateState();
       }
     });
   }
