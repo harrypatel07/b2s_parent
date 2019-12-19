@@ -635,7 +635,8 @@ class ResPartner {
     image = children.photo;
     contactAddress = children.location;
     title = children.genderId;
-    email = children.email;
+    if (children.email != null) if (!(children.email is bool))
+      email = children.email;
     phone = children.phone;
     parentId = children.parentId;
     // xSchool = children.schoolId;
@@ -657,6 +658,7 @@ class ResPartner {
     phone = parent.phone;
     xPosx = parent.lat;
     xPosy = parent.lng;
+    type = "contact";
   }
 
   Map<String, dynamic> toJson() {

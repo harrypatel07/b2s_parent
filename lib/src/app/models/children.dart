@@ -71,9 +71,14 @@ class Children {
       gender = resPartner.title[1];
       genderId = resPartner.title[0];
     }
-    if (resPartner.xSchool is List) {
-      schoolName = resPartner.xSchool[1];
-      schoolId = resPartner.xSchool[0];
+    // if (resPartner.xSchool is List) {
+    //   schoolName = resPartner.xSchool[1];
+    //   schoolId = resPartner.xSchool[0];
+    //   classes = resPartner.xClass;
+    // }
+    if (resPartner.companyId is List) {
+      schoolName = resPartner.companyId[1];
+      schoolId = resPartner.companyId[0];
       classes = resPartner.xClass;
     }
     email = resPartner.email;
