@@ -12,10 +12,10 @@ class Driver {
 
   Driver.fromJsonController(Map<dynamic, dynamic> _driver) {
     this.id = _driver["id"];
-    this.name = _driver["name"];
-    this.phone = _driver["phone"];
-    this.email = _driver["email"];
-    this.photo = _driver["image"];
+    this.name = (_driver["name"] is bool) ? "" : _driver["name"];
+    this.phone = (_driver["phone"] is bool) ? "" : _driver["phone"];
+    this.email = (_driver["email"] is bool) ? "" : _driver["email"];
+    this.photo = (_driver["photo"] is bool) ? "" : _driver["photo"];
   }
   Driver.fromResPartner(ResPartner resPartner) {
     id = resPartner.id;
