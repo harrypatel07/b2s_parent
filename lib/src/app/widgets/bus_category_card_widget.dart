@@ -1,5 +1,4 @@
 import 'package:b2s_parent/src/app/models/category.dart';
-import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

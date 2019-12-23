@@ -13,6 +13,10 @@
         "SALE_TICKET": "Bán vé",
         "CHECK_TICKET": "Soát vé"
     },
+    "SIGN_IN_PAGE": {
+        "TITLE": "Đăng ký tài khoản"
+
+    },
     "WAITING_MESSAGE": {
         "PERMISSION_CONNECT": "Đang kiểm tra quyền truy cập...",
         "AUTH_ACCOUNT": "Đang xác thực tài khoản",
@@ -95,14 +99,17 @@
         "TYPE": "Loại:",
         "PRICE": "Đơn giá:",
         "ACTIVE_TIME": "Thời gian kích hoạt:",
-        "OUT_DATE": "Hết hạn"
+        "OUT_DATE": "Hết hạn",
+        "CODE_INVALID": "Mã soát vé không hợp lệ."
     },
     "USER_PAGE": {
         "TITLE": "Người dùng",
         "CHILDREN_MANAGER": "Quản lý thông tin trẻ",
         "TICKET_MANAGER": "Quản lý vé",
         "PAYMENT": "Thanh toán",
-        "LOG_OUT": "Đăng xuất"
+        "LOG_OUT": "Đăng xuất",
+        "NOTICE_REGISTERED": "Học sinh này đã được đăng ký. Vui lòng kiểm tra lại.",
+        "SELECT_GENDER": "Chọn giới tính..."
     },
     "COMMON": {
         "DAY_OF_WEEK": {
@@ -154,7 +161,10 @@
         "AGE_REQUITE": "Tuổi không được trống",
         "AGE_INVALID": "Tuổi không hợp lệ",
         "ADDRESS_REQUITE": "Địa chỉ không được trống",
-        "ADDRESS_INVALID": "Địa chỉ không đúng"
+        "ADDRESS_INVALID": "Địa chỉ không đúng",
+        "MESSAGE_EMPTY": "Không có tin nhắn để hiển thị.",
+        "SUCCESS": "Thành công.",
+        "FAIL": "Thất bại"
     },
     "USER_PROFILE": {
         "CHILDREN_PROFILE": "Thông tin học sinh",

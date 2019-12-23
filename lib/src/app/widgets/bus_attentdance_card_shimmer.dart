@@ -108,44 +108,44 @@ class _BusAttentdanceCardShimmerState extends State<BusAttentdanceCardShimmer> {
         );
       }
 
-      Widget _____driverPhone() {
-        return Container(
-          width: 100,
-          padding: EdgeInsets.only(top: 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(right: 10),
-                color: Colors.transparent,
-                child: _shimmer(
-                    widget: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18.0), color: _color),
-                  width: 80,
-                  height: 35,
-                )),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                padding: EdgeInsets.only(right: 10),
-                color: Colors.transparent,
-                child: _shimmer(
-                    widget: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18.0), color: _color),
-                  width: 80,
-                  height: 35,
-                )),
-              ),
-            ],
-          ),
-        );
-      }
+//      Widget _____driverPhone() {
+//        return Container(
+//          width: 100,
+//          padding: EdgeInsets.only(top: 10),
+//          child: Column(
+//            mainAxisAlignment: MainAxisAlignment.center,
+//            children: <Widget>[
+//              Container(
+//                padding: EdgeInsets.only(right: 10),
+//                color: Colors.transparent,
+//                child: _shimmer(
+//                    widget: Container(
+//                  alignment: Alignment.center,
+//                  decoration: BoxDecoration(
+//                      borderRadius: BorderRadius.circular(18.0), color: _color),
+//                  width: 80,
+//                  height: 35,
+//                )),
+//              ),
+//              SizedBox(
+//                height: 15,
+//              ),
+//              Container(
+//                padding: EdgeInsets.only(right: 10),
+//                color: Colors.transparent,
+//                child: _shimmer(
+//                    widget: Container(
+//                  alignment: Alignment.center,
+//                  decoration: BoxDecoration(
+//                      borderRadius: BorderRadius.circular(18.0), color: _color),
+//                  width: 80,
+//                  height: 35,
+//                )),
+//              ),
+//            ],
+//          ),
+//        );
+//      }
 
       return Container(
         width: MediaQuery.of(context).size.width - 43,

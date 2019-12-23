@@ -1,9 +1,7 @@
-import 'package:b2s_parent/packages/loader_search_bar/loader_search_bar.dart';
 import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/chat.dart';
 import 'package:b2s_parent/src/app/pages/message/ContactsPage/contacts_page.dart';
-import 'package:b2s_parent/src/app/pages/message/messageUser/message_user_page.dart';
 import 'package:b2s_parent/src/app/pages/message/message_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -141,14 +139,20 @@ class _MessagePageState extends State<MessagePage> {
           ? LoadingSpinner.loadingView(
               context: viewModel.context,
               loading: (viewModel.loadingDataMessage))
-          : ListView.builder(
-              //padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-              itemCount: viewModel.listChat.length,
-              itemBuilder: (context, index) {
-                var _model = viewModel.listChat[index];
-                return WidgetANimator(_buildMessageRow(_model));
-              },
-            ),
+          : (viewModel.listChat.length > 0)
+              ? ListView.builder(
+                  //padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                  itemCount: viewModel.listChat.length,
+                  itemBuilder: (context, index) {
+                    var _model = viewModel.listChat[index];
+                    return WidgetANimator(_buildMessageRow(_model));
+                  },
+                )
+              : Container(
+                  child: Center(
+                    child: Text(translation.text("COMMON.MESSAGE_EMPTY")),
+                  ),
+                ),
     );
   }
 

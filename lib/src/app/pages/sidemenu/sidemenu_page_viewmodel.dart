@@ -5,7 +5,6 @@ import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/children.dart';
-import '../../models/childrenBusSession.dart';
 
 class SideMenuPageViewModel extends ViewModelBase {
   String mainProfilePicture =

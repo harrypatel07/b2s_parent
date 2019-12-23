@@ -16,6 +16,7 @@ class TicketChildrenViewModel extends ViewModelBase{
   }
   onLoad(){
     loading = true;
+    this.updateState();
     api.getTicketOfListChildren().then((tickets){
       listSaleOrderLine = tickets;
       loading = false;

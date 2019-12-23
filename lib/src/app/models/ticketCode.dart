@@ -26,6 +26,14 @@ class TicketCode {
               this.classId +
               this.birthDay +
               this.childrenId;
+
+      this.schoolType = code.substring(0, 1);
+      this.schoolType = code.substring(1, 5);
+      this.schoolId = code.substring(5, 11);
+      this.dateInitCode = code.substring(11, 14);
+      this.classId = code.substring(11, 14);
+      this.birthDay = code.substring(14, 18);
+      this.childrenId = code.substring(18, 23);
       for (var index = 0; index < sumCode.length; index++) {
         ordinalNum = index + 1;
         switch (ordinalNum) {

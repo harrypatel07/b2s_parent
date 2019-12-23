@@ -1,7 +1,6 @@
 import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page.dart';
-import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page.dart';
 import 'package:b2s_parent/src/app/pages/user/user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
@@ -15,6 +16,7 @@ import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/models/category.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
+import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
 import 'package:flutter/material.dart';
 
 import '../../app_route.dart';
@@ -94,6 +96,7 @@ class HomePageViewModel extends ViewModelBase {
 
   loadData() {
     isDataLoading = true;
+    this.updateState();
     api.getListChildrenBusSessionV2().then((data) {
       listChildren = data;
       isDataLoading = false;
@@ -106,17 +109,26 @@ class HomePageViewModel extends ViewModelBase {
         });
       this.updateState();
     });
-    this.updateState();
   }
 
   onTapLeave(ChildrenBusSession childrenBusSession) {
-    childrenBusSession.status = StatusBus.list[3];
-    updateChildren(childrenBusSession);
-    //update bus session treen firestore
-    cloudService.busSession
-        .updateBusSessionFromChildrenBusSession(childrenBusSession);
-//    loadData();
-    this.updateState();
+    popupConfirm(
+      context: context,
+      title: translation.text("POPUP_CONFIRM.TITLE"),
+      desc: translation.text("POPUP_CONFIRM.DESC_STATUS"),
+      yes: translation.text("POPUP_CONFIRM.YES"),
+      no: translation.text("POPUP_CONFIRM.NO"),
+      onTap: () {
+        childrenBusSession.status = StatusBus.list[3];
+        updateChildren(childrenBusSession);
+        //update bus session treen firestore
+        cloudService.busSession
+            .updateBusSessionFromChildrenBusSession(childrenBusSession);
+        this.updateState();
+        Navigator.pop(context);
+        print('onTap leave');
+      },
+    );
   }
 
   updateChildren(ChildrenBusSession session) {

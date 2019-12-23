@@ -9,6 +9,7 @@ import 'package:b2s_parent/src/app/pages/message/messageDetail/message_detail_pa
 import 'package:b2s_parent/src/app/service/index.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/icon_marker_custom.dart';
+import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -267,10 +268,21 @@ class LocateBusPageViewModel extends ViewModelBase {
 //    }
   }
   onTapLeave() {
-    childrenBus.status = StatusBus.list[3];
-    updateChildren(childrenBus);
+    popupConfirm(
+      context: context,
+      title: 'THÔNG BÁO',
+      desc: 'Xác nhận thay đổi trạng thái ?',
+      yes: 'Có',
+      no: 'Không',
+      onTap: () {
+        childrenBus.status = StatusBus.list[3];
+        updateChildren(childrenBus);
 //    loadData();
-    this.updateState();
+        this.updateState();
+        Navigator.pop(context);
+        print('onTap leave');
+      },
+    );
   }
 
   onTapChatDriver() {

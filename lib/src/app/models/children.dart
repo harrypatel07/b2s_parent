@@ -45,18 +45,18 @@ class Children {
 
   Children.fromJsonController(Map<dynamic, dynamic> partner) {
     this.id = partner["id"];
-    this.schoolName = partner["school"];
-    this.phone = partner["phone"];
-    this.name = partner["name"];
+    this.schoolName = (partner["school"] is bool) ? "" : partner["school"];
+    this.phone = (partner["phone"] is bool) ? "" : partner["phone"];
+    this.name = (partner["name"] is bool) ? "" : partner["name"];
     this.birthday = partner["date_of_birth"];
     if (this.birthday != null) if (!(this.birthday is bool)) {
       var date = DateTime.parse(this.birthday);
       var dateNow = DateTime.now();
       this.age = dateNow.year - date.year;
     }
-    this.email = partner["email"];
+    this.email = (partner["email"] is bool) ? "" : partner["email"];
     this.photo = partner["image"];
-    this.classes = partner["class"];
+    this.classes = (partner["classes"] is bool) ? "" : partner["classes"];
     this.genderId = partner["title"]["id"];
     this.gender = partner["title"]["name"];
     this.paidTicket = true;
@@ -64,9 +64,11 @@ class Children {
 
   Children.fromResPartner(ResPartner resPartner, {bool primary}) {
     id = resPartner.id;
-    name = resPartner.name;
+    name = (resPartner.name is bool) ? "" : resPartner.name;
     photo = resPartner.image;
-    location = resPartner.contactAddress;
+    location = (resPartner.street is bool) || (resPartner.street == "false")
+        ? ""
+        : resPartner.street;
     if (resPartner.title is List) {
       gender = resPartner.title[1];
       genderId = resPartner.title[0];
@@ -81,8 +83,8 @@ class Children {
       schoolId = resPartner.companyId[0];
       classes = resPartner.xClass;
     }
-    email = resPartner.email;
-    phone = resPartner.phone;
+    email = (resPartner.email is bool) ? "" : resPartner.email;
+    phone = (resPartner.phone is bool) ? "" : resPartner.phone;
     paidTicket = false;
     if (resPartner.parentId is List) parentId = resPartner.parentId[0];
     this.primary = primary;

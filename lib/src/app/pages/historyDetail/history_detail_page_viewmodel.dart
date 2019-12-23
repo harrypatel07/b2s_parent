@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 
 class HistoryDetailPageViewModel extends ViewModelBase {
   HistoryInfo historyInfo;
-  HistoryDetailPageViewModel() {}
+  HistoryDetailPageViewModel();
   onTapChatDriver() {
     Chatting chatting = Chatting(
         peerId: historyInfo.driver.id.toString(),

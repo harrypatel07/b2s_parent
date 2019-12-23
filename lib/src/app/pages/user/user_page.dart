@@ -1,15 +1,12 @@
 import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
-import 'package:b2s_parent/src/app/pages/login/login_page.dart';
-import 'package:b2s_parent/src/app/pages/payment/editPaymentPage/edit_payment_page.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children.dart';
-import 'package:b2s_parent/src/app/pages/user/settings/user_settings.dart';
 import 'package:b2s_parent/src/app/pages/user/tickets/tickets_children.dart';
 import 'package:b2s_parent/src/app/pages/user/user_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
-import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
+import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
@@ -233,72 +230,88 @@ class _UserPageState extends State<UserPage>
         ),
       ],
     );
-    Widget _buildIconTileSettings(IconData icon, Color color, String title) {
-      return new ListTile(
-        title: Text(
-          title,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        leading: Container(
-          height: 30.0,
-          width: 30.0,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Center(
-            child: Icon(
-              icon,
-              color: Colors.white,
-            ),
-          ),
-        ),
-        trailing: Icon(LineIcons.chevron_circle_right),
-        onTap: () => {
-          Navigator.pushNamed(
-            context,
-            UserSettingsPage.routeName,
-          ),
-        },
-      );
-    }
-
-    Widget _buildIconTilePayment(IconData icon, Color color, String title) {
-      return new ListTile(
-        title: Text(
-          title,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        leading: Container(
-          height: 30.0,
-          width: 30.0,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Center(
-            child: Icon(
-              icon,
-              color: Colors.white,
-            ),
-          ),
-        ),
-        trailing: Icon(LineIcons.chevron_circle_right),
-        onTap: () => {viewModel.onTapPayment()},
-      );
-    }
+//    Widget _buildIconTileSettings(IconData icon, Color color, String title) {
+//      return new ListTile(
+//        title: Text(
+//          title,
+//          style: TextStyle(fontWeight: FontWeight.bold),
+//        ),
+//        leading: Container(
+//          height: 30.0,
+//          width: 30.0,
+//          decoration: BoxDecoration(
+//            color: color,
+//            borderRadius: BorderRadius.circular(10.0),
+//          ),
+//          child: Center(
+//            child: Icon(
+//              icon,
+//              color: Colors.white,
+//            ),
+//          ),
+//        ),
+//        trailing: Icon(LineIcons.chevron_circle_right),
+//        onTap: () => {
+//          Navigator.pushNamed(
+//            context,
+//            UserSettingsPage.routeName,
+//          ),
+//        },
+//      );
+//    }
+//
+//    Widget _buildIconTilePayment(IconData icon, Color color, String title) {
+//      return new ListTile(
+//        title: Text(
+//          title,
+//          style: TextStyle(fontWeight: FontWeight.bold),
+//        ),
+//        leading: Container(
+//          height: 30.0,
+//          width: 30.0,
+//          decoration: BoxDecoration(
+//            color: color,
+//            borderRadius: BorderRadius.circular(10.0),
+//          ),
+//          child: Center(
+//            child: Icon(
+//              icon,
+//              color: Colors.white,
+//            ),
+//          ),
+//        ),
+//        trailing: Icon(LineIcons.chevron_circle_right),
+//        onTap: () => {viewModel.onTapPayment()},
+//      );
+//    }
 
     Widget _itemChildAdd() {
       return InkWell(
         onTap: () => viewModel.onTapCreateChildren(),
-        child: new Container(
-          height: 50,
-          child: Align(
-            alignment: Alignment.center,
-            child: Icon(
-              Icons.add_circle,
-              size: 40,
-              color: Colors.teal,
+        child: Center(
+          child: new Container(
+            margin: EdgeInsets.all(5),
+            height: 45,
+            width: 45,
+            decoration: BoxDecoration(
+                color: ThemePrimary.colorDriverApp, shape: BoxShape.circle),
+            child: Stack(
+              children: <Widget>[
+                Center(
+                  child: Icon(
+                    Icons.crop_free,
+                    size: 35,
+                    color: Colors.white,
+                  ),
+                ),
+                Center(
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                )
+              ],
             ),
           ),
         ),
@@ -315,9 +328,17 @@ class _UserPageState extends State<UserPage>
           child: Container(
             //height: 200,
             color: Colors.grey.shade300,
-            child: Column(
-              children: listChildrenItem,
-            ),
+            child: viewModel.loadingListChildren
+                ? Column(
+              children: <Widget>[
+                Container(height: 100,child: LoadingSpinner.loadingView(
+                    context: context, loading: viewModel.loadingListChildren),),
+                _itemChildAdd()
+              ],
+            )
+                : Column(
+                    children: listChildrenItem,
+                  ),
           ));
     }
 
@@ -414,18 +435,7 @@ class _UserPageState extends State<UserPage>
               ),
               trailing: Icon(LineIcons.chevron_circle_right),
               onTap: () {
-                popupConfirm(
-                    context: context,
-                    title: translation.text("POPUP_CONFIRM.TITLE"),
-                    desc: translation.text("POPUP_CONFIRM.DESC_LOG_OUT"),
-                    yes: translation.text("POPUP_CONFIRM.YES"),
-                    no: translation.text("POPUP_CONFIRM.NO"),
-                    onTap: () {
-                      Navigator.pop(context);
-                      viewModel.parent.clearLocal();
-                      Navigator.pushReplacementNamed(
-                          context, LoginPage.routeName);
-                    });
+                viewModel.onTapLogout();
               }),
         ],
       );

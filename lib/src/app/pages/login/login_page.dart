@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/pages/login/login_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/service/index.dart';
-import 'package:b2s_parent/src/app/service/onesingal-service.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
@@ -163,6 +161,137 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
           ));
     }
 
+    Widget _socialLogin() {
+      return Container(
+//        color: Colors.red,
+        width: MediaQuery.of(context).size.width,
+//        height: 100,
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: 15,
+            ),
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 15,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 2,
+                    color: Colors.grey[400],
+                  ),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  'Social Login',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                      color: Colors.grey[400]),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 2,
+                    color: Colors.grey[400],
+                  ),
+                ),
+                SizedBox(
+                  width: 15,
+                )
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration:
+                      BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
+                  child: Center(
+                    child: Icon(
+                      FontAwesomeIcons.facebookF,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration:
+                      BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                  child: Center(
+                    child: Icon(
+                      FontAwesomeIcons.googlePlusG,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration:
+                      BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
+                  child: Center(
+                    child: Icon(
+                      FontAwesomeIcons.apple,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Người dùng mới?',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                InkWell(
+                    onTap: () {
+                      viewModel.onTapSignIn();
+                    },
+                    child: Text(
+                      'Đăng ký',
+                      style: TextStyle(
+                          color: ThemePrimary.primaryColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700),
+                    ))
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            )
+          ],
+        ),
+      );
+    }
+
     Widget _submitLogin() {
       Widget radioButton(bool isSelected) => Container(
             width: 16.0,
@@ -255,7 +384,8 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
             Padding(
               padding: EdgeInsets.only(left: 10, right: 10),
               child: _submitLogin(),
-            )
+            ),
+            _socialLogin(),
           ],
         ),
       ),

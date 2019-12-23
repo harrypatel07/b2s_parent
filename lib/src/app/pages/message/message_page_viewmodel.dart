@@ -15,7 +15,6 @@ class MessagePageViewModel extends ViewModelBase {
   StreamSubscription streamCloud;
   List<Chatting> listChat = [];
   bool loadingDataMessage = true;
-  bool loadingDataContacts = true;
   Parent parent = Parent();
   @override
   void dispose() {
@@ -25,7 +24,6 @@ class MessagePageViewModel extends ViewModelBase {
 
   MessagePageViewModel() {
     loadingDataMessage = true;
-    loadingDataContacts = true;
     searchBarController = new SearchBarController();
   }
   Future listenData() async {

@@ -13,7 +13,7 @@ class ProfileChildrenViewModel extends ViewModelBase {
   String endDepart;
   String startArrive;
   String endArrive;
-  ProfileChildrenViewModel() {}
+  ProfileChildrenViewModel();
   ///Tạo thời gian đón, đến trường, về ,đến nhà
   onCreateTime() {
     if (listRouteBus.length <= 0) return;

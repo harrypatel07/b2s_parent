@@ -633,7 +633,7 @@ class ResPartner {
     if (children.id != null) id = children.id;
     name = children.name;
     image = children.photo;
-    contactAddress = children.location;
+    // contactAddress = children.location;
     title = children.genderId;
     if (children.email != null) if (!(children.email is bool))
       email = children.email;
@@ -645,20 +645,21 @@ class ResPartner {
     street = children.location;
     xPosx = children.lat;
     xPosy = children.lng;
-    type = "contact";
+    type = "other";
   }
 
   ResPartner.fromParent(Parent parent) {
     if (parent.id != null) id = parent.id;
     name = parent.name;
     image = parent.photo;
-    contactAddress = parent.contactAddress;
+    street = parent.contactAddress;
     title = parent.genderId;
     email = parent.email;
     phone = parent.phone;
     xPosx = parent.lat;
     xPosy = parent.lng;
     type = "contact";
+    categoryId = parent.listTagId;
   }
 
   Map<String, dynamic> toJson() {
@@ -676,7 +677,10 @@ class ResPartner {
     // data['bank_ids'] = this.bankIds;
     // data['barcode'] = this.barcode;
     // data['calendar_last_notif_ack'] = this.calendarLastNotifAck;
-    // data['category_id'] = this.categoryId;
+    if (this.categoryId != null) {
+      var listCategoryId = "[(6, 0, ${this.categoryId})]";
+      data['category_id'] = listCategoryId;
+    }
     // data['channel_ids'] = this.channelIds;
     // data['child_ids'] = this.childIds;
     // data['city'] = this.city;
@@ -687,7 +691,8 @@ class ResPartner {
     // data['company_id'] = this.companyId;
     // data['company_name'] = this.companyName;
     // data['company_type'] = this.companyType;
-    data['contact_address'] = this.contactAddress;
+    if (this.contactAddress != null) if (!(this.contactAddress is bool))
+      data['contact_address'] = this.contactAddress;
     // data['contract_ids'] = this.contractIds;
     // data['contracts_count'] = this.contractsCount;
     // data['country_id'] = this.countryId;
@@ -746,7 +751,8 @@ class ResPartner {
     data['name'] = this.name;
     // data['opportunity_count'] = this.opportunityCount;
     // data['opportunity_ids'] = this.opportunityIds;
-    if (!(this.parentId is bool)) data['parent_id'] = this.parentId;
+    if (this.parentId != null) if (!(this.parentId is bool))
+      data['parent_id'] = this.parentId;
     // data['parent_name'] = this.parentName;
     // data['partner_gid'] = this.partnerGid;
     // data['partner_share'] = this.partnerShare;
@@ -778,7 +784,8 @@ class ResPartner {
     // data['signup_url'] = this.signupUrl;
     // data['signup_valid'] = this.signupValid;
     // data['state_id'] = this.stateId;
-    data['street'] = this.street;
+    if (!(this.street is bool)) if (this.street != null)
+      data['street'] = this.street;
     // data['street2'] = this.street2;
     // data['supplier'] = this.supplier;
     // data['team_id'] = this.teamId;

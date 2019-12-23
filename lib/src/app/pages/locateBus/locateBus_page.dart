@@ -3,9 +3,7 @@ import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/widgets/bus_attentdance_card.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
-import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
 import 'package:b2s_parent/src/app/widgets/ts24_button_widget.dart';
-import 'package:b2s_parent/src/app/widgets/ts24_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -115,18 +113,7 @@ class _LocateBusPageState extends State<LocateBusPage> {
             colorRight: Colors.grey,
             isExten: true,
             onTapLeave: () {
-              popupConfirm(
-                context: context,
-                title: 'THÔNG BÁO',
-                desc: 'Xác nhận thay đổi trạng thái ?',
-                yes: 'Có',
-                no: 'Không',
-                onTap: () {
-                  viewModel.onTapLeave();
-                  Navigator.pop(context);
-                  print('onTap leave');
-                },
-              );
+              viewModel.onTapLeave();
             },
             onTapChatDriver: () {
               viewModel.onTapChatDriver();
@@ -165,14 +152,14 @@ class _LocateBusPageState extends State<LocateBusPage> {
       );
     }
 
-    Widget __timeLine() {
-      var listTimeLine = viewModel.childrenBus.listRouteBus
-          .map((item) => EventTime(item.time, item.routeName, "", item.status))
-          .toList();
-      return TS24TimeLine(
-          listTimeLine: listTimeLine,
-          height: MediaQuery.of(context).size.height);
-    }
+//    Widget __timeLine() {
+//      var listTimeLine = viewModel.childrenBus.listRouteBus
+//          .map((item) => EventTime(item.time, item.routeName, "", item.status))
+//          .toList();
+//      return TS24TimeLine(
+//          listTimeLine: listTimeLine,
+//          height: MediaQuery.of(context).size.height);
+//    }
 
     return SingleChildScrollView(
         controller: _sc,
@@ -256,12 +243,18 @@ class _LocateBusPageState extends State<LocateBusPage> {
                     children: <Widget>[
                       _buildBody(),
                       DraggableScrollableSheet(
-                        minChildSize:
-                            180 / MediaQuery.of(context).size.height, // 0.1 times of available height, sheet can't go below this on dragging
-                        maxChildSize:
-                        435/ MediaQuery.of(context).size.height, // 0.7 times of available height, sheet can't go above this on dragging
-                        initialChildSize:
-                        180 / MediaQuery.of(context).size.height, // 0.1 times of available height, sheet start at this size when opened for first time
+                        minChildSize: 180 /
+                            MediaQuery.of(context)
+                                .size
+                                .height, // 0.1 times of available height, sheet can't go below this on dragging
+                        maxChildSize: 435 /
+                            MediaQuery.of(context)
+                                .size
+                                .height, // 0.7 times of available height, sheet can't go above this on dragging
+                        initialChildSize: 180 /
+                            MediaQuery.of(context)
+                                .size
+                                .height, // 0.1 times of available height, sheet start at this size when opened for first time
                         builder: (BuildContext context,
                             ScrollController controller) {
                           return SingleChildScrollView(
@@ -269,21 +262,21 @@ class _LocateBusPageState extends State<LocateBusPage> {
 
                             controller: controller,
                             child: Stack(
-                                children: <Widget>[
-                                   Container(
-                                     color: Colors.transparent,
-                                     width: MediaQuery.of(context).size.width,
-                                     height: 435,
-                                   ),
-                                   Positioned(
-                                     bottom: 0,
-                                     right: 0,
-                                     left: 0,
-                                     child: _buildPanel(),
-                                   ),
+                              children: <Widget>[
+                                Container(
+                                  color: Colors.transparent,
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 435,
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  left: 0,
+                                  child: _buildPanel(),
+                                ),
 //                                  _buildPanel(),
-                                  _buildIconLocation(),
-                                ],
+                                _buildIconLocation(),
+                              ],
                             ),
                           );
                         },

@@ -95,14 +95,17 @@
         "TYPE": "Type:",
         "PRICE": "Price:",
         "ACTIVE_TIME": "Active time:",
-        "OUT_DATE": "OUT DATE"
+        "OUT_DATE": "OUT DATE",
+        "CODE_INVALID": "Code invalid."
     },
     "USER_PAGE": {
         "TITLE": "User",
         "CHILDREN_MANAGER": "Children manager",
         "TICKET_MANAGER": "Ticket manager",
         "PAYMENT": "Payment",
-        "LOG_OUT": "Logout"
+        "LOG_OUT": "Logout",
+        "NOTICE_REGISTERED": "The User has registered already. Please check again.",
+      "SELECT_GENDER": "Select gender..."
     },
     "COMMON": {
         "DAY_OF_WEEK": {
@@ -154,7 +157,10 @@
         "AGE_REQUITE": "Age requite",
         "AGE_INVALID": "Age is invalid",
         "ADDRESS_REQUITE": "Address requite",
-        "ADDRESS_INVALID": "Address is invalid"
+        "ADDRESS_INVALID": "Address is invalid",
+        "MESSAGE_EMPTY": "Message is empty.",
+        "SUCCESS": "Success.",
+        "FAIL": "Fail"
     },
     "USER_PROFILE": {
         "CHILDREN_PROFILE": "Children's information",

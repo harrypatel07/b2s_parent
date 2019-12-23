@@ -188,7 +188,9 @@ class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
                       color: Colors.black38,
                       child: Center(
                         child: Text(
-                          translation.text("TICKET_PAGE.OUT_DATE").toUpperCase(),
+                          translation
+                              .text("TICKET_PAGE.OUT_DATE")
+                              .toUpperCase(),
                           style: TextStyle(
                               color: Colors.red,
                               fontWeight: FontWeight.w900,
@@ -242,7 +244,7 @@ class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
       child: StreamBuilder(
         stream: viewModel.stream,
         builder: (context, snapshot) {
-          return Scaffold(
+          return TS24Scaffold(
               appBar: TS24AppBar(
                 title: Text(translation.text("TICKET_PAGE.TITLE")),
               ),

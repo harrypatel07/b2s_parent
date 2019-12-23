@@ -1,19 +1,16 @@
 import 'dart:io';
 import 'package:b2s_parent/packages/flutter_form_builder/lib/src/fields/form_builder_dropdown.dart';
-import 'package:b2s_parent/packages/flutter_form_builder/lib/src/fields/form_builder_typeahead.dart';
 import 'package:b2s_parent/packages/flutter_form_builder/lib/src/form_builder_validators.dart';
 import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/pages/user/edit_profile_children/edit_profile_children_viewmodel.dart';
-import 'package:b2s_parent/src/app/service/common-service.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/drop_down_field.dart';
 import 'package:b2s_parent/src/app/widgets/ts24_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -46,9 +43,11 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
 //    viewModel.listChildren = this.arguments.parent.listChildren;
     viewModel.initData();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
-      viewModel.scrollController.animateTo(viewModel.scrollController.position.maxScrollExtent,
-          duration: Duration(milliseconds: 200), curve: Curves.easeOut);
-    }));
+          viewModel.scrollController.animateTo(
+              viewModel.scrollController.position.maxScrollExtent,
+              duration: Duration(milliseconds: 200),
+              curve: Curves.easeOut);
+        }));
     super.initState();
   }
 
@@ -248,7 +247,7 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (v) {
                           viewModel.fieldFocusChange(context,
-                              viewModel.nameFocus, viewModel.schoolFocus);
+                              viewModel.nameFocus, viewModel.phoneFocus);
                         },
                       ),
                     ),
@@ -317,6 +316,7 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
                         : FormBuilderDropdown(
                             attribute: translation.text("USER_PROFILE.GENDER"),
                             decoration: InputDecoration(
+                              errorText: viewModel.errorGender,
                               labelText:
                                   translation.text("USER_PROFILE.GENDER"),
                               labelStyle: __styleTextLabel,
@@ -338,68 +338,81 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
             ),
             SizedBox(height: 15.0),
             Container(
-                width: MediaQuery.of(context).size.width,
-                child: viewModel.loadingSchool ||
-                        viewModel.listSchool.length == 0
-                    ? _textFormFieldLoading(
-                        translation.text("USER_PROFILE.SCHOOL"))
-                    : FormBuilderTypeAhead(
-                        readOnly: false,
-                        textFieldConfiguration: TextFieldConfiguration(
-                            focusNode: viewModel.schoolFocus,
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.next,
-                            onSubmitted: (v) {
-                              viewModel.fieldFocusChange(context,
-                                  viewModel.schoolFocus, viewModel.phoneFocus);
-                            }),
-                        decoration: InputDecoration(
-                            hintText: "Nhập tên trường...",
-                            labelText: translation.text("USER_PROFILE.SCHOOL"),
-                            labelStyle: __styleTextLabel,
-                            errorText: viewModel.errorSchoolName),
-                        attribute: translation.text("USER_PROFILE.SCHOOL"),
-                        initialValue: viewModel.school.displayName,
-                        onChanged: (text) =>
-                            viewModel.schoolNameEditingController.text = text,
-                        itemBuilder: (context, school) {
-                          return ListTile(
-                            title: Text(school),
-                          );
-                        },
-                        onSuggestionSelected: (strSchool) => {
-                          viewModel.onSelectedSchoolItem(strSchool),
-                          viewModel.fieldFocusChange(context,
-                              viewModel.schoolFocus, viewModel.phoneFocus),
-                        },
-                        suggestionsCallback: (query) {
-                          if (query.length != 0 && query != '') {
-                            var lowercaseQuery =
-                                Common.sanitizing(query.toLowerCase());
-                            var listResult = viewModel.listSchool
-                                .where((school) {
-                                  return (Common.sanitizing(
-                                          school.displayName.toLowerCase())
-                                      .contains(lowercaseQuery));
-                                })
-                                .toList(growable: false)
-                                .map((item) => item.displayName)
-                                .toList()
-                                  ..sort((a, b) =>
-                                      Common.sanitizing(a.toLowerCase())
-                                          .indexOf(lowercaseQuery)
-                                          .compareTo(
-                                              Common.sanitizing(b.toLowerCase())
-                                                  .indexOf(lowercaseQuery)));
-                            return viewModel.sortListSchoolShow(listResult);
-                          } else {
-                            var listResult = viewModel.listSchool
-                                .map((item) => item.displayName)
-                                .toList();
-                            return viewModel.sortListSchoolShow(listResult);
-                          }
-                        },
-                      )),
+              width: MediaQuery.of(context).size.width,
+              child:
+//                viewModel.loadingSchool ||
+//                        viewModel.listSchool.length == 0
+//                    ? _textFormFieldLoading(
+//                        translation.text("USER_PROFILE.SCHOOL"))
+//                    :
+                  TextFormField(
+//                  enabled: false,
+                readOnly: true,
+                controller: viewModel.schoolNameEditingController,
+                style: TextStyle(fontSize: 18, color: Colors.black),
+                decoration: InputDecoration(
+                  labelText: translation.text("USER_PROFILE.SCHOOL"),
+                  labelStyle: __styleTextLabel,
+                ),
+              ),
+//                FormBuilderTypeAhead(
+//                        readOnly: false,
+//                        textFieldConfiguration: TextFieldConfiguration(
+//                            focusNode: viewModel.schoolFocus,
+//                            keyboardType: TextInputType.text,
+//                            textInputAction: TextInputAction.next,
+//                            onSubmitted: (v) {
+//                              viewModel.fieldFocusChange(context,
+//                                  viewModel.schoolFocus, viewModel.phoneFocus);
+//                            }),
+//                        decoration: InputDecoration(
+//                            hintText: "Nhập tên trường...",
+//                            labelText: translation.text("USER_PROFILE.SCHOOL"),
+//                            labelStyle: __styleTextLabel,
+//                            errorText: viewModel.errorSchoolName),
+//                        attribute: translation.text("USER_PROFILE.SCHOOL"),
+//                        initialValue: viewModel.school.displayName,
+//                        onChanged: (text) =>
+//                            viewModel.schoolNameEditingController.text = text,
+//                        itemBuilder: (context, school) {
+//                          return ListTile(
+//                            title: Text(school),
+//                          );
+//                        },
+//                        onSuggestionSelected: (strSchool) => {
+//                          viewModel.onSelectedSchoolItem(strSchool),
+//                          viewModel.fieldFocusChange(context,
+//                              viewModel.schoolFocus, viewModel.phoneFocus),
+//                        },
+//                        suggestionsCallback: (query) {
+//                          if (query.length != 0 && query != '') {
+//                            var lowercaseQuery =
+//                                Common.sanitizing(query.toLowerCase());
+//                            var listResult = viewModel.listSchool
+//                                .where((school) {
+//                                  return (Common.sanitizing(
+//                                          school.displayName.toLowerCase())
+//                                      .contains(lowercaseQuery));
+//                                })
+//                                .toList(growable: false)
+//                                .map((item) => item.displayName)
+//                                .toList()
+//                                  ..sort((a, b) =>
+//                                      Common.sanitizing(a.toLowerCase())
+//                                          .indexOf(lowercaseQuery)
+//                                          .compareTo(
+//                                              Common.sanitizing(b.toLowerCase())
+//                                                  .indexOf(lowercaseQuery)));
+//                            return viewModel.sortListSchoolShow(listResult);
+//                          } else {
+//                            var listResult = viewModel.listSchool
+//                                .map((item) => item.displayName)
+//                                .toList();
+//                            return viewModel.sortListSchoolShow(listResult);
+//                          }
+//                        },
+//                      )
+            ),
             SizedBox(height: 15.0),
             Container(
               width: MediaQuery.of(context).size.width,
@@ -417,9 +430,8 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
                           labelStyle: __styleTextLabel,
                           labelText:
                               translation.text("USER_PROFILE.PHONE_NUMBER"),
-                          hintText: children != null
-                              ? children.phone.toString()
-                              : translation.text("USER_PROFILE.INPUT_PHONE"),
+                          hintText:
+                              translation.text("USER_PROFILE.INPUT_PHONE"),
 //                          errorText: viewModel.errorPhone,
                         ),
                         textInputAction: TextInputAction.next,
@@ -507,11 +519,9 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
                         decoration: InputDecoration(
                             labelStyle: __styleTextLabel,
                             labelText: translation.text("USER_PROFILE.ADDRESS"),
-                            hintText: children != null
-                                ? children.location
-                                : translation
-                                    .text("USER_PROFILE.INPUT_ADDRESS"),
-                            errorText: viewModel.errorAdress),
+                            hintText:
+                                translation.text("USER_PROFILE.INPUT_ADDRESS"),
+                            errorText: viewModel.errorAddress),
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.text,
                         onFieldSubmitted: (v) {
@@ -641,7 +651,7 @@ class _EditProfileChildrenState extends State<EditProfileChildren> {
   }
 }
 
-class Consts {
+class Const {
   static const double padding = 16.0;
   static const double avatarRadius = 66.0;
 }

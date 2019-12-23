@@ -9,6 +9,7 @@ import 'package:b2s_parent/src/app/models/historyTrip.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/picking-route.dart';
 import 'package:b2s_parent/src/app/models/picking-transport-info.dart';
+import 'package:b2s_parent/src/app/models/res-partner-category.dart';
 import 'package:b2s_parent/src/app/models/res-partner-title.dart';
 import 'package:b2s_parent/src/app/models/res-partner.dart';
 import 'package:b2s_parent/src/app/models/route-location.dart';
@@ -106,7 +107,9 @@ class Api1 extends ApiMaster {
       "x_company_type",
       "x_date_of_birth",
       "x_school",
-      "wk_dob"
+      "wk_dob",
+      "x_qr_code",
+      "category_id"
     ];
     var params = convertSerialize(body);
     List<ResPartner> listResult = new List();
@@ -225,7 +228,9 @@ class Api1 extends ApiMaster {
       "x_company_type",
       "x_date_of_birth",
       "x_school",
-      "wk_dob"
+      "wk_dob",
+      "x_qr_code",
+      "category_id",
     ];
     var params = convertSerialize(body);
     List<ResPartner> listResult = new List();
@@ -251,9 +256,17 @@ class Api1 extends ApiMaster {
   ///Lấy thông tin title(gender) của khách hàng
   Future<List<ResPartnerTitle>> getTitleCustomer() async {
     await this.authorization();
+    body = new Map();
+    body["fields"] = [
+      "name",
+      "display_name",
+      "id",
+    ];
+    var params = convertSerialize(body);
     List<ResPartnerTitle> listResult = new List();
     return http
-        .get('${this.api}/search_read/res.partner.title', headers: this.headers)
+        .get('${this.api}/search_read/res.partner.title?$params',
+            headers: this.headers)
         .then((http.Response response) async {
       if (response.statusCode == 200) {
         List list = json.decode(response.body);
@@ -328,7 +341,9 @@ class Api1 extends ApiMaster {
       "x_company_type",
       "x_date_of_birth",
       "x_school",
-      "wk_dob"
+      "wk_dob",
+      "x_qr_code",
+      "category_id"
     ];
     var params = convertSerialize(body);
     return http
@@ -432,7 +447,8 @@ class Api1 extends ApiMaster {
       "x_date_of_birth",
       "x_school",
       "zip",
-      "wk_dob"
+      "wk_dob",
+      "x_qr_code"
     ];
     var params = convertSerialize(body);
     List<ResPartner> listResult = List();
@@ -466,6 +482,14 @@ class Api1 extends ApiMaster {
     body["model"] = "res.partner";
     body["ids"] = json.encode([partner.id]);
     body["values"] = json.encode(partner.toJson());
+    print(json.encode(partner.toJson()));
+    if (partner.categoryId != null) if (partner.categoryId.length > 0) {
+      var jsonString = json.encode(partner.toJson());
+      body["values"] = jsonString.replaceAll(
+          '"[(6, 0, ${partner.categoryId})]"',
+          '[(6, 0, ${partner.categoryId})]');
+      print(body["values"]);
+    }
     return http
         .put('${this.api}/write', headers: this.headers, body: body)
         .then((http.Response response) {
@@ -536,6 +560,31 @@ class Api1 extends ApiMaster {
     body = new Map();
     body["model"] = "res.partner";
     body["values"] = json.encode(partner.toJson());
+    return http
+        .post('${this.api}/create', headers: this.headers, body: body)
+        .then((http.Response response) {
+      var result;
+      if (response.statusCode == 200) {
+        var list = json.decode(response.body);
+        if (list is List) result = list[0];
+        //print(list);
+      } else {
+        result = null;
+      }
+      return result;
+    });
+  }
+
+  ///Insert thông tin tags
+  ///
+  ///Success - Trả về new id
+  ///
+  ///Fail - Trả về null
+  Future<dynamic> insertTags(ResPartnerCategory category) async {
+    await this.authorization();
+    body = new Map();
+    body["model"] = "res.partner.category";
+    body["values"] = json.encode(category.toJson());
     return http
         .post('${this.api}/create', headers: this.headers, body: body)
         .then((http.Response response) {
@@ -994,6 +1043,74 @@ class Api1 extends ApiMaster {
         listResult.add(historyTrip);
       }
       return listResult;
+    });
+  }
+
+  ///Kiểm tra children có parent hay chưa, nếu chưa update children vào parent
+  Future<bool> checkChildrenHasParent(dynamic id) async {
+    ResPartner partner = await getCustomerInfo(id);
+    bool result = false;
+    if (partner != null) {
+      if (partner.parentId is List)
+        result = true;
+      else {
+        Parent parent = Parent();
+        Children children = Children.fromResPartner(partner);
+        children.parentId = parent.id;
+        ResPartner resPartner = ResPartner.fromChildren(children);
+        await api.updateCustomer(resPartner);
+        parent.listChildren.add(children);
+        parent.saveLocal();
+        api.checkTagsExistByName(children.schoolName);
+      }
+    }
+    return result;
+  }
+
+  //Kiểm tra tags có tồn tại theo name, nếu chưa tạo mới tag và update vào field tag của parent
+  Future<bool> checkTagsExistByName(String name) async {
+    await this.authorization();
+    body = new Map();
+    body["domain"] = [
+      ['name', '=', name.trim()],
+    ];
+    body["fields"] = ["name"];
+    var params = convertSerialize(body);
+    Parent parent = Parent();
+    bool result = false;
+    return http
+        .get('${this.api}/search_read/res.partner.category?$params',
+            headers: this.headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 200) {
+        List list = json.decode(response.body);
+        var id;
+        if (list.length > 0) {
+          result = true;
+          var listCategory =
+              list.map((item) => ResPartnerCategory.fromJson(item)).toList();
+          id = listCategory[0].id;
+        } else {
+          //Insert tag
+          ResPartnerCategory category = ResPartnerCategory();
+          category.name = name;
+          id = await insertTags(category);
+        }
+        if (id != null) {
+          ResPartner resPartner = ResPartner.fromParent(parent);
+          if (resPartner.categoryId != null) if (resPartner.categoryId.length >
+              0) {
+            resPartner.categoryId.add(int.parse(id.toString()));
+            await api.updateCustomer(resPartner);
+            await api.getParentInfo(parent.id);
+            await api.getTicketOfListChildren();
+          }
+        }
+      }
+
+      return result;
+    }).catchError((error) {
+      return result;
     });
   }
 }

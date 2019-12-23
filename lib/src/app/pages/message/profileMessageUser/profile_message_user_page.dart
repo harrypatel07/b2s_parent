@@ -7,7 +7,6 @@ import 'package:b2s_parent/src/app/widgets/ts24_button_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:validators/sanitizers.dart';
 class ProfileMessageUserPage extends StatelessWidget {
@@ -133,105 +132,6 @@ class ProfileMessageUserPage extends StatelessWidget {
         ),
       );
     }
-
-    Widget row2(String title1, String content1, String title2, String content2,
-        bool type) {
-      return Container(
-        color: Colors.white,
-        padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 15),
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 3,
-                  child: SizedBox(),
-                ),
-                Expanded(
-                  flex: 5,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 3, right: 3, bottom: 3),
-                        child: Icon(
-                          type ? Icons.home : Icons.school,
-                          color: type ? Colors.orange : Colors.green,
-                          size: 20,
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          title1,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 5,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      content1,
-                      textAlign: TextAlign.left,
-                      style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 3,
-                  child: SizedBox(),
-                ),
-                Expanded(
-                  flex: 5,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 3, right: 3, bottom: 3),
-                        child: Icon(
-                          type ? Icons.school : Icons.home,
-                          color: type ? Colors.green : Colors.orange,
-                          size: 20,
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          title2,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 5,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      content2,
-                      textAlign: TextAlign.left,
-                      style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ],
-        ),
-      );
-    }
-
     Widget row1(String title, String content) {
       return Container(
         color: Colors.white,

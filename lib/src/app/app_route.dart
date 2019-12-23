@@ -19,7 +19,9 @@ import 'package:b2s_parent/src/app/pages/user/edit_profile_children/edit_profile
 import 'package:b2s_parent/src/app/pages/user/edit_profile_parent/edit_profile_parent.dart';
 import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children.dart';
 import 'package:b2s_parent/src/app/pages/user/settings/user_settings.dart';
+import 'package:b2s_parent/src/app/pages/user/signIn/sign_in_page.dart';
 import 'package:b2s_parent/src/app/pages/user/tickets/tickets_children.dart';
+import 'package:b2s_parent/src/app/pages/user/tickets_detail/student_card/student_card_page.dart';
 import 'package:b2s_parent/src/app/pages/user/tickets_detail/ticket_detail_page.dart';
 import 'package:flutter/material.dart';
 
@@ -73,9 +75,11 @@ class Routes {
         userModel: ModalRoute.of(context).settings.arguments),
     ContactsPage.routeName: (context) => ContactsPage(),
     TicketsDetailPage.routeName: (context) => TicketsDetailPage(args:ModalRoute.of(context).settings.arguments),
+    StudentCardPage.routeName: (context) => StudentCardPage(args:ModalRoute.of(context).settings.arguments),
     HistoryDetailPage.routeName: (context) => HistoryDetailPage(historyInfo: ModalRoute.of(context).settings.arguments,),
     EditPaymentPage.routeName: (context) => EditPaymentPage(),
     PaymentPage.routeName: (context) => PaymentPage(),
+    SignInPage.routeName: (context) => SignInPage(),
   };
 }
 

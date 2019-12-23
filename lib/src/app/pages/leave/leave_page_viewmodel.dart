@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/helper/constant.dart';
@@ -5,6 +6,9 @@ import 'package:b2s_parent/src/app/widgets/dateUtils.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/models/month_module.dart';
+import 'package:b2s_parent/src/app/widgets/index.dart';
+import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class LeavePageViewModel extends ViewModelBase {
@@ -51,13 +55,13 @@ class LeavePageViewModel extends ViewModelBase {
       this.updateState();
     });
   }
-  onSend() {
+  Future<bool> onSend() async{
     listDate.sort((a,b)=>a.compareTo(b));
     List<String> listStringDate = listDate.map((date)=>DateFormat('yyyy-MM-dd').format(date).toString()).toList();
-    api.updateLeaveByIdChildren(childPrimary.id, listStringDate);
+    this.updateState();
+    return await api.updateLeaveByIdChildren(childPrimary.id, listStringDate);
     // send listDate
 //    saveChildrenStatus();
-    this.updateState();
   }
   void updateSelected(DateTime day){
     if(listDate.contains(day))
@@ -94,5 +98,27 @@ class LeavePageViewModel extends ViewModelBase {
           list[1].status = status;
           break;
       }
+  }
+  onTapSave(){
+    popupConfirm(
+        context: context,
+        title: translation.text("POPUP_CONFIRM.TITLE"),
+        desc: translation.text("POPUP_CONFIRM.DESC_INFO"),
+        yes: translation.text("POPUP_CONFIRM.YES"),
+        no: translation.text("POPUP_CONFIRM.NO"),
+        onTap: () async{
+          bool result = await onSend();
+          if(result) {
+//            print("onSend list leave of primary child");
+            Navigator.pop(context);
+            LoadingDialog.showMsgDialog(context, translation.text("COMMON.SUCCESS"));
+          }else {
+            Navigator.pop(context);
+            LoadingDialog.showMsgDialog(
+                context, translation.text("COMMON.FAIL"));
+          }
+          this.updateState();
+        }
+    );
   }
 }

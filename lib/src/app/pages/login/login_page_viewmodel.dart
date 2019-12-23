@@ -5,6 +5,7 @@ import 'package:b2s_parent/src/app/helper/validator-helper.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page.dart';
+import 'package:b2s_parent/src/app/pages/user/signIn/sign_in_page.dart';
 import 'package:b2s_parent/src/app/provider/api_master.dart';
 import 'package:b2s_parent/src/app/service/onesingal-service.dart';
 import 'package:b2s_parent/src/app/widgets/ts24_utils_widget.dart';
@@ -118,5 +119,8 @@ class LoginPageViewModel extends ViewModelBase {
             context, translation.text("ERROR_MESSAGE.WRONG_LOGIN"));
       }
     }
+  }
+  onTapSignIn(){
+    Navigator.pushNamed(context, SignInPage.routeName);
   }
 }

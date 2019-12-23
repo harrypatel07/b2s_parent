@@ -12,13 +12,11 @@ import 'package:b2s_parent/src/app/service/common-service.dart';
 import 'package:b2s_parent/src/app/widgets/drop_down_field.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:validators/sanitizers.dart';
 
 class EditProfileChildrenViewModel extends ViewModelBase {
   List<ItemDropDownField> listGender = List();
@@ -71,7 +69,7 @@ class EditProfileChildrenViewModel extends ViewModelBase {
   String _errorSchoolName;
   get errorSchoolName => _errorSchoolName;
   String _errorAddress;
-  get errorAdress => _errorAddress;
+  get errorAddress => _errorAddress;
   File imageFile;
   Uint8List imagePicker;
   dynamic pickImageError;
@@ -102,17 +100,17 @@ class EditProfileChildrenViewModel extends ViewModelBase {
     _nameEditingController.addListener(() => {isValidName()});
     _emailEditingController.addListener(() => {isValidEmail()});
     _ageEditingController.addListener(() => {isValidAge()});
-    _schoolNameEditingController
-        .addListener(() => {checkValidSchoolNameInit()});
+//    _schoolNameEditingController
+//        .addListener(() => {checkValidSchoolNameInit()});
     _addressEditingController.addListener(() => {isValidAddress()});
-    _birthDayEditingController.addListener(()=>{isValidBirthDay()});
+    _birthDayEditingController.addListener(() => {isValidBirthDay()});
 //    _phoneEditingController.addListener(() => {isValidPhone()});
 //    _genderEditingController.addListener(() => {isValidGender()});
   }
 
   initData() {
     getListGender();
-    getListSchool();
+//    getListSchool();
     // if (viewModel.children != null)
     //   viewModel.imagePicker = viewModel.children.photo;
     if (this.childId != -1)
@@ -120,19 +118,36 @@ class EditProfileChildrenViewModel extends ViewModelBase {
           parent.listChildren.singleWhere((child) => child.id == this.childId);
     if (children != null) {
       _nameEditingController.text = children.name;
-      _ageEditingController.text = children.age.toString();
-      _schoolNameEditingController.text = children.schoolName;
-      _addressEditingController.text = children.location;
+      _ageEditingController.text =
+          (children.age is bool || children.age == null)
+              ? ''
+              : children.age.toString();
+      _schoolNameEditingController.text =
+          (children.schoolName is bool || children.schoolName == null)
+              ? ''
+              : children.schoolName.toString();
+      _addressEditingController.text =
+          (children.location is bool || children.location == null)
+              ? ''
+              : children.location.toString();
       _genderEditingController.text =
-          (children.gender == null) ? '' : children.gender.toString();
-      _emailEditingController.text = children.email ?? parent.email;
-      _classesEditingController.text = children.classes.toString();
+          (children.gender is bool || children.gender == null)
+              ? ''
+              : children.gender.toString();
+//      _emailEditingController.text = children.email ?? parent.email;
+      _classesEditingController.text =
+          (children.classes is bool || children.classes == null)
+              ? ''
+              : children.classes.toString();
       _phoneEditingController.text =
-          toBoolean(children.phone.toString()) != false ? children.phone : '';
-      _birthDayEditingController.text = (children.birthday != false)
-          ? DateFormat('dd/MM/yyyy')
-              .format(DateTime.parse(children.birthday.toString()))
-          : '';
+          (children.phone is bool || children.phone == null)
+              ? ''
+              : children.phone.toString();
+      _birthDayEditingController.text =
+          (children.birthday is bool || children.birthday == null)
+              ? ''
+              : DateFormat('dd/MM/yyyy')
+                  .format(DateTime.parse(children.birthday.toString()));
     }
   }
 
@@ -150,9 +165,9 @@ class EditProfileChildrenViewModel extends ViewModelBase {
 
   bool isValidEmail() {
     _errorEmail = null;
-    var resultemail = Validator.validateEmail(_emailEditingController.text);
-    if (resultemail != null) {
-      _errorEmail = resultemail;
+    var resultEmail = Validator.validateEmail(_emailEditingController.text);
+    if (resultEmail != null) {
+      _errorEmail = resultEmail;
       this.updateState();
       return false;
     } else
@@ -184,23 +199,11 @@ class EditProfileChildrenViewModel extends ViewModelBase {
     return true;
   }
 
-  bool isValidBirthDay(){
+  bool isValidBirthDay() {
     errorBirthDay = null;
     var result = Validator.validateBirthDay(_birthDayEditingController.text);
-    if(result != null){
-      errorBirthDay = result;
-      this.updateState();
-      return false;
-    }else
-      this.updateState();
-    return true;
-  }
-
-  bool isValidGender() {
-    _errorGender = null;
-    var result = Validator.validateGender(_genderEditingController.text);
     if (result != null) {
-      _errorGender = result;
+      errorBirthDay = result;
       this.updateState();
       return false;
     } else
@@ -208,13 +211,36 @@ class EditProfileChildrenViewModel extends ViewModelBase {
     return true;
   }
 
-  bool checkValidSchoolNameInit() {
-    _errorSchoolName = null;
-    if (_schoolNameEditingController.text.length < 1)
+//  bool isValidGender() {
+//    _errorGender = null;
+//    var result = Validator.validateGender(_genderEditingController.text);
+//    if (result != null) {
+//      _errorGender = result;
+//      this.updateState();
+//      return false;
+//    } else
+//      this.updateState();
+//    return true;
+//  }
+  bool isValidGender() {
+    _errorGender = null;
+    if (gender != null && gender.id != -1) {
+      this.updateState();
       return true;
-    else
-      return isValidSchoolName();
+    } else {
+      _errorGender = translation.text("COMMON.GENDER_INVALID");
+      this.updateState();
+      return false;
+    }
   }
+
+//  bool checkValidSchoolNameInit() {
+//    _errorSchoolName = null;
+//    if (_schoolNameEditingController.text.length < 1)
+//      return true;
+//    else
+//      return isValidSchoolName();
+//  }
 
   bool isValidSchoolName() {
     _errorSchoolName = null;
@@ -263,7 +289,11 @@ class EditProfileChildrenViewModel extends ViewModelBase {
   }
 
   bool isValidInfo() {
-    if (isValidName() && isValidBirthDay() && isValidSchoolName()/*&& isValidGender() && isValidPhone()  && isValidEmail() */ && isValidAddress() ) {
+    if (isValidName() &&
+        isValidBirthDay() &&
+        isValidGender()
+        /*&& isValidSchoolName() && isValidGender() && isValidPhone()  && isValidEmail() */ &&
+        isValidAddress()) {
       this.updateState();
       return true;
     }
@@ -411,8 +441,8 @@ class EditProfileChildrenViewModel extends ViewModelBase {
   }
 
   Future onTapSave() async {
-    LoadingDialog.showLoadingDialog(context, 'Đang xử lý...');
-
+    LoadingDialog.showLoadingDialog(
+        context, translation.text("COMMON.IN_PROCESS"));
     this.saveChildren().then((v) {
       if (v == 1) {
         LoadingDialog.hideLoadingDialog(context);
@@ -481,12 +511,18 @@ class EditProfileChildrenViewModel extends ViewModelBase {
 
   getListGender() {
     loadingGender = true;
+    this.updateState();
     api.getTitleCustomer().then((lst) {
       lst.forEach((item) {
         listGender
             .add(ItemDropDownField(id: item.id, displayName: item.displayName));
       });
-      if (children != null)
+      listGender.insert(
+          0,
+          ItemDropDownField(
+              id: -1,
+              displayName: translation.text("USER_PAGE.SELECT_GENDER")));
+      if (children.genderId != null)
         gender = getGenderFromID(children.genderId);
       else
         gender = listGender[0];
@@ -497,6 +533,7 @@ class EditProfileChildrenViewModel extends ViewModelBase {
 
   getListSchool() async {
     loadingSchool = true;
+    this.updateState();
     api.getListSchool().then((lst) {
       lst.forEach((item) {
         listSchool
@@ -511,7 +548,7 @@ class EditProfileChildrenViewModel extends ViewModelBase {
 //          _schoolNameEditingController.text = school.displayName;
       }
       loadingSchool = false;
-      checkValidSchoolNameInit();
+//      checkValidSchoolNameInit();
       this.updateState();
     });
   }

@@ -3,62 +3,33 @@ import 'package:b2s_parent/packages/flutter_form_builder/lib/src/fields/form_bui
 import 'package:b2s_parent/packages/flutter_form_builder/lib/src/form_builder_validators.dart';
 import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
-import 'package:b2s_parent/src/app/models/parent.dart';
-import 'package:b2s_parent/src/app/pages/user/edit_profile_parent/edit_profile_parent_viewmodel.dart';
+import 'package:b2s_parent/src/app/pages/user/signIn/sign_in_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/drop_down_field.dart';
 import 'package:b2s_parent/src/app/widgets/ts24_button_widget.dart';
 import 'package:b2s_parent/src/app/widgets/ts24_utils_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
-class EditProfileParent extends StatefulWidget {
-  static const String routeName = "/editProfileParent";
-  final Parent parent;
-  EditProfileParent(this.parent);
+class SignInPage extends StatefulWidget {
+  static const String routeName = '/signin';
   @override
-  _EditProfileParentState createState() => _EditProfileParentState();
+  _SignInPageState createState() => _SignInPageState();
 }
 
-class _EditProfileParentState extends State<EditProfileParent> {
-  EditProfileParentViewModel viewModel = EditProfileParentViewModel();
-  @override
-  void initState() {
-    // TODO: implement initState
-    viewModel.parent = widget.parent;
-    //viewModel.imagePicker = widget.parent.photo;
-    viewModel.initData();
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
-          viewModel.scrollController.animateTo(
-              viewModel.scrollController.position.maxScrollExtent,
-              duration: Duration(milliseconds: 200),
-              curve: Curves.easeOut);
-        }));
-    super.initState();
-  }
-
+class _SignInPageState extends State<SignInPage> {
+  SignInPageViewModel viewModel = SignInPageViewModel();
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     viewModel.context = context;
     Widget _avatar() {
       Widget _initImage() {
-        // return Image(
-        //   image: viewModel.parent == null
-        //       ? AssetImage('assets/images/user.png')
-        //       : MemoryImage(viewModel.imagePicker),
-        //   fit: BoxFit.cover,
-        // );
         return Image(
-          image: (viewModel.parent == null && viewModel.imagePicker == null)
+          image: ( viewModel.imagePicker == null)
               ? AssetImage('assets/images/user.png')
-              : (viewModel.parent != null && viewModel.imagePicker == null
-                  ? (viewModel.parent.photo == null
-                      ? AssetImage('assets/images/user.png')
-                      : NetworkImage(viewModel.parent.photo))
-                  : MemoryImage(viewModel.imagePicker)),
+              : MemoryImage(viewModel.imagePicker),
           fit: BoxFit.cover,
         );
       }
@@ -108,29 +79,29 @@ class _EditProfileParentState extends State<EditProfileParent> {
             width: MediaQuery.of(context).size.width,
             child: Platform.isAndroid
                 ? FutureBuilder<void>(
-                    future: viewModel.retrieveLostData(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<void> snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.none:
-                        case ConnectionState.waiting:
-                          return _initImage();
-                        case ConnectionState.done:
-                          return _resultImage();
-                        default:
-                          if (snapshot.hasError) {
-                            return Center(
-                              child: Text(
-                                'Pick image/video error: ${snapshot.error}}',
-                                textAlign: TextAlign.center,
-                              ),
-                            );
-                          } else {
-                            return _initImage();
-                          }
-                      }
-                    },
-                  )
+              future: viewModel.retrieveLostData(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<void> snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                  case ConnectionState.waiting:
+                    return _initImage();
+                  case ConnectionState.done:
+                    return _resultImage();
+                  default:
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text(
+                          'Pick image/video error: ${snapshot.error}}',
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                    } else {
+                      return _initImage();
+                    }
+                }
+              },
+            )
                 : (_resultImage()),
           ),
           __editBtn,
@@ -211,7 +182,7 @@ class _EditProfileParentState extends State<EditProfileParent> {
       );
     }
 
-    Widget _card(Parent parent) {
+    Widget _card() {
       return Container(
         margin: EdgeInsets.fromLTRB(25, 0, 25, 0),
         child: Column(
@@ -232,9 +203,7 @@ class _EditProfileParentState extends State<EditProfileParent> {
                         decoration: InputDecoration(
                           labelText: translation.text("USER_PROFILE.FULL_NAME"),
                           labelStyle: __styleTextLabel,
-                          hintText: parent != null
-                              ? parent.name
-                              : translation.text("USER_PROFILE.INPUT_NAME"),
+                          hintText: translation.text("USER_PROFILE.INPUT_NAME"),
                           errorText: viewModel.errorName,
                         ),
                         keyboardType: TextInputType.text,
@@ -256,28 +225,27 @@ class _EditProfileParentState extends State<EditProfileParent> {
                 children: <Widget>[
                   Flexible(
                     child: viewModel.loadingGender ||
-                            viewModel.listGender.length == 0
+                        viewModel.listGender.length == 0
                         ? _textFormFieldLoading(
-                            translation.text("USER_PROFILE.GENDER"))
+                        translation.text("USER_PROFILE.GENDER"))
                         : FormBuilderDropdown(
-                            attribute: translation.text("USER_PROFILE.GENDER"),
-                            decoration: InputDecoration(
-                              errorText: viewModel.errorGender,
-                              labelText:
-                                  translation.text("USER_PROFILE.GENDER"),
-                              labelStyle: __styleTextLabel,
-                            ),
-                            initialValue: viewModel.gender,
-                            validators: [FormBuilderValidators.required()],
-                            items: viewModel.listGender
-                                .map((gender) =>
-                                    DropdownMenuItem<ItemDropDownField>(
-                                      value: gender,
-                                      child: Text(gender.displayName),
-                                    ))
-                                .toList(),
-                            onChanged: (gender) => viewModel.gender = gender,
-                          ),
+                      attribute: translation.text("USER_PROFILE.GENDER"),
+                      decoration: InputDecoration(
+                        labelText:
+                        translation.text("USER_PROFILE.GENDER"),
+                        labelStyle: __styleTextLabel,
+                      ),
+                      initialValue: viewModel.gender,
+                      validators: [FormBuilderValidators.required()],
+                      items: viewModel.listGender
+                          .map((gender) =>
+                          DropdownMenuItem<ItemDropDownField>(
+                            value: gender,
+                            child: Text(gender.displayName),
+                          ))
+                          .toList(),
+                      onChanged: (gender) => viewModel.gender = gender,
+                    ),
                   ),
                 ],
               ),
@@ -297,10 +265,8 @@ class _EditProfileParentState extends State<EditProfileParent> {
                         focusNode: viewModel.phoneFocus,
                         decoration: InputDecoration(
                           labelText:
-                              translation.text("USER_PROFILE.PHONE_NUMBER"),
-                          hintText: parent != null
-                              ? parent.phone.toString()
-                              : translation.text("USER_PROFILE.INPUT_PHONE"),
+                          translation.text("USER_PROFILE.PHONE_NUMBER"),
+                          hintText: translation.text("USER_PROFILE.INPUT_PHONE"),
                           labelStyle: __styleTextLabel,
                           errorText: viewModel.errorPhone,
                         ),
@@ -361,13 +327,13 @@ class _EditProfileParentState extends State<EditProfileParent> {
                             labelText: translation.text("USER_PROFILE.ADDRESS"),
                             labelStyle: __styleTextLabel,
                             hintText:
-                                translation.text("USER_PROFILE.INPUT_ADDRESS"),
+                            translation.text("USER_PROFILE.INPUT_ADDRESS"),
                             errorText: viewModel.errorAdress),
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.text,
                         onFieldSubmitted: (v) {
                           viewModel.addressFocus.unfocus();
-                          viewModel.saveParent(viewModel.parent);
+                          viewModel.saveParent();
                         },
                       ),
                     ),
@@ -421,7 +387,7 @@ class _EditProfileParentState extends State<EditProfileParent> {
                             ],
                           ),
                         ),
-                        _card(viewModel.parent),
+                        _card(),
                         SizedBox(
                           height: 70,
                         ),
@@ -450,19 +416,19 @@ class _EditProfileParentState extends State<EditProfileParent> {
                             color: Colors.transparent,
                             child: InkWell(
                                 onTap: () async {
-                                  LoadingDialog.showLoadingDialog(context,
-                                      translation.text("COMMON.IN_PROCESS"));
-                                  viewModel
-                                      .saveParent(viewModel.parent)
-                                      .then((v) {
-                                    if (v) {
-                                      LoadingDialog.hideLoadingDialog(context);
-                                      Navigator.pop(context);
-                                    } else {
-                                      LoadingDialog.hideLoadingDialog(context);
+//                                  LoadingDialog.showLoadingDialog(context,
+//                                      translation.text("COMMON.IN_PROCESS"));
+//                                  viewModel
+//                                      .saveParent(viewModel.parent)
+//                                      .then((v) {
+//                                    if (v) {
+//                                      LoadingDialog.hideLoadingDialog(context);
 //                                      Navigator.pop(context);
-                                    }
-                                  });
+//                                    } else {
+//                                      LoadingDialog.hideLoadingDialog(context);
+//                                      Navigator.pop(context);
+//                                    }
+//                                  });
                                 },
                                 child: Center(
                                   child: Text(
@@ -496,7 +462,6 @@ class _EditProfileParentState extends State<EditProfileParent> {
     return null;
   }
 }
-
 class Consts {
   static const double padding = 16.0;
   static const double avatarRadius = 66.0;

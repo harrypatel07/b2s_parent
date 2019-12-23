@@ -17,6 +17,7 @@ class Parent {
   dynamic lat;
   dynamic lng;
   List<Children> listChildren;
+  dynamic listTagId;
   static dynamic aliasName = "Parent";
   static Parent _singleton;
 
@@ -50,15 +51,15 @@ class Parent {
 
   fromResPartner(ResPartner resPartner, List<ResPartner> child) {
     id = resPartner.id;
-    name = resPartner.name;
+    name = (resPartner.name is bool) ? "" : resPartner.name;
     photo = resPartner.image;
-    email = resPartner.email;
-    phone = resPartner.phone;
+    email = (resPartner.email is bool) ? "" : resPartner.email;
+    phone = (resPartner.phone is bool) ? "" : resPartner.phone;
     if (resPartner.title is List) {
       gender = resPartner.title[1];
       genderId = resPartner.title[0];
     }
-    contactAddress = resPartner.contactAddress;
+    contactAddress = (resPartner.street is bool) ? "" : resPartner.street;
     int index = 0;
     listChildren = child.map((item) {
       bool primary = false;
@@ -66,6 +67,7 @@ class Parent {
       index++;
       return Children.fromResPartner(item, primary: primary);
     }).toList();
+    listTagId = resPartner.categoryId;
   }
 
   fromJson(Map<dynamic, dynamic> json) {
@@ -83,6 +85,7 @@ class Parent {
     contactAddress = json['contactAddress'];
     List list = json['listChildren'];
     listChildren = list.map((item) => Children.fromJson(item)).toList();
+    listTagId = json['listTagId'];
   }
 
   Map<dynamic, dynamic> toJson() {
@@ -97,6 +100,7 @@ class Parent {
     data['contactAddress'] = this.contactAddress;
     data['listChildren'] =
         this.listChildren.map((item) => item.toJson()).toList();
+    data['listTagId'] = this.listTagId;
     return data;
   }
 

@@ -10,7 +10,6 @@ import 'package:b2s_parent/src/app/widgets/bus_attentdance_card.dart';
 import 'package:b2s_parent/src/app/widgets/bus_attentdance_card_shimmer.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:b2s_parent/src/app/models/category.dart';
-import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -120,7 +119,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
       );
     }
 
-    Widget __card(ChildrenBusSession childrenBusSession,int index) {
+    Widget __card(ChildrenBusSession childrenBusSession, int index) {
       List<RouteBus> _listRouteBus = List();
       viewModel.listChildren.forEach((item) {
         if (item.child.id == childrenBusSession.child.id) {
@@ -130,7 +129,9 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
         }
       });
       return BusAttentdanceCard(
-        tagHero: childrenBusSession.type.toString()+childrenBusSession.child.id.toString()+index.toString(),
+        tagHero: childrenBusSession.type.toString() +
+            childrenBusSession.child.id.toString() +
+            index.toString(),
         isExten: false,
         colorText: Colors.grey[800],
         colorLeft: Colors.grey,
@@ -145,22 +146,13 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
               arguments: ProfileChildrenPageArgs(
                   listRouteBus: _listRouteBus,
                   childrenBusSession: childrenBusSession,
-                  heroTag: childrenBusSession.type.toString()+childrenBusSession.child.id.toString(),
-                  children: viewModel.getChildrenFromParent(childrenBusSession.child.id)));
+                  heroTag: childrenBusSession.type.toString() +
+                      childrenBusSession.child.id.toString(),
+                  children: viewModel
+                      .getChildrenFromParent(childrenBusSession.child.id)));
         },
         onTapLeave: () {
-          popupConfirm(
-            context: context,
-            title: translation.text("POPUP_CONFIRM.TITLE"),
-            desc: translation.text("POPUP_CONFIRM.DESC_STATUS"),
-            yes: translation.text("POPUP_CONFIRM.YES"),
-            no: translation.text("POPUP_CONFIRM.NO"),
-            onTap: () {
-              viewModel.onTapLeave(childrenBusSession);
-              Navigator.pop(context);
-              print('onTap leave');
-            },
-          );
+          viewModel.onTapLeave(childrenBusSession);
         },
       );
     }
@@ -172,9 +164,9 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
       if (!viewModel.isDataLoading && viewModel.listChildren.length > 0) {
         viewModel.listChildren.forEach((children) {
           children.type == 0
-              ? listDepart.add(__card(children,index))
-              : listArrive.add(__card(children,index));
-          index ++;
+              ? listDepart.add(__card(children, index))
+              : listArrive.add(__card(children, index));
+          index++;
         });
       }
       return Container(
@@ -203,7 +195,8 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
                       if (listDepart.length > 0)
                         Column(
                           children: <Widget>[
-                            __itemTitle(translation.text("HOME_PAGE.TRIP_DEPART_DAY")),
+                            __itemTitle(
+                                translation.text("HOME_PAGE.TRIP_DEPART_DAY")),
                             SizedBox(
                               height: 20,
                             ),
@@ -213,7 +206,8 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
                       if (listArrive.length > 0)
                         Column(
                           children: <Widget>[
-                            __itemTitle(translation.text("HOME_PAGE.TRIP_ARRIVE_DAY")),
+                            __itemTitle(
+                                translation.text("HOME_PAGE.TRIP_ARRIVE_DAY")),
                             SizedBox(
                               height: 20,
                             ),
@@ -227,16 +221,16 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
                     height: 250,
                     margin: EdgeInsets.only(top: 20),
                     child: Align(
-                      alignment: Alignment.topCenter,
+                        alignment: Alignment.topCenter,
                         child: Text(
-                      translation.text("COMMON.DATA_EMPTY"),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18.0,
-                        color: Colors.grey.withOpacity(0.6),
-                      ),
-                      textAlign: TextAlign.center,
-                    )),
+                          translation.text("COMMON.DATA_EMPTY"),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18.0,
+                            color: Colors.grey.withOpacity(0.6),
+                          ),
+                          textAlign: TextAlign.center,
+                        )),
                   ),
       );
     }

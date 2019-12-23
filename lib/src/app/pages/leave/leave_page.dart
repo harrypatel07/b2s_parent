@@ -7,7 +7,6 @@ import 'package:b2s_parent/src/app/models/month_module.dart';
 import 'package:b2s_parent/src/app/pages/leave/leave_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/widgets/item_date.dart';
 import 'package:b2s_parent/src/app/widgets/listview_Animator.dart';
-import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
 import 'package:b2s_parent/src/app/widgets/ts24_appbar_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -422,7 +421,7 @@ class _LeavePageState extends State<LeavePage> {
                 barrierDismissible: true,
                 barrierLabel: '',
                 context: context,
-                pageBuilder: (context, animation1, animation2) {})
+                pageBuilder: (context, animation1, animation2) {return Container();})
             .then((childrenId) {
           if (childrenId != null) viewModel.onChangeChildren(childrenId);
         });
@@ -479,17 +478,7 @@ class _LeavePageState extends State<LeavePage> {
           ),
           tooltip: 'Show Snackbar',
           onPressed: () {
-            popupConfirm(
-                context: context,
-                title: translation.text("POPUP_CONFIRM.TITLE"),
-                desc: translation.text("POPUP_CONFIRM.DESC_INFO"),
-                yes: translation.text("POPUP_CONFIRM.YES"),
-                no: translation.text("POPUP_CONFIRM.NO"),
-                onTap: () {
-                  viewModel.onSend();
-                  print("onSend list leave of primary child");
-                  Navigator.pop(context);
-                });
+            viewModel.onTapSave();
             print('open popup');
           },
         ),
