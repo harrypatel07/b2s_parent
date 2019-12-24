@@ -3,6 +3,7 @@ import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/chat.dart';
 import 'package:b2s_parent/src/app/pages/message/ContactsPage/contacts_page.dart';
 import 'package:b2s_parent/src/app/pages/message/message_page_viewmodel.dart';
+import 'package:b2s_parent/src/app/widgets/empty_widget.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -131,6 +132,22 @@ class _MessagePageState extends State<MessagePage> {
       );
     }
 
+    Widget _messageEmpty(){
+      return Column(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.all(30),
+            alignment: Alignment.center,
+            child: Image.asset("assets/images/empty.png"),
+          ),
+          Container(
+            child: Center(
+              child: Text(translation.text("COMMON.MESSAGE_EMPTY"),style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24.0,color: Colors.grey.withOpacity(0.6))),
+            ),
+          ),
+        ],
+      );
+    }
     return RefreshIndicator(
       onRefresh: () async {
         viewModel.listenData();
@@ -148,11 +165,7 @@ class _MessagePageState extends State<MessagePage> {
                     return WidgetANimator(_buildMessageRow(_model));
                   },
                 )
-              : Container(
-                  child: Center(
-                    child: Text(translation.text("COMMON.MESSAGE_EMPTY")),
-                  ),
-                ),
+              : EmptyWidget(message: translation.text("COMMON.MESSAGE_EMPTY"),)
     );
   }
 

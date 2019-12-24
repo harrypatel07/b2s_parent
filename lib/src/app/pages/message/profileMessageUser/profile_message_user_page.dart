@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:validators/sanitizers.dart';
+
 class ProfileMessageUserPage extends StatelessWidget {
   static const String routeName = "/profileMessageUser";
   final ProfileMessageUserModel userModel;
@@ -47,6 +48,7 @@ class ProfileMessageUserPage extends StatelessWidget {
         ),
       );
     }
+
     final userImage = Stack(
       children: <Widget>[
         Hero(
@@ -61,12 +63,12 @@ class ProfileMessageUserPage extends StatelessWidget {
                     image: imageProvider,
                   ),
                 )
-              // Image(
-              //   fit: BoxFit.cover,
-              //   width: deviceWidth,
-              //   image: MemoryImage(widget.userModel.avatarUrl),
-              // ),
-            )),
+                // Image(
+                //   fit: BoxFit.cover,
+                //   width: deviceWidth,
+                //   image: MemoryImage(widget.userModel.avatarUrl),
+                // ),
+                )),
         backButton(),
       ],
     );
@@ -132,6 +134,7 @@ class ProfileMessageUserPage extends StatelessWidget {
         ),
       );
     }
+
     Widget row1(String title, String content) {
       return Container(
         color: Colors.white,
@@ -191,19 +194,18 @@ class ProfileMessageUserPage extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    flex: (phoneNumber != null &&
-                        toBoolean(phoneNumber) != false)
-                        ? 10
-                        : 14,
+                    flex:
+                        (phoneNumber != null && toBoolean(phoneNumber) != false)
+                            ? 10
+                            : 14,
                     child: Container(
                       padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        toBoolean(phoneNumber) != false?content:'',
+                        toBoolean(phoneNumber) != false ? content : '',
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                            fontSize: 16, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -275,17 +277,21 @@ class ProfileMessageUserPage extends StatelessWidget {
     }
 
     childrenInfo(ProfileMessageUserModel userModel) {
-      onTapChatDriver(){
+      onTapChatDriver() {
         Chatting chatting = Chatting(
             peerId: userModel.peerId.toString(),
             name: userModel.name,
             message: 'Hi',
             listMessage: new List(),
             avatarUrl: userModel.avatarUrl,
-            datetime: DateTime.now().toIso8601String()
+            datetime: DateTime.now().toIso8601String());
+        Navigator.pushNamed(
+          context,
+          MessageDetailPage.routeName,
+          arguments: chatting,
         );
-        Navigator.pushNamed(context, MessageDetailPage.routeName, arguments: chatting,);
       }
+
       return Padding(
         padding: EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
         child: Material(
@@ -303,14 +309,33 @@ class ProfileMessageUserPage extends StatelessWidget {
             child: Container(
               child: Column(
                 children: <Widget>[
-                  rowTitle(translation.text("USER_PROFILE.USER_TITLE").toUpperCase()),
-                  row1('${translation.text("USER_PROFILE.FULL_NAME")}:', userModel.name),
+                  rowTitle(translation
+                      .text("USER_PROFILE.USER_TITLE")
+                      .toUpperCase()),
+                  row1('${translation.text("USER_PROFILE.FULL_NAME")}:',
+                      userModel.name),
                   hr,
-                  row1('${translation.text("USER_PROFILE.ADDRESS")}:', userModel.address),
+                  row1(
+                      '${translation.text("USER_PROFILE.ADDRESS")}:',
+                      (userModel.address is bool || userModel.address == null)
+                          ? ''
+                          : userModel.address.toString()),
                   hr,
-                  rowIcon(title:'${translation.text("USER_PROFILE.PHONE_NUMBER")}:',content:userModel.phone,phoneNumber: userModel.phone,onTap: ()=>onTapChatDriver()),
+                  rowIcon(
+                      title:
+                          '${translation.text("USER_PROFILE.PHONE_NUMBER")}:',
+                      content:
+                          (userModel.phone is bool || userModel.phone == null)
+                              ? ''
+                              : userModel.phone.toString(),
+                      phoneNumber: userModel.phone,
+                      onTap: () => onTapChatDriver()),
                   hr,
-                  row1('${translation.text("USER_PROFILE.EMAIL")}:', userModel.email),
+                  row1(
+                      '${translation.text("USER_PROFILE.EMAIL")}:',
+                      (userModel.email is bool || userModel.email == null)
+                          ? ''
+                          : userModel.email.toString()),
                   Container(
                     height: 1,
                     margin: EdgeInsets.only(bottom: 10),
@@ -330,7 +355,10 @@ class ProfileMessageUserPage extends StatelessWidget {
           children: <Widget>[
             userImage,
             userName,
-            userLocation,
+//            userLocation,
+            SizedBox(
+              height: 10,
+            ),
             childrenInfo(userModel),
           ],
         ),
@@ -338,4 +366,3 @@ class ProfileMessageUserPage extends StatelessWidget {
     );
   }
 }
-

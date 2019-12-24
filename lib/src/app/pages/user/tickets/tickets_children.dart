@@ -4,6 +4,7 @@ import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/sale-order-line.dart';
 import 'package:b2s_parent/src/app/pages/user/tickets/tickets_children_viewmodel.dart';
 import 'package:b2s_parent/src/app/service/common-service.dart';
+import 'package:b2s_parent/src/app/widgets/empty_widget.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:b2s_parent/src/app/widgets/ticket_pass.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -229,13 +230,7 @@ class _TicketsChildrenPageState extends State<TicketsChildrenPage> {
                   ...listChildrenItem,
                 ],
               )
-            : Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.9,
-                child: Center(
-                  child: Text(translation.text("COMMON.DATA_TICKET_EMPTY")),
-                ),
-              ),
+            : EmptyWidget(message: translation.text("COMMON.DATA_TICKET_EMPTY"),),
       );
     }
 

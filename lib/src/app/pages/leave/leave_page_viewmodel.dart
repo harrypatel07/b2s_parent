@@ -111,11 +111,11 @@ class LeavePageViewModel extends ViewModelBase {
           if(result) {
 //            print("onSend list leave of primary child");
             Navigator.pop(context);
-            LoadingDialog.showMsgDialog(context, translation.text("COMMON.SUCCESS"));
+            LoadingDialog.showMsgDialog(context, translation.text("LEAVE_PAGE.LEAVE_SUCCESS"));
           }else {
             Navigator.pop(context);
             LoadingDialog.showMsgDialog(
-                context, translation.text("COMMON.FAIL"));
+                context, translation.text("LEAVE_PAGE.LEAVE_FAIL"));
           }
           this.updateState();
         }

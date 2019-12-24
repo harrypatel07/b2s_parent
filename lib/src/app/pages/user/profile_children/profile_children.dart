@@ -31,7 +31,10 @@ class ProfileChildrenPageArgs {
   final Children children;
   final String heroTag;
   ProfileChildrenPageArgs(
-      {this.listRouteBus, this.childrenBusSession, this.children,this.heroTag});
+      {this.listRouteBus,
+      this.childrenBusSession,
+      this.children,
+      this.heroTag});
 }
 
 class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
@@ -83,6 +86,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
         ),
       );
     }
+
     final qrCode = Positioned(
         bottom: 0,
         left: deviceWidth / 2 - 80,
@@ -269,7 +273,9 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                         margin: EdgeInsets.only(top: 3, right: 3, bottom: 3),
                         child: Icon(
                           type ? Icons.home : Icons.school,
-                          color: !type ? ThemePrimary.primaryColor : ThemePrimary.colorDriverApp,
+                          color: !type
+                              ? ThemePrimary.primaryColor
+                              : ThemePrimary.colorDriverApp,
                           size: 20,
                         ),
                       ),
@@ -313,7 +319,9 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                         margin: EdgeInsets.only(top: 3, right: 3, bottom: 3),
                         child: Icon(
                           type ? Icons.school : Icons.home,
-                          color: type ? ThemePrimary.primaryColor : ThemePrimary.colorDriverApp,
+                          color: type
+                              ? ThemePrimary.primaryColor
+                              : ThemePrimary.colorDriverApp,
                           size: 20,
                         ),
                       ),
@@ -397,7 +405,9 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                 child: Text(
                   title,
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 16,),
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ),
@@ -406,8 +416,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    flex: (phoneNumber != null &&
-                        toBoolean(phoneNumber) != false)
+                    flex: (phoneNumber != null && !(phoneNumber is bool))
                         ? 10
                         : 14,
                     child: Container(
@@ -417,13 +426,12 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                         content,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                            fontSize: 16, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
-                  if (phoneNumber != null && toBoolean(phoneNumber) != false)
+                  if (phoneNumber != null && !(phoneNumber is bool))
                     Expanded(
                       flex: 2,
                       child: InkWell(
@@ -443,7 +451,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                         ),
                       ),
                     ),
-                  if (phoneNumber != null && toBoolean(phoneNumber) != false)
+                  if (phoneNumber != null && !(phoneNumber is bool))
                     Expanded(
                       flex: 2,
                       child: InkWell(
@@ -507,27 +515,50 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
             child: Container(
               child: Column(
                 children: <Widget>[
-                  rowTitle(translation.text("USER_PROFILE.CHILDREN_PROFILE").toUpperCase()),
-                  row1('${translation.text("USER_PROFILE.FULL_NAME")}:', children.name),
+                  rowTitle(translation
+                      .text("USER_PROFILE.CHILDREN_PROFILE")
+                      .toUpperCase()),
+                  row1('${translation.text("USER_PROFILE.FULL_NAME")}:',
+                      children.name),
                   hr,
-                  row1('${translation.text("USER_PROFILE.AGE")}:',
-                      children.age != null ? children.age.toString() : ''),
+                  row1(
+                      '${translation.text("USER_PROFILE.AGE")}:',
+                      (children.age is bool || children.age == null)
+                          ? ''
+                          : children.age.toString()),
                   hr,
-                  row1('${translation.text("USER_PROFILE.SCHOOL")}:',
-                      children.schoolName != null ? children.schoolName : ''),
+                  row1(
+                      '${translation.text("USER_PROFILE.SCHOOL")}:',
+                      (children.schoolName is bool || children.age == null)
+                          ? ''
+                          : children.schoolName.toString()),
                   hr,
-                  row1('${translation.text("USER_PROFILE.CLASS")}:',
-                      children.classes != null ? children.classes : ''),
+                  row1(
+                      '${translation.text("USER_PROFILE.CLASS")}:',
+                      (children.classes is bool || children.classes == null)
+                          ? ''
+                          : children.classes.toString()),
                   hr,
-                  row1('${translation.text("USER_PROFILE.ADDRESS")}:',
-                      children.location != null ? children.location : ''),
+                  row1(
+                      '${translation.text("USER_PROFILE.ADDRESS")}:',
+                      (children.location is bool || children.location == null)
+                          ? ''
+                          : children.location.toString()),
                   hr,
-                  row1('${translation.text("USER_PROFILE.PHONE_NUMBER")}:',
-                      children.location != null ? children.phone : ''),
+                  row1(
+                      '${translation.text("USER_PROFILE.PHONE_NUMBER")}:',
+                      (children.phone is bool || children.phone == null)
+                          ? ''
+                          : children.phone.toString()),
                   hr,
-                  row1('${translation.text("USER_PROFILE.EMAIL")}:', children.email != null ? children.email : ''),
+                  row1(
+                      '${translation.text("USER_PROFILE.EMAIL")}:',
+                      (children.email is bool || children.email == null)
+                          ? ''
+                          : children.email.toString()),
                   hr,
-                  row1('${translation.text("USER_PROFILE.PARENT")}:', Parent().name),
+                  row1('${translation.text("USER_PROFILE.PARENT")}:',
+                      Parent().name),
                   Container(
                     height: 1,
                     margin: EdgeInsets.only(bottom: 10),
@@ -558,39 +589,55 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
             child: viewModel.childrenBusSession != null
                 ? Column(
                     children: <Widget>[
-                      rowTitle(translation.text("USER_PROFILE.BUS_TITLE").toUpperCase()),
+                      rowTitle(translation
+                          .text("USER_PROFILE.BUS_TITLE")
+                          .toUpperCase()),
                       row1(translation.text("USER_PROFILE.BUS_ID"),
                           viewModel.childrenBusSession.vehicleName.toString()),
                       hr,
-                      rowIcon(title:
-                          translation.text("USER_PROFILE.DRIVER"),
+                      rowIcon(
+                          title: translation.text("USER_PROFILE.DRIVER"),
                           content: viewModel.childrenBusSession.driver.name,
-                          phoneNumber:viewModel.childrenBusSession.driver.phone,
-                      onTap: (){
-                        viewModel.onTapChatDriver();
-                      }),
-                      if (viewModel.startDepart != null)
+                          phoneNumber:
+                              viewModel.childrenBusSession.driver.phone,
+                          onTap: () {
+                            viewModel.onTapChatDriver();
+                          }),
+                      if (viewModel.startDepart != null &&
+                          !(viewModel.startDepart is bool))
                         hr,
-                      rowIcon(title:
-                          translation.text("USER_PROFILE.ATTENDANCE"),
-                          content:viewModel.childrenBusSession.attendant.name
+                      rowIcon(
+                          title: translation.text("USER_PROFILE.ATTENDANCE"),
+                          content: viewModel.childrenBusSession.attendant.name
                               .toString(),
-                          phoneNumber:viewModel.childrenBusSession.attendant.phone
+                          phoneNumber: viewModel
+                              .childrenBusSession.attendant.phone
                               .toString(),
-                      onTap: (){
-                        viewModel.onTapChatAttendant();
-                      }),
+                          onTap: () {
+                            viewModel.onTapChatAttendant();
+                          }),
                       hr,
 //                rowIcon('QL tại trường :', 'Âu Dương Phong', '0983932940'),
 //                hr,
-                      if (viewModel.startDepart != null)
-                        row2(translation.text("USER_PROFILE.TIME_DEPART"), viewModel.startDepart, translation.text("USER_PROFILE.TIME_AT_SCHOOL"),
-                            viewModel.endDepart, true),
-                      if (viewModel.startArrive != null)
+                      if (viewModel.startDepart != null &&
+                          !(viewModel.startDepart is bool))
+                        row2(
+                            translation.text("USER_PROFILE.TIME_DEPART"),
+                            viewModel.startDepart,
+                            translation.text("USER_PROFILE.TIME_AT_SCHOOL"),
+                            viewModel.endDepart,
+                            true),
+                      if (viewModel.startArrive != null &&
+                          !(viewModel.startDepart is bool))
                         hr,
-                      if (viewModel.startArrive != null)
-                        row2(translation.text("USER_PROFILE.TIME_ARRIVE"), viewModel.startArrive, translation.text("USER_PROFILE.TIME_AT_HOME"),
-                            viewModel.endArrive, false),
+                      if (viewModel.startArrive != null &&
+                          !(viewModel.startDepart is bool))
+                        row2(
+                            translation.text("USER_PROFILE.TIME_ARRIVE"),
+                            viewModel.startArrive,
+                            translation.text("USER_PROFILE.TIME_AT_HOME"),
+                            viewModel.endArrive,
+                            false),
                       Container(
                         height: 1,
                         margin: EdgeInsets.only(bottom: 10),
@@ -615,7 +662,8 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                 children: <Widget>[
                   userImage,
                   userName,
-                  userLocation,
+                  SizedBox(height: 15,),
+//                  userLocation,
                   childrenInfo(viewModel.children),
                   if (viewModel.listRouteBus.length > 0) busInfo
                 ],

@@ -12,7 +12,7 @@ class ProfileMessageUserModel {
     peerId = resPartner.id;
     avatarUrl = resPartner.image;
     name = resPartner.displayName;
-    address = resPartner.contactAddress;
+    address = resPartner.street;
     phone = resPartner.phone.toString();
     email = resPartner.email.toString();
   }

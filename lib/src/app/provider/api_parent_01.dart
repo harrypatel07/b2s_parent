@@ -634,7 +634,7 @@ class Api1 extends ApiMaster {
             parent.listChildren.forEach((children) {
               if (item.orderPartnerId[0] == children.id) {
                 children.paidTicket = true;
-                children.ticketCode = item.orderId[1];
+                //children.ticketCode = item.orderId[1];
               }
             });
           });

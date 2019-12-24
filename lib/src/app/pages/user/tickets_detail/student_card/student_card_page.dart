@@ -84,7 +84,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
                                       style: TextStyle(
                                           fontSize: studentCardHeight * 0.033,
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.blue,
+                                          color: ThemePrimary.colorDriverApp,
                                           fontFamily: 'Aachenb'),
                                     ),
                                   ),
@@ -128,7 +128,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
                             style: TextStyle(
                                 fontSize: studentCardHeight * 0.038,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.blue),
+                                color: ThemePrimary.colorDriverApp),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -145,7 +145,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
                               alignment: Alignment.topCenter,
                               child: QrImage(
                                 backgroundColor: Colors.white,
-                                data: 'ts24corp',
+                                data: children.ticketCode,
                                 version: QrVersions.auto,
                                 size: studentCardHeight * 0.33,
                               ),
@@ -243,7 +243,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.blue,
+                                        color: ThemePrimary.colorDriverApp,
                                         fontFamily: 'Aachenb'),
                                   ),
                                 ),
@@ -304,7 +304,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
                                           style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.blue),
+                                              color: ThemePrimary.colorDriverApp),
                                           overflow: TextOverflow.clip,
                                         ),
                                       ),
@@ -325,7 +325,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
                                           children: <Widget>[
                                             QrImage(
                                               backgroundColor: Colors.white,
-                                              data: 'ts24corp',
+                                              data: children.ticketCode,
                                               version: QrVersions.auto,
                                               size: 100,
                                             ),

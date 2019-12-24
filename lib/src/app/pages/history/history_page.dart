@@ -7,6 +7,7 @@ import 'package:b2s_parent/src/app/models/historyTrip.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/service/common-service.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
+import 'package:b2s_parent/src/app/widgets/empty_widget.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -391,13 +392,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     ],
                   )
                 : SingleChildScrollView(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.9,
-                      alignment: Alignment.center,
-                      child:
-                          Text(translation.text("COMMON.DATA_HISTORY_EMPTY")),
-                    ),
+                    child: EmptyWidget(message: translation.text("COMMON.DATA_HISTORY_EMPTY"),),
                   ));
   }
 }

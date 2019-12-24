@@ -56,9 +56,10 @@ class Children {
     }
     this.email = (partner["email"] is bool) ? "" : partner["email"];
     this.photo = partner["image"];
-    this.classes = (partner["classes"] is bool) ? "" : partner["classes"];
+    this.classes = (partner["class"] is bool) ? "" : partner["class"];
     this.genderId = partner["title"]["id"];
     this.gender = partner["title"]["name"];
+    this.ticketCode = partner["qr_code"];
     this.paidTicket = true;
   }
 
@@ -94,6 +95,7 @@ class Children {
       var dateNow = DateTime.now();
       this.age = dateNow.year - date.year;
     }
+    ticketCode = (resPartner.xQrCode is bool) ? "" : resPartner.xQrCode;
   }
 
   Children.fromJson(Map<dynamic, dynamic> json) {

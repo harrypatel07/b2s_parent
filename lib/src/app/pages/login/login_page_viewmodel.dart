@@ -5,7 +5,7 @@ import 'package:b2s_parent/src/app/helper/validator-helper.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page.dart';
-import 'package:b2s_parent/src/app/pages/user/signIn/sign_in_page.dart';
+import 'package:b2s_parent/src/app/pages/user/register/register_page.dart';
 import 'package:b2s_parent/src/app/provider/api_master.dart';
 import 'package:b2s_parent/src/app/service/onesingal-service.dart';
 import 'package:b2s_parent/src/app/widgets/ts24_utils_widget.dart';
@@ -28,7 +28,7 @@ class LoginPageViewModel extends ViewModelBase {
 
   LoginPageViewModel() {
     //account demo
-    _emailController.text = "luanvm@ts24.vn";
+    _emailController.text = "dhoangchau@gmail.com";
     _passController.text = "123456";
     _emailController.addListener(() {
       if (_emailController.text.length > 1) isValidEmail();
@@ -120,7 +120,8 @@ class LoginPageViewModel extends ViewModelBase {
       }
     }
   }
-  onTapSignIn(){
-    Navigator.pushNamed(context, SignInPage.routeName);
+
+  onTapSignIn() {
+    Navigator.pushNamed(context, RegisterPage.routeName);
   }
 }

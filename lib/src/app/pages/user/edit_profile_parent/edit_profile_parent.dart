@@ -362,7 +362,7 @@ class _EditProfileParentState extends State<EditProfileParent> {
                             labelStyle: __styleTextLabel,
                             hintText:
                                 translation.text("USER_PROFILE.INPUT_ADDRESS"),
-                            errorText: viewModel.errorAdress),
+                            errorText: viewModel.errorAddress),
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.text,
                         onFieldSubmitted: (v) {

@@ -11,7 +11,11 @@
         "MANUAL": "Manual",
         "QR_CODE": "QR Code",
         "SALE_TICKET": "Sale ticket",
-        "CHECK_TICKET": "Check ticket"
+        "CHECK_TICKET": "Check ticket",
+        "SOCIAL_LOGIN": "Social Login",
+        "NEW_USER": "New user",
+        "REGISTER": "Register",
+        "PASSWORD_AGAIN": "Password again"
     },
     "WAITING_MESSAGE": {
         "PERMISSION_CONNECT": "Checking access permission...",
@@ -142,6 +146,7 @@
         "PASS_REQUITE": "Password requite",
         "PASS_REQUITE_LENGTH": "Password requite min 6 characters",
         "PASS_INVALID": "Password is invalid",
+        "PASS_NOT_TRUE": "Password is not true",
         "URL_REQUITE": "Url requite",
         "URL_INVALID": "Url is invalid",
         "PHONE_REQUITE": "Phone requite",

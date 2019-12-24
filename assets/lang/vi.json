@@ -11,7 +11,11 @@
         "MANUAL": "Thủ công",
         "QR_CODE": "QR Code",
         "SALE_TICKET": "Bán vé",
-        "CHECK_TICKET": "Soát vé"
+        "CHECK_TICKET": "Soát vé",
+        "SOCIAL_LOGIN": "Đăng nhập bằng tài khoản",
+        "NEW_USER": "Người dùng mới",
+        "REGISTER": "Đăng ký",
+        "PASSWORD_AGAIN": "Nhập lại mật khẩu"
     },
     "SIGN_IN_PAGE": {
         "TITLE": "Đăng ký tài khoản"
@@ -145,6 +149,7 @@
         "EMAIL_INVALID": "Email không hợp lệ",
         "PASS_REQUITE": "Mật khẩu không được trống",
         "PASS_REQUITE_LENGTH": "Mật khẩu phải có ít nhất 6 ký tự",
+        "PASS_NOT_TRUE": "Mật khẩu không đúng",
         "PASS_INVALID": "Mật khẩu không hợp lệ",
         "URL_REQUITE": "Url không được trống",
         "URL_INVALID": "Url không hợp lệ",

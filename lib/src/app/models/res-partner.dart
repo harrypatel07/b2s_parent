@@ -395,7 +395,9 @@ class ResPartner {
     debit = json['debit'];
     debitLimit = json['debit_limit'];
     displayName = json['display_name'];
-    email = json['email'];
+    email = (json['email'] is bool) || (json['email'] == "false")
+        ? ""
+        : json['email'];
     emailFormatted = json['email_formatted'];
     employee = json['employee'];
     eventCount = json['event_count'];
@@ -565,7 +567,9 @@ class ResPartner {
     signupUrl = json['signup_url'];
     signupValid = json['signup_valid'];
     stateId = json['state_id'];
-    street = json['street'];
+    street = (json['street'] is bool) || (json['street'] == "false")
+        ? ""
+        : json['street'];
     street2 = json['street2'];
     supplier = json['supplier'];
     teamId = json['team_id'];

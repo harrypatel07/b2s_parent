@@ -187,7 +187,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                   width: 5,
                 ),
                 Text(
-                  'Social Login',
+                  translation.text('LOGIN_PAGE.SOCIAL_LOGIN'),
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
@@ -265,7 +265,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'Người dùng mới?',
+                  '${translation.text("LOGIN_PAGE.NEW_USER")}?',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                 ),
                 SizedBox(
@@ -276,7 +276,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                       viewModel.onTapSignIn();
                     },
                     child: Text(
-                      'Đăng ký',
+                      translation.text("LOGIN_PAGE.REGISTER"),
                       style: TextStyle(
                           color: ThemePrimary.primaryColor,
                           fontSize: 16,
@@ -385,7 +385,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
               padding: EdgeInsets.only(left: 10, right: 10),
               child: _submitLogin(),
             ),
-            _socialLogin(),
+            // _socialLogin(),
           ],
         ),
       ),

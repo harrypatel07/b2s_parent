@@ -15,28 +15,17 @@ import 'package:image_picker/image_picker.dart';
 
 class EditProfileParentViewModel extends ViewModelBase {
   Parent parent;
-  TextEditingController _nameEditingController = new TextEditingController();
-  TextEditingController get nameEditingController => _nameEditingController;
-//  TextEditingController _emailEditingController = new TextEditingController();
-//  TextEditingController get emailEditingController => _emailEditingController;
-  TextEditingController _phoneEditingController = new TextEditingController();
-  TextEditingController get phoneEditingController => _phoneEditingController;
-  TextEditingController _addressEditingController = new TextEditingController();
-  TextEditingController get addressEditingController =>
-      _addressEditingController;
-  TextEditingController _genderEditingController = new TextEditingController();
-  TextEditingController get genderEditingController => _genderEditingController;
+  TextEditingController nameEditingController = new TextEditingController();
+  TextEditingController phoneEditingController = new TextEditingController();
+  TextEditingController addressEditingController = new TextEditingController();
+  TextEditingController genderEditingController = new TextEditingController();
   List<ItemDropDownField> listGender = List();
   Uint8List imagePicker;
   String errorName;
-//  String _errorEmail;
   ItemDropDownField gender;
-//  get errorEmail => _errorEmail;
   String errorGender;
-  String _errorPhone;
-  get errorPhone => _errorPhone;
-  String _errorAddress;
-  get errorAdress => _errorAddress;
+  String errorPhone;
+  String errorAddress;
   File imageFile;
   dynamic pickImageError;
   String retrieveDataError;
@@ -57,10 +46,9 @@ class EditProfileParentViewModel extends ViewModelBase {
     getListGender();
   }
   createEvent() {
-    _nameEditingController.addListener(() => {isValidName()});
-//    _emailEditingController.addListener(() => {isValidEmail()});
-    _phoneEditingController.addListener(() => {isValidPhone()});
-    _addressEditingController.addListener(() => {isValidAddress()});
+    nameEditingController.addListener(() => {isValidName()});
+    phoneEditingController.addListener(() => {isValidPhone()});
+    addressEditingController.addListener(() => {isValidAddress()});
   }
 
   initData() {
@@ -80,35 +68,23 @@ class EditProfileParentViewModel extends ViewModelBase {
               : parent.gender.toString();
     }
   }
-
-//  bool isValidEmail() {
-//    _errorEmail = null;
-//    var resultemail = Validator.validateEmail(_emailEditingController.text);
-//    if (resultemail != null) {
-//      _errorEmail = resultemail;
-//      this.updateState();
-//      return false;
-//    } else
-//      this.updateState();
-//    return true;
-//  }
   bool isValidGender() {
     errorGender = null;
     if (gender != null && gender.id != -1) {
       this.updateState();
       return true;
     } else {
-      errorGender = translation.text("COMMON.GENDER_INVALID");
+      errorGender = translation.text("COMMON.GENDER_REQUITE");
       this.updateState();
       return false;
     }
   }
 
   bool isValidPhone() {
-    _errorPhone = null;
-    var resultPhone = Validator.validatePhone(_phoneEditingController.text);
+    errorPhone = null;
+    var resultPhone = Validator.validatePhone(phoneEditingController.text);
     if (resultPhone != null) {
-      _errorPhone = resultPhone;
+      errorPhone = resultPhone;
       this.updateState();
       return false;
     } else
@@ -118,7 +94,7 @@ class EditProfileParentViewModel extends ViewModelBase {
 
   bool isValidName() {
     errorName = null;
-    var resultName = Validator.validateName(_nameEditingController.text);
+    var resultName = Validator.validateName(nameEditingController.text);
     if (resultName != null) {
       errorName = resultName.toString();
       this.updateState();
@@ -129,10 +105,10 @@ class EditProfileParentViewModel extends ViewModelBase {
   }
 
   bool isValidAddress() {
-    _errorAddress = null;
-    var result = Validator.validAddress(_addressEditingController.text);
+    errorAddress = null;
+    var result = Validator.validAddress(addressEditingController.text);
     if (result != null) {
-      _errorAddress = result;
+      errorAddress = result;
       this.updateState();
       return false;
     } else
@@ -143,10 +119,9 @@ class EditProfileParentViewModel extends ViewModelBase {
   @override
   void dispose() {
     super.dispose();
-    _nameEditingController.dispose();
-    _phoneEditingController.dispose();
-//    _emailEditingController.dispose();
-    _addressEditingController.dispose();
+    nameEditingController.dispose();
+    phoneEditingController.dispose();
+    addressEditingController.dispose();
   }
 
   bool isValidInfo() {
@@ -161,14 +136,12 @@ class EditProfileParentViewModel extends ViewModelBase {
   }
 
   updateParent(Parent parent) {
-    if (parent.name != _nameEditingController.text)
-      parent.name = _nameEditingController.text;
-    if (parent.contactAddress != _addressEditingController.text)
-      parent.contactAddress = _addressEditingController.text;
-    if (parent.phone != _phoneEditingController.text)
-      parent.phone = _phoneEditingController.text;
-//    if (parent.email != _emailEditingController.text)
-//      parent.email = _emailEditingController.text;
+    if (parent.name != nameEditingController.text)
+      parent.name = nameEditingController.text;
+    if (parent.contactAddress != addressEditingController.text)
+      parent.contactAddress = addressEditingController.text;
+    if (parent.phone != phoneEditingController.text)
+      parent.phone = phoneEditingController.text;
     if (gender != null) {
       parent.genderId = gender.id;
       parent.gender = gender.displayName;
@@ -181,7 +154,7 @@ class EditProfileParentViewModel extends ViewModelBase {
     //this.updateState();
     if (isValidInfo()) {
       if (parent != null) {
-        if (_nameEditingController.text != "") {
+        if (nameEditingController.text != "") {
           Parent _parent = Parent();
           updateParent(_parent);
           bool result = await updateParentSever(_parent);
@@ -201,7 +174,8 @@ class EditProfileParentViewModel extends ViewModelBase {
     if (result) {
       parent.photo =
           '$domainApi/web/image?model=res.partner&field=image&id=${parent.id}&${api.sessionId}';
-      api.getParentInfo(parent.id);
+      await api.getParentInfo(parent.id);
+      api.getTicketOfListChildren();
       return true;
     }
     return false;
@@ -213,7 +187,7 @@ class EditProfileParentViewModel extends ViewModelBase {
       ggKey,
     );
     print("result = $result");
-    _addressEditingController.text = result.address;
+    addressEditingController.text = result.address;
     this.updateState();
   }
 
