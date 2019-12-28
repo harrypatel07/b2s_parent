@@ -1098,8 +1098,7 @@ class Api1 extends ApiMaster {
         }
         if (id != null) {
           ResPartner resPartner = ResPartner.fromParent(parent);
-          if (resPartner.categoryId != null) if (resPartner.categoryId.length >
-              0) {
+          if (resPartner.categoryId is List) {
             resPartner.categoryId.add(int.parse(id.toString()));
             await api.updateCustomer(resPartner);
             await api.getParentInfo(parent.id);

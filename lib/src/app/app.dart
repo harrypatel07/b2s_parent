@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/pages/popupChat/popupChat_page.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -25,6 +26,18 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: (context, child) {
+        return MediaQuery(
+          child: Stack(
+            children: <Widget>[
+              child,
+              PopupChatPage(),
+            ],
+          ),
+          // child: child,
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+        );
+      },
       debugShowCheckedModeBanner: false,
       theme: ThemePrimary.theme(),
       initialRoute: '/',
