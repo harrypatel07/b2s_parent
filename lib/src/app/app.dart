@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
           child: Stack(
             children: <Widget>[
               child,
-              PopupChatPage(),
+              //PopupChatPage(),
             ],
           ),
           // child: child,

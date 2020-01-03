@@ -1,14 +1,34 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:b2s_parent/src/app/core/app_setting.dart';
+import 'package:b2s_parent/src/app/models/bodyNotification.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class OneSignalService {
+  static final String _urlRest = "https://onesignal.com/api/v1/notifications";
+  static Map<String, String> _headers = {
+    HttpHeaders.contentTypeHeader: "application/json",
+    HttpHeaders.authorizationHeader: "Basic $oneSignal_restKey"
+  };
   static Future setup(String appId) async {
     print("/*---OneSignal.shared.init");
     return OneSignal.shared.init(appId, iOSSettings: {
       OSiOSSettings.autoPrompt: true,
       OSiOSSettings.inAppLaunchUrl: true
     }).then((_) {
-      OneSignal.shared
-          .setInFocusDisplayType(OSNotificationDisplayType.notification);
+      OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.none);
+      notificationReceivedHandler((oSNotification) {
+        var addData = oSNotification.payload.additionalData;
+        addData.forEach((key, value) {
+          switch (key) {
+            case "":
+              break;
+            default:
+          }
+        });
+      });
     });
   }
 
@@ -35,5 +55,16 @@ class OneSignalService {
 
   static Future<bool> requestPermission() {
     return OneSignal.shared.promptUserForPushNotificationPermission();
+  }
+
+  static Future postNotification(BodyNotification body) async {
+    body.appId = oneSignal_appId;
+    return http
+        .post(_urlRest, headers: _headers, body: jsonEncode(body.toJson()))
+        .then((http.Response response) {
+      print(response);
+    }).catchError((error) {
+      return null;
+    });
   }
 }

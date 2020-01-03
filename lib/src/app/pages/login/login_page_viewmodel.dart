@@ -28,8 +28,8 @@ class LoginPageViewModel extends ViewModelBase {
 
   LoginPageViewModel() {
     //account demo
-    _emailController.text = "dhoangchau@gmail.com";
-    _passController.text = "123456";
+    // _emailController.text = "dhoangchau@gmail.com";
+    // _passController.text = "123456";
     _emailController.addListener(() {
       if (_emailController.text.length > 1) isValidEmail();
     });

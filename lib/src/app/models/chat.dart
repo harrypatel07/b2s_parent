@@ -68,6 +68,7 @@ class Chatting {
   String name;
   String datetime;
   String message;
+  int timestamp;
   List<Messages> listMessage;
   Chatting(
       {this.peerId,
@@ -75,6 +76,7 @@ class Chatting {
       this.name,
       this.datetime,
       this.message,
+      this.timestamp,
       this.listMessage});
 
   ///Get from collection Chat on FireStore
@@ -86,7 +88,7 @@ class Chatting {
       peerId = document['receiverId'];
     var dateTime = DateFormat('dd MMM kk:mm').format(
         DateTime.fromMillisecondsSinceEpoch(int.parse(document['timestamp'])));
-
+    timestamp = int.parse(document['timestamp']);
     datetime = dateTime;
     name = "";
     message = document['content'];

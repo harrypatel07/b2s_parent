@@ -6,7 +6,7 @@ import 'package:b2s_parent/src/app/service/onesingal-service.dart';
 import 'package:flutter/material.dart';
 
 Future main() async {
-  OneSignalService.setup(oneSignal_appId);
+  OneSignalService.setup(oneSignal_myAppId);
   await translation.init('vi');
   await Routes.navigateDefaultPage();
 
