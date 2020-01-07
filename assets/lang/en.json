@@ -17,6 +17,10 @@
         "REGISTER": "Register",
         "PASSWORD_AGAIN": "Password again"
     },
+    "REGISTER_PAGE": {
+        "TITLE": "Register",
+        "REGISTER": "Register"
+    },
     "WAITING_MESSAGE": {
         "PERMISSION_CONNECT": "Checking access permission...",
         "AUTH_ACCOUNT": "Validating account...",
@@ -61,13 +65,16 @@
         "HOLIDAY": "Holiday",
         "SELECTED_DAYS": "Selected days",
         "ALLOWED_DAYS": "Leave requested days",
-        "PASSED_DAYS" : "Passed days"
+        "PASSED_DAYS" : "Passed days",
+        "LEAVE_SUCCESS": "Successful manipulation",
+        "LEAVE_FAIL": "Fail manipulation"
     },
     "POPUP_CONFIRM": {
         "TITLE": "NOTIFICATION",
         "DESC_INFO": "Confirm information changes?",
         "DESC_STATUS": "Confirm status changes?",
         "DESC_LOG_OUT": "Confirm logout?",
+        "DESC_DELETE_CHILD": "Are you sure to delete this child?",
         "YES": "Yes",
         "NO": "No"
     },

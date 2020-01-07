@@ -32,7 +32,7 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
     final deviceWidth = MediaQuery.of(context).size.width;
 
     Widget userImage() => Hero(
-      tag: widget.chatting.datetime,
+      tag: widget.chatting.peerId.toString(),
       child:
           // Container(
           //   margin: EdgeInsets.only(right: 8.0, bottom: 10.0),

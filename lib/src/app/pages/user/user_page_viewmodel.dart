@@ -3,6 +3,7 @@ import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
+import 'package:b2s_parent/src/app/models/res-partner.dart';
 import 'package:b2s_parent/src/app/models/ticketCode.dart';
 import 'package:b2s_parent/src/app/pages/login/login_page.dart';
 import 'package:b2s_parent/src/app/pages/payment/payment_page.dart';
@@ -73,6 +74,11 @@ class UserPageViewModel extends ViewModelBase {
 //        this.updateState();
 //      }
 //    });
+    return api.insertUserPortal(
+        email: "luan1@gmai134556.com",
+        name: "Luan",
+        password: "123456",
+        phone: "090222222");
     String qrResult = await BarCodeService.scan();
     if (qrResult != null) {
       TicketCode ticketCode = TicketCode();
@@ -127,6 +133,32 @@ class UserPageViewModel extends ViewModelBase {
           Navigator.pop(context);
           parent.clearLocal();
           Navigator.pushReplacementNamed(context, LoginPage.routeName);
+        });
+  }
+
+  onTapRemoveChildren(Children children) {
+    popupConfirm(
+        context: context,
+        title: translation.text("POPUP_CONFIRM.TITLE"),
+        desc: translation.text("POPUP_CONFIRM.DESC_DELETE_CHILD"),
+        yes: translation.text("POPUP_CONFIRM.YES"),
+        no: translation.text("POPUP_CONFIRM.NO"),
+        onTap: () async {
+          Navigator.pop(context);
+          parent.listChildren.remove(children);
+          listChildren.remove(children);
+          children.parentId = 0;
+          ResPartner resPartner = ResPartner.fromChildren(children);
+          bool result = await api.updateCustomer(resPartner);
+          if (result) {
+            await api.getParentInfo(parent.id);
+//      api.getTicketOfListChildren();
+            // children.gender = gender.displayName;
+            // children.schoolName = school.displayName;
+//      return true;
+          }
+//    return false;
+          this.updateState();
         });
   }
 }

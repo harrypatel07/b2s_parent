@@ -1,7 +1,9 @@
+
 import 'package:b2s_parent/src/app/pages/popupChat/popupChat_page.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
 
 import 'app_localizations.dart';
 import 'app_route.dart';
@@ -42,6 +44,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemePrimary.theme(),
       initialRoute: '/',
       navigatorObservers: [MyRouteObserver()],
+      navigatorKey: Get.key,
       routes: Routes.route,
       home: Routes.defaultPage,
       //Init locale lang

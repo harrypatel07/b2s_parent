@@ -12,13 +12,22 @@ class ChatBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     final messageBody = message.body;
     final fromMe = message.fromMe;
-    final timeStamp = message.timestamp;
-    var date = DateFormat('dd MMM')
-        .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp)));
-    final dateNow = DateFormat('dd MMM').format(DateTime.now());
-    if (date == dateNow) date = "";
-    final time = DateFormat('kk:mm')
-        .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp)));
+//    final timeStamp = message.timestamp;
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(int.parse(message.timestamp));
+    DateTime now = DateTime.now();
+    String dateShow = (date.day == now.day &&
+        date.month == now.month &&
+        date.year == now.year)
+        ? DateFormat('hh:mm')
+        .format(DateTime.fromMillisecondsSinceEpoch(int.parse(message.timestamp)))
+        : DateFormat('dd/MM/yyyy \nhh:mm')
+        .format(DateTime.fromMillisecondsSinceEpoch(int.parse(message.timestamp)));
+//    var date = DateFormat('dd MMM')
+//        .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp)));
+//    final dateNow = DateFormat('dd MMM').format(DateTime.now());
+//    if (date == dateNow) date = "";
+//    final time = DateFormat('kk:mm')
+//        .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp)));
     Widget _content() => Container(
           padding: EdgeInsets.all(15.0),
           margin: fromMe
@@ -65,7 +74,7 @@ class ChatBubble extends StatelessWidget {
               ),
               Container(
                 child: Text(
-                  '$date $time',
+                  '$dateShow',
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 12.0,

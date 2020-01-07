@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/models/busSession.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/models/message.dart';
 import 'package:b2s_parent/src/app/service/encrypt-service.dart';
 import 'package:b2s_parent/src/app/service/index.dart';
+import 'package:b2s_parent/src/app/service/onesingal-service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:async/async.dart';
@@ -35,7 +37,11 @@ class InterfaceFireStore {
 class CollectionChat extends InterfaceFireStore {
   final _collectionName = "chat";
 
-  Future sendMessage({String strId, String strPeerId, String content}) async {
+  Future sendMessage(
+      {String strId,
+      String strPeerId,
+      String strPeerName,
+      String content}) async {
     var id = EncrypteService.encryptHash(strId),
         peerId = EncrypteService.encryptHash(strPeerId),
         groupChatId = "";
@@ -50,6 +56,7 @@ class CollectionChat extends InterfaceFireStore {
     message.content = content;
     message.timestamp = DateTime.now().millisecondsSinceEpoch.toString();
     message.type = 0;
+    message.receiverName = strPeerName;
     var _jsonMessKey = Map<String, dynamic>.from(message.toJson());
     _jsonMessKey["keyword"] =
         Common.createKeyWordForChat(groupChatId, split: split);
@@ -62,7 +69,7 @@ class CollectionChat extends InterfaceFireStore {
         .document(groupChatId)
         .collection(String.fromCharCodes(groupChatId.runes.toList().reversed))
         .document();
-
+    api.postNotificationSendMessage(message);
     return await _firestore.runTransaction((transaction) async {
       await transaction.set(
         documentReference,

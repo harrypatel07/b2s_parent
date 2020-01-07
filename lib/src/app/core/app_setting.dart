@@ -1,5 +1,6 @@
 library appsetting;
 
+import 'package:b2s_parent/src/app/app_handler_push_notification.dart';
 import 'package:b2s_parent/src/app/provider/api.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
@@ -34,3 +35,5 @@ const emptyState = {
 };
 
 Api api = new Api();
+
+HandlerPushNotification handlerPushNotification = HandlerPushNotification();

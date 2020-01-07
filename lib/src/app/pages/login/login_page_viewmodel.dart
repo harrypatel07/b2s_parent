@@ -12,6 +12,7 @@ import 'package:b2s_parent/src/app/widgets/ts24_utils_widget.dart';
 import 'package:flutter/material.dart';
 
 class LoginPageViewModel extends ViewModelBase {
+  final focus = FocusNode();
   TextEditingController _emailController = new TextEditingController();
   get emailController => _emailController;
   TextEditingController _passController = new TextEditingController();

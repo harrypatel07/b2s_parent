@@ -12,23 +12,26 @@ class OneSignalService {
     HttpHeaders.contentTypeHeader: "application/json",
     HttpHeaders.authorizationHeader: "Basic $oneSignal_restKey"
   };
-  static Future setup(String appId) async {
+  static Future setup(String appId, {Function successCallBack}) async {
     print("/*---OneSignal.shared.init");
     return OneSignal.shared.init(appId, iOSSettings: {
       OSiOSSettings.autoPrompt: true,
       OSiOSSettings.inAppLaunchUrl: true
     }).then((_) {
       OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.none);
-      notificationReceivedHandler((oSNotification) {
-        var addData = oSNotification.payload.additionalData;
-        addData.forEach((key, value) {
-          switch (key) {
-            case "":
-              break;
-            default:
-          }
-        });
-      });
+      if (successCallBack != null) successCallBack();
+      // OneSignalService.notificationReceivedHandler((oSNotification) {
+      //   print("onesignal setup");
+      //   var addData = oSNotification.payload.additionalData;
+
+      //   addData.forEach((key, value) {
+      //     switch (key) {
+      //       case "":
+      //         break;
+      //       default:
+      //     }
+      //   });
+      // });
     });
   }
 

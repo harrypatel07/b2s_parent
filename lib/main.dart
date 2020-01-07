@@ -6,7 +6,10 @@ import 'package:b2s_parent/src/app/service/onesingal-service.dart';
 import 'package:flutter/material.dart';
 
 Future main() async {
-  OneSignalService.setup(oneSignal_myAppId);
+  //from fluter version v.1.12.3 higher
+  WidgetsFlutterBinding.ensureInitialized();
+  OneSignalService.setup(oneSignal_myAppId,
+      successCallBack: handlerPushNotification.init);
   await translation.init('vi');
   await Routes.navigateDefaultPage();
 

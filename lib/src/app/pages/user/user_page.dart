@@ -9,6 +9,7 @@ import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:line_icons/line_icons.dart';
 
 class UserPage extends StatefulWidget {
@@ -44,90 +45,108 @@ class _UserPageState extends State<UserPage>
       BuildContext context, UserPageViewModel viewModel, Children children) {
     return new Column(
       children: <Widget>[
-        InkWell(
-          onTap: () => viewModel.onTapChildren(children),
-          child: new Container(
-            //color: Colors.blue,
-            margin: EdgeInsets.only(right: 10),
-            child: Row(
-              children: <Widget>[
-                new Expanded(
-                  flex: 6,
-                  child: new Container(
-                    //margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    padding: EdgeInsets.fromLTRB(20, 7.5, 0, 7.5),
-                    decoration: new BoxDecoration(
-                      //color: Colors.white30, //new Color(0xFF333366),
-                      //color: Colors.teal,
-                      shape: BoxShape.rectangle,
-                      borderRadius: new BorderRadius.circular(0.0),
-                    ),
-                    child: new Row(
-                      children: <Widget>[
-                        InkWell(
-                          onTap: () {
-                            print('on Tap avatar');
-                            Navigator.pushNamed(
-                              context,
-                              ProfileChildrenPage.routeName,
-                              arguments: ProfileChildrenPageArgs(
-                                  children: children,
-                                  heroTag: children.id.toString()),
-                            );
-                          },
-                          child: Hero(
-                            tag: children.id.toString(),
-                            child:
+        Container(
+          height : 60,
+          width: MediaQuery.of(context).size.width-40,
+          child: new Slidable(
+            actionPane: SlidableStrechActionPane(),
+            actionExtentRatio: 0.25,
+            child: InkWell(
+              onTap: () => viewModel.onTapChildren(children),
+              child: new Container(
+                height : 60,
+                width: MediaQuery.of(context).size.width-40,
+                color: Colors.grey[300],
+                child: Row(
+                  children: <Widget>[
+                    new Expanded(
+                      flex: 6,
+                      child: new Container(
+                        //margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        padding: EdgeInsets.fromLTRB(20, 7.5, 0, 7.5),
+                        decoration: new BoxDecoration(
+                          //color: Colors.white30, //new Color(0xFF333366),
+                          //color: Colors.teal,
+                          shape: BoxShape.rectangle,
+                          borderRadius: new BorderRadius.circular(0.0),
+                        ),
+                        child: new Row(
+                          children: <Widget>[
+                            InkWell(
+                              onTap: () {
+                                print('on Tap avatar');
+                                Navigator.pushNamed(
+                                  context,
+                                  ProfileChildrenPage.routeName,
+                                  arguments: ProfileChildrenPageArgs(
+                                      children: children,
+                                      heroTag: children.id.toString()),
+                                );
+                              },
+                              child: Hero(
+                                tag: children.id.toString(),
+                                child:
                                 //  CircleAvatar(
                                 //   radius: 20.0,
                                 //   backgroundImage: MemoryImage(children.photo),
                                 //   backgroundColor: Colors.transparent,
                                 // ),
                                 new CachedNetworkImage(
-                              imageUrl: children.photo,
-                              imageBuilder: (context, imageProvider) =>
-                                  CircleAvatar(
-                                radius: 20.0,
-                                backgroundImage: imageProvider,
-                                backgroundColor: Colors.transparent,
+                                  imageUrl: children.photo,
+                                  imageBuilder: (context, imageProvider) =>
+                                      CircleAvatar(
+                                        radius: 20.0,
+                                        backgroundImage: imageProvider,
+                                        backgroundColor: Colors.transparent,
+                                      ),
+                                ),
                               ),
                             ),
-                          ),
+                            new Flexible(
+                              child: new Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: new Text(
+                                  children.name,
+                                  style: TextStyle(fontSize: 14),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                        new Flexible(
-                          child: new Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: new Text(
-                              children.name,
-                              style: TextStyle(fontSize: 14),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                new Expanded(
-                  flex: 1,
-                  child: new Container(
-                    height: 50,
-                    //color: Colors.green,
-                    margin: EdgeInsets.only(top: 5, bottom: 5, right: 5),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Icon(
-                        Icons.edit,
-                        size: 25,
-                        color: Colors.orangeAccent.shade400,
                       ),
                     ),
-                  ),
+                    new Expanded(
+                      flex: 1,
+                      child: new Container(
+                        height: 50,
+                        //color: Colors.green,
+                        margin: EdgeInsets.only(top: 5, bottom: 5, right: 5),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Icon(
+                            Icons.edit,
+                            size: 25,
+                            color: Colors.orangeAccent.shade400,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
+            secondaryActions: <Widget>[
+              IconSlideAction(
+                caption: 'Delete',
+                color: Colors.red,
+                icon: Icons.delete,
+                onTap: () => viewModel.onTapRemoveChildren(children),
+              ),
+            ],
           ),
         ),
+
         new Container(
           height: 1,
           color: Colors.grey.shade200,
@@ -326,20 +345,27 @@ class _UserPageState extends State<UserPage>
       return FadeTransition(
           opacity: _animation,
           child: Container(
-            //height: 200,
-            color: Colors.grey.shade300,
-            child: viewModel.loadingListChildren
-                ? Column(
-              children: <Widget>[
-                Container(height: 100,child: LoadingSpinner.loadingView(
-                    context: context, loading: viewModel.loadingListChildren),),
-                _itemChildAdd()
-              ],
-            )
-                : Column(
-                    children: listChildrenItem,
-                  ),
-          ));
+//              height: 85,
+              color: Colors.grey.shade300,
+              child: viewModel.loadingListChildren
+                  ? Column(
+                      children: <Widget>[
+                        Container(
+                          height: 100,
+                          child: LoadingSpinner.loadingView(
+                              context: context,
+                              loading: viewModel.loadingListChildren),
+                        ),
+                        _itemChildAdd()
+                      ],
+                    )
+                  : Column(
+                      children: listChildrenItem,
+                    )
+//            Column(
+//                    children: listChildrenItem,
+//                  ),
+              ));
     }
 
     Widget _buildChildrenTitle(IconData icon, Color color, String title) {

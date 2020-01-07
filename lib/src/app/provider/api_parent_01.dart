@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/models/attendant.dart';
+import 'package:b2s_parent/src/app/models/bodyNotification.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
 import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/models/driver.dart';
 import 'package:b2s_parent/src/app/models/fleet-vehicle.dart';
 import 'package:b2s_parent/src/app/models/historyTrip.dart';
+import 'package:b2s_parent/src/app/models/message.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/picking-route.dart';
 import 'package:b2s_parent/src/app/models/picking-transport-info.dart';
@@ -16,6 +18,7 @@ import 'package:b2s_parent/src/app/models/route-location.dart';
 import 'package:b2s_parent/src/app/models/sale-order-line.dart';
 import 'package:b2s_parent/src/app/models/sale-order.dart';
 import 'package:b2s_parent/src/app/service/common-service.dart';
+import 'package:b2s_parent/src/app/service/onesingal-service.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
@@ -600,6 +603,30 @@ class Api1 extends ApiMaster {
     });
   }
 
+  ///Tạo user portal
+  Future<bool> insertUserPortal(
+      {String email, String password, String name, String phone}) async {
+    try {
+      var client = await this.authorizationOdoo();
+      body = new Map();
+      body["email"] = email;
+      body["password"] = password;
+      body["name"] = name;
+      body["phone"] = phone;
+      return client
+          .callController("/parent_registration", body)
+          .then((onValue) {
+        var result = onValue.getResult();
+        if (result is String) {
+         return true;
+        }
+        return false;
+      });
+    } catch (ex) {
+      print("insertUserPortal: $ex");
+    }
+  }
+
   /// Lấy thông tin vé của children
   ///
   Future<List<SaleOrderLine>> getTicketOfListChildren() async {
@@ -1111,5 +1138,25 @@ class Api1 extends ApiMaster {
     }).catchError((error) {
       return result;
     });
+  }
+
+  /*---------------OneSignal----------------- */
+  Future<dynamic> postNotificationSendMessage(Messages messages) async {
+    String notification = messages.content;
+    if (notification.length > 100)
+      notification = notification.substring(0, 100) + "...";
+    BodyNotification body = BodyNotification();
+    body.headings = {"en": "Bạn có tin nhắn từ ${messages.receiverName}"};
+    body.contents = {"en": notification};
+    body.data = messages.toJsonPushNotification();
+    body.filters = [
+      {
+        "field": "tag",
+        "key": "id",
+        "relation": "=",
+        "value": int.parse(messages.receiverId)
+      }
+    ];
+    OneSignalService.postNotification(body);
   }
 }

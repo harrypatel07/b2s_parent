@@ -17,8 +17,9 @@
         "REGISTER": "Đăng ký",
         "PASSWORD_AGAIN": "Nhập lại mật khẩu"
     },
-    "SIGN_IN_PAGE": {
-        "TITLE": "Đăng ký tài khoản"
+    "REGISTER_PAGE": {
+        "TITLE": "Đăng ký",
+        "REGISTER": "Đăng ký"
 
     },
     "WAITING_MESSAGE": {
@@ -65,13 +66,16 @@
         "HOLIDAY": "Ngày nghỉ lễ",
         "SELECTED_DAYS": "Ngày đã chọn",
         "ALLOWED_DAYS": "Ngày nghỉ đã xin",
-        "PASSED_DAYS" : "Ngày đã qua"
+        "PASSED_DAYS" : "Ngày đã qua",
+        "LEAVE_SUCCESS": "Xin nghỉ thành công",
+        "LEAVE_FAIL": "Xin nghỉ thất bại"
     },
     "POPUP_CONFIRM": {
         "TITLE": "THÔNG BÁO",
         "DESC_INFO": "Xác nhận thay đổi thông tin?",
         "DESC_STATUS": "Xác nhận thay đổi trạng thái?",
         "DESC_LOG_OUT": "Xác nhận đăng xuất?",
+        "DESC_DELETE_CHILD": "Bạn thực sự muốn xóa đứa trẻ này?",
         "YES": "Có",
         "NO": "Không"
     },
