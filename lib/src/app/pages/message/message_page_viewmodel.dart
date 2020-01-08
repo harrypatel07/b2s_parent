@@ -29,7 +29,7 @@ class MessagePageViewModel extends ViewModelBase {
   Future listenData() async {
     int checkDone = 0;
     if (streamCloud != null) streamCloud.cancel();
-    final _snap =
+    var _snap =
         await cloudService.chat.listenListMessageByUserId(parent.id.toString());
     streamCloud = _snap.listen((onData) {
       if (onData.documents.length > 0) {

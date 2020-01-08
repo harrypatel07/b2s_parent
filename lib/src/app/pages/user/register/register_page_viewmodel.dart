@@ -9,9 +9,11 @@ import 'package:b2s_parent/src/app/helper/validator-helper.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/res-partner.dart';
 import 'package:b2s_parent/src/app/widgets/drop_down_field.dart';
+import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_inappbrowser/flutter_inappbrowser.dart';
 
 class RegisterPageViewModel extends ViewModelBase {
   TextEditingController nameEditingController = new TextEditingController();
@@ -35,6 +37,8 @@ class RegisterPageViewModel extends ViewModelBase {
   dynamic pickImageError;
   String retrieveDataError;
   bool loadingGender = true;
+  bool checkPolicy = false;
+  bool isSend = false;
   ScrollController scrollController = ScrollController();
   final FocusNode nameFocus = FocusNode();
   final FocusNode phoneFocus = FocusNode();
@@ -42,6 +46,8 @@ class RegisterPageViewModel extends ViewModelBase {
   final FocusNode passConfirmFocus = FocusNode();
   final FocusNode mailFocus = FocusNode();
   final FocusNode addressFocus = FocusNode();
+
+  InAppBrowser browser = InAppBrowser();
   fieldFocusChange(
       BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
     currentFocus.unfocus();
@@ -148,7 +154,8 @@ class RegisterPageViewModel extends ViewModelBase {
         isValidPass() &&
         isValidPassConfirm() &&
         isValidName() &&
-        isValidPhone() /* && isValidAddress()*/) {
+        isValidPhone() &&
+        checkPolicy /* && isValidAddress()*/) {
       this.updateState();
       return true;
     }
@@ -261,5 +268,35 @@ class RegisterPageViewModel extends ViewModelBase {
     for (int i = 0; i < listGender.length; i++)
       if (listGender[i].id == id) return listGender[i];
     return listGender[0];
+  }
+
+  onTapRegister() async {
+    isSend = true;
+    if (!isValidInfo()) return;
+    LoadingDialog.showLoadingDialog(context, 'Đang xử lý...');
+    bool result = await api.insertUserPortal(
+        email: emailEditingController.text,
+        password: passEditingController.text,
+        name: nameEditingController.text,
+        phone: phoneEditingController.text);
+    if (result) {
+      LoadingDialog.hideLoadingDialog(context);
+      LoadingDialog.showLoadingDialog(context, "Đăng ký thành công.");
+      Future.delayed(Duration(seconds: 2)).then((_) {
+        LoadingDialog.hideLoadingDialog(context);
+        Navigator.pop(context, emailEditingController.text);
+      });
+    } else
+      Navigator.pop(context);
+  }
+
+  onChangeCheckPolicy(bool value) {
+    checkPolicy = value;
+    if (checkPolicy) isSend = false;
+    this.updateState();
+  }
+
+  onTapPolicy() {
+    browser.open(url: "http://www.bus2school.vn/contactus");
   }
 }

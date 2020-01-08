@@ -93,6 +93,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
       );
 
   Widget _content(context) {
+
     Widget _formLogin() {
       return Container(
           //width: MediaQuery.of(context).size.width - 80,
@@ -170,95 +171,95 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
             SizedBox(
               height: 15,
             ),
-            Row(
-              children: <Widget>[
-                SizedBox(
-                  width: 15,
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    height: 2,
-                    color: Colors.grey[400],
-                  ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  translation.text('LOGIN_PAGE.SOCIAL_LOGIN'),
-                  style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16,
-                      color: Colors.grey[400]),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    height: 2,
-                    color: Colors.grey[400],
-                  ),
-                ),
-                SizedBox(
-                  width: 15,
-                )
-              ],
-            ),
+//            Row(
+//              children: <Widget>[
+//                SizedBox(
+//                  width: 15,
+//                ),
+//                Expanded(
+//                  flex: 1,
+//                  child: Container(
+//                    height: 2,
+//                    color: Colors.grey[400],
+//                  ),
+//                ),
+//                SizedBox(
+//                  width: 5,
+//                ),
+//                Text(
+//                  translation.text('LOGIN_PAGE.SOCIAL_LOGIN'),
+//                  style: TextStyle(
+//                      fontWeight: FontWeight.w700,
+//                      fontSize: 16,
+//                      color: Colors.grey[400]),
+//                ),
+//                SizedBox(
+//                  width: 5,
+//                ),
+//                Expanded(
+//                  flex: 1,
+//                  child: Container(
+//                    height: 2,
+//                    color: Colors.grey[400],
+//                  ),
+//                ),
+//                SizedBox(
+//                  width: 15,
+//                )
+//              ],
+//            ),
+//            SizedBox(
+//              height: 10,
+//            ),
+//            Row(
+//              mainAxisAlignment: MainAxisAlignment.center,
+//              children: <Widget>[
+//                Container(
+//                  width: 50,
+//                  height: 50,
+//                  decoration:
+//                      BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
+//                  child: Center(
+//                    child: Icon(
+//                      FontAwesomeIcons.facebookF,
+//                      color: Colors.white,
+//                    ),
+//                  ),
+//                ),
+//                SizedBox(
+//                  width: 10,
+//                ),
+//                Container(
+//                  width: 50,
+//                  height: 50,
+//                  decoration:
+//                      BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+//                  child: Center(
+//                    child: Icon(
+//                      FontAwesomeIcons.googlePlusG,
+//                      color: Colors.white,
+//                    ),
+//                  ),
+//                ),
+//                SizedBox(
+//                  width: 10,
+//                ),
+//                Container(
+//                  width: 50,
+//                  height: 50,
+//                  decoration:
+//                      BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
+//                  child: Center(
+//                    child: Icon(
+//                      FontAwesomeIcons.apple,
+//                      color: Colors.white,
+//                    ),
+//                  ),
+//                ),
+//              ],
+//            ),
             SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration:
-                      BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
-                  child: Center(
-                    child: Icon(
-                      FontAwesomeIcons.facebookF,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration:
-                      BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-                  child: Center(
-                    child: Icon(
-                      FontAwesomeIcons.googlePlusG,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration:
-                      BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
-                  child: Center(
-                    child: Icon(
-                      FontAwesomeIcons.apple,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
+              height: 25,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -384,7 +385,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
               padding: EdgeInsets.only(left: 10, right: 10),
               child: _submitLogin(),
             ),
-            _socialLogin(),
+             _socialLogin(),
           ],
         ),
       ),

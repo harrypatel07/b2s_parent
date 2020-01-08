@@ -32,16 +32,16 @@ class HandlerPushNotification {
         switch (key) {
           //Chat messages
           case "senderId":
-            if (type == 0) {
-              Messages messages =
-                  Messages.fromJsonPushNotification(additionalData);
-              Chatting chat = Chatting.fromMessages(messages);
-              api.getCustomerInfo(chat.peerId).then((onValue) {
-                chat.avatarUrl = onValue.image.toString();
+            Messages messages =
+                Messages.fromJsonPushNotification(additionalData);
+            Chatting chat = Chatting.fromMessages(messages);
+            api.getCustomerInfo(chat.peerId).then((onValue) {
+              chat.avatarUrl = onValue.image.toString();
+              if (type == 0) {
                 Get.toNamed(MessageDetailPage.routeName, arguments: chat);
-              });
-            } else
-              streamController.add(additionalData);
+              } else
+                streamController.add(chat);
+            });
             break;
           default:
         }

@@ -13,14 +13,18 @@
         "SALE_TICKET": "Bán vé",
         "CHECK_TICKET": "Soát vé",
         "SOCIAL_LOGIN": "Đăng nhập bằng tài khoản",
-        "NEW_USER": "Người dùng mới",
+        "NEW_USER": "Chưa có tài khoản",
         "REGISTER": "Đăng ký",
         "PASSWORD_AGAIN": "Nhập lại mật khẩu"
     },
     "REGISTER_PAGE": {
         "TITLE": "Đăng ký",
-        "REGISTER": "Đăng ký"
-
+        "REGISTER": "Đăng ký",
+        "SEND": "Gửi",
+        "ERROR_TERM_POLICY": "* Bạn chưa đồng ý chính sách và điều khoản của công ty.",
+        "TERM_POLICY_1": "Tôi đã đọc và đồng ý với",
+        "TERM_POLICY_2": "điểu khoản & chính sách",
+        "TERM_POLICY_3": "của công ty cổ phần Ts24Corp."
     },
     "WAITING_MESSAGE": {
         "PERMISSION_CONNECT": "Đang kiểm tra quyền truy cập...",
@@ -75,7 +79,7 @@
         "DESC_INFO": "Xác nhận thay đổi thông tin?",
         "DESC_STATUS": "Xác nhận thay đổi trạng thái?",
         "DESC_LOG_OUT": "Xác nhận đăng xuất?",
-        "DESC_DELETE_CHILD": "Bạn thực sự muốn xóa đứa trẻ này?",
+        "DESC_DELETE_CHILD": "Bạn thực sự muốn xóa trẻ em này?",
         "YES": "Có",
         "NO": "Không"
     },
@@ -173,7 +177,8 @@
         "ADDRESS_INVALID": "Địa chỉ không đúng",
         "MESSAGE_EMPTY": "Không có tin nhắn để hiển thị.",
         "SUCCESS": "Thành công.",
-        "FAIL": "Thất bại"
+        "FAIL": "Thất bại",
+        "DELETE": "Xóa"
     },
     "USER_PROFILE": {
         "CHILDREN_PROFILE": "Thông tin học sinh",

@@ -2,6 +2,7 @@ library ts24_utils;
 
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
+import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -82,6 +83,81 @@ class LoadingDialog {
               Navigator.of(context).pop(LoadingDialog);
             },
           ),
+        ],
+      ),
+    );
+  }
+  Future<bool> showMsgDialogWithButton(
+      BuildContext context, String msg,{String textYes = "Tiếp tục",String textNo = "Hủy"}) async{
+    return await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          "Thông báo",
+          style: TextStyle(color: ThemePrimary.primaryColor),
+        ),
+        content: Text(
+          msg,
+          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          OutlineButton(
+              borderSide: BorderSide(color: ThemePrimary.primaryColor),
+              child: new Text(
+                textNo,
+                style:
+                TextStyle(fontSize: 16, color: ThemePrimary.primaryColor),
+              ),
+              onPressed: () {
+//                result = false;
+                Navigator.of(context).pop(false);
+              },
+              shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(0.0))),
+          OutlineButton(
+              borderSide: BorderSide(color: ThemePrimary.primaryColor),
+              child: new Text(
+                textYes,
+                style:
+                TextStyle(fontSize: 16, color: ThemePrimary.primaryColor),
+              ),
+              onPressed: () {
+//                result = true;
+                Navigator.of(context).pop(true);
+              },
+              shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(0.0))),
+        ],
+      ),
+    );
+  }
+  Future<bool> showMsgDialogWithCloseButton(
+      BuildContext context, String msg,) async{
+    return await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          "Thông báo",
+          style: TextStyle(color: ThemePrimary.primaryColor),
+        ),
+        content: Text(
+          msg,
+          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          OutlineButton(
+              borderSide: BorderSide(color: ThemePrimary.primaryColor),
+              child: new Text(
+                "Đóng",
+                style:
+                TextStyle(fontSize: 16, color: ThemePrimary.primaryColor),
+              ),
+              onPressed: () {
+//                result = true;
+                Navigator.of(context).pop(true);
+              },
+              shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(0.0))),
         ],
       ),
     );

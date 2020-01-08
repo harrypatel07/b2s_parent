@@ -74,11 +74,6 @@ class UserPageViewModel extends ViewModelBase {
 //        this.updateState();
 //      }
 //    });
-    return api.insertUserPortal(
-        email: "luan1@gmai134556.com",
-        name: "Luan",
-        password: "123456",
-        phone: "090222222");
     String qrResult = await BarCodeService.scan();
     if (qrResult != null) {
       TicketCode ticketCode = TicketCode();

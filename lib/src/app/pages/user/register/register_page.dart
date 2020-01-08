@@ -1,13 +1,11 @@
-import 'package:b2s_parent/packages/flutter_form_builder/lib/src/fields/form_builder_dropdown.dart';
-import 'package:b2s_parent/packages/flutter_form_builder/lib/src/form_builder_validators.dart';
 import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/pages/user/register/register_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
-import 'package:b2s_parent/src/app/widgets/drop_down_field.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RegisterPage extends StatefulWidget {
   static const String routeName = '/register';
@@ -185,38 +183,38 @@ class _RegisterPageState extends State<RegisterPage> {
                 ],
               ),
             ),
-            SizedBox(height: 15.0),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                children: <Widget>[
-                  Flexible(
-                    child: viewModel.loadingGender ||
-                            viewModel.listGender.length == 0
-                        ? _textFormFieldLoading(
-                            translation.text("USER_PROFILE.GENDER"))
-                        : FormBuilderDropdown(
-                            attribute: translation.text("USER_PROFILE.GENDER"),
-                            decoration: InputDecoration(
-                              labelText:
-                                  translation.text("USER_PROFILE.GENDER"),
-                              labelStyle: __styleTextLabel,
-                            ),
-                            initialValue: viewModel.gender,
-                            validators: [FormBuilderValidators.required()],
-                            items: viewModel.listGender
-                                .map((gender) =>
-                                    DropdownMenuItem<ItemDropDownField>(
-                                      value: gender,
-                                      child: Text(gender.displayName),
-                                    ))
-                                .toList(),
-                            onChanged: (gender) => viewModel.gender = gender,
-                          ),
-                  ),
-                ],
-              ),
-            ),
+//            SizedBox(height: 15.0),
+//            Container(
+//              width: MediaQuery.of(context).size.width,
+//              child: Row(
+//                children: <Widget>[
+//                  Flexible(
+//                    child: viewModel.loadingGender ||
+//                            viewModel.listGender.length == 0
+//                        ? _textFormFieldLoading(
+//                            translation.text("USER_PROFILE.GENDER"))
+//                        : FormBuilderDropdown(
+//                            attribute: translation.text("USER_PROFILE.GENDER"),
+//                            decoration: InputDecoration(
+//                              labelText:
+//                                  translation.text("USER_PROFILE.GENDER"),
+//                              labelStyle: __styleTextLabel,
+//                            ),
+//                            initialValue: viewModel.gender,
+//                            validators: [FormBuilderValidators.required()],
+//                            items: viewModel.listGender
+//                                .map((gender) =>
+//                                    DropdownMenuItem<ItemDropDownField>(
+//                                      value: gender,
+//                                      child: Text(gender.displayName),
+//                                    ))
+//                                .toList(),
+//                            onChanged: (gender) => viewModel.gender = gender,
+//                          ),
+//                  ),
+//                ],
+//              ),
+//            ),
             SizedBox(height: 15.0),
             Container(
               width: MediaQuery.of(context).size.width,
@@ -250,55 +248,129 @@ class _RegisterPageState extends State<RegisterPage> {
                 ],
               ),
             ),
-            SizedBox(height: 15.0),
+            SizedBox(
+              height: 15,
+            ),
             Container(
               width: MediaQuery.of(context).size.width,
-              child: Row(
+//            height: 100,
+              margin: EdgeInsets.only(left: 15, right: 15),
+              child: Column(
                 children: <Widget>[
-                  Flexible(
-                    flex: 4,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: TextFormField(
-                        focusNode: viewModel.addressFocus,
-                        controller: viewModel.addressEditingController,
-                        decoration: InputDecoration(
-                            labelText: translation.text("USER_PROFILE.ADDRESS"),
-                            labelStyle: __styleTextLabel,
-                            hintText:
-                                translation.text("USER_PROFILE.INPUT_ADDRESS"),
-                            errorText: viewModel.errorAddress),
-                        textInputAction: TextInputAction.done,
-                        keyboardType: TextInputType.text,
-                        onFieldSubmitted: (v) {
-                          viewModel.addressFocus.unfocus();
-//                          viewModel.saveParent();
-                        },
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: InkWell(
-                        onTap: () {
-                          viewModel.onTapPickMaps();
-                        },
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          child: Icon(
-                            FontAwesomeIcons.searchLocation,
-                            color: ThemePrimary.primaryColor,
+                  Container(
+//                  height: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Container(
+                          width: 30,
+//                        height: 50,
+                          alignment: Alignment.center,
+                          child: Checkbox(
+//                          checkColor: ThemePrimary.primaryColor,
+                            activeColor: ThemePrimary.primaryColor,
+                            hoverColor: ThemePrimary.primaryColor,
+                            focusColor: ThemePrimary.primaryColor,
+                            value: viewModel.checkPolicy,
+                            onChanged: viewModel.onChangeCheckPolicy,
                           ),
                         ),
-                      ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Expanded(
+//                        child: Text('Tôi đã đọc và đồng ý với chính sách, điều khoản của công ty cổ phần Ts24Corp.',style: TextStyle(fontSize: 16),),
+                          child: RichText(
+                            text: new TextSpan(
+                              children: [
+                                new TextSpan(
+                                  text: translation
+                                      .text("REGISTER_PAGE.TERM_POLICY_1"),
+                                  style: new TextStyle(
+                                      color: Colors.black, fontSize: 14),
+                                ),
+                                new TextSpan(
+                                  text:
+                                      ' ${translation.text("REGISTER_PAGE.TERM_POLICY_2")} ',
+                                  style: new TextStyle(
+                                      color: Colors.blue, fontSize: 14),
+                                  recognizer: new TapGestureRecognizer()
+                                    ..onTap = viewModel.onTapPolicy,
+                                ),
+                                new TextSpan(
+                                  text: translation
+                                      .text("REGISTER_PAGE.TERM_POLICY_3"),
+                                  style: new TextStyle(
+                                      color: Colors.black, fontSize: 14),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
+                  if (!viewModel.checkPolicy && viewModel.isSend)
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      height: 50,
+                      child: Text(
+                        translation.text("REGISTER_PAGE.ERROR_TERM_POLICY"),
+                        style: TextStyle(color: Colors.red, fontSize: 13),
+                      ),
+                    )
                 ],
               ),
-            ),
+            )
+//            SizedBox(height: 15.0),
+//            Container(
+//              width: MediaQuery.of(context).size.width,
+//              child: Row(
+//                children: <Widget>[
+//                  Flexible(
+//                    flex: 4,
+//                    child: Align(
+//                      alignment: Alignment.center,
+//                      child: TextFormField(
+//                        focusNode: viewModel.addressFocus,
+//                        controller: viewModel.addressEditingController,
+//                        decoration: InputDecoration(
+//                            labelText: translation.text("USER_PROFILE.ADDRESS"),
+//                            labelStyle: __styleTextLabel,
+//                            hintText:
+//                                translation.text("USER_PROFILE.INPUT_ADDRESS"),
+//                            errorText: viewModel.errorAddress),
+//                        textInputAction: TextInputAction.done,
+//                        keyboardType: TextInputType.text,
+//                        onFieldSubmitted: (v) {
+//                          viewModel.addressFocus.unfocus();
+////                          viewModel.saveParent();
+//                        },
+//                      ),
+//                    ),
+//                  ),
+//                  Flexible(
+//                    flex: 1,
+//                    child: Align(
+//                      alignment: Alignment.center,
+//                      child: InkWell(
+//                        onTap: () {
+//                          viewModel.onTapPickMaps();
+//                        },
+//                        child: Container(
+//                          width: 40,
+//                          height: 40,
+//                          child: Icon(
+//                            FontAwesomeIcons.searchLocation,
+//                            color: ThemePrimary.primaryColor,
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                ],
+//              ),
+//            ),
           ],
         ),
       );
@@ -346,7 +418,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                        onTap: () async {
+                        onTap: () {
+                          viewModel.onTapRegister();
+
 //                                  LoadingDialog.showLoadingDialog(context,
 //                                      translation.text("COMMON.IN_PROCESS"));
 //                                  viewModel

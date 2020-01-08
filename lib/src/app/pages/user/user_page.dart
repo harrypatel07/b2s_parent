@@ -138,7 +138,7 @@ class _UserPageState extends State<UserPage>
             ),
             secondaryActions: <Widget>[
               IconSlideAction(
-                caption: 'Delete',
+                caption: translation.text("COMMON.DELETE"),
                 color: Colors.red,
                 icon: Icons.delete,
                 onTap: () => viewModel.onTapRemoveChildren(children),

@@ -123,6 +123,13 @@ class LoginPageViewModel extends ViewModelBase {
   }
 
   onTapSignIn() {
-    Navigator.pushNamed(context, RegisterPage.routeName);
+    Navigator.pushNamed(context, RegisterPage.routeName).then((result){
+      try{
+        if(result!=null) {
+          _emailController.text = result;
+          this.updateState();
+        }
+      }catch(e){}
+    });
   }
 }

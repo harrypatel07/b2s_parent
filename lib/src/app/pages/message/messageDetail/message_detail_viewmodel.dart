@@ -27,7 +27,8 @@ class MessageDetailViewModel extends ViewModelBase {
 
   Future listenData() async {
     if (streamCloud != null) streamCloud.cancel();
-    final _snap = await cloudService.chat.listenListMessageByIdAndPeerId(
+    final _snap =
+    await cloudService.chat.listenListMessageByIdAndPeerId(
         parent.id.toString(), chat.peerId.toString());
     streamCloud = _snap.listen((onData) {
       if (onData.documents.length > 0) {

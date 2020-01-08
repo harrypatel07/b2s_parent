@@ -19,7 +19,12 @@
     },
     "REGISTER_PAGE": {
         "TITLE": "Register",
-        "REGISTER": "Register"
+        "REGISTER": "Register",
+        "SEND": "Send",
+        "ERROR_TERM_POLICY": "* You have not yet agreed to the company's policies and terms.",
+        "TERM_POLICY_1": "I have read and agree with",
+        "TERM_POLICY_2": "policy & terms",
+        "TERM_POLICY_3": "of Ts24Corp company."
     },
     "WAITING_MESSAGE": {
         "PERMISSION_CONNECT": "Checking access permission...",
@@ -172,7 +177,8 @@
         "ADDRESS_INVALID": "Address is invalid",
         "MESSAGE_EMPTY": "Message is empty.",
         "SUCCESS": "Success.",
-        "FAIL": "Fail"
+        "FAIL": "Fail",
+        "DELETE": "Delete"
     },
     "USER_PROFILE": {
         "CHILDREN_PROFILE": "Children's information",
