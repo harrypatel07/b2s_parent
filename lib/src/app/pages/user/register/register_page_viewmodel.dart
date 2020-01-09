@@ -14,7 +14,7 @@ import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_inappbrowser/flutter_inappbrowser.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class RegisterPageViewModel extends ViewModelBase {
   TextEditingController nameEditingController = new TextEditingController();

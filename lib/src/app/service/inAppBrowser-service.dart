@@ -1,4 +1,4 @@
-import 'package:flutter_inappbrowser/flutter_inappbrowser.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class InAppBrowserService extends InAppBrowser {
   @override
