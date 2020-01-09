@@ -8,6 +8,7 @@ import 'package:b2s_parent/src/app/helper/utils.dart';
 import 'package:b2s_parent/src/app/helper/validator-helper.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/res-partner.dart';
+import 'package:b2s_parent/src/app/service/inAppBrowser-service.dart';
 import 'package:b2s_parent/src/app/widgets/drop_down_field.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class RegisterPageViewModel extends ViewModelBase {
   final FocusNode mailFocus = FocusNode();
   final FocusNode addressFocus = FocusNode();
 
-  InAppBrowser browser = InAppBrowser();
+  InAppBrowserService browser = InAppBrowserService();
   fieldFocusChange(
       BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
     currentFocus.unfocus();
@@ -297,6 +298,16 @@ class RegisterPageViewModel extends ViewModelBase {
   }
 
   onTapPolicy() {
-    browser.open(url: "http://www.bus2school.vn/contactus");
+    browser.open(
+      url: "http://www.bus2school.vn/contactus",
+      options: InAppBrowserClassOptions(
+        inAppWebViewWidgetOptions: InAppWebViewWidgetOptions(
+          inAppWebViewOptions: InAppWebViewOptions(
+            useShouldOverrideUrlLoading: true,
+            useOnLoadResource: true,
+          ),
+        ),
+      ),
+    );
   }
 }
