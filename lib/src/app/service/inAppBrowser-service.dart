@@ -55,4 +55,18 @@ class InAppBrowserService extends InAppBrowser {
       messageLevel: ${consoleMessage.messageLevel.toValue()}
    """);
   }
+
+  openUrl(String url) {
+    this.open(
+      url: "http://www.bus2school.vn/contactus",
+      options: InAppBrowserClassOptions(
+        inAppWebViewWidgetOptions: InAppWebViewWidgetOptions(
+          inAppWebViewOptions: InAppWebViewOptions(
+            useShouldOverrideUrlLoading: true,
+            useOnLoadResource: true,
+          ),
+        ),
+      ),
+    );
+  }
 }

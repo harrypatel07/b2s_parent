@@ -298,16 +298,6 @@ class RegisterPageViewModel extends ViewModelBase {
   }
 
   onTapPolicy() {
-    browser.open(
-      url: "http://www.bus2school.vn/contactus",
-      options: InAppBrowserClassOptions(
-        inAppWebViewWidgetOptions: InAppWebViewWidgetOptions(
-          inAppWebViewOptions: InAppWebViewOptions(
-            useShouldOverrideUrlLoading: true,
-            useOnLoadResource: true,
-          ),
-        ),
-      ),
-    );
+    browser.openUrl("http://www.bus2school.vn/contactus");
   }
 }
