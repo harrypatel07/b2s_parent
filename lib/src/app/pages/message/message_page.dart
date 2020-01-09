@@ -133,18 +133,18 @@ class _MessagePageState extends State<MessagePage> {
                     ),
                     subtitle: Row(
                       children: <Widget>[
-                       Expanded(
-                         child:  Text(
-                           chatting.message,
-                           maxLines: 2,
-                           overflow: TextOverflow.ellipsis,
-                           style: TextStyle(
-                             fontWeight: FontWeight.w600,
-                             fontSize: 18.0,
-                             color: Colors.grey.withOpacity(0.6),
-                           ),
-                         ),
-                       ),
+                        Expanded(
+                          child: Text(
+                            chatting.message,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18.0,
+                              color: Colors.grey.withOpacity(0.6),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
 //                trailing: Icon(
@@ -179,25 +179,27 @@ class _MessagePageState extends State<MessagePage> {
         ],
       );
     }
+
     return RefreshIndicator(
-      onRefresh: () async {
-        viewModel.listenData();
-      },
-      child: (viewModel.loadingDataMessage)
-          ? LoadingSpinner.loadingView(
-              context: viewModel.context,
-              loading: (viewModel.loadingDataMessage))
-          : (viewModel.listChat.length > 0)
-              ? ListView.builder(
-                  //padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-                  itemCount: viewModel.listChat.length,
-                  itemBuilder: (context, index) {
-                    var _model = viewModel.listChat[index];
-                    return WidgetANimator(_buildMessageRow(_model));
-                  },
-                )
-              : EmptyWidget(message: translation.text("COMMON.MESSAGE_EMPTY"),)
-    );
+        onRefresh: () async {
+          viewModel.listenData();
+        },
+        child: (viewModel.loadingDataMessage)
+            ? LoadingSpinner.loadingView(
+                context: viewModel.context,
+                loading: (viewModel.loadingDataMessage))
+            : (viewModel.listChat.length > 0)
+                ? ListView.builder(
+                    //padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                    itemCount: viewModel.listChat.length,
+                    itemBuilder: (context, index) {
+                      var _model = viewModel.listChat[index];
+                      return WidgetANimator(_buildMessageRow(_model));
+                    },
+                  )
+                : EmptyWidget(
+                    message: translation.text("COMMON.MESSAGE_EMPTY"),
+                  ));
   }
 
   @override

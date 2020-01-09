@@ -27,8 +27,7 @@ class MessageDetailViewModel extends ViewModelBase {
 
   Future listenData() async {
     if (streamCloud != null) streamCloud.cancel();
-    final _snap =
-    await cloudService.chat.listenListMessageByIdAndPeerId(
+    final _snap = await cloudService.chat.listenListMessageByIdAndPeerId(
         parent.id.toString(), chat.peerId.toString());
     streamCloud = _snap.listen((onData) {
       if (onData.documents.length > 0) {
@@ -48,7 +47,8 @@ class MessageDetailViewModel extends ViewModelBase {
       await cloudService.chat.sendMessage(
           strId: parent.id.toString(),
           strPeerId: chat.peerId.toString(),
-          content: _content);
+          content: _content,
+          strPeerName: chat.name);
       listScrollController.animateTo(0.0,
           duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     }

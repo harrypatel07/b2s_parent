@@ -18,7 +18,7 @@ class MessagePageViewModel extends ViewModelBase {
   Parent parent = Parent();
   @override
   void dispose() {
-    streamCloud.cancel();
+    if (streamCloud != null) streamCloud.cancel();
     super.dispose();
   }
 
@@ -51,8 +51,10 @@ class MessagePageViewModel extends ViewModelBase {
             item.avatarUrl = onValue.image.toString();
             listProfileMessageUser
                 .add(ProfileMessageUserModel.fromDocumentSnapShot(onValue));
-            if (checkDone++ == listChat.length - 1) {
+            checkDone++;
+            if (checkDone == listChat.length) {
               loadingDataMessage = false;
+              checkDone = 0;
               this.updateState();
             }
           });

@@ -22,7 +22,7 @@ final String ggKey = "AIzaSyCjB1Kh7OstaDns8ie6uPysWEWa_vwS3iw";
 
 const String oneSignal_myAppId = "ece1d724-31f9-4372-9ecf-5b13ad2baef0";
 
-const String oneSignal_appId = "ece1d724-31f9-4372-9ecf-5b13ad2baef0";
+const String oneSignal_appId = "0d392a06-3088-43ab-9a7d-1b4370822434";
 
 const String oneSignal_restKey =
     "MTNkMDBjOWMtZjM3Ni00YzlkLWJmMWEtOThhMTAwOWQwMjYz";

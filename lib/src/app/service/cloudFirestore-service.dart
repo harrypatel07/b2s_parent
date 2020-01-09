@@ -82,10 +82,9 @@ class CollectionChat extends InterfaceFireStore {
   Future<Stream<QuerySnapshot>> listenListMessageByUserId(String strId) async {
     final id = EncrypteService.encryptHash(strId);
     return _firestore
-        .collection("chat")
+        .collection(_collectionName)
         .where("keyword", arrayContains: id)
-        .getDocuments()
-        .asStream();
+        .snapshots();
     // var id = EncrypteService.encrypt(strId).base64,
     //     peerId = EncrypteService.encrypt("User03").base64,
     //     groupChatId = "";
