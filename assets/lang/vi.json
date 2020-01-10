@@ -13,7 +13,7 @@
         "SALE_TICKET": "Bán vé",
         "CHECK_TICKET": "Soát vé",
         "SOCIAL_LOGIN": "Đăng nhập bằng tài khoản",
-        "NEW_USER": "Chưa có tài khoản",
+        "NEW_USER": "Bạn chưa có tài khoản",
         "REGISTER": "Đăng ký",
         "PASSWORD_AGAIN": "Nhập lại mật khẩu"
     },
@@ -177,6 +177,7 @@
         "ADDRESS_INVALID": "Địa chỉ không đúng",
         "MESSAGE_EMPTY": "Không có tin nhắn để hiển thị.",
         "SUCCESS": "Thành công.",
+        "REGISTER_SUCCESS": "Đăng ký thành công...",
         "FAIL": "Thất bại",
         "DELETE": "Xóa"
     },
@@ -202,10 +203,10 @@
         "BUS_ID": "Biển số xe:",
         "DRIVER": "Tài xế:",
         "ATTENDANCE": "Quản lý đưa đón:",
-        "TIME_DEPART": "Giờ đón:",
-        "TIME_AT_SCHOOL": "Đến trường:",
-        "TIME_ARRIVE": "Giờ về:",
-        "TIME_AT_HOME": "Về nhà:",
+        "TIME_DEPART": "Giờ đón(dự tính):",
+        "TIME_AT_SCHOOL": "Đến trường(dự tính):",
+        "TIME_ARRIVE": "Giờ về(dự tính):",
+        "TIME_AT_HOME": "Về nhà(dự tính):",
         "USER_TITLE": "Thông tin người dùng"
     },
     "PAYMENT_PAGE": {

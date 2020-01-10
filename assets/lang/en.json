@@ -177,6 +177,7 @@
         "ADDRESS_INVALID": "Address is invalid",
         "MESSAGE_EMPTY": "Message is empty.",
         "SUCCESS": "Success.",
+        "REGISTER_SUCCESS": "Register successfully...",
         "FAIL": "Fail",
         "DELETE": "Delete"
     },
@@ -202,10 +203,10 @@
         "BUS_ID": "License plates:",
         "DRIVER": "Driver:",
         "ATTENDANCE": "Attendance:",
-        "TIME_DEPART": "Depart time:",
-        "TIME_AT_SCHOOL": "Time at school:",
-        "TIME_ARRIVE": "Arrive time:",
-        "TIME_AT_HOME": "Time at home:",
+        "TIME_DEPART": "Depart time(estimate):",
+        "TIME_AT_SCHOOL": "Time at school(estimate):",
+        "TIME_ARRIVE": "Arrive time(estimate):",
+        "TIME_AT_HOME": "Time at home(estimate):",
         "USER_TITLE": "User information"
     },
     "PAYMENT_PAGE": {
