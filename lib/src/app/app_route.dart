@@ -13,6 +13,7 @@ import 'package:b2s_parent/src/app/pages/message/profileMessageUser/profile_mess
 import 'package:b2s_parent/src/app/pages/notification/notification_page.dart';
 import 'package:b2s_parent/src/app/pages/payment/editPaymentPage/edit_payment_page.dart';
 import 'package:b2s_parent/src/app/pages/payment/payment_page.dart';
+import 'package:b2s_parent/src/app/pages/popupChat/contentPopupChat/content_popup_chat_page.dart';
 import 'package:b2s_parent/src/app/pages/popupChat/popupChat_page.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page.dart';
 import 'package:b2s_parent/src/app/pages/user/edit_profile_children/edit_profile_children.dart';
@@ -84,11 +85,14 @@ class Routes {
     EditPaymentPage.routeName: (context) => EditPaymentPage(),
     PaymentPage.routeName: (context) => PaymentPage(),
     RegisterPage.routeName: (context) => RegisterPage(),
+    ContentPopupChatPage.routeName: (context) => ContentPopupChatPage(ModalRoute.of(context).settings.arguments),
   };
 }
 
 class MyRouteObserver extends RouteObserver<PageRoute<dynamic>> {
+  static String routeCurrentName ='';
   void _sendScreenView(PageRoute<dynamic> route) {
+    routeCurrentName = route.settings.name;
     var screenName = route.settings.name;
     switch (screenName) {
       case PopupChatPage.routeName:
@@ -104,7 +108,6 @@ class MyRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   @override
   void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
     super.didPush(route, previousRoute);
-
     if (route is PageRoute) {
       _sendScreenView(route);
     }
@@ -113,7 +116,6 @@ class MyRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   @override
   void didReplace({Route<dynamic> newRoute, Route<dynamic> oldRoute}) {
     super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
-
     if (newRoute is PageRoute) {
       _sendScreenView(newRoute);
     }
@@ -122,7 +124,6 @@ class MyRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   @override
   void didPop(Route<dynamic> route, Route<dynamic> previousRoute) {
     super.didPop(route, previousRoute);
-
     if (previousRoute is PageRoute && route is PageRoute) {
       _sendScreenView(previousRoute);
     }

@@ -7,8 +7,8 @@ import 'package:b2s_parent/src/app/service/onesingal-service.dart';
 import 'package:get/get.dart';
 
 class HandlerPushNotification {
-  StreamController streamController = StreamController<dynamic>.broadcast();
-  Stream get stream => streamController.stream.asBroadcastStream();
+  StreamController streamController = StreamController.broadcast();
+  Stream get stream => streamController.stream;
 
   void dispose() {
     streamController.close();
@@ -37,6 +37,7 @@ class HandlerPushNotification {
             Chatting chat = Chatting.fromMessages(messages);
             api.getCustomerInfo(chat.peerId).then((onValue) {
               chat.avatarUrl = onValue.image.toString();
+              chat.name = onValue.name.toString();
               if (type == 0) {
                 Get.toNamed(MessageDetailPage.routeName, arguments: chat);
               } else

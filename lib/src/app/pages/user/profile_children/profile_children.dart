@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:validators/sanitizers.dart';
 
 class ProfileChildrenPage extends StatefulWidget {
   static const String routeName = "/profileChildren";
@@ -261,14 +260,15 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(),
-                ),
+//                Expanded(
+//                  flex: 1,
+//                  child: SizedBox(),
+//                ),
                 Expanded(
                   flex: 5,
                   child: Row(
                     children: <Widget>[
+                      SizedBox(width: 10,),
                       Container(
                         margin: EdgeInsets.only(top: 3, right: 3, bottom: 3),
                         child: Icon(
@@ -291,7 +291,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 5,
+                  flex: 2,
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
@@ -307,14 +307,15 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(),
-                ),
+//                Expanded(
+//                  flex: 1,
+//                  child: SizedBox(),
+//                ),
                 Expanded(
                   flex: 5,
                   child: Row(
                     children: <Widget>[
+                      SizedBox(width: 10,),
                       Container(
                         margin: EdgeInsets.only(top: 3, right: 3, bottom: 3),
                         child: Icon(
@@ -337,7 +338,7 @@ class _ProfileChildrenPageState extends State<ProfileChildrenPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 5,
+                  flex: 2,
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(

@@ -14,7 +14,6 @@ import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class RegisterPageViewModel extends ViewModelBase {
   TextEditingController nameEditingController = new TextEditingController();
@@ -274,7 +273,7 @@ class RegisterPageViewModel extends ViewModelBase {
   onTapRegister() async {
     isSend = true;
     if (!isValidInfo()) return;
-    LoadingDialog.showLoadingDialog(context, 'Đang xử lý...');
+    LoadingDialog.showLoadingDialog(context, translation.text("COMMON.IN_PROCESS"));
     bool result = await api.insertUserPortal(
         email: emailEditingController.text,
         password: passEditingController.text,
@@ -282,7 +281,7 @@ class RegisterPageViewModel extends ViewModelBase {
         phone: phoneEditingController.text);
     if (result) {
       LoadingDialog.hideLoadingDialog(context);
-      LoadingDialog.showLoadingDialog(context, "Đăng ký thành công.");
+      LoadingDialog.showLoadingDialog(context, "COMMON.REGISTER_SUCCESS");
       Future.delayed(Duration(seconds: 2)).then((_) {
         LoadingDialog.hideLoadingDialog(context);
         Navigator.pop(context, emailEditingController.text);

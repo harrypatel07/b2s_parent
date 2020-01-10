@@ -618,7 +618,7 @@ class Api1 extends ApiMaster {
           .then((onValue) {
         var result = onValue.getResult();
         if (result is String) {
-         return true;
+          return true;
         }
         return false;
       });
@@ -1158,5 +1158,6 @@ class Api1 extends ApiMaster {
       }
     ];
     OneSignalService.postNotification(body);
+    OneSignalService.postNotificationSameApplication(body);
   }
 }

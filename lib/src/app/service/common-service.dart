@@ -78,8 +78,9 @@ class Common {
     result["time"] = DateFormat('hh:mm a').format(day);
     return result;
   }
-  static String convertIntDayToStringDayOfWeek(int weekday){
-    String result ='';
+
+  static String convertIntDayToStringDayOfWeek(int weekday) {
+    String result = '';
     switch (weekday) {
       case 1:
         result = translation.text("COMMON.DAY_OF_WEEK.MONDAY");
@@ -107,6 +108,7 @@ class Common {
     }
     return result;
   }
+
   static createKeyWord(String name, {String split = ''}) {
     var arrName = [], curName = '';
     name.split(split).forEach((letter) {
@@ -115,9 +117,11 @@ class Common {
     });
     return arrName;
   }
-  static removeMiliSecond(String time){
-    return time.substring(0,time.length - 3);
+
+  static removeMiliSecond(String time) {
+    return time.substring(0, time.length - 3);
   }
+
   static createKeyWordForChat(String name, {String split = ''}) {
     var arrName = [], curName = '';
     name.split(split).forEach((letter) {
