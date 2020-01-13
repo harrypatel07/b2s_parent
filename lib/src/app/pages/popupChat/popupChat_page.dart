@@ -1,9 +1,6 @@
 import 'package:animator/animator.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
-import 'package:b2s_parent/src/app/models/message.dart';
 import 'package:b2s_parent/src/app/pages/popupChat/popupChat_viewmodel.dart';
-import 'package:b2s_parent/src/app/theme/theme_primary.dart';
-import 'package:b2s_parent/src/app/widgets/chat_bubble.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -48,35 +45,44 @@ class _PopupChatHomePageState extends State<PopupChatHomePage>
     Widget _circleAvatar(ModelChatPopup modelChatPopup) {
       return (modelChatPopup.chatting.avatarUrl != null)
           ? Stack(
-        children: <Widget>[
-          Hero(
-            tag: modelChatPopup.chatting.peerId.toString(),
-            child: CachedNetworkImage(
-              imageUrl: modelChatPopup.chatting.avatarUrl,
-              imageBuilder: (context, imageProvider) => CircleAvatar(
-                radius: 32.5,
-                backgroundImage: imageProvider,
-                backgroundColor: Colors.transparent,
-              ),
-            ),
-          ),
-          if(modelChatPopup.countMessage > 0)
-          Positioned(
-            top: 5,
-            right: 0,
-            child: Container(
-              width: 20,
-              height: 20,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.red
-              ),
-              child: Text(modelChatPopup.countMessage.toString(),style: TextStyle(fontSize: 12,color: Colors.white,fontWeight: FontWeight.bold),),
-            ),
-          )
-        ],
-      )
+              children: <Widget>[
+                (modelChatPopup.chatting.avatarUrl == null ||
+                        modelChatPopup.chatting.avatarUrl is bool)
+                    ? Container(
+                        width: 65,
+                        height: 65,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.white),
+                      )
+                    : CachedNetworkImage(
+                        imageUrl: modelChatPopup.chatting.avatarUrl,
+                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                          radius: 32.5,
+                          backgroundImage: imageProvider,
+                          backgroundColor: Colors.transparent,
+                        ),
+                      ),
+                if (modelChatPopup.countMessage > 0)
+                  Positioned(
+                    top: 5,
+                    right: 0,
+                    child: Container(
+                      width: 20,
+                      height: 20,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: Colors.red),
+                      child: Text(
+                        modelChatPopup.countMessage.toString(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  )
+              ],
+            )
           : Container(
               color: Colors.transparent,
             );
@@ -100,19 +106,20 @@ class _PopupChatHomePageState extends State<PopupChatHomePage>
                           offset: Offset(2.0, 2.0),
                           blurRadius: 10.0,
                         ),
-                      ], color: Colors.blue, shape: BoxShape.circle),
+                      ], color: Colors.white, shape: BoxShape.circle),
                       child: _circleAvatar(viewModel.modelChatPopupShow),
                     ),
                   ),
                 if (viewModel.listChat.length > 0 &&
-                        viewModel.showPopup &&
-                        !viewModel.flowDrag &&
-                        (viewModel.inTargetRemove || viewModel.isRemove))
+                    viewModel.showPopup &&
+                    !viewModel.flowDrag &&
+                    (viewModel.inTargetRemove || viewModel.isRemove))
                   Animator(
                     statusListener: ((_, __) {
                       if (_.index == 3)
-                        viewModel.positionItemShow =
-                            Offset(viewModel.positionDraggable.dx, viewModel.positionDraggable.dy);
+                        viewModel.positionItemShow = Offset(
+                            viewModel.positionDraggable.dx,
+                            viewModel.positionDraggable.dy);
                     }),
                     curve: Curves.easeInOutBack,
                     tween: Tween<Offset>(
@@ -139,7 +146,7 @@ class _PopupChatHomePageState extends State<PopupChatHomePage>
                                     blurRadius: 10.0,
                                   ),
                                 ],
-                                color: Colors.deepPurpleAccent,
+                                color: Colors.white,
                                 shape: BoxShape.circle),
                             child: _circleAvatar(viewModel.modelChatPopupShow),
                           ),

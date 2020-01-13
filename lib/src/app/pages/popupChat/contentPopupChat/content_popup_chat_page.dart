@@ -146,15 +146,23 @@ class _ContentPopupChatPageState extends State<ContentPopupChatPage>
                           },
                           child: Stack(
                             children: <Widget>[
-                                CachedNetworkImage(
-                                  imageUrl: modelChatPopup.chatting.avatarUrl,
-                                  imageBuilder: (context, imageProvider) =>
-                                      CircleAvatar(
+                            Container(
+                            width: 65,
+                            height: 65,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white),
+                            child: CachedNetworkImage(
+                              imageUrl:
+                              modelChatPopup.chatting.avatarUrl,
+                              imageBuilder: (context, imageProvider) =>
+                                  CircleAvatar(
                                     radius: 32.5,
                                     backgroundImage: imageProvider,
-                                    backgroundColor: Colors.transparent,
+                                    backgroundColor: Colors.white,
                                   ),
-                              ),
+                            ),
+                          ),
                               if (modelChatPopup.countMessage > 0 &&
                                   viewModel.modelChatPopup.chatting.peerId !=
                                       modelChatPopup.chatting.peerId)
