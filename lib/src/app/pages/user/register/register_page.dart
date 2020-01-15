@@ -248,80 +248,81 @@ class _RegisterPageState extends State<RegisterPage> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 15,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-//            height: 100,
-              margin: EdgeInsets.only(left: 15, right: 15),
-              child: Column(
-                children: <Widget>[
-                  Container(
-//                  height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                          width: 30,
-//                        height: 50,
-                          alignment: Alignment.center,
-                          child: Checkbox(
-//                          checkColor: ThemePrimary.primaryColor,
-                            activeColor: ThemePrimary.primaryColor,
-                            hoverColor: ThemePrimary.primaryColor,
-                            focusColor: ThemePrimary.primaryColor,
-                            value: viewModel.checkPolicy,
-                            onChanged: viewModel.onChangeCheckPolicy,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Expanded(
-//                        child: Text('Tôi đã đọc và đồng ý với chính sách, điều khoản của công ty cổ phần Ts24Corp.',style: TextStyle(fontSize: 16),),
-                          child: RichText(
-                            text: new TextSpan(
-                              children: [
-                                new TextSpan(
-                                  text: translation
-                                      .text("REGISTER_PAGE.TERM_POLICY_1"),
-                                  style: new TextStyle(
-                                      color: Colors.black, fontSize: 14),
-                                ),
-                                new TextSpan(
-                                  text:
-                                      ' ${translation.text("REGISTER_PAGE.TERM_POLICY_2")} ',
-                                  style: new TextStyle(
-                                      color: Colors.blue, fontSize: 14),
-                                  recognizer: new TapGestureRecognizer()
-                                    ..onTap = viewModel.onTapPolicy,
-                                ),
-                                new TextSpan(
-                                  text: translation
-                                      .text("REGISTER_PAGE.TERM_POLICY_3"),
-                                  style: new TextStyle(
-                                      color: Colors.black, fontSize: 14),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  if (!viewModel.checkPolicy && viewModel.isSend)
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      height: 50,
-                      child: Text(
-                        translation.text("REGISTER_PAGE.ERROR_TERM_POLICY"),
-                        style: TextStyle(color: Colors.red, fontSize: 13),
-                      ),
-                    )
-                ],
-              ),
-            )
+//            SizedBox(
+//              height: 15,
+//            ),
+//            Container(
+//              width: MediaQuery.of(context).size.width,
+////            height: 100,
+//              margin: EdgeInsets.only(left: 15, right: 15),
+//              child: Column(
+//                children: <Widget>[
+//                  Container(
+////                  height: 50,
+//                    child: Row(
+//                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                      children: <Widget>[
+//                        Container(
+//                          width: 30,
+////                        height: 50,
+//                          alignment: Alignment.center,
+//                          child: Checkbox(
+////                          checkColor: ThemePrimary.primaryColor,
+//                            activeColor: ThemePrimary.primaryColor,
+//                            hoverColor: ThemePrimary.primaryColor,
+//                            focusColor: ThemePrimary.primaryColor,
+//                            value: viewModel.checkPolicy,
+//                            onChanged: viewModel.onChangeCheckPolicy,
+//                          ),
+//                        ),
+//                        SizedBox(
+//                          width: 15,
+//                        ),
+//                        Expanded(
+////                        child: Text('Tôi đã đọc và đồng ý với chính sách, điều khoản của công ty cổ phần Ts24Corp.',style: TextStyle(fontSize: 16),),
+//                          child: RichText(
+//                            text: new TextSpan(
+//                              children: [
+//                                new TextSpan(
+//                                  text: translation
+//                                      .text("REGISTER_PAGE.TERM_POLICY_1"),
+//                                  style: new TextStyle(
+//                                      color: Colors.black, fontSize: 14),
+//                                ),
+//                                new TextSpan(
+//                                  text:
+//                                      ' ${translation.text("REGISTER_PAGE.TERM_POLICY_2")} ',
+//                                  style: new TextStyle(
+//                                      color: Colors.blue, fontSize: 14),
+//                                  recognizer: new TapGestureRecognizer()
+//                                    ..onTap = viewModel.onTapPolicy,
+//                                ),
+//                                new TextSpan(
+//                                  text: translation
+//                                      .text("REGISTER_PAGE.TERM_POLICY_3"),
+//                                  style: new TextStyle(
+//                                      color: Colors.black, fontSize: 14),
+//                                )
+//                              ],
+//                            ),
+//                          ),
+//                        )
+//                      ],
+//                    ),
+//                  ),
+//                  if (!viewModel.checkPolicy && viewModel.isSend)
+//                    Container(
+//                      alignment: Alignment.centerLeft,
+//                      height: 50,
+//                      child: Text(
+//                        translation.text("REGISTER_PAGE.ERROR_TERM_POLICY"),
+//                        style: TextStyle(color: Colors.red, fontSize: 13),
+//                      ),
+//                    )
+//                ],
+//              ),
+//            )
+            ///
 //            SizedBox(height: 15.0),
 //            Container(
 //              width: MediaQuery.of(context).size.width,
@@ -438,7 +439,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: Center(
                           child: Text(
                             translation
-                                .text("REGISTER_PAGE.REGISTER")
+                                .text("REGISTER_PAGE.SEND")
                                 .toUpperCase(),
                             style: TextStyle(
                                 fontSize: 16,

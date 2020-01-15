@@ -8,9 +8,11 @@ import 'package:b2s_parent/src/app/helper/index.dart';
 import 'package:b2s_parent/src/app/helper/utils.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/res-partner.dart';
+import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/drop_down_field.dart';
 import 'package:flutter/material.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditProfileParentViewModel extends ViewModelBase {
@@ -205,6 +207,36 @@ class EditProfileParentViewModel extends ViewModelBase {
   void onImageButtonPressed(ImageSource source) async {
     try {
       imageFile = await ImagePicker.pickImage(source: source);
+      File croppedFile = await ImageCropper.cropImage(
+        sourcePath: imageFile.path,
+        aspectRatioPresets: Platform.isAndroid
+            ? [
+          CropAspectRatioPreset.square,
+//          CropAspectRatioPreset.ratio3x2,
+//          CropAspectRatioPreset.original,
+//          CropAspectRatioPreset.ratio4x3,
+//          CropAspectRatioPreset.ratio16x9
+        ]
+            : [
+//          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.square,
+//          CropAspectRatioPreset.ratio3x2,
+//          CropAspectRatioPreset.ratio4x3,
+//          CropAspectRatioPreset.ratio5x3,
+//          CropAspectRatioPreset.ratio5x4,
+//          CropAspectRatioPreset.ratio7x5,
+//          CropAspectRatioPreset.ratio16x9
+        ],
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: translation.text("COMMON.CROPPER"),
+            toolbarColor: ThemePrimary.primaryColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: true),
+      );
+      if (croppedFile != null) {
+        imageFile = croppedFile;
+      }
       readFileByte(imageFile.path).then((bytesData) {
         imagePicker = bytesData;
         this.updateState();

@@ -28,6 +28,7 @@ class ContentPopupChatViewModel extends ViewModelBase {
   initListChat(List<ModelChatPopup> listChat) {
     this.listChat = listChat;
   }
+
   @override
   void dispose() {
     if (streamCloud != null) streamCloud.cancel();
@@ -44,7 +45,8 @@ class ContentPopupChatViewModel extends ViewModelBase {
       await cloudService.chat.sendMessage(
           strId: Parent().id.toString(),
           strPeerId: modelChatPopup.chatting.peerId.toString(),
-          content: _content);
+          content: _content,
+          strPeerName: modelChatPopup.chatting.name);
       this.updateState();
     }
   }

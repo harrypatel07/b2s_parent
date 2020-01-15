@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/pages/busAttendance/bus_attendance_page.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page.dart';
@@ -25,6 +27,7 @@ import 'package:b2s_parent/src/app/pages/user/tickets/tickets_children.dart';
 import 'package:b2s_parent/src/app/pages/user/tickets_detail/student_card/student_card_page.dart';
 import 'package:b2s_parent/src/app/pages/user/tickets_detail/ticket_detail_page.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'core/app_setting.dart';
 
@@ -85,13 +88,17 @@ class Routes {
     EditPaymentPage.routeName: (context) => EditPaymentPage(),
     PaymentPage.routeName: (context) => PaymentPage(),
     RegisterPage.routeName: (context) => RegisterPage(),
-    ContentPopupChatPage.routeName: (context) => ContentPopupChatPage(ModalRoute.of(context).settings.arguments),
+    ContentPopupChatPage.routeName: (context) =>
+        ContentPopupChatPage(ModalRoute.of(context).settings.arguments),
   };
 }
 
+void function(int index) {}
+
 class MyRouteObserver extends RouteObserver<PageRoute<dynamic>> {
-  static String routeCurrentName ='';
+  static String routeCurrentName = '';
   void _sendScreenView(PageRoute<dynamic> route) {
+    handlerPushPageName.add(route.settings.name.toString());
     routeCurrentName = route.settings.name;
     var screenName = route.settings.name;
     switch (screenName) {

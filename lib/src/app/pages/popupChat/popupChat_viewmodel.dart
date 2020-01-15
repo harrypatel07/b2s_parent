@@ -6,6 +6,8 @@ import 'package:b2s_parent/src/app/helper/utils.dart';
 import 'package:b2s_parent/src/app/models/chat.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/profileMessageUser.dart';
+import 'package:b2s_parent/src/app/pages/login/login_page.dart';
+import 'package:b2s_parent/src/app/pages/message/ContactsPage/contacts_page.dart';
 import 'package:b2s_parent/src/app/pages/message/messageDetail/message_detail_page.dart';
 import 'package:b2s_parent/src/app/pages/message/message_page.dart';
 import 'package:b2s_parent/src/app/pages/popupChat/contentPopupChat/content_popup_chat_page.dart';
@@ -15,11 +17,13 @@ import 'package:get/get.dart';
 
 class PopupChatViewModel extends ViewModelBase {
   StreamSubscription streamCloud;
+  StreamSubscription<String> streamSubscription;
   Parent parent = Parent();
   List<ModelChatPopup> listChat = List();
   ModelChatPopup modelChatPopupShow;
   List<ProfileMessageUserModel> listProfileMessageUser = List();
   PopupChatViewModel() {
+    listenPageMessageName();
     listenData();
   }
   Offset positionDraggable = Offset(0, 0);
@@ -28,8 +32,9 @@ class PopupChatViewModel extends ViewModelBase {
   bool showPopup = false;
   bool flowDrag = false;
   bool inTargetRemove = false;
-  bool isRemove = true;
+  bool isRemoveCancel = true;
   bool showCircleRemove = false;
+  bool showPopupBaseScreen = false;
   Offset positionPin(Offset offset) {
     if (offset.dx > MediaQuery.of(context).size.width * 0.5 - 37) {
       return Offset(
@@ -48,7 +53,26 @@ class PopupChatViewModel extends ViewModelBase {
   @override
   void dispose() {
     if (streamCloud != null) streamCloud.cancel();
+    if (streamSubscription != null) streamSubscription.cancel();
     super.dispose();
+  }
+
+  Future listenPageMessageName() async {
+    streamSubscription = handlerPushPageName.stream.listen((onData) {
+      if (onData == MessagePage.routeName ||
+          onData == MessageDetailPage.routeName.toString() ||
+          onData == LoginPage.routeName ||
+          onData == ContactsPage.routeName) {
+        if (onData == LoginPage.routeName) showPopup = false;
+        var posTerm = positionPin(positionItemShow);
+        positionItemShow = Offset(
+            (posTerm.dx == 0) ? positionItemShow.dx - 65 : posTerm.dx + 65,
+            positionItemShow.dy);
+        showPopupBaseScreen = false;
+      } else
+        showPopupBaseScreen = true;
+      this.updateState();
+    });
   }
 
   Future listenData() async {
@@ -57,12 +81,16 @@ class PopupChatViewModel extends ViewModelBase {
     streamCloud = _snap.listen((onData) {
       if (onData != null) {
         if (MyRouteObserver.routeCurrentName != MessagePage.routeName &&
-            MyRouteObserver.routeCurrentName != MessageDetailPage.routeName) {
+            MyRouteObserver.routeCurrentName != MessageDetailPage.routeName &&
+            MyRouteObserver.routeCurrentName != LoginPage.routeName &&
+            MyRouteObserver.routeCurrentName != ContactsPage.routeName) {
           PlaySoundService.play("audio/sharp.mp3");
-          if (!showPopup) initPositionDataWhenShowPopup();
-        }else{
-          if(showPopup)
-            showPopup = false;
+          if (!showPopup) {
+            initPositionDataWhenShowPopup();
+          }
+        } else if (showPopup) {
+          showPopup = false;
+//          if (streamSubscription != null) streamSubscription.cancel();
         }
         ModelChatPopup _chat = ModelChatPopup(onData, 1);
         if (listChat
@@ -112,7 +140,7 @@ class PopupChatViewModel extends ViewModelBase {
     positionItemShow = positionDraggable;
     showCircleRemove = true;
     flowDrag = true;
-    isRemove = false;
+    isRemoveCancel = false;
   }
 
   onDraggableCanceled() {
@@ -122,9 +150,9 @@ class PopupChatViewModel extends ViewModelBase {
       this.updateState();
       return;
     }
-      positionItemShow = Offset(positionDraggable.dx, positionDraggable.dy);
-      positionDraggable = positionPin(positionDraggable);
-    isRemove = true;
+    positionItemShow = Offset(positionDraggable.dx, positionDraggable.dy);
+    positionDraggable = positionPin(positionDraggable);
+    isRemoveCancel = true;
     flowDrag = false;
     showCircleRemove = false;
     this.updateState();
@@ -156,9 +184,11 @@ class PopupChatViewModel extends ViewModelBase {
     }
   }
 
+  //callOf = 0, listenData call
+  //callOf = 1, listenPageMessageName Call
   initPositionDataWhenShowPopup() {
     showPopup = true;
-    isRemove = true;
+    isRemoveCancel = true;
     positionItemShow = Offset(MediaQuery.of(context).size.width, 0);
     positionDraggable = Offset(MediaQuery.of(context).size.width - 65, 0);
     this.updateState();

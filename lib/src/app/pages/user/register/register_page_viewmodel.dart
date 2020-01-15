@@ -154,8 +154,9 @@ class RegisterPageViewModel extends ViewModelBase {
         isValidPass() &&
         isValidPassConfirm() &&
         isValidName() &&
-        isValidPhone() &&
-        checkPolicy /* && isValidAddress()*/) {
+        isValidPhone()
+       // && checkPolicy /* && isValidAddress()*/
+    ) {
       this.updateState();
       return true;
     }
@@ -281,7 +282,7 @@ class RegisterPageViewModel extends ViewModelBase {
         phone: phoneEditingController.text);
     if (result) {
       LoadingDialog.hideLoadingDialog(context);
-      LoadingDialog.showLoadingDialog(context, "COMMON.REGISTER_SUCCESS");
+      LoadingDialog.showLoadingDialog(context, translation.text("COMMON.REGISTER_SUCCESS"));
       Future.delayed(Duration(seconds: 2)).then((_) {
         LoadingDialog.hideLoadingDialog(context);
         Navigator.pop(context, emailEditingController.text);

@@ -146,23 +146,22 @@ class _ContentPopupChatPageState extends State<ContentPopupChatPage>
                           },
                           child: Stack(
                             children: <Widget>[
-                            Container(
-                            width: 65,
-                            height: 65,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white),
-                            child: CachedNetworkImage(
-                              imageUrl:
-                              modelChatPopup.chatting.avatarUrl,
-                              imageBuilder: (context, imageProvider) =>
-                                  CircleAvatar(
+                              Container(
+                                width: 65,
+                                height: 65,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white),
+                                child: CachedNetworkImage(
+                                  imageUrl: modelChatPopup.chatting.avatarUrl,
+                                  imageBuilder: (context, imageProvider) =>
+                                      CircleAvatar(
                                     radius: 32.5,
                                     backgroundImage: imageProvider,
                                     backgroundColor: Colors.white,
                                   ),
-                            ),
-                          ),
+                                ),
+                              ),
                               if (modelChatPopup.countMessage > 0 &&
                                   viewModel.modelChatPopup.chatting.peerId !=
                                       modelChatPopup.chatting.peerId)
@@ -300,15 +299,20 @@ class _ContentPopupChatPageState extends State<ContentPopupChatPage>
                                                       .peerId));
                                             },
                                             child: Hero(
-                                              tag: viewModel.modelChatPopup.chatting.peerId.toString(),
+                                              tag: viewModel.modelChatPopup
+                                                  .chatting.peerId
+                                                  .toString(),
                                               child: CachedNetworkImage(
-                                                imageUrl: viewModel.modelChatPopup
-                                                    .chatting.avatarUrl,
+                                                imageUrl: viewModel
+                                                    .modelChatPopup
+                                                    .chatting
+                                                    .avatarUrl,
                                                 imageBuilder:
                                                     (context, imageProvider) =>
                                                         CircleAvatar(
                                                   radius: 22.5,
-                                                  backgroundImage: imageProvider,
+                                                  backgroundImage:
+                                                      imageProvider,
                                                   backgroundColor:
                                                       Colors.transparent,
                                                 ),

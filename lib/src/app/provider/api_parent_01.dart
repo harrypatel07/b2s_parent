@@ -624,6 +624,7 @@ class Api1 extends ApiMaster {
       });
     } catch (ex) {
       print("insertUserPortal: $ex");
+      return false;
     }
   }
 
