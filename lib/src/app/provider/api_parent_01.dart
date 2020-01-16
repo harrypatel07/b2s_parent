@@ -474,6 +474,10 @@ class Api1 extends ApiMaster {
     return "$domainApi/web/image?model=res.partner&field=image&id=$id&${api.sessionId}";
   }
 
+  getLogoByIdCompany(String id) {
+    return "$domainApi/web/image?model=res.company&field=logo&id=$id&${api.sessionId}";
+  }
+
   ///Update thông tin khách hàng
   ///
   ///Success - Trả về true

@@ -34,10 +34,9 @@ class _StudentCardPageState extends State<StudentCardPage> {
                   width: studentCardHeight * 0.6,
                   alignment: Alignment.bottomCenter,
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                      border: Border.all(color: Colors.grey[300])
-                  ),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      border: Border.all(color: Colors.grey[300])),
                   child: Column(
                     children: <Widget>[
                       Expanded(
@@ -70,7 +69,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
                                     width: studentCardHeight * 0.12,
                                     height: studentCardHeight * 0.12,
                                     child: CachedNetworkImage(
-                                      imageUrl: api.getImageByIdPartner(
+                                      imageUrl: api.getLogoByIdCompany(
                                           order.companyId[0].toString()),
                                       fit: BoxFit.scaleDown,
                                     ),
@@ -191,12 +190,11 @@ class _StudentCardPageState extends State<StudentCardPage> {
               key: viewModel.studentCardVerticalKey,
               child: Container(
                 width: studentCardHeight,
-                height: studentCardHeight *0.6,
+                height: studentCardHeight * 0.6,
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  border: Border.all(color: Colors.grey[300])
-                ),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    border: Border.all(color: Colors.grey[300])),
                 child: Column(
                   children: <Widget>[
                     Expanded(
@@ -304,7 +302,8 @@ class _StudentCardPageState extends State<StudentCardPage> {
                                           style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
-                                              color: ThemePrimary.colorDriverApp),
+                                              color:
+                                                  ThemePrimary.colorDriverApp),
                                           overflow: TextOverflow.clip,
                                         ),
                                       ),
@@ -399,14 +398,15 @@ class _StudentCardPageState extends State<StudentCardPage> {
             ),
             body: SingleChildScrollView(
               child: Container(
-                alignment: Alignment.center,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 10,),
-                    _itemCard(widget.args.children, widget.args.orderLine),
-                  ],
-                )
-              ),
+                  alignment: Alignment.center,
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 10,
+                      ),
+                      _itemCard(widget.args.children, widget.args.orderLine),
+                    ],
+                  )),
             ),
             floatingActionButton: FloatingActionButton(
               backgroundColor: ThemePrimary.primaryColor,
