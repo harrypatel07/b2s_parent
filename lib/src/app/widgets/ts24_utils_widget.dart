@@ -87,8 +87,9 @@ class LoadingDialog {
       ),
     );
   }
-  Future<bool> showMsgDialogWithButton(
-      BuildContext context, String msg,{String textYes = "Tiếp tục",String textNo = "Hủy"}) async{
+
+  Future<bool> showMsgDialogWithButton(BuildContext context, String msg,
+      {String textYes = "Tiếp tục", String textNo = "Hủy"}) async {
     return await showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -106,7 +107,7 @@ class LoadingDialog {
               child: new Text(
                 textNo,
                 style:
-                TextStyle(fontSize: 16, color: ThemePrimary.primaryColor),
+                    TextStyle(fontSize: 16, color: ThemePrimary.primaryColor),
               ),
               onPressed: () {
 //                result = false;
@@ -119,7 +120,7 @@ class LoadingDialog {
               child: new Text(
                 textYes,
                 style:
-                TextStyle(fontSize: 16, color: ThemePrimary.primaryColor),
+                    TextStyle(fontSize: 16, color: ThemePrimary.primaryColor),
               ),
               onPressed: () {
 //                result = true;
@@ -131,8 +132,11 @@ class LoadingDialog {
       ),
     );
   }
+
   Future<bool> showMsgDialogWithCloseButton(
-      BuildContext context, String msg,) async{
+    BuildContext context,
+    String msg,
+  ) async {
     return await showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -150,7 +154,7 @@ class LoadingDialog {
               child: new Text(
                 "Đóng",
                 style:
-                TextStyle(fontSize: 16, color: ThemePrimary.primaryColor),
+                    TextStyle(fontSize: 16, color: ThemePrimary.primaryColor),
               ),
               onPressed: () {
 //                result = true;
