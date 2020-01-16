@@ -24,7 +24,7 @@
         "ERROR_TERM_POLICY": "* Bạn chưa đồng ý chính sách và điều khoản của công ty.",
         "TERM_POLICY_1": "Tôi đã đọc và đồng ý với",
         "TERM_POLICY_2": "điểu khoản & chính sách",
-        "TERM_POLICY_3": "của công ty cổ phần Ts24Corp."
+        "TERM_POLICY_3": "của Bus2School."
     },
     "WAITING_MESSAGE": {
         "PERMISSION_CONNECT": "Đang kiểm tra quyền truy cập...",
@@ -178,8 +178,10 @@
         "MESSAGE_EMPTY": "Không có tin nhắn để hiển thị.",
         "SUCCESS": "Thành công.",
         "REGISTER_SUCCESS": "Đăng ký thành công...",
+        "REGISTER_FAIL": "Đăng ký thất bại do email đã tồn tại hoặc sự cố kỹ thuật. Vui lòng thử lại...",
         "FAIL": "Thất bại",
-        "DELETE": "Xóa"
+        "DELETE": "Xóa",
+        "CROPPER": "Chỉnh sửa ảnh"
     },
     "USER_PROFILE": {
         "CHILDREN_PROFILE": "Thông tin học sinh",

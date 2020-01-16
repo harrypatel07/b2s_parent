@@ -24,7 +24,7 @@
         "ERROR_TERM_POLICY": "* You have not yet agreed to the company's policies and terms.",
         "TERM_POLICY_1": "I have read and agree with",
         "TERM_POLICY_2": "policy & terms",
-        "TERM_POLICY_3": "of Ts24Corp company."
+        "TERM_POLICY_3": "of Bus2School."
     },
     "WAITING_MESSAGE": {
         "PERMISSION_CONNECT": "Checking access permission...",
@@ -178,8 +178,10 @@
         "MESSAGE_EMPTY": "Message is empty.",
         "SUCCESS": "Success.",
         "REGISTER_SUCCESS": "Register successfully...",
+        "REGISTER_FAIL": "Register fail. Email already exist or no internet connected. Please check again...",
         "FAIL": "Fail",
-        "DELETE": "Delete"
+        "DELETE": "Delete",
+        "CROPPER": "Cropper"
     },
     "USER_PROFILE": {
         "CHILDREN_PROFILE": "Children's information",

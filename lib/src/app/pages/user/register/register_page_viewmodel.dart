@@ -8,6 +8,7 @@ import 'package:b2s_parent/src/app/helper/utils.dart';
 import 'package:b2s_parent/src/app/helper/validator-helper.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/res-partner.dart';
+import 'package:b2s_parent/src/app/service/connect-internet.dart';
 import 'package:b2s_parent/src/app/service/inAppBrowser-service.dart';
 import 'package:b2s_parent/src/app/widgets/drop_down_field.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
@@ -151,12 +152,12 @@ class RegisterPageViewModel extends ViewModelBase {
 
   bool isValidInfo() {
     if (isValidEmail() &&
-        isValidPass() &&
-        isValidPassConfirm() &&
-        isValidName() &&
-        isValidPhone()
-       // && checkPolicy /* && isValidAddress()*/
-    ) {
+            isValidPass() &&
+            isValidPassConfirm() &&
+            isValidName() &&
+            isValidPhone()
+        // && checkPolicy /* && isValidAddress()*/
+        ) {
       this.updateState();
       return true;
     }
@@ -274,7 +275,8 @@ class RegisterPageViewModel extends ViewModelBase {
   onTapRegister() async {
     isSend = true;
     if (!isValidInfo()) return;
-    LoadingDialog.showLoadingDialog(context, translation.text("COMMON.IN_PROCESS"));
+    LoadingDialog.showLoadingDialog(
+        context, translation.text("COMMON.IN_PROCESS"));
     bool result = await api.insertUserPortal(
         email: emailEditingController.text,
         password: passEditingController.text,
@@ -282,13 +284,22 @@ class RegisterPageViewModel extends ViewModelBase {
         phone: phoneEditingController.text);
     if (result) {
       LoadingDialog.hideLoadingDialog(context);
-      LoadingDialog.showLoadingDialog(context, translation.text("COMMON.REGISTER_SUCCESS"));
+      LoadingDialog.showLoadingDialog(
+          context, translation.text("COMMON.REGISTER_SUCCESS"));
       Future.delayed(Duration(seconds: 2)).then((_) {
         LoadingDialog.hideLoadingDialog(context);
         Navigator.pop(context, emailEditingController.text);
       });
-    } else
-      Navigator.pop(context);
+    } else {
+      LoadingDialog.hideLoadingDialog(context);
+      LoadingDialog.showMsgDialog(context, translation.text("COMMON.REGISTER_FAIL"));
+//      LoadingDialog.showLoadingDialog(
+//          context, translation.text("COMMON.REGISTER_FAIL"));
+//      Future.delayed(Duration(seconds: 2)).then((_) {
+//        LoadingDialog.hideLoadingDialog(context);
+//      Navigator.pop(context);
+//      });
+    }
   }
 
   onChangeCheckPolicy(bool value) {
