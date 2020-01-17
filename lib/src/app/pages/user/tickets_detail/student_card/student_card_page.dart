@@ -225,7 +225,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
                                   width: 50,
                                   height: 50,
                                   child: CachedNetworkImage(
-                                    imageUrl: api.getImageByIdPartner(
+                                    imageUrl: api.getLogoByIdCompany(
                                         order.companyId[0].toString()),
                                     fit: BoxFit.scaleDown,
                                   ),
