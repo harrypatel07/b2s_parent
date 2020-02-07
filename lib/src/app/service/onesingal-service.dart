@@ -10,7 +10,7 @@ class OneSignalService {
   static final String _urlRest = "https://onesignal.com/api/v1/notifications";
   static Map<String, String> _headers = {
     HttpHeaders.contentTypeHeader: "application/json",
-    HttpHeaders.authorizationHeader: "Basic $oneSignal_restKey"
+    HttpHeaders.authorizationHeader: " Basic $oneSignal_restKey"
   };
   static Future setup(String appId, {Function successCallBack}) async {
     print("/*---OneSignal.shared.init");

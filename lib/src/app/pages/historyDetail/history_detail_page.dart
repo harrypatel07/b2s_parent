@@ -1,5 +1,6 @@
 import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
+import 'package:b2s_parent/src/app/models/childrenBusSession.dart';
 import 'package:b2s_parent/src/app/pages/history/history_page.dart';
 import 'package:b2s_parent/src/app/pages/historyDetail/history_detail_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/service/common-service.dart';
@@ -376,7 +377,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                     children: <Widget>[
 //                  Expanded(flex: 1, child: Container()),
                       Text(
-                        historyInfo.status.statusName,
+                        StatusBus.getStatusName(historyInfo.status.statusID),
                         style: TextStyle(
                             fontSize: 12,
                             color: Color(historyInfo.status.statusColor),
@@ -415,7 +416,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                   row1(translation.text("HISTORY_TRIP_PAGE.BUS_ID"),
                       widget.historyInfo.vehicleName.toString()),
                   hr,
-                  row1(translation.text("HISTORY_TRIP_PAGE.SCHOOL"),
+                  row1(translation.text("HISTORY_TRIP_PAGE.SUB_SCHOOL"),
                       widget.historyInfo.children.schoolName.toString()),
                   hr,
                   rowIcon(

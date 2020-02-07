@@ -47,4 +47,36 @@ class Menu {
       routeChildName: UserPage.routeName,
     ),
   ];
+  static reload(){
+    tabMenu = <Menu>[
+      Menu(
+        index: 0,
+        title: translation.text("HOME_PAGE.TITLE"),
+        iconData: Icons.home,
+        page: HomePage(),
+        routeChildName: HomePage.routeName,
+      ),
+      Menu(
+        index: 1,
+        title: translation.text("HISTORY_TRIP_PAGE.TITLE"),
+        iconData: FontAwesomeIcons.child,
+        page: HistoryPage(),
+        routeChildName: HistoryPage.routeName,
+      ),
+      // Menu(
+      //   index: 2,
+      //   title: "Locate bus",
+      //   iconData: FontAwesomeIcons.bus,
+      //   page: LocateBusPage(),
+      //   routeChildName: LocateBusPage.routeName,
+      // ),
+      Menu(
+        index: 2,
+        title: translation.text("USER_PAGE.TITLE"),
+        iconData: Icons.person,
+        page: UserPage(),
+        routeChildName: UserPage.routeName,
+      ),
+    ];
+  }
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/models/attendant.dart';
 import 'package:b2s_parent/src/app/models/bodyNotification.dart';
@@ -923,7 +924,8 @@ class Api1 extends ApiMaster {
         if (list.length > 0)
           listResult = list.map((item) {
             String date = item['transport_date'];
-            date = DateFormat('yyyy-MM-dd').format(DateTime.parse(date));
+            date = DateFormat('yyyy-MM-dd').format(DateTime.parse(date)
+                .add(Duration(hours: DateTime.now().timeZoneOffset.inHours)));
             return date;
           }).toList();
       }
@@ -942,18 +944,26 @@ class Api1 extends ApiMaster {
     domain.add(['saleorder_id.partner_id', '=', idChildren]);
     domain.add(['state', '!=', 'res']);
     if (listDate.length != 0 && listDate.length == 1) {
-      var dateFrom =
-          DateFormat('yyyy-MM-dd').format(DateTime.parse(listDate[0]));
-      var dateTo = DateFormat('yyyy-MM-dd')
-          .format(DateTime.parse(listDate[0]).add(Duration(days: 1)));
+      var dateFrom = DateFormat('yyyy-MM-dd HH:mm:ss').format(
+          DateTime.parse(listDate[0])
+              .add(Duration(hours: 0, minutes: 0, seconds: 0))
+              .add(Duration(hours: -DateTime.now().timeZoneOffset.inHours)));
+      var dateTo = DateFormat('yyyy-MM-dd HH:mm:ss').format(
+          DateTime.parse(listDate[0])
+              .add(Duration(hours: 23, minutes: 59, seconds: 59))
+              .add(Duration(hours: -DateTime.now().timeZoneOffset.inHours)));
       domain.add(['transport_date', '>=', dateFrom]);
       domain.add(['transport_date', '<', dateTo]);
     } else {
       for (var i = 0; i < listDate.length; i++) {
-        var dateFrom =
-            DateFormat('yyyy-MM-dd').format(DateTime.parse(listDate[i]));
-        var dateTo = DateFormat('yyyy-MM-dd')
-            .format(DateTime.parse(listDate[i]).add(Duration(days: 1)));
+        var dateFrom = DateFormat('yyyy-MM-dd HH:mm:ss').format(
+            DateTime.parse(listDate[i])
+                .add(Duration(hours: 0, minutes: 0, seconds: 0))
+                .add(Duration(hours: -DateTime.now().timeZoneOffset.inHours)));
+        var dateTo = DateFormat('yyyy-MM-dd HH:mm:ss').format(
+            DateTime.parse(listDate[i])
+                .add(Duration(hours: 23, minutes: 59, seconds: 59))
+                .add(Duration(hours: -DateTime.now().timeZoneOffset.inHours)));
         domain.add(['transport_date', '>=', dateFrom]);
         if (i != listDate.length - 1) {
           domain.add('|');
@@ -971,9 +981,25 @@ class Api1 extends ApiMaster {
         .then((http.Response response) async {
       if (response.statusCode == 200) {
         List list = json.decode(response.body);
-        if (list.length > 0)
+        if (list.length > 0) {
+          // var arrayRemoveIndex = <int>[];
+          // for (var i = 0; i < list.length; i++) {
+          //   var item = list[i];
+          //   var dateCompare = DateFormat('yyyy-MM-dd').format(
+          //       DateTime.parse(item["transport_date"]).add(
+          //           Duration(hours: DateTime.now().timeZoneOffset.inHours)));
+          //   var index = listDate.indexWhere((date) => date == dateCompare);
+          //   if (index == -1) arrayRemoveIndex.add(i);
+          // }
+
+          // if (arrayRemoveIndex.length > 0) {
+          //   for (var i = 0; i < arrayRemoveIndex.length; i++) {
+          //     list.removeAt(arrayRemoveIndex[i]);
+          //   }
+          // }
           listResult =
               list.map((item) => int.parse(item['id'].toString())).toList();
+        }
       }
       return listResult;
     }).catchError((error) {
@@ -1150,19 +1176,35 @@ class Api1 extends ApiMaster {
     String notification = messages.content;
     if (notification.length > 100)
       notification = notification.substring(0, 100) + "...";
-    BodyNotification body = BodyNotification();
-    body.headings = {"en": "Bạn có tin nhắn từ ${messages.receiverName}"};
-    body.contents = {"en": notification};
-    body.data = messages.toJsonPushNotification();
-    body.filters = [
-      {
-        "field": "tag",
-        "key": "id",
-        "relation": "=",
-        "value": int.parse(messages.receiverId)
+    Parent parent = Parent();
+    for (var i = 0; i < 2; i++) {
+      BodyNotification body = BodyNotification();
+      String language;
+      switch (i) {
+        case 0:
+          language = "vi";
+          body.headings = {"en": "Bạn có tin nhắn từ ${parent.name}"};
+          break;
+        case 1:
+          language = "en";
+          body.headings = {"en": "You have a message from ${parent.name}"};
+          break;
+        default:
       }
-    ];
-    OneSignalService.postNotification(body);
-    OneSignalService.postNotificationSameApplication(body);
+
+      body.contents = {"en": notification};
+      body.data = messages.toJsonPushNotification();
+      body.filters = [
+        {
+          "field": "tag",
+          "key": "id",
+          "relation": "=",
+          "value": int.parse(messages.receiverId)
+        },
+        {"field": "tag", "key": "language", "relation": "=", "value": language}
+      ];
+      OneSignalService.postNotification(body);
+      OneSignalService.postNotificationSameApplication(body);
+    }
   }
 }

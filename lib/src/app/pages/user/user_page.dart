@@ -1,6 +1,9 @@
+import 'package:b2s_parent/main.dart';
 import 'package:b2s_parent/src/app/app_localizations.dart';
+import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
+import 'package:b2s_parent/src/app/models/itemCustomPopupMenu.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/user/profile_children/profile_children.dart';
 import 'package:b2s_parent/src/app/pages/user/tickets/tickets_children.dart';
@@ -25,14 +28,28 @@ class _UserPageState extends State<UserPage>
   Animation<double> _animationTickests;
 
   UserPageViewModel viewModel;
+  GlobalKey _key = GlobalKey();
+  Size _size = Size(0, 0);
+  _getSize() {
+    final RenderBox renderBox = _key.currentContext.findRenderObject();
+    _size = renderBox.size;
+  }
+
+  void _handleSelectLanguage(CustomPopupMenu choice) {
+    viewModel.selectedLanguage = choice;
+    viewModel.onChangeLanguage(choice.subTitle);
+  }
 
   @override
   void initState() {
-    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
+          _getSize();
+        }));
     _controller = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
     _animation = Tween(begin: 0.0, end: 1.0).animate(_controller);
     _animationTickests = Tween(begin: 0.0, end: 1.0).animate(_controller);
+    super.initState();
   }
 
   @override
@@ -46,16 +63,16 @@ class _UserPageState extends State<UserPage>
     return new Column(
       children: <Widget>[
         Container(
-          height : 60,
-          width: MediaQuery.of(context).size.width-40,
+          height: 60,
+          width: MediaQuery.of(context).size.width - 40,
           child: new Slidable(
             actionPane: SlidableStrechActionPane(),
             actionExtentRatio: 0.25,
             child: InkWell(
               onTap: () => viewModel.onTapChildren(children),
               child: new Container(
-                height : 60,
-                width: MediaQuery.of(context).size.width-40,
+                height: 60,
+                width: MediaQuery.of(context).size.width - 40,
                 color: Colors.grey[300],
                 child: Row(
                   children: <Widget>[
@@ -86,19 +103,19 @@ class _UserPageState extends State<UserPage>
                               child: Hero(
                                 tag: children.id.toString(),
                                 child:
-                                //  CircleAvatar(
-                                //   radius: 20.0,
-                                //   backgroundImage: MemoryImage(children.photo),
-                                //   backgroundColor: Colors.transparent,
-                                // ),
-                                new CachedNetworkImage(
+                                    //  CircleAvatar(
+                                    //   radius: 20.0,
+                                    //   backgroundImage: MemoryImage(children.photo),
+                                    //   backgroundColor: Colors.transparent,
+                                    // ),
+                                    new CachedNetworkImage(
                                   imageUrl: children.photo,
                                   imageBuilder: (context, imageProvider) =>
                                       CircleAvatar(
-                                        radius: 20.0,
-                                        backgroundImage: imageProvider,
-                                        backgroundColor: Colors.transparent,
-                                      ),
+                                    radius: 20.0,
+                                    backgroundImage: imageProvider,
+                                    backgroundColor: Colors.transparent,
+                                  ),
                                 ),
                               ),
                             ),
@@ -146,7 +163,6 @@ class _UserPageState extends State<UserPage>
             ],
           ),
         ),
-
         new Container(
           height: 1,
           color: Colors.grey.shade200,
@@ -249,35 +265,72 @@ class _UserPageState extends State<UserPage>
         ),
       ],
     );
-//    Widget _buildIconTileSettings(IconData icon, Color color, String title) {
-//      return new ListTile(
-//        title: Text(
-//          title,
-//          style: TextStyle(fontWeight: FontWeight.bold),
-//        ),
-//        leading: Container(
-//          height: 30.0,
-//          width: 30.0,
-//          decoration: BoxDecoration(
-//            color: color,
-//            borderRadius: BorderRadius.circular(10.0),
-//          ),
-//          child: Center(
-//            child: Icon(
-//              icon,
-//              color: Colors.white,
-//            ),
-//          ),
-//        ),
-//        trailing: Icon(LineIcons.chevron_circle_right),
-//        onTap: () => {
-//          Navigator.pushNamed(
-//            context,
-//            UserSettingsPage.routeName,
-//          ),
-//        },
-//      );
-//    }
+    Widget _buildIconTileLanguages(IconData icon, Color color, String title) {
+      return PopupMenuButton<CustomPopupMenu>(
+        child: ListTile(
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  title,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(
+                  height: 2,
+                ),
+                Text(
+                  viewModel.selectedLanguage.title,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 12),
+                )
+              ],
+            ),
+          ),
+          leading: Container(
+            height: 30.0,
+            width: 30.0,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: Center(
+              child: Icon(
+                icon,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          trailing: Icon(LineIcons.chevron_circle_right),
+//          onTap: () {
+//            viewModel.onChangeLanguage();
+////          Navigator.pushNamed(
+////            context,
+////            UserSettingsPage.routeName,
+////          ),
+//          },
+        ),
+//          elevation:  30.2,
+        initialValue: viewModel.selectedLanguage,
+        onSelected: _handleSelectLanguage,
+        offset: Offset(50, viewModel.selectedLanguage.id == 0 ? 50 : 100),
+        itemBuilder: (BuildContext context) {
+          return viewModel.listLanguages.map((CustomPopupMenu vehicle) {
+            return PopupMenuItem<CustomPopupMenu>(
+              height: 50,
+              value: vehicle,
+              child: Text(
+                vehicle.title.toString(),
+                style: TextStyle(fontSize: 14),
+              ),
+            );
+          }).toList();
+        },
+      );
+    }
 //
 //    Widget _buildIconTilePayment(IconData icon, Color color, String title) {
 //      return new ListTile(
@@ -496,6 +549,11 @@ class _UserPageState extends State<UserPage>
                 hr,
                 _buildLogOutTitle(Icons.exit_to_app, ThemePrimary.primaryColor,
                     translation.text("USER_PAGE.LOG_OUT")),
+                hr,
+                _buildIconTileLanguages(
+                    LineIcons.language,
+                    ThemePrimary.primaryColor,
+                    translation.text("USER_PAGE.LANGUAGES")),
               ],
             ),
           ),
@@ -513,6 +571,7 @@ class _UserPageState extends State<UserPage>
                 child: Column(
                   children: <Widget>[
                     Container(
+                      key: _key,
                       width: MediaQuery.of(context).size.width,
                       child: Column(
                         children: <Widget>[
@@ -534,6 +593,37 @@ class _UserPageState extends State<UserPage>
                         ],
                       ),
                     ),
+//                    if(_size.height < MediaQuery.of(context).size.height)
+//                      Container(
+//                        color: Colors.red,
+//                        height: 50,
+//                        child: Center(
+//                          child: Text("version $version"),
+//                        ),
+//                      )
+                    if (_size.height >= MediaQuery.of(context).size.height)
+                      Container(
+                        height: 50,
+                        child: Center(
+                          child: Text("${translation.text("VERSION")} $version"),
+                        ),
+                      )
+                    else
+                      Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height -
+                                _size.height -
+                                120,
+                          ),
+                          Container(
+                            height: 50,
+                            child: Center(
+                              child: Text("${translation.text("VERSION")} $version"),
+                            ),
+                          )
+                        ],
+                      )
                   ],
                 ),
               ),

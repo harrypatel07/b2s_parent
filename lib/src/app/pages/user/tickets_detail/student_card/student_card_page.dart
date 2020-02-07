@@ -1,3 +1,4 @@
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
@@ -383,7 +384,7 @@ class _StudentCardPageState extends State<StudentCardPage> {
           return TS24Scaffold(
             backgroundColor: Colors.grey[300],
             appBar: TS24AppBar(
-              title: Text("Thông tin thẻ học sinh"),
+              title: Text(translation.text("TICKET_PAGE.TITLE_DETAIL")),
               actions: <Widget>[
                 IconButton(
                   onPressed: () {

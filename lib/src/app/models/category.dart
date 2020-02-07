@@ -12,7 +12,7 @@ class Category {
   final String name;
   final String routeName;
 
-  static final List<Category> categories = [
+  static List<Category> categories = [
     // Category(
     //   name: "My students",
     //   color: Colors.teal,
@@ -43,4 +43,37 @@ class Category {
         color: Color(0xFFdea118),
         routeName: TicketsChildrenPage.routeName),
   ];
+  static reload(){
+    categories = [
+      // Category(
+      //   name: "My students",
+      //   color: Colors.teal,
+      //   routeName: BusAttendancePage.routeName,
+      // ),
+      // Category(
+      //   name: "Locale bus map",
+      //   color: Colors.red,
+      //   routeName: LocateBusPage.routeName,
+      // ),
+      Category(
+        name: translation.text("HOME_PAGE.CATEGORY.LEAVE"),
+        color: Color(0xFFdea118),
+        routeName: LeavePage.routeName,
+      ),
+      Category(
+        name: translation.text("HOME_PAGE.CATEGORY.MESSAGE"),
+        color: Color(0xFFdea118),
+        routeName: MessagePage.routeName,
+      ),
+      Category(
+        name: translation.text("HOME_PAGE.CATEGORY.HISTORY_TRIP"),
+        color: Color(0xFFdea118),
+        routeName: HistoryPage.routeName,
+      ),
+      Category(
+          name: translation.text("HOME_PAGE.CATEGORY.TICKET_MANAGER"),
+          color: Color(0xFFdea118),
+          routeName: TicketsChildrenPage.routeName),
+    ];
+  }
 }

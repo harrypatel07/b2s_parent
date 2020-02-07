@@ -66,18 +66,21 @@ class _PopupChatHomePageState extends State<PopupChatHomePage>
                   Positioned(
                     top: 5,
                     right: 0,
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.red),
-                      child: Text(
-                        modelChatPopup.countMessage.toString(),
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Container(
+                        width: 20,
+                        height: 20,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.red),
+                        child: Text(
+                          modelChatPopup.countMessage.toString(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   )

@@ -44,7 +44,7 @@
             "LEAVE": "Leave",
             "MESSAGE": "Message",
             "HISTORY_TRIP": "History trip",
-            "TICKET_MANAGER": "Ticket manager"
+            "TICKET_MANAGER": "Ticket management"
         },
         "TRIP_DEPART_DAY": "Day trip from home to school",
         "TRIP_ARRIVE_DAY": "Day trip from school to home"
@@ -70,18 +70,22 @@
         "HOLIDAY": "Holiday",
         "SELECTED_DAYS": "Selected days",
         "ALLOWED_DAYS": "Leave requested days",
-        "PASSED_DAYS" : "Passed days",
-        "LEAVE_SUCCESS": "Successful manipulation",
-        "LEAVE_FAIL": "Fail manipulation"
+        "PASSED_DAYS": "Passed days",
+        "LEAVE_SUCCESS": "Successful",
+        "LEAVE_FAIL": "Fail"
     },
     "POPUP_CONFIRM": {
         "TITLE": "NOTIFICATION",
         "DESC_INFO": "Confirm information changes?",
         "DESC_STATUS": "Confirm status changes?",
-        "DESC_LOG_OUT": "Confirm logout?",
+        "DESC_LOG_OUT": "Confirm log out?",
         "DESC_DELETE_CHILD": "Are you sure to delete this child?",
         "YES": "Yes",
-        "NO": "No"
+        "NO": "No",
+        "OK": "Đồng ý",
+        "CONTINUE": "Continue",
+        "CANCEL": "Cancel",
+        "CLOSE": "Close"
     },
     "MESSAGE_PAGE": {
         "TITLE": "Message",
@@ -90,12 +94,13 @@
     "HISTORY_TRIP_PAGE": {
         "TITLE": "History trip",
         "TITLE_DETAIL": "History trips details",
-        "PICK" : "Pick",
-        "DROP"  : "Drop",
-        "SCHOOL" : "School:",
-        "HOME" : "Home",
-        "TIME" : "Time",
-        "ESTIMATE" : "Estimate",
+        "PICK": "Pick",
+        "DROP": "Drop",
+        "SCHOOL": "School",
+        "SUB_SCHOOL": "School:",
+        "HOME": "Home",
+        "TIME": "Time",
+        "ESTIMATE": "Estimate",
         "REAL": "Real",
         "REPORT": "Report",
         "DAY": "Date:",
@@ -112,16 +117,19 @@
         "PRICE": "Price:",
         "ACTIVE_TIME": "Active time:",
         "OUT_DATE": "OUT DATE",
-        "CODE_INVALID": "Code invalid."
+        "CODE_INVALID": "Code invalid.",
+        "PRINT_CARD": "Print student card",
+        "TITLE_DETAIL": "Information student card"
     },
     "USER_PAGE": {
         "TITLE": "User",
-        "CHILDREN_MANAGER": "Children manager",
-        "TICKET_MANAGER": "Ticket manager",
+        "CHILDREN_MANAGER": "Children management",
+        "TICKET_MANAGER": "Ticket management",
         "PAYMENT": "Payment",
-        "LOG_OUT": "Logout",
+        "LOG_OUT": "Log out",
         "NOTICE_REGISTERED": "The User has registered already. Please check again.",
-      "SELECT_GENDER": "Select gender..."
+        "SELECT_GENDER": "Select gender...",
+        "LANGUAGES": "Languages"
     },
     "COMMON": {
         "DAY_OF_WEEK": {
@@ -214,5 +222,9 @@
     "PAYMENT_PAGE": {
         "TITLE": "Payment",
         "ADD": "Add method pay"
-    }
+    },
+    "NOTICE": {
+        "NEW_MESSAGE": "You have a new message from"
+    },
+    "VERSION": "Version"
 }

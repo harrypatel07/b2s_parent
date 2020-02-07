@@ -1,5 +1,6 @@
 library ts24_utils;
 
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
@@ -35,14 +36,15 @@ IconButton appBarIconSideMenu(BuildContext context) {
 }
 
 class LoadingDialog {
-  static void showLoadingDialog(BuildContext context, String msg) {
+  static void showLoadingDialog(BuildContext context, String msg,
+      {int color = 0xffffffff}) {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => new Dialog(
         backgroundColor: Colors.transparent,
         child: Container(
-          color: Color(0xffffffff),
+          color: Color(color),
           height: 100,
           child: new Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -74,11 +76,11 @@ class LoadingDialog {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Thông báo"),
+        title: Text(translation.text("POPUP_CONFIRM.TITLE")),
         content: Text(msg),
         actions: [
           new FlatButton(
-            child: Text("OK"),
+            child: Text(translation.text("POPUP_CONFIRM.OK")),
             onPressed: () {
               Navigator.of(context).pop(LoadingDialog);
             },
@@ -94,7 +96,7 @@ class LoadingDialog {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          "Thông báo",
+          translation.text("POPUP_CONFIRM.TITLE"),
           style: TextStyle(color: ThemePrimary.primaryColor),
         ),
         content: Text(
@@ -141,7 +143,7 @@ class LoadingDialog {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          "Thông báo",
+          translation.text("POPUP_CONFIRM.TITLE"),
           style: TextStyle(color: ThemePrimary.primaryColor),
         ),
         content: Text(
@@ -152,7 +154,7 @@ class LoadingDialog {
           OutlineButton(
               borderSide: BorderSide(color: ThemePrimary.primaryColor),
               child: new Text(
-                "Đóng",
+                translation.text("POPUP_CONFIRM.CLOSE"),
                 style:
                     TextStyle(fontSize: 16, color: ThemePrimary.primaryColor),
               ),

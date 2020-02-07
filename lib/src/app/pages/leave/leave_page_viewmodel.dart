@@ -107,7 +107,9 @@ class LeavePageViewModel extends ViewModelBase {
         yes: translation.text("POPUP_CONFIRM.YES"),
         no: translation.text("POPUP_CONFIRM.NO"),
         onTap: () async{
+          LoadingDialog.showLoadingDialog(context, translation.text("COMMON.IN_PROCESS"));
           bool result = await onSend();
+          LoadingDialog.hideLoadingDialog(context);
           if(result) {
 //            print("onSend list leave of primary child");
             Navigator.pop(context);

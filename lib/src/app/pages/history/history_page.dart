@@ -99,6 +99,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
     Widget _buildSeparator({HistoryInfo historyInfo, Color color}) {
       if (color == null) color = Color(0XFF626368);
+
       return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           final boxWidth = constraints.constrainWidth();
@@ -149,7 +150,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     children: <Widget>[
 //                  Expanded(flex: 1, child: Container()),
                       Text(
-                        historyInfo.status.statusName,
+                        StatusBus.getStatusName(historyInfo.status.statusID),
                         style: TextStyle(
                             fontSize: 12,
                             color: Color(historyInfo.status.statusColor),
@@ -392,7 +393,9 @@ class _HistoryPageState extends State<HistoryPage> {
                     ],
                   )
                 : SingleChildScrollView(
-                    child: EmptyWidget(message: translation.text("COMMON.DATA_HISTORY_EMPTY"),),
+                    child: EmptyWidget(
+                      message: translation.text("COMMON.DATA_HISTORY_EMPTY"),
+                    ),
                   ));
   }
 }

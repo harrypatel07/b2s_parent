@@ -320,7 +320,7 @@ class _TicketsDetailPageState extends State<TicketsDetailPage> {
                 borderRadius: BorderRadius.all(Radius.circular(12))),
             child: Center(
               child: Text(
-                'In thẻ học sinh',
+                translation.text("TICKET_PAGE.PRINT_CARD"),
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,

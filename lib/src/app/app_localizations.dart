@@ -66,6 +66,8 @@ class GlobalTranslations {
   /// One-time initialization
   ///
   Future<Null> init([String language]) async {
+    String lang = await translation.getPreferredLanguage();
+    if (lang != null && lang != '') language = lang;
     if (_locale == null) {
       await setNewLanguage(language);
     }

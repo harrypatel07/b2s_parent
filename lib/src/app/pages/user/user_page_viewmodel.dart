@@ -2,6 +2,7 @@ import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/models/children.dart';
+import 'package:b2s_parent/src/app/models/itemCustomPopupMenu.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/res-partner.dart';
 import 'package:b2s_parent/src/app/models/ticketCode.dart';
@@ -9,7 +10,9 @@ import 'package:b2s_parent/src/app/pages/login/login_page.dart';
 import 'package:b2s_parent/src/app/pages/payment/payment_page.dart';
 import 'package:b2s_parent/src/app/pages/user/edit_profile_children/edit_profile_children.dart';
 import 'package:b2s_parent/src/app/service/barcode-service.dart';
+import 'package:b2s_parent/src/app/service/onesingal-service.dart';
 import 'package:b2s_parent/src/app/widgets/popupConfirm.dart';
+import 'package:b2s_parent/src/app/widgets/restart_widget.dart';
 import 'package:b2s_parent/src/app/widgets/ts24_utils_widget.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -21,11 +24,20 @@ class UserPageViewModel extends ViewModelBase {
   Parent parent;
   List<Children> listChildren;
   bool loadingListChildren = false;
+  CustomPopupMenu selectedLanguage;
+  List<CustomPopupMenu> listLanguages;
 
   UserPageViewModel() {
     isShowChildrenManager = false;
     parent = new Parent();
     listChildren = parent.listChildren;
+    listLanguages = [
+      CustomPopupMenu(id: 0, title: "Tiếng Việt", subTitle: "vi"),
+      CustomPopupMenu(id: 1, title: "English", subTitle: "en")
+    ];
+    selectedLanguage = (translation.currentLanguage == 'vi')
+        ? listLanguages[0]
+        : listLanguages[1];
 
     //demo update insert children
     // api.getTitleCustomer().then((value) {
@@ -155,5 +167,11 @@ class UserPageViewModel extends ViewModelBase {
 //    return false;
           this.updateState();
         });
+  }
+
+  onChangeLanguage(String language) async {
+    await translation.setNewLanguage(language, true);
+    OneSignalService.sendTags(parent.toJsonOneSignal(language: language));
+    RestartWidget.restartApp(context);
   }
 }

@@ -241,6 +241,7 @@ class _HomeBodyWidgetState extends State<HomeBodyWidget> {
   }
 
   Widget _categoryList() {
+    Category.reload();
     return GridView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,

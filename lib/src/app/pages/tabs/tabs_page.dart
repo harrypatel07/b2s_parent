@@ -20,15 +20,20 @@ class TabsArgument {
 
 class _TabsPageState extends State<TabsPage> {
   TabsPageViewModel viewModel = TabsPageViewModel();
-
-  List<Widget> tabs = Menu.tabMenu.map((menu) => menu.page).toList();
+  List<Widget> tabs;
 
   @override
   void initState() {
+//    Menu.reload();
+//    tabs = Menu.tabMenu.map((menu) => menu.page).toList();
     super.initState();
     _navigateChild(widget.args);
   }
 
+  void reloadText(){
+    Menu.reload();
+    tabs = Menu.tabMenu.map((menu) => menu.page).toList();
+  }
   _navigateChild(TabsArgument arg) {
     // switch (arg.routeChildName) {
     //   case HomePage.routeName:
@@ -52,6 +57,7 @@ class _TabsPageState extends State<TabsPage> {
 
   @override
   Widget build(BuildContext context) {
+    reloadText();
     return ViewModelProvider(
       viewmodel: viewModel,
       child: StreamBuilder<Object>(

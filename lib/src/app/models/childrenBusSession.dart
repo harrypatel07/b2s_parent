@@ -336,4 +336,25 @@ class StatusBus {
     StatusBus(3, translation.text("STATUS_BUS.LEAVE"), 0xFFE80F0F),
     StatusBus(4, translation.text("STATUS_BUS.AT_HOME"), 0xFF6F32A0),
   ];
+  static String getStatusName(int statusID){
+    String statusName = translation.text("STATUS_BUS.WAITING");
+    switch (statusID) {
+      case 0:
+        statusName = translation.text("STATUS_BUS.WAITING");
+        break;
+      case 1:
+        statusName = translation.text("STATUS_BUS.ON_TRIP");
+        break;
+      case 2:
+        statusName = translation.text("STATUS_BUS.AT_SCHOOL");
+        break;
+      case 3:
+        statusName = translation.text("STATUS_BUS.LEAVE");
+        break;
+      case 4:
+        statusName = translation.text("STATUS_BUS.AT_HOME");
+        break;
+    }
+    return statusName;
+  }
 }

@@ -81,7 +81,11 @@
         "DESC_LOG_OUT": "Xác nhận đăng xuất?",
         "DESC_DELETE_CHILD": "Bạn thực sự muốn xóa trẻ em này?",
         "YES": "Có",
-        "NO": "Không"
+        "NO": "Không",
+        "OK": "Đồng ý",
+        "CONTINUE": "Tiếp tục",
+        "CANCEL": "Hủy",
+        "CLOSE": "Đóng"
     },
     "MESSAGE_PAGE": {
         "TITLE": "Tin nhắn",
@@ -93,6 +97,7 @@
         "PICK" : "Đón",
         "DROP"  : "Trả",
         "SCHOOL" : "Trường",
+        "SUB_SCHOOL": "Trường:",
         "HOME" : "Nhà",
         "TIME" : "Thời gian",
         "ESTIMATE" : "Dự kiến",
@@ -112,7 +117,9 @@
         "PRICE": "Đơn giá:",
         "ACTIVE_TIME": "Thời gian kích hoạt:",
         "OUT_DATE": "Hết hạn",
-        "CODE_INVALID": "Mã soát vé không hợp lệ."
+        "CODE_INVALID": "Mã soát vé không hợp lệ.",
+        "PRINT_CARD": "In thẻ học sinh",
+        "TITLE_DETAIL": "Thông tin thẻ học sinh"
     },
     "USER_PAGE": {
         "TITLE": "Người dùng",
@@ -121,7 +128,8 @@
         "PAYMENT": "Thanh toán",
         "LOG_OUT": "Đăng xuất",
         "NOTICE_REGISTERED": "Học sinh này đã được đăng ký. Vui lòng kiểm tra lại.",
-        "SELECT_GENDER": "Chọn giới tính..."
+        "SELECT_GENDER": "Chọn giới tính...",
+        "LANGUAGES": "Ngôn ngữ"
     },
     "COMMON": {
         "DAY_OF_WEEK": {
@@ -214,5 +222,9 @@
     "PAYMENT_PAGE": {
         "TITLE": "Thanh toán",
         "ADD": "Thêm phương thức thanh toán"
-    }
+    },
+    "NOTICE":{
+        "NEW_MESSAGE": "Bạn có tin nhắn mới từ"
+    },
+    "VERSION": "Phiên bản"
 }

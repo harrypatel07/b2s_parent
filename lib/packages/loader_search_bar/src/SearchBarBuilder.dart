@@ -150,7 +150,11 @@ abstract class SearchBarBuilder<T extends SearchBarState>
       searchState.activated && searchState.queryNotEmpty;
 
   Widget _buildSearchTextField() {
-    return Positioned.fill(
+    return Positioned(
+      top: -7,
+      right: 0,
+      left: 0,
+      bottom: 0,
       child: Center(
         child: TextField(
           style: searchAttrs.textStyle,
