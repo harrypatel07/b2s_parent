@@ -64,7 +64,7 @@
         "SCHOOL": "School:",
         "CLASS": "Class:",
         "BUS_ID": "License Plate:",
-        "ATTENDANCE": "Trip Attendance:",
+        "ATTENDANCE": "Supervisor:",
         "DRIVER": "Driver:"
     },
     "STATUS_BUS": {
@@ -77,9 +77,9 @@
     "LEAVE_PAGE": {
         "TITLE": "Leaves",
         "HOLIDAY": "Holidays",
-        "SELECTED_DAYS": "Selected days",
-        "ALLOWED_DAYS": "Leave requested days",
-        "PASSED_DAYS": "Past days",
+        "SELECTED_DAYS": "Select leave days",
+        "ALLOWED_DAYS": "Leave days requested",
+        "PASSED_DAYS": "Previous days",
         "LEAVE_SUCCESS": "Successful",
         "LEAVE_FAIL": "Fail"
     },
@@ -221,7 +221,7 @@
         "BUS_TITLE": "Bus information",
         "BUS_ID": "License plates:",
         "DRIVER": "Driver:",
-        "ATTENDANCE": "Trip Attendance:",
+        "ATTENDANCE": "Supervisor:",
         "TIME_DEPART": "Depart time(estimate):",
         "TIME_AT_SCHOOL": "Time at school(estimate):",
         "TIME_ARRIVE": "Arrive time(estimate):",
