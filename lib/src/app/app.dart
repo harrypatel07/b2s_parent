@@ -4,6 +4,7 @@ import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:tip_dialog/tip_dialog.dart';
 
 import 'app_localizations.dart';
 import 'app_route.dart';
@@ -34,6 +35,7 @@ class _MyAppState extends State<MyApp> {
             children: <Widget>[
               child,
               PopupChatPage(),
+              TipDialogContainer(duration: const Duration(seconds: 2))
             ],
           ),
           // child: child,

@@ -3,7 +3,7 @@
         "WELCOME": "Bus to School",
         "CHOOSE_DOMAIN": "Config domain",
         "EMAIL": "Email",
-        "PASSWORD": "Passwod",
+        "PASSWORD": "Password",
         "SHOW": "Show",
         "HIDE": "Hide",
         "SIGN_IN": "Sign in",
@@ -13,9 +13,18 @@
         "SALE_TICKET": "Sale ticket",
         "CHECK_TICKET": "Check ticket",
         "SOCIAL_LOGIN": "Social Login",
-        "NEW_USER": "New user",
+        "NEW_USER": "Don't have an account",
         "REGISTER": "Register",
-        "PASSWORD_AGAIN": "Password again"
+        "PASSWORD_AGAIN": "Password again",
+        "FORGOT_PASS": "Forgot password",
+        "INPUT_EMAIL": "Input email",
+        "CONFIRM_PASS": "Confirm password",
+        "FORGOT_YOUR_PASS": "Forgot your password",
+        "CREATE_PASS": "Create new password",
+        "NEXT": "Next",
+        "DONE": "Done",
+        "HINT1": "Please provide your email information in the box below, to retrieve your password.",
+        "HINT2": "Create and confirm new password for done."
     },
     "REGISTER_PAGE": {
         "TITLE": "Register",
@@ -41,9 +50,9 @@
     "HOME_PAGE": {
         "TITLE": "Home",
         "CATEGORY": {
-            "LEAVE": "Leave",
+            "LEAVE": "Leaves",
             "MESSAGE": "Message",
-            "HISTORY_TRIP": "History trip",
+            "HISTORY_TRIP": "Trip History",
             "TICKET_MANAGER": "Ticket management"
         },
         "TRIP_DEPART_DAY": "Day trip from home to school",
@@ -92,8 +101,8 @@
         "FIND": "Search..."
     },
     "HISTORY_TRIP_PAGE": {
-        "TITLE": "History trip",
-        "TITLE_DETAIL": "History trips details",
+        "TITLE": "Trip History",
+        "TITLE_DETAIL": "Detail historical trips",
         "PICK": "Pick",
         "DROP": "Drop",
         "SCHOOL": "School",

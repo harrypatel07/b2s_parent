@@ -4,6 +4,7 @@ import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/helper/validator-helper.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page.dart';
+import 'package:b2s_parent/src/app/pages/login/forgotPassword/inputEmail/input_email.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page.dart';
 import 'package:b2s_parent/src/app/pages/user/register/register_page.dart';
 import 'package:b2s_parent/src/app/provider/api_master.dart';
@@ -131,5 +132,8 @@ class LoginPageViewModel extends ViewModelBase {
         }
       }catch(e){}
     });
+  }
+  onTapForgotPassword(){
+    Navigator.pushNamed(context, ForgotPasswordEmail.routeName);
   }
 }

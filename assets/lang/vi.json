@@ -15,7 +15,16 @@
         "SOCIAL_LOGIN": "Đăng nhập bằng tài khoản",
         "NEW_USER": "Bạn chưa có tài khoản",
         "REGISTER": "Đăng ký",
-        "PASSWORD_AGAIN": "Nhập lại mật khẩu"
+        "PASSWORD_AGAIN": "Nhập lại mật khẩu",
+        "FORGOT_PASS": "Quên mật khẩu",
+        "INPUT_EMAIL": "Cung cấp email",
+        "FORGOT_YOUR_PASS": "Quên mật khẩu",
+        "CONFIRM_PASS": "Xác nhận mật khẩu",
+        "CREATE_PASS": "Tạo mật khẩu mới",
+        "NEXT": "Tiếp tục",
+        "DONE": "Hoàn thành",
+        "HINT1": "Cung cấp thông tin email vào ô bên dưới để lấy lại mật khẩu.",
+        "HINT2": "Tạo và xác nhận mật khẩu mới để hoàn thành."
     },
     "REGISTER_PAGE": {
         "TITLE": "Đăng ký",

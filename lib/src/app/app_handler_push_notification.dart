@@ -1,10 +1,17 @@
 import 'dart:async';
+import 'dart:ui';
+import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/models/chat.dart';
 import 'package:b2s_parent/src/app/models/message.dart';
 import 'package:b2s_parent/src/app/pages/message/messageDetail/message_detail_page.dart';
 import 'package:b2s_parent/src/app/service/onesingal-service.dart';
+import 'package:b2s_parent/src/app/theme/theme_primary.dart';
+import 'package:b2s_parent/src/app/widgets/popup_notification_widget.dart';
+import 'package:b2s_parent/src/app/widgets/ts24_button_widget.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tip_dialog/tip_dialog.dart';
 
 class HandlerPushNotification {
   StreamController streamController = StreamController.broadcast();
@@ -54,6 +61,16 @@ class HandlerPushNotification {
       });
     else {
       //do something with additionalData is null
+      if (type == 1) {
+        TipDialogHelper.show(
+            tipDialog: Wrap(children: <Widget>[
+              NotificationWidget(
+                title: title,
+                body: body,
+              )
+            ]),
+            isAutoDismiss: false);
+      }
     }
   }
 }

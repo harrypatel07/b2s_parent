@@ -1,11 +1,10 @@
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/pages/login/login_page_viewmodel.dart';
-import 'package:b2s_parent/src/app/pages/popupChat/popupChat_page.dart';
 import 'package:b2s_parent/src/app/service/index.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
@@ -93,7 +92,6 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
       );
 
   Widget _content(context) {
-
     Widget _formLogin() {
       return Container(
           //width: MediaQuery.of(context).size.width - 80,
@@ -261,12 +259,30 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
             SizedBox(
               height: 25,
             ),
+            Center(
+              child: InkWell(
+                onTap: () {
+                  viewModel.onTapForgotPassword();
+                },
+                child: Text(
+                  '${translation.text("LOGIN_PAGE.FORGOT_PASS")}?',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.grey[500],
+                      decoration: TextDecoration.underline),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
                   '${translation.text("LOGIN_PAGE.NEW_USER")}?',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                  style: TextStyle(fontSize: 15),
                 ),
                 SizedBox(
                   width: 5,
@@ -280,7 +296,9 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                       style: TextStyle(
                           color: ThemePrimary.primaryColor,
                           fontSize: 16,
-                          fontWeight: FontWeight.w700),
+                          fontWeight: FontWeight.w700,
+                          decoration: TextDecoration.underline,
+                          decorationThickness: 2),
                     ))
               ],
             ),
@@ -385,7 +403,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
               padding: EdgeInsets.only(left: 10, right: 10),
               child: _submitLogin(),
             ),
-             _socialLogin(),
+            // _socialLogin(),
           ],
         ),
       ),
