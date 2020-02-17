@@ -259,21 +259,21 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
             SizedBox(
               height: 25,
             ),
-            Center(
-              child: InkWell(
-                onTap: () {
-                  viewModel.onTapForgotPassword();
-                },
-                child: Text(
-                  '${translation.text("LOGIN_PAGE.FORGOT_PASS")}?',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.grey[500],
-                      decoration: TextDecoration.underline),
-                ),
-              ),
-            ),
+            // Center(
+            //   child: InkWell(
+            //     onTap: () {
+            //       viewModel.onTapForgotPassword();
+            //     },
+            //     child: Text(
+            //       '${translation.text("LOGIN_PAGE.FORGOT_PASS")}?',
+            //       style: TextStyle(
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w700,
+            //           color: Colors.grey[500],
+            //           decoration: TextDecoration.underline),
+            //     ),
+            //   ),
+            // ),
             SizedBox(
               height: 10,
             ),
@@ -403,7 +403,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
               padding: EdgeInsets.only(left: 10, right: 10),
               child: _submitLogin(),
             ),
-            // _socialLogin(),
+            _socialLogin(),
           ],
         ),
       ),
