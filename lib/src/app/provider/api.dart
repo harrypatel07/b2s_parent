@@ -1,5 +1,5 @@
-import 'api_parent_02.dart';
+import 'package:b2s_parent/src/app/provider/api_parent_04.dart';
 
-class Api extends Api2 {
+class Api extends Api4 {
   Api();
 }

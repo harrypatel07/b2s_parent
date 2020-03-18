@@ -44,9 +44,11 @@ class ViewModelProvider<T extends ViewModelBase> extends StatefulWidget {
   _ViewModelProviderState<T> createState() => _ViewModelProviderState<T>();
 
   static T of<T extends ViewModelBase>(BuildContext context) {
-    final type = _typeOf<_ViewModelProviderInherited<T>>();
-    _ViewModelProviderInherited<T> provider =
-        context.ancestorInheritedElementForWidgetOfExactType(type)?.widget;
+    //final type = _typeOf<_ViewModelProviderInherited<T>>();
+    _ViewModelProviderInherited<T> provider = context
+        .getElementForInheritedWidgetOfExactType<
+            _ViewModelProviderInherited<T>>()
+        .widget;
     return provider?.viewmodel;
   }
 }
