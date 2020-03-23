@@ -48,6 +48,39 @@ class Api1 extends ApiMaster {
     return result;
   }
 
+  ///Kiểm tra user tồn tại trong hệ thống
+  ///@params String email
+  Future<ResPartner> checkUserExist(String email) async {
+    this.grandType = GrandType.client_credentials;
+    this.clientId = client_id;
+    this.clienSecret = client_secret;
+    await this.authorization();
+    body = new Map();
+    body["domain"] = [
+      ['email', '=', email],
+    ];
+    body["fields"] = ["login"];
+    var params = convertSerialize(body);
+    List<ResPartner> listResult = new List();
+    ResPartner resPartner;
+    return http
+        .get('${this.api}/search_read/res.partner?$params',
+            headers: this.headers)
+        .then((http.Response response) async {
+      this.updateCookie(response);
+      if (response.statusCode == 200) {
+        List list = json.decode(response.body);
+        if (list.length > 0) {
+          listResult = list.map((item) => ResPartner.fromJson(item)).toList();
+          resPartner = listResult[0];
+        }
+      }
+      return resPartner;
+    }).catchError((error) {
+      return resPartner;
+    });
+  }
+
   /// Lấy thông tin Parent và children
   ///
   Future<List<ResPartner>> getParentInfo(int id) async {

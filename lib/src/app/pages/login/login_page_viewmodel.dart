@@ -8,6 +8,7 @@ import 'package:b2s_parent/src/app/pages/login/forgotPassword/inputEmail/input_e
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page.dart';
 import 'package:b2s_parent/src/app/pages/user/register/register_page.dart';
 import 'package:b2s_parent/src/app/provider/api_master.dart';
+import 'package:b2s_parent/src/app/service/googleplus-service.dart';
 import 'package:b2s_parent/src/app/service/onesingal-service.dart';
 import 'package:b2s_parent/src/app/widgets/ts24_utils_widget.dart';
 import 'package:flutter/material.dart';
@@ -124,16 +125,56 @@ class LoginPageViewModel extends ViewModelBase {
   }
 
   onTapSignIn() {
-    Navigator.pushNamed(context, RegisterPage.routeName).then((result){
-      try{
-        if(result!=null) {
+    Navigator.pushNamed(context, RegisterPage.routeName).then((result) {
+      try {
+        if (result != null) {
           _emailController.text = result;
           this.updateState();
         }
-      }catch(e){}
+      } catch (e) {}
     });
   }
-  onTapForgotPassword(){
+
+  onTapForgotPassword() {
     Navigator.pushNamed(context, ForgotPasswordEmail.routeName);
+  }
+
+  googleLogin() async {
+    if (GooglePlusService.currentUser != null)
+      await GooglePlusService.handleSignOut();
+    var _result = await GooglePlusService.handleSignIn();
+    if (_result) {
+      LoadingDialog.showLoadingDialog(
+          context, translation.text("WAITING_MESSAGE.AUTH_ACCOUNT"));
+      var _checkExist =
+          await api.checkUserExist(GooglePlusService.currentUser.email);
+      if (_checkExist != null) {
+        //Đổ data vào parent model
+        await api.getParentInfo(_checkExist.id);
+        //Lấy danh sách children đã mua vé
+        await api.getTicketOfListChildren();
+        //Gửi tags đến onesignal
+        Parent _parent = Parent();
+        print("_parent.email");
+        print(_parent.email);
+        print("_parent.toJsonOneSignal()");
+        print(_parent.toJsonOneSignal());
+        OneSignalService.sendTags(_parent.toJsonOneSignal());
+        LoadingDialog.hideLoadingDialog(context);
+        ToastController.show(
+            context: context,
+            duration: Duration(milliseconds: 300),
+            message: translation.text("WAITING_MESSAGE.PERMISSION_CONNECT"));
+
+        Future.delayed(const Duration(milliseconds: 300), () {
+          Navigator.pushReplacementNamed(context, TabsPage.routeName,
+              arguments: TabsArgument(routeChildName: HomePage.routeName));
+        });
+      } else {
+        LoadingDialog.hideLoadingDialog(context);
+        return LoadingDialog.showMsgDialog(
+            context, translation.text("ERROR_MESSAGE.USET_NOT_EXIST"));
+      }
+    }
   }
 }

@@ -29,7 +29,6 @@ import 'package:b2s_parent/src/app/pages/user/tickets/tickets_children.dart';
 import 'package:b2s_parent/src/app/pages/user/tickets_detail/student_card/student_card_page.dart';
 import 'package:b2s_parent/src/app/pages/user/tickets_detail/ticket_detail_page.dart';
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'core/app_setting.dart';
 

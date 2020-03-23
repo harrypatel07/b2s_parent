@@ -160,6 +160,29 @@ class ApiMaster {
     return result;
   }
 
+  ///Lấy thông tin Partner từ UserId
+  Future<dynamic> getPartnerId(dynamic uid) {
+    body = new Map();
+    body["fields"] = ['id'];
+    body["domain"] = [
+      ['user_ids', '=', uid]
+    ];
+    var params = convertSerialize(body);
+    return http
+        .get('${this.api}/search_read/res.partner?$params',
+            headers: this.headers)
+        .then((http.Response response) {
+      if (response.statusCode == 200) {
+        var list = json.decode(response.body);
+        if (list is List) if (list.length > 0) return list[0]["id"];
+        return null;
+      } else
+        return 0;
+    }).catchError((error) {
+      return 0;
+    });
+  }
+
   /// Lấy thông tin user session.
   ///
   ///  Trả về {
@@ -168,35 +191,13 @@ class ApiMaster {
   ///   "partnerId": 2
   /// }
   Future<dynamic> getUser() async {
-    Future<dynamic> _getPartnerId(dynamic uid) {
-      body = new Map();
-      body["fields"] = ['id'];
-      body["domain"] = [
-        ['user_ids', '=', uid]
-      ];
-      var params = convertSerialize(body);
-      return http
-          .get('${this.api}/search_read/res.partner?$params',
-              headers: this.headers)
-          .then((http.Response response) {
-        if (response.statusCode == 200) {
-          var list = json.decode(response.body);
-          if (list is List) if (list.length > 0) return list[0]["id"];
-          return null;
-        } else
-          return 0;
-      }).catchError((error) {
-        return 0;
-      });
-    }
-
     await this.authorization();
     return http
         .get('${this.api}/user', headers: this.headers)
         .then((http.Response response) async {
       if (response.statusCode == 200) {
         var userInfo = json.decode(response.body);
-        var partnerID = await _getPartnerId(userInfo["uid"]);
+        var partnerID = await getPartnerId(userInfo["uid"]);
         userInfo["partnerID"] = partnerID;
         this.grandType = GrandType.client_credentials;
         this.clientId = client_id;

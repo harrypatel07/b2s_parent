@@ -5,6 +5,7 @@ import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
@@ -160,6 +161,19 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
     }
 
     Widget _socialLogin() {
+      List<BoxShadow> __initBoxShadow() {
+        return [
+          BoxShadow(
+              color: Colors.black12,
+              offset: Offset(0.0, 15.0),
+              blurRadius: 15.0),
+          BoxShadow(
+              color: Colors.black12,
+              offset: Offset(0.0, -10.0),
+              blurRadius: 10.0),
+        ];
+      }
+
       return Container(
 //        color: Colors.red,
         width: MediaQuery.of(context).size.width,
@@ -169,93 +183,105 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
             SizedBox(
               height: 15,
             ),
-//            Row(
-//              children: <Widget>[
-//                SizedBox(
-//                  width: 15,
-//                ),
-//                Expanded(
-//                  flex: 1,
-//                  child: Container(
-//                    height: 2,
-//                    color: Colors.grey[400],
-//                  ),
-//                ),
-//                SizedBox(
-//                  width: 5,
-//                ),
-//                Text(
-//                  translation.text('LOGIN_PAGE.SOCIAL_LOGIN'),
-//                  style: TextStyle(
-//                      fontWeight: FontWeight.w700,
-//                      fontSize: 16,
-//                      color: Colors.grey[400]),
-//                ),
-//                SizedBox(
-//                  width: 5,
-//                ),
-//                Expanded(
-//                  flex: 1,
-//                  child: Container(
-//                    height: 2,
-//                    color: Colors.grey[400],
-//                  ),
-//                ),
-//                SizedBox(
-//                  width: 15,
-//                )
-//              ],
-//            ),
-//            SizedBox(
-//              height: 10,
-//            ),
-//            Row(
-//              mainAxisAlignment: MainAxisAlignment.center,
-//              children: <Widget>[
-//                Container(
-//                  width: 50,
-//                  height: 50,
-//                  decoration:
-//                      BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
-//                  child: Center(
-//                    child: Icon(
-//                      FontAwesomeIcons.facebookF,
-//                      color: Colors.white,
-//                    ),
-//                  ),
-//                ),
-//                SizedBox(
-//                  width: 10,
-//                ),
-//                Container(
-//                  width: 50,
-//                  height: 50,
-//                  decoration:
-//                      BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-//                  child: Center(
-//                    child: Icon(
-//                      FontAwesomeIcons.googlePlusG,
-//                      color: Colors.white,
-//                    ),
-//                  ),
-//                ),
-//                SizedBox(
-//                  width: 10,
-//                ),
-//                Container(
-//                  width: 50,
-//                  height: 50,
-//                  decoration:
-//                      BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
-//                  child: Center(
-//                    child: Icon(
-//                      FontAwesomeIcons.apple,
-//                      color: Colors.white,
-//                    ),
-//                  ),
-//                ),
-//              ],
-//            ),
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 15,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 2,
+                    color: Colors.grey[400],
+                  ),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  translation.text('LOGIN_PAGE.SOCIAL_LOGIN'),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                      color: Colors.grey[400]),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 2,
+                    color: Colors.grey[400],
+                  ),
+                ),
+                SizedBox(
+                  width: 15,
+                )
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Color(0xff3A559F),
+                    shape: BoxShape.circle,
+                    boxShadow: __initBoxShadow(),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      FontAwesomeIcons.facebookF,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                InkWell(
+                  onTap: viewModel.googleLogin,
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Color(0xffDC4E41),
+                      shape: BoxShape.circle,
+                      boxShadow: __initBoxShadow(),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        FontAwesomeIcons.googlePlusG,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Color(0xff6D6E71),
+                    shape: BoxShape.circle,
+                    boxShadow: __initBoxShadow(),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      FontAwesomeIcons.apple,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
             SizedBox(
               height: 25,
             ),
@@ -396,7 +422,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: 200,
+              height: 180,
             ),
             _formLogin(),
             Padding(

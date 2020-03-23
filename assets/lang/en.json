@@ -45,7 +45,8 @@
         "WRONG_CLIENT": "Please recheck Client ID & Client Secret information",
         "CONNECT_SERVER": "The connection to the sever failed. Please recheck domain information.",
         "WRONG_LOGIN": "User or password incorrect.",
-        "WRONG_DOMAIN": "Domain configuration is invalid. Please try again late."
+        "WRONG_DOMAIN": "Domain configuration is invalid. Please try again late.",
+        "USET_NOT_EXIST": "The user not found."
     },
     "HOME_PAGE": {
         "TITLE": "Home",
