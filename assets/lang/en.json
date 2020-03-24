@@ -38,7 +38,8 @@
     "WAITING_MESSAGE": {
         "PERMISSION_CONNECT": "Checking access permission...",
         "AUTH_ACCOUNT": "Validating account...",
-        "INFO_DOMAIN": "Getting domain information..."
+        "INFO_DOMAIN": "Getting domain information...",
+        "SOCIAL_NETWORK": "Connecting to social networks"
     },
     "ERROR_MESSAGE": {
         "PERMISSION_APP": "Permission deny.",

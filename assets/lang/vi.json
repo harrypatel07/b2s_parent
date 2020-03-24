@@ -38,7 +38,8 @@
     "WAITING_MESSAGE": {
         "PERMISSION_CONNECT": "Đang kiểm tra quyền truy cập...",
         "AUTH_ACCOUNT": "Đang xác thực tài khoản",
-        "INFO_DOMAIN": "Đang lấy thông tin domain..."
+        "INFO_DOMAIN": "Đang lấy thông tin domain...",
+        "SOCIAL_NETWORK": "Đang kết nối mạng xã hội"
     },
     "ERROR_MESSAGE": {
         "PERMISSION_APP": "Bạn không có quyền truy cập vào ứng dụng này.",

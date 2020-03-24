@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
 import 'package:b2s_parent/src/app/pages/login/login_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/service/index.dart';
@@ -234,30 +236,16 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                     shape: BoxShape.circle,
                     boxShadow: __initBoxShadow(),
                   ),
-                  child: Center(
-                    child: Icon(
-                      FontAwesomeIcons.facebookF,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                InkWell(
-                  onTap: viewModel.googleLogin,
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Color(0xffDC4E41),
-                      shape: BoxShape.circle,
-                      boxShadow: __initBoxShadow(),
-                    ),
-                    child: Center(
-                      child: Icon(
-                        FontAwesomeIcons.googlePlusG,
-                        color: Colors.white,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(24.0),
+                      onTap: viewModel.facebookLogin,
+                      child: Center(
+                        child: Icon(
+                          FontAwesomeIcons.facebookF,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -269,17 +257,51 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                   width: 50,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: Color(0xff6D6E71),
+                    color: Color(0xffDC4E41),
                     shape: BoxShape.circle,
                     boxShadow: __initBoxShadow(),
                   ),
-                  child: Center(
-                    child: Icon(
-                      FontAwesomeIcons.apple,
-                      color: Colors.white,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(24.0),
+                      onTap: viewModel.googleLogin,
+                      child: Center(
+                        child: Icon(
+                          FontAwesomeIcons.googlePlusG,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ),
+                SizedBox(
+                  width: 10,
+                ),
+                Platform.isIOS
+                    ? Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Color(0xff6D6E71),
+                          shape: BoxShape.circle,
+                          boxShadow: __initBoxShadow(),
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(24.0),
+                            onTap: viewModel.appleLogin,
+                            child: Center(
+                              child: Icon(
+                                FontAwesomeIcons.apple,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(),
               ],
             ),
             SizedBox(
