@@ -10,6 +10,7 @@ import 'package:b2s_parent/src/app/pages/locateBus/locateBus_page.dart';
 import 'package:b2s_parent/src/app/pages/login/forgotPassword/inputPassword/create_new_pass.dart';
 import 'package:b2s_parent/src/app/pages/login/forgotPassword/inputEmail/input_email.dart';
 import 'package:b2s_parent/src/app/pages/login/login_page.dart';
+import 'package:b2s_parent/src/app/pages/login/login_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/message/ContactsPage/contacts_page.dart';
 import 'package:b2s_parent/src/app/pages/message/messageDetail/message_detail_page.dart';
 import 'package:b2s_parent/src/app/pages/message/message_page.dart';
@@ -88,7 +89,7 @@ class Routes {
         ),
     EditPaymentPage.routeName: (context) => EditPaymentPage(),
     PaymentPage.routeName: (context) => PaymentPage(),
-    RegisterPage.routeName: (context) => RegisterPage(),
+    RegisterPage.routeName: (context) => RegisterPage(typeLogin: ModalRoute.of(context).settings.arguments),
     ContentPopupChatPage.routeName: (context) =>
         ContentPopupChatPage(ModalRoute.of(context).settings.arguments),
     ForgotPasswordEmail.routeName: (context) => ForgotPasswordEmail(),

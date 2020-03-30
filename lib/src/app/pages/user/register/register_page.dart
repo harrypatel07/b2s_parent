@@ -1,5 +1,6 @@
 import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
+import 'package:b2s_parent/src/app/pages/login/login_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/user/register/register_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/theme/theme_primary.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
@@ -9,12 +10,27 @@ import 'package:url_launcher/url_launcher.dart';
 
 class RegisterPage extends StatefulWidget {
   static const String routeName = '/register';
+
+  final TypeLogin typeLogin;
+  const RegisterPage({Key key, this.typeLogin}) : super(key: key);
+
   @override
   _RegisterPageState createState() => _RegisterPageState();
+
 }
 
 class _RegisterPageState extends State<RegisterPage> {
   RegisterPageViewModel viewModel = RegisterPageViewModel();
+
+  @override
+  void initState() {
+    viewModel.typeLogin = widget.typeLogin;
+    viewModel.getAccountSocial();
+
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

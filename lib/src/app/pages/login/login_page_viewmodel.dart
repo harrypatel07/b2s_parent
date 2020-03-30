@@ -14,6 +14,10 @@ import 'package:b2s_parent/src/app/service/onesingal-service.dart';
 import 'package:b2s_parent/src/app/widgets/ts24_utils_widget.dart';
 import 'package:flutter/material.dart';
 
+
+enum TypeLogin {facebook , google}
+
+
 class LoginPageViewModel extends ViewModelBase {
   final focus = FocusNode();
   TextEditingController _emailController = new TextEditingController();
@@ -145,9 +149,13 @@ class LoginPageViewModel extends ViewModelBase {
     if (GooglePlusService.currentUser != null)
       await GooglePlusService.handleSignOut();
     var _result = await GooglePlusService.handleSignIn();
+//    print('${GooglePlusService.currentUser.email}, ${GooglePlusService.currentUser.displayName}');
+//    print('result $_result');
     LoadingDialog.hideLoadingDialog(context);
     if (_result) {
-      _socialLogin(GooglePlusService.currentUser.email);
+      //print('${GooglePlusService.currentUser.email}');
+      _socialLogin(GooglePlusService.currentUser.email, TypeLogin.google);
+      //print('${GooglePlusService.currentUser.email}, ${GooglePlusService.currentUser.displayName}');
     }
   }
 
@@ -158,11 +166,13 @@ class LoginPageViewModel extends ViewModelBase {
     if (facebookService.email != null) await facebookService.handleSignOut();
     var _result = await facebookService.handleSignIn();
     LoadingDialog.hideLoadingDialog(context);
-    if (_result) _socialLogin(facebookService.email);
+    print('fb ${facebookService.email} ${facebookService.name}');
+    if (_result) _socialLogin(facebookService.email, TypeLogin.facebook);
   }
 
   appleLogin() async {}
-  _socialLogin(String email) async {
+  _socialLogin(String email, TypeLogin typeLogin) async {
+    print('email $email');
     LoadingDialog.showLoadingDialog(
         context, translation.text("WAITING_MESSAGE.AUTH_ACCOUNT"));
     var _checkExist = await api.checkUserExist(email);
@@ -190,8 +200,17 @@ class LoginPageViewModel extends ViewModelBase {
       });
     } else {
       LoadingDialog.hideLoadingDialog(context);
-      return LoadingDialog.showMsgDialog(
-          context, translation.text("ERROR_MESSAGE.USET_NOT_EXIST"));
+      Navigator.pushNamed(context, RegisterPage.routeName, arguments: typeLogin);
+//      Navigator.pushNamed(context, RegisterPage.routeName, ).then((result) {
+//        try {
+//          if (result != null) {
+//            _emailController.text = result;
+//            this.updateState();
+//          }
+//        } catch (e) {}
+//      });
+//      return LoadingDialog.showMsgDialog(
+//          context, translation.text("ERROR_MESSAGE.USET_NOT_EXIST"));
     }
   }
 }
