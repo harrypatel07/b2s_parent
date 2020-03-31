@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>917273183839-fnbu4pf6ssmb91hihmt9mah3t1958sg8.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.917273183839-fnbu4pf6ssmb91hihmt9mah3t1958sg8</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>917273183839-53jb7te1d2imuduhiimr27a54cqmspft.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBet-ZSh8-l6f3j2rVjZu4NDUq78Bp8Zv4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>917273183839</string>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.safeca.b2sParent</string>
+	<key>PROJECT_ID</key>
+	<string>b2school-7f2b6</string>
+	<key>STORAGE_BUCKET</key>
+	<string>b2school-7f2b6.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:917273183839:ios:ad397c6aa0bba47f79fdea</string>
+	<key>DATABASE_URL</key>
+	<string>https://b2school-7f2b6.firebaseio.com</string>
+</dict>
+</plist>

@@ -8,6 +8,7 @@ import 'package:b2s_parent/src/app/pages/login/forgotPassword/inputEmail/input_e
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page.dart';
 import 'package:b2s_parent/src/app/pages/user/register/register_page.dart';
 import 'package:b2s_parent/src/app/provider/api_master.dart';
+import 'package:b2s_parent/src/app/service/apple-service.dart';
 import 'package:b2s_parent/src/app/service/facebook-service.dart';
 import 'package:b2s_parent/src/app/service/googleplus-service.dart';
 import 'package:b2s_parent/src/app/service/onesingal-service.dart';
@@ -161,7 +162,14 @@ class LoginPageViewModel extends ViewModelBase {
     if (_result) _socialLogin(facebookService.email);
   }
 
-  appleLogin() async {}
+  appleLogin() async {
+    LoadingDialog.showLoadingDialog(
+        context, translation.text("WAITING_MESSAGE.SOCIAL_NETWORK"));
+    var _result = await AppleService.handleLogin();
+    LoadingDialog.hideLoadingDialog(context);
+    if (_result) _socialLogin(AppleService.currentUser.email);
+  }
+
   _socialLogin(String email) async {
     LoadingDialog.showLoadingDialog(
         context, translation.text("WAITING_MESSAGE.AUTH_ACCOUNT"));
