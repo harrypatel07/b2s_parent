@@ -144,7 +144,7 @@ class ApiMaster {
       //kiểm tra nếu grandType thay đổi
       if (grandType == grandTypeTemp) {
         //kiểm tra nếu token tồn tại
-        if (_expiresIn != null) {
+        if (expiresIn != null) {
           DateTime currentTime = DateTime.now();
           var diffTime = _expiresIn.difference(currentTime).inSeconds;
           print(diffTime);

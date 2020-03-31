@@ -8,8 +8,14 @@ import 'package:b2s_parent/src/app/helper/utils.dart';
 import 'package:b2s_parent/src/app/helper/validator-helper.dart';
 import 'package:b2s_parent/src/app/models/parent.dart';
 import 'package:b2s_parent/src/app/models/res-partner.dart';
+import 'package:b2s_parent/src/app/pages/home/home_page.dart';
+import 'package:b2s_parent/src/app/pages/login/login_page_viewmodel.dart';
+import 'package:b2s_parent/src/app/pages/tabs/tabs_page.dart';
 import 'package:b2s_parent/src/app/service/connect-internet.dart';
+import 'package:b2s_parent/src/app/service/facebook-service.dart';
+import 'package:b2s_parent/src/app/service/googleplus-service.dart';
 import 'package:b2s_parent/src/app/service/inAppBrowser-service.dart';
+import 'package:b2s_parent/src/app/service/onesingal-service.dart';
 import 'package:b2s_parent/src/app/widgets/drop_down_field.dart';
 import 'package:b2s_parent/src/app/widgets/index.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +55,9 @@ class RegisterPageViewModel extends ViewModelBase {
   final FocusNode addressFocus = FocusNode();
 
   InAppBrowserService browser = InAppBrowserService();
+
+  TypeLogin typeLogin;
+
   fieldFocusChange(
       BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
     currentFocus.unfocus();
@@ -59,6 +68,24 @@ class RegisterPageViewModel extends ViewModelBase {
     createEvent();
     getListGender();
   }
+  getAccountSocial() {
+    print(typeLogin);
+    switch (typeLogin) {
+      case TypeLogin.google:
+        emailEditingController.text = GooglePlusService.currentUser.email;
+        nameEditingController.text = GooglePlusService.currentUser.displayName;
+        this.updateState();
+        break;
+      case TypeLogin.facebook:
+        FacebookService facebookService = FacebookService();
+        emailEditingController.text = facebookService.email;
+        nameEditingController.text = facebookService.name;
+        this.updateState();
+        break;
+      default:
+    }
+  }
+
   createEvent() {
     nameEditingController.addListener(() => {isValidName()});
     emailEditingController.addListener(() => {isValidEmail()});
@@ -272,6 +299,39 @@ class RegisterPageViewModel extends ViewModelBase {
     return listGender[0];
   }
 
+  _socialRegisterAsLogin(String email) async {
+    //print('email $email');
+    LoadingDialog.showLoadingDialog(
+        context, translation.text("WAITING_MESSAGE.AUTH_ACCOUNT"));
+    var _checkExist = await api.checkUserExist(email);
+    if (_checkExist != null) {
+      //Đổ data vào parent model
+      await api.getParentInfo(_checkExist.id);
+      //Lấy danh sách children đã mua vé
+      await api.getTicketOfListChildren();
+      //Gửi tags đến onesignal
+      Parent _parent = Parent();
+      print("_parent.email");
+      print(_parent.email);
+      print("_parent.toJsonOneSignal()");
+      print(_parent.toJsonOneSignal());
+      OneSignalService.sendTags(_parent.toJsonOneSignal());
+      LoadingDialog.hideLoadingDialog(context);
+      ToastController.show(
+          context: context,
+          duration: Duration(milliseconds: 300),
+          message: translation.text("WAITING_MESSAGE.PERMISSION_CONNECT"));
+
+      Future.delayed(const Duration(milliseconds: 300), () {
+        Navigator.pushReplacementNamed(context, TabsPage.routeName,
+            arguments: TabsArgument(routeChildName: HomePage.routeName));
+      });
+    } else {
+      LoadingDialog.hideLoadingDialog(context);
+      LoadingDialog.showMsgDialog(context, translation.text("COMMON.FAIL"));
+    }
+  }
+
   onTapRegister() async {
     isSend = true;
     if (!isValidInfo()) return;
@@ -284,15 +344,23 @@ class RegisterPageViewModel extends ViewModelBase {
         phone: phoneEditingController.text);
     if (result) {
       LoadingDialog.hideLoadingDialog(context);
-      LoadingDialog.showLoadingDialog(
-          context, translation.text("COMMON.REGISTER_SUCCESS"));
-      Future.delayed(Duration(seconds: 2)).then((_) {
-        LoadingDialog.hideLoadingDialog(context);
-        Navigator.pop(context, emailEditingController.text);
-      });
+      _socialRegisterAsLogin(emailEditingController.text);
+//      Future.delayed(const Duration(milliseconds: 300), () {
+//        Navigator.pushReplacementNamed(context, TabsPage.routeName,
+//            arguments: TabsArgument(routeChildName: HomePage.routeName));
+//      });
+
+//      LoadingDialog.showLoadingDialog(
+//          context, translation.text("COMMON.REGISTER_SUCCESS"));
+//      Future.delayed(Duration(seconds: 2)).then((_) {
+//        LoadingDialog.hideLoadingDialog(context);
+//        Navigator.pop(context, emailEditingController.text);
+//      });
+
     } else {
       LoadingDialog.hideLoadingDialog(context);
-      LoadingDialog.showMsgDialog(context, translation.text("COMMON.REGISTER_FAIL"));
+      LoadingDialog.showMsgDialog(
+          context, translation.text("COMMON.REGISTER_FAIL"));
 //      LoadingDialog.showLoadingDialog(
 //          context, translation.text("COMMON.REGISTER_FAIL"));
 //      Future.delayed(Duration(seconds: 2)).then((_) {

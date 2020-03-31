@@ -14,13 +14,14 @@ class GooglePlusService {
       return _googleSignIn.signIn().then((onValue) {
         if (onValue != null) {
           currentUser = onValue;
+          print('urlPhoto ${GooglePlusService.currentUser.photoUrl}');
           result = true;
-        } else
+        } else {
           currentUser = null;
+        }
         return result;
       });
     } catch (error) {
-      print(error);
       return result;
     }
   }
