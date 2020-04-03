@@ -11,6 +11,7 @@ import 'package:b2s_parent/src/app/models/res-partner.dart';
 import 'package:b2s_parent/src/app/pages/home/home_page.dart';
 import 'package:b2s_parent/src/app/pages/login/login_page_viewmodel.dart';
 import 'package:b2s_parent/src/app/pages/tabs/tabs_page.dart';
+import 'package:b2s_parent/src/app/service/apple-service.dart';
 import 'package:b2s_parent/src/app/service/connect-internet.dart';
 import 'package:b2s_parent/src/app/service/facebook-service.dart';
 import 'package:b2s_parent/src/app/service/googleplus-service.dart';
@@ -81,6 +82,11 @@ class RegisterPageViewModel extends ViewModelBase {
         emailEditingController.text = facebookService.email;
         nameEditingController.text = facebookService.name;
         this.updateState();
+        break;
+      case TypeLogin.apple:
+        emailEditingController.text = AppleService.currentUser.email;
+        nameEditingController.text =
+            AppleService.currentUser.fullName.familyName;
         break;
       default:
     }
