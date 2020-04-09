@@ -283,7 +283,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                         width: 50,
                         height: 50,
                         decoration: BoxDecoration(
-                          color: Color(0xff6D6E71),
+                          color: Colors.black,
                           shape: BoxShape.circle,
                           boxShadow: __initBoxShadow(),
                         ),
