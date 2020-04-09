@@ -666,6 +666,28 @@ class Api1 extends ApiMaster {
     }
   }
 
+  ///Ham reset password
+  ///tra ve true false
+  Future<bool> resetPassword({String email}) async {
+    try {
+      var client = await this.authorizationOdoo();
+      body = new Map();
+      body["email"] = email;
+      return client
+          .callController("/user_reset_password_app", body)
+          .then((onValue) {
+        var result = onValue.getResult();
+        if (result is bool)
+          return result;
+        else
+          return false;
+      });
+    } catch (ex) {
+      print("insertUserPortal: $ex");
+      return false;
+    }
+  }
+
   /// Lấy thông tin vé của children
   ///
   Future<List<SaleOrderLine>> getTicketOfListChildren() async {
