@@ -24,7 +24,10 @@
         "NEXT": "Next",
         "DONE": "Done",
         "HINT1": "Please provide your email information in the box below, to retrieve your password.",
-        "HINT2": "Create and confirm new password for done."
+        "HINT2": "Create and confirm new password for done.",
+        "CONTINUE_WITH_FACEBOOK": "Facebook",
+        "SIGN_IN_GOOGLE": "Google",
+        "SIGN_IN_APPLE" : "Apple"
     },
     "REGISTER_PAGE": {
         "TITLE": "Register",

@@ -24,7 +24,10 @@
         "NEXT": "Tiếp tục",
         "DONE": "Hoàn thành",
         "HINT1": "Cung cấp thông tin email vào ô bên dưới để lấy lại mật khẩu.",
-        "HINT2": "Tạo và xác nhận mật khẩu mới để hoàn thành."
+        "HINT2": "Tạo và xác nhận mật khẩu mới để hoàn thành.",
+        "CONTINUE_WITH_FACEBOOK": "Facebook",
+        "SIGN_IN_GOOGLE": "Google",
+        "SIGN_IN_APPLE" : "Apple"
     },
     "REGISTER_PAGE": {
         "TITLE": "Đăng ký",
