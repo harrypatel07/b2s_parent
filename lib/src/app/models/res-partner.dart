@@ -795,7 +795,7 @@ class ResPartner {
     // data['team_id'] = this.teamId;
     if (!(this.title is bool)) if (this.title != null)
       data['title'] = this.title;
-    if (this.xClass != null) data['x_class'] = this.xClass;
+    //if (this.xClass != null) data['x_class'] = this.xClass;
     if (this.xSchool != null) data['x_school'] = this.xSchool;
     if (!(this.wkDob is bool)) if (this.wkDob != null)
       data['wk_dob'] = this.wkDob;

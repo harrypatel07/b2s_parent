@@ -74,7 +74,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                   Expanded(
                       flex: 5,
                       child: Container(
-                        height: 280,
+                        height: MediaQuery.of(context).size.height / 3,
                         child: Image.asset("assets/images/B2S_logo_Parent.png"),
                       )),
                 ],
@@ -404,19 +404,19 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
 //                 ],
 //               ),
               Container(),
-              InkWell(
-                child: Text(
-                  translation.text('LOGIN_PAGE.FORGOT_PASS'),
-                  style: TextStyle(
-                      color: ThemePrimary.primaryColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      decorationThickness: 2),
-                ),
-                onTap: () {
-                  viewModel.onTapForgotPassword();
-                },
-              ),
+              // InkWell(
+              //   child: Text(
+              //     translation.text('LOGIN_PAGE.FORGOT_PASS'),
+              //     style: TextStyle(
+              //         color: ThemePrimary.primaryColor,
+              //         fontSize: 16,
+              //         fontWeight: FontWeight.w700,
+              //         decorationThickness: 2),
+              //   ),
+              //   onTap: () {
+              //     viewModel.onTapForgotPassword();
+              //   },
+              // ),
             ],
           ),
           SizedBox(height: Common.setFontSize(20)),

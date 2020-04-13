@@ -1160,7 +1160,7 @@ class Api1 extends ApiMaster {
   }
 
   ///Kiểm tra children có parent hay chưa, nếu chưa update children vào parent
-  Future<bool> checkChildrenHasParent(dynamic id) async {
+  Future<bool>  checkChildrenHasParent(dynamic id) async {
     ResPartner partner = await getCustomerInfo(id);
     bool result = false;
     if (partner != null) {

@@ -82,7 +82,10 @@ class Children {
     if (resPartner.companyId is List) {
       schoolName = resPartner.companyId[1];
       schoolId = resPartner.companyId[0];
-      classes = resPartner.xClass;
+      // classes = resPartner.xClass;
+    }
+    if (resPartner.xClass is List) {
+      classes = resPartner.xClass[1];
     }
     email = (resPartner.email is bool) ? "" : resPartner.email;
     phone = (resPartner.phone is bool) ? "" : resPartner.phone;
