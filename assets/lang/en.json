@@ -29,6 +29,14 @@
         "SIGN_IN_GOOGLE": "Google",
         "SIGN_IN_APPLE" : "Apple"
     },
+    "FORGET_PASSWORD_PAGE": {
+        "TITLE": "Forgot Password",
+        "SUB_TITLE": "You just input a registration email and we will send a link to reset password",
+        "EMAIL": "Email",
+        "EMAIL_HINT": "Enter your email",
+        "SUBMIT_BUTTON": "Submit",
+        "RESET_SUCCESS" : "Sent a new password to your email address"
+    },
     "REGISTER_PAGE": {
         "TITLE": "Register",
         "REGISTER": "Register",

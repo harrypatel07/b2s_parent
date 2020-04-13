@@ -70,13 +70,14 @@ class _ForgotPasswordEmailState extends State<ForgotPasswordEmail> {
                       controller: viewModel.emailController,
                       style: TextStyle(fontSize: 18, color: Colors.black),
                       decoration: InputDecoration(
-                          hintText: translation.text("LOGIN_PAGE.EMAIL"),
+                          hintText: translation.text("FORGET_PASSWORD_PAGE.EMAIL"),
                           errorText: viewModel.errorEmail,
                           labelStyle: ThemePrimary.loginPageButton(context)),
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       onFieldSubmitted: (v) {
-//                        FocusScope.of(context).requestFocus(viewModel.focus);
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                        viewModel.onTapButtonNext();
                       },
                     ),
                   ),
@@ -113,13 +114,14 @@ class _ForgotPasswordEmailState extends State<ForgotPasswordEmail> {
                         viewModel.onTapButtonNext();
                       },
                       child: Center(
-                        child: Text(translation.text("LOGIN_PAGE.NEXT"),
+                        child: Text(translation.text("FORGET_PASSWORD_PAGE.SUBMIT_BUTTON"),
                             style: TextStyle(
                                 color: Colors.white,
                                 //fontFamily: "Poppins-Bold",
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
-                                letterSpacing: 1.0)),
+                                letterSpacing: 1.0),
+                        ),
                       ),
                     ),
                   ),
@@ -170,7 +172,7 @@ class _ForgotPasswordEmailState extends State<ForgotPasswordEmail> {
         builder: (context, snapshot) {
           return TS24Scaffold(
             appBar: TS24AppBar(
-              title: Text(translation.text("LOGIN_PAGE.FORGOT_PASS")),
+              title: Text(translation.text("FORGET_PASSWORD_PAGE.TITLE")),
             ),
             body: Stack(
               children: <Widget>[

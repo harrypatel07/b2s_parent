@@ -12,12 +12,14 @@ import '../../app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = "/loginPage";
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
   LoginPageViewModel viewModel = LoginPageViewModel();
+
   @override
   Widget build(BuildContext context) {
     viewModel.context = context;
@@ -41,6 +43,7 @@ class LoginBodyWidget extends StatefulWidget {
 
 class _LoginBodyWidgetState extends State<LoginBodyWidget> {
   LoginPageViewModel viewModel;
+
   @override
   void initState() {
     super.initState();
@@ -377,7 +380,46 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
           );
       return Column(
         children: <Widget>[
-          SizedBox(height: Common.setFontSize(40)),
+          SizedBox(height: Common.setFontSize(20)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+//               Row(
+//                 children: <Widget>[
+// //                  SizedBox(
+// //                    width: 12.0,
+// //                  ),
+//                   GestureDetector(
+//                     onTap: () {},
+//                     child: radioButton(false),
+//                   ),
+//                   SizedBox(
+//                     width: 8.0,
+//                   ),
+//                   Text("Remember me",
+//                       style: TextStyle(
+//                         fontSize: 12,
+//                         //fontFamily: "Poppins-Medium"
+//                       ))
+//                 ],
+//               ),
+              Container(),
+              InkWell(
+                child: Text(
+                  translation.text('LOGIN_PAGE.FORGOT_PASS'),
+                  style: TextStyle(
+                      color: ThemePrimary.primaryColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      decorationThickness: 2),
+                ),
+                onTap: () {
+                  viewModel.onTapForgotPassword();
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: Common.setFontSize(20)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[

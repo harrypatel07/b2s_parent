@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:b2s_parent/src/app/app_localizations.dart';
 import 'package:b2s_parent/src/app/core/app_setting.dart';
 import 'package:b2s_parent/src/app/core/baseViewModel.dart';
@@ -54,8 +53,6 @@ class RegisterPageViewModel extends ViewModelBase {
   final FocusNode passConfirmFocus = FocusNode();
   final FocusNode mailFocus = FocusNode();
   final FocusNode addressFocus = FocusNode();
-
-  InAppBrowserService browser = InAppBrowserService();
 
   TypeLogin typeLogin;
 
@@ -374,15 +371,5 @@ class RegisterPageViewModel extends ViewModelBase {
 //      Navigator.pop(context);
 //      });
     }
-  }
-
-  onChangeCheckPolicy(bool value) {
-    checkPolicy = value;
-    if (checkPolicy) isSend = false;
-    this.updateState();
-  }
-
-  onTapPolicy() {
-    browser.openUrl("http://www.bus2school.vn/contactus");
   }
 }

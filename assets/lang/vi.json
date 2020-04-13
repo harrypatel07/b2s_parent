@@ -29,6 +29,14 @@
         "SIGN_IN_GOOGLE": "Google",
         "SIGN_IN_APPLE" : "Apple"
     },
+    "FORGET_PASSWORD_PAGE": {
+        "TITLE": "Quên Mật Khẩu",
+        "SUB_TITLE": "Điền địa chỉ mail bạn đã đăng ký. Chúng tôi sẽ gửi cho bạn đường dẫn khôi phục mật khẩu",
+        "EMAIL": "Địa chỉ email",
+        "EMAIL_HINT": "Nhập email",
+        "SUBMIT_BUTTON": "Gửi",
+        "RESET_SUCCESS" : "Đã gửi password mới tới địa chỉ email của bạn"
+    },
     "REGISTER_PAGE": {
         "TITLE": "Đăng ký",
         "REGISTER": "Đăng ký",
