@@ -133,7 +133,7 @@ class _ForgotPasswordEmailState extends State<ForgotPasswordEmail> {
       }
 
       return Padding(
-        padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 35.0),
+        padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 0),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -144,7 +144,7 @@ class _ForgotPasswordEmailState extends State<ForgotPasswordEmail> {
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Center(
                   child: Text(
-                    translation.text("LOGIN_PAGE.HINT1"),
+                    translation.text("FORGET_PASSWORD_PAGE.SUB_TITLE"),
                     style: TextStyle(fontSize: 16, color: Colors.grey[500]),
                   ),
                 ),
@@ -174,12 +174,13 @@ class _ForgotPasswordEmailState extends State<ForgotPasswordEmail> {
             appBar: TS24AppBar(
               title: Text(translation.text("FORGET_PASSWORD_PAGE.TITLE")),
             ),
-            body: Stack(
-              children: <Widget>[
-                _background(),
-                _content(context),
-              ],
-            ),
+//            body: Stack(
+//              children: <Widget>[
+//                _background(),
+//                _content(context),
+//              ],
+//            ),
+            body: _content(context),
           );
         },
       ),

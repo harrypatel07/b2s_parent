@@ -31,11 +31,12 @@
     },
     "FORGET_PASSWORD_PAGE": {
         "TITLE": "Forgot Password",
-        "SUB_TITLE": "You just input a registration email and we will send a link to reset password",
+        "SUB_TITLE": "Please enter your email address in the box below to retrieve your password",
         "EMAIL": "Email",
         "EMAIL_HINT": "Enter your email",
         "SUBMIT_BUTTON": "Submit",
-        "RESET_SUCCESS" : "Sent a new password to your email address"
+        "RESET_SUCCESS" : "Sent a new password to your email address",
+        "RESET_FAIL": "Send failed. Email does not exist or no internet connected. Please check again."
     },
     "REGISTER_PAGE": {
         "TITLE": "Register",

@@ -403,20 +403,21 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
 //                       ))
 //                 ],
 //               ),
-              Container(),
-              // InkWell(
-              //   child: Text(
-              //     translation.text('LOGIN_PAGE.FORGOT_PASS'),
-              //     style: TextStyle(
-              //         color: ThemePrimary.primaryColor,
-              //         fontSize: 16,
-              //         fontWeight: FontWeight.w700,
-              //         decorationThickness: 2),
-              //   ),
-              //   onTap: () {
-              //     viewModel.onTapForgotPassword();
-              //   },
-              // ),
+
+              InkWell(
+                child: Text(
+                  translation.text('LOGIN_PAGE.FORGOT_PASS'),
+                  style: TextStyle(
+                      color: ThemePrimary.primaryColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      decorationThickness: 2),
+                ),
+                onTap: () {
+                  viewModel.onTapForgotPassword();
+                },
+              ),
+              Container()
             ],
           ),
           SizedBox(height: Common.setFontSize(20)),

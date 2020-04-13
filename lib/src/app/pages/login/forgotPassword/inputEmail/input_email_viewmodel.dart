@@ -40,7 +40,7 @@ class ForgotPasswordEmailViewModel extends ViewModelBase{
           context, translation.text("FORGET_PASSWORD_PAGE.RESET_SUCCESS"));
     } else {
       LoadingDialog.hideLoadingDialog(context);
-      LoadingDialog.showMsgDialog(context, translation.text("COMMON.FAIL"));
+      LoadingDialog.showMsgDialog(context, translation.text("FORGET_PASSWORD_PAGE.RESET_FAIL"));
     }
     //Navigator.pushNamed(context, CreateNewPass.routeName);
   }

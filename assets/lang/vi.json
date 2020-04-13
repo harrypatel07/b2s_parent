@@ -31,11 +31,12 @@
     },
     "FORGET_PASSWORD_PAGE": {
         "TITLE": "Quên Mật Khẩu",
-        "SUB_TITLE": "Điền địa chỉ mail bạn đã đăng ký. Chúng tôi sẽ gửi cho bạn đường dẫn khôi phục mật khẩu",
+        "SUB_TITLE": "Bạn vui lòng nhập địa chỉ email vào ô bên dưới để lấy lại mật khẩu",
         "EMAIL": "Địa chỉ email",
         "EMAIL_HINT": "Nhập email",
         "SUBMIT_BUTTON": "Gửi",
-        "RESET_SUCCESS" : "Đã gửi password mới tới địa chỉ email của bạn"
+        "RESET_SUCCESS" : "Đã gửi password mới tới địa chỉ email của bạn",
+        "RESET_FAIL": "Gửi thất bại. Email không tồn tại hoặc không có internet. Vui lòng kiểm tra lại."
     },
     "REGISTER_PAGE": {
         "TITLE": "Đăng ký",
