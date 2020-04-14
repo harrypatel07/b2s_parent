@@ -8,12 +8,14 @@ import 'package:flutter/material.dart';
 
 class ForgotPasswordEmail extends StatefulWidget {
   static const String routeName = "/forgotPasswordEmail";
+
   @override
   _ForgotPasswordEmailState createState() => _ForgotPasswordEmailState();
 }
 
 class _ForgotPasswordEmailState extends State<ForgotPasswordEmail> {
   ForgotPasswordEmailViewModel viewModel = ForgotPasswordEmailViewModel();
+
   @override
   Widget build(BuildContext context) {
     viewModel.context = context;
@@ -34,8 +36,7 @@ class _ForgotPasswordEmailState extends State<ForgotPasswordEmail> {
             Container(
               width: MediaQuery.of(context).size.width * 0.6,
               child: Text(
-                "${translation.text("LOGIN_PAGE.INPUT_EMAIL")}"
-                    .toUpperCase(),
+                "${translation.text("LOGIN_PAGE.INPUT_EMAIL")}".toUpperCase(),
                 style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w900,
@@ -57,8 +58,9 @@ class _ForgotPasswordEmailState extends State<ForgotPasswordEmail> {
         return Container(
             decoration: boxShaDow(),
             padding: const EdgeInsets.all(8.0),
-            margin:
-                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
+//            margin:
+//                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
+            margin: const EdgeInsets.only(left: 12.0, right: 12.0, top: 16.0),
             child: Padding(
               padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
               child: Column(
@@ -70,7 +72,8 @@ class _ForgotPasswordEmailState extends State<ForgotPasswordEmail> {
                       controller: viewModel.emailController,
                       style: TextStyle(fontSize: 18, color: Colors.black),
                       decoration: InputDecoration(
-                          hintText: translation.text("FORGET_PASSWORD_PAGE.EMAIL"),
+                          hintText:
+                              translation.text("FORGET_PASSWORD_PAGE.EMAIL"),
                           errorText: viewModel.errorEmail,
                           labelStyle: ThemePrimary.loginPageButton(context)),
                       keyboardType: TextInputType.emailAddress,
@@ -114,13 +117,15 @@ class _ForgotPasswordEmailState extends State<ForgotPasswordEmail> {
                         viewModel.onTapButtonNext();
                       },
                       child: Center(
-                        child: Text(translation.text("FORGET_PASSWORD_PAGE.SUBMIT_BUTTON"),
-                            style: TextStyle(
-                                color: Colors.white,
-                                //fontFamily: "Poppins-Bold",
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                letterSpacing: 1.0),
+                        child: Text(
+                          translation
+                              .text("FORGET_PASSWORD_PAGE.SUBMIT_BUTTON"),
+                          style: TextStyle(
+                              color: Colors.white,
+                              //fontFamily: "Poppins-Bold",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              letterSpacing: 1.0),
                         ),
                       ),
                     ),
@@ -155,7 +160,7 @@ class _ForgotPasswordEmailState extends State<ForgotPasswordEmail> {
               _formEmail(),
 
               Padding(
-                padding: EdgeInsets.only(left: 10, right: 10, top: 100),
+                padding: EdgeInsets.only(left: 10, right: 10, bottom: 40),
                 child: _submitNext(),
               ),
 //              _socialLogin(),
