@@ -380,10 +380,10 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
           );
       return Column(
         children: <Widget>[
-          SizedBox(height: Common.setFontSize(20)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
+//          SizedBox(height: Common.setFontSize(20)),
+//          Row(
+//            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//            children: <Widget>[
 //               Row(
 //                 children: <Widget>[
 // //                  SizedBox(
@@ -404,22 +404,22 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
 //                 ],
 //               ),
 
-              InkWell(
-                child: Text(
-                  translation.text('LOGIN_PAGE.FORGOT_PASS'),
-                  style: TextStyle(
-                      color: ThemePrimary.primaryColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      decorationThickness: 2),
-                ),
-                onTap: () {
-                  viewModel.onTapForgotPassword();
-                },
-              ),
-              Container()
-            ],
-          ),
+//              InkWell(
+//                child: Text(
+//                  translation.text('LOGIN_PAGE.FORGOT_PASS'),
+//                  style: TextStyle(
+//                      color: ThemePrimary.primaryColor,
+//                      fontSize: 14,
+//                      fontWeight: FontWeight.w700,
+//                      decorationThickness: 2),
+//                ),
+//                onTap: () {
+//                  viewModel.onTapForgotPassword();
+//                },
+//              ),
+//              Container()
+//            ],
+//          ),
           SizedBox(height: Common.setFontSize(20)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -443,7 +443,20 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
 //                       ))
 //                 ],
 //               ),
-              Container(),
+//              Container(),
+              InkWell(
+                child: Text(
+                  translation.text('LOGIN_PAGE.FORGOT_PASS'),
+                  style: TextStyle(
+                      color: ThemePrimary.primaryColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      decorationThickness: 2),
+                ),
+                onTap: () {
+                  viewModel.onTapForgotPassword();
+                },
+              ),
               Container(
                 width: MediaQuery.of(context).size.width - 250,
                 height: 40,
