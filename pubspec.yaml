@@ -60,7 +60,6 @@ dependencies:
   flutter_datetime_picker: ^1.2.8
   printing: ^3.1.0
   flutter_typeahead: ^1.7.0
-  barcode_scan: ^1.0.0
   animator: ^1.0.0+3
   expandable: "^3.0.0"
   get: ^3.3.0
@@ -80,6 +79,7 @@ dependencies:
   flutter_facebook_login: ^3.0.0
   apple_sign_in: ^0.1.0
   onesignal_flutter: ^2.6.0
+  barcode_scan: ^3.0.1
 dev_dependencies:
   flutter_launcher_icons: "^0.7.4"
 #  flutter_test:
