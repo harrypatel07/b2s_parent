@@ -31,11 +31,11 @@ class InAppBrowserService extends InAppBrowser {
     print("\n\nBrowser closed!\n\n");
   }
 
-  @override
-  void shouldOverrideUrlLoading(String url) {
-    print("\n\n override $url\n\n");
-    this.webViewController.loadUrl(url: url);
-  }
+  // @override
+  // void shouldOverrideUrlLoading(String url) {
+  //   print("\n\n override $url\n\n");
+  //   this.webViewController.loadUrl(url: url);
+  // }
 
   @override
   void onLoadResource(LoadedResource response) {
@@ -54,19 +54,5 @@ class InAppBrowserService extends InAppBrowser {
       message: ${consoleMessage.message}
       messageLevel: ${consoleMessage.messageLevel.toValue()}
    """);
-  }
-
-  openUrl(String url) {
-    this.open(
-      url: "http://www.bus2school.vn/contactus",
-      options: InAppBrowserClassOptions(
-        inAppWebViewWidgetOptions: InAppWebViewWidgetOptions(
-          inAppWebViewOptions: InAppWebViewOptions(
-            useShouldOverrideUrlLoading: true,
-            useOnLoadResource: true,
-          ),
-        ),
-      ),
-    );
   }
 }

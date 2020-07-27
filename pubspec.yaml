@@ -58,7 +58,6 @@ dependencies:
   image: ^2.1.11
   shimmer: ^1.0.1
   flutter_datetime_picker: ^1.2.8
-  onesignal_flutter: ^2.1.0
   printing: ^3.1.0
   flutter_typeahead: ^1.7.0
   barcode_scan: ^1.0.0
@@ -74,12 +73,13 @@ dependencies:
   location: ^3.0.2
   url_launcher: ^5.5.0
   audioplayers: ^0.15.1
-  flutter_inappwebview: ^2.1.0+1
+  flutter_inappwebview: ^4.0.0+4
   image_cropper: ^1.1.2
   # webview_flutter: ^0.3.19+8
   google_sign_in: ^4.5.1
   flutter_facebook_login: ^3.0.0
   apple_sign_in: ^0.1.0
+  onesignal_flutter: ^2.6.0
 dev_dependencies:
   flutter_launcher_icons: "^0.7.4"
 #  flutter_test:
