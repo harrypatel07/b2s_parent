@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
+import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -66,12 +67,31 @@ class GlobalTranslations {
   /// One-time initialization
   ///
   Future<Null> init([String language]) async {
-    String lang = await translation.getPreferredLanguage();
-    if (lang != null && lang != '') language = lang;
-    if (_locale == null) {
-      await setNewLanguage(language);
-    }
+    // get current language of device
+    _locale = await Devicelocale.currentAsLocale;
+    language ??= _locale.languageCode;
+    String localeLang = await getLocaleLanguage();
+    if (localeLang != null && localeLang != '') {
+      if (language == localeLang) {
+        String lang = await getPreferredLanguage();
+        if (lang != null && lang != '') language = lang;
+      } else
+        await setLocaleLanguage(language);
+    } else
+      await setLocaleLanguage(language);
+    await setNewLanguage(language);
     return null;
+  }
+
+  /// ----------------------------------------------------------
+  /// Method that saves/restores the locale language
+  /// ----------------------------------------------------------
+  getLocaleLanguage() async {
+    return _getApplicationSavedInformation('languageLocale');
+  }
+
+  setLocaleLanguage(String lang) async {
+    return _setApplicationSavedInformation('languageLocale', lang);
   }
 
   /// ----------------------------------------------------------

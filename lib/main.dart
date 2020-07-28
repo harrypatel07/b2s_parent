@@ -11,7 +11,7 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   OneSignalService.setup(oneSignal_myAppId,
       successCallBack: handlerPushNotification.init);
-  await translation.init("vi");
+  await translation.init();
   await Routes.navigateDefaultPage();
   runApp(
     RestartWidget(
@@ -19,4 +19,3 @@ Future main() async {
     ),
   );
 }
-

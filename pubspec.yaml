@@ -64,6 +64,7 @@ dependencies:
   expandable: "^3.0.0"
   get: ^3.3.0
   tip_dialog: ^3.0.0
+  devicelocale: ^0.3.1
   ### Extand native plugin
   cloud_firestore: ^0.13.7
   google_map_location_picker: 2.1.0
@@ -80,6 +81,7 @@ dependencies:
   apple_sign_in: ^0.1.0
   onesignal_flutter: ^2.6.0
   barcode_scan: ^3.0.1
+  
 dev_dependencies:
   flutter_launcher_icons: "^0.7.4"
 #  flutter_test:
